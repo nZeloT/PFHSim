@@ -40,9 +40,9 @@ Level anhand von Erfahrungspunkten:
       * Lager bauen
       
 Runden Ende:
-    * Mitarbeiter stehen am Anfang der nächsten Runde wieder zur Verfügung
-    * Ressourcen müssen neu einkauft werden
-    * Fünf bis sechs verschiedenene Aufträge heran ziehen
+ * Mitarbeiter stehen am Anfang der nächsten Runde wieder zur Verfügung
+ * Ressourcen müssen neu einkauft werden
+ * Fünf bis sechs verschiedenene Aufträge heran ziehen
 
 Einfluss auf nächste Runde:
  * Zufriedenstellend Aufträge erfüllt

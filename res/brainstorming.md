@@ -1,4 +1,4 @@
-# FertighÃ¤user
+# Fertighäuser
 
 Faktoren:
  * Zuliefererkonflikte
@@ -10,28 +10,28 @@ Faktoren:
  * Lage des Baugebietes
  * Kudentypenn:
      * Okohausbauer
-     * NiedrigenergiehÃ¤user
+     * Niedrigenergiehäuser
  * Spezialaufgaben als Bonusauftrage
 
 Runde:
- * GroÃŸes Lager
+ * Großes Lager
  * Bessere Architekten
- * Fortbildungen fÃ¼r Mitarbeiter
+ * Fortbildungen für Mitarbeiter
 
 Rundenende
- * Angebote fÃ¼r Hausbau erhalten 
- * Angebote fÃ¼r HÃ¤user reinstellen
+ * Angebote für Hausbau erhalten 
+ * Angebote für Häuser reinstellen
 
 Taktzyklus
- * Zeitbegrenzung , vorher ready sein mÃ¶glich
+ * Zeitbegrenzung , vorher ready sein möglich
 
 Informationsausgabe/Tutorial/Ausgangspunkt/Startpunkt:
- * Ein neues UN mit 1.000.000â‚¬
+ * Ein neues UN mit 1.000.000
  * 10 Mitarbeiter
  * Gegebene Auftragssituation
 
 Level anhand von Erfahrungspunkten:
- * HÃ¤user bauen
+ * Häuser bauen
  * Personal
       * einstellen
       * Fortbilden

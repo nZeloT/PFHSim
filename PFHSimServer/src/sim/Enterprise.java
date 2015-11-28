@@ -3,8 +3,10 @@ package sim;
 import java.util.ArrayList;
 
 import sim.hr.Employee;
-import sim.production.TestMachine;
+import sim.procurement.Resource;
+import sim.procurement.ResourceType;
 import sim.production.ProductionHouse;
+import sim.simulation.purchase.ResourceMarket;
 import sim.warehouse.Warehouse;
 
 public class Enterprise {
@@ -21,5 +23,14 @@ public class Enterprise {
 	private ArrayList<Employee> market;
 	
 	public Enterprise() {
+	}
+	
+	public void buyResources(ResourceType type, int amount){
+		ResourceMarket market = ResourceMarket.get();
+		Resource[] resources;
+		resources = market.sellResources(type, amount);
+		if(resources != null){
+			warehouse.storeResource(resources);
+		}
 	}
 }

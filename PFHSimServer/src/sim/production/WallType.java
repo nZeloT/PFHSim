@@ -1,13 +1,10 @@
 package sim.production;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import sim.procurement.ResourceType;
 
 public enum WallType {
-	ECO(5, new WallType.Tupel(ResourceType.WOOD, 5));
+	ECO(5, new WallType.Tupel(ResourceType.WOOD, 5)),
+	NORMAL(6, new WallType.Tupel(ResourceType.WOOD, 4));
 	
 	static class Tupel {
 		public ResourceType rt;

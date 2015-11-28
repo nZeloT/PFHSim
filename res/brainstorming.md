@@ -3,8 +3,9 @@
 departments
 *	Procurement
    * 1. Iteration: wood
+      * 2. Iteration: quality classes of different wood sorts
    * 2. Iteration: insulation material, windows
-*	Products and Innovation (P&I)
+*	Research and development (R&D)
     * Product Research and Planning
       * explore new house types  
 * Market Research

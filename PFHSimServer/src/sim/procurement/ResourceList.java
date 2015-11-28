@@ -19,12 +19,20 @@ public class ResourceList {
 		}
 	}
 	
-	public void getItems(){
-		
+	public Resource[] getndelete(int amount){
+		Resource[] resources = new Resource[amount];
+		for (int i = 0; i < amount; i++) {
+			resources[i] = resource.remove(i);
+		}
+		return resources;
 	}
 	
 	public int getSize(){
 		return resource.size();
+	}
+	
+	public ResourceType getType(){
+		return resource.get(0).getType();
 	}
 
 }

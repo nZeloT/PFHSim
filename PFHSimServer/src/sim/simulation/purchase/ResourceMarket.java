@@ -2,6 +2,8 @@ package sim.simulation.purchase;
 
 import java.util.ArrayList;
 
+import com.sun.org.apache.bcel.internal.generic.IfInstruction;
+
 import sim.procurement.Resource;
 import sim.procurement.ResourceList;
 import sim.procurement.ResourceType;
@@ -42,8 +44,21 @@ public class ResourceMarket {
 	 * 	Get resources from the resource market
 	 * @param resource The resource to sell
 	 * @param amount The amount of the requested Resource
+	 * If enough on the market, get the Resource Array, otherwise get null
 	 */
-	private void sellResources(Resource resource, int amount){
-
+	private Resource[] sellResources(ResourceType type, int amount){
+		ResourceType tmp = null;
+		int z = 0;
+		do{
+			tmp= resources.get(z).getType();
+			z++;
+		}while(tmp!=type);
+		ResourceList specialResource= resources.get(z);
+		if(amount > specialResource.getSize()){
+			return null;
+		} else {
+			return specialResource.getndelete(amount);
+		}
+		
 	}
 }

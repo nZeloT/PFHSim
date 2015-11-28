@@ -1,6 +1,7 @@
 package sim.simulation.purchase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import sim.procurement.Resource;
 import sim.procurement.ResourceList;
@@ -13,7 +14,13 @@ import sim.procurement.ResourceType;
 public class ResourceMarket {
 
 	private static ResourceMarket instance = new ResourceMarket();
-	private ArrayList<ResourceList> resources;
+//	private ArrayList<ResourceList> resources;
+	private HashMap<ResourceType,ResourceList> resources;
+	
+	public HashMap<ResourceType, ResourceList> getResources() {
+		return resources;
+	}
+
 	private int basiccapacity = 100;
 
 	public static ResourceMarket get(){
@@ -21,10 +28,10 @@ public class ResourceMarket {
 	}
 
 	public ResourceMarket(){
-		resources = new ArrayList<ResourceList>();
+		resources = new HashMap<ResourceType,ResourceList>();
 		ResourceType types [] = ResourceType.values();
 		for (int i = 0; i < types.length; i++) {
-			resources.add(new ResourceList(50, types[i], 10));
+			resources.put(types[i], new ResourceList(50, types[i], 10));
 		}
 	}
 	/**
@@ -35,7 +42,7 @@ public class ResourceMarket {
 		ResourceType types [] = ResourceType.values();
 		for (int i = 0; i < types.length; i++) {
 			int toAdd = basiccapacity - resources.get(i).getSize();
-			resources.add(new ResourceList(toAdd, types[i], 10));
+			resources.put(types[i], new ResourceList(toAdd, types[i], 10));
 		}
 	}
 	/**
@@ -45,13 +52,7 @@ public class ResourceMarket {
 	 * If enough on the market, get the Resource Array, otherwise get null
 	 */
 	public Resource[] sellResources(ResourceType type, int amount){
-		ResourceType tmp = null;
-		int z = 0;
-		do{
-			tmp= resources.get(z).getType();
-			z++;
-		}while(tmp!=type);
-		ResourceList specialResource= resources.get(z);
+		ResourceList specialResource = resources.get(type);
 		if(amount > specialResource.getSize()){
 			return null;
 		} else {

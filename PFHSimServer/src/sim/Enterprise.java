@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import sim.hr.Employee;
 import sim.procurement.Resource;
+import sim.procurement.ResourceList;
 import sim.procurement.ResourceType;
 import sim.production.ProductionHouse;
 import sim.simulation.purchase.ResourceMarket;
@@ -24,13 +25,32 @@ public class Enterprise {
 	
 	public Enterprise() {
 	}
-	
-	public void buyResources(ResourceType type, int amount){
+
+	/**
+ * This can fail when: 
+ * 	-Not enough space in the warehouse
+ * 	-Not enough resources on the market
+ * 	-Not enough money
+ * @param type Resource type to buy
+ * @param amount Amount of the resource to buy
+ * @return if the order was successfull
+ */
+	public boolean buyResources(ResourceType type, int amount){
 		ResourceMarket market = ResourceMarket.get();
+		ResourceList inventory = market.getResources().get(type);
 		Resource[] resources;
+		int price = amount * inventory.getCosts();
+		if(price < cash){
+			return false;
+		}
+		
 		resources = market.sellResources(type, amount);
 		if(resources != null){
-			warehouse.storeResource(resources);
+			if(warehouse.storeResource(resources)){
+				return true;
+			}
 		}
+		
+		return false;
 	}
 }

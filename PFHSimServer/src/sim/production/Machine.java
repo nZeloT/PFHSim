@@ -24,8 +24,12 @@ public class Machine implements CostFactor {
 	
 	private Warehouse warehouse;
 
-	public Machine(Warehouse warehouse) {
+	public Machine(Warehouse warehouse, ArrayList<Employee> employees) {
 		this.warehouse = warehouse;
+		this.performance = performance;
+		this.employees = employees;
+		this.costs = 20;
+		this.performance = 30;
 	}
 	
 	@Override
@@ -44,6 +48,7 @@ public class Machine implements CostFactor {
 
 		if (performance<1 || !inOperation) 
 			return false;
+		
 		
 		ResourceType[] rt = walltype.getRequiredResourceTypes();
 		int[] rc = walltype.getResourceCounts();
@@ -72,11 +77,12 @@ public class Machine implements CostFactor {
 		}
 		
 		
-		Wall wall = new Wall();
+		Wall wall = new Wall(walltype);
 		wall.setCosts(costs);
 		
 		
 		if (warehouse.storeWall(wall)) {
+			performance--;
 			return true;
 		} else {
 			warehouse.storeResource(removed_resources);

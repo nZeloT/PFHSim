@@ -3,7 +3,7 @@ package sim;
 import java.util.ArrayList;
 
 import sim.hr.Employee;
-import sim.production.Machine;
+import sim.production.TestMachine;
 import sim.production.ProductionHouse;
 import sim.warehouse.Warehouse;
 

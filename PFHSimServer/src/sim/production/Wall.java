@@ -10,6 +10,11 @@ public class Wall implements CostFactor {
 	private double quality;
 	
 	private int volume;
+	
+	public Wall(WallType type) {
+		this.type = type;
+		volume = type.getVolume();
+	}
 
 	@Override
 	public int getCosts() {

@@ -6,7 +6,7 @@ import sim.abstraction.CostFactor;
 
 public class ProductionHouse implements CostFactor {
 	
-	private ArrayList<Machine> machines;
+	private ArrayList<TestMachine> machines;
 	
 	private int costs;
 

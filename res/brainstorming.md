@@ -2,23 +2,23 @@
 
 ## Abteilungen
 *	Procurement
-**	Marktsimulation von Rohstoffen
-***	1. Iteration: wood
-***	2. Iteration: insulation material, windows
+    * Marktsimulation von Rohstoffen
+        * 1. Iteration: wood
+        * 2. Iteration: insulation material, windows
 *	Products and Innovation (P&I)
-**	Market Research
-**	Product Research
+    * Market Research
+    * Product Research
 *	Production
 *	Human Resources
 
 
-**	Zweite Iterationsphase:
-***	Vertrieb (Marketing)
-***	Finanz und Rechnungswesen
+*	Zweite Iterationsphase:
+    * Vertrieb (Marketing)
+    * Finanz und Rechnungswesen
 
 ##	Newsfeed am Ende jeder Runde
-**	Informieren über aktuelle Trends / Random Events
-**	Wer in Marktforschung investiert, bekommt mehr Neuigkeiten
+*	Informieren über aktuelle Trends / Random Events
+*	Wer in Marktforschung investiert, bekommt mehr Neuigkeiten
 
 # Fertighäuser
 

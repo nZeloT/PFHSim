@@ -14,10 +14,29 @@ import sim.production.WallType;
 public class TestWarehouse {
 	
 	private Warehouse w;
+	
+	private Wall[] walls;
+	private Resource[] resources;
 
 	@Before
 	public void setUp() throws Exception {
 		w = new Warehouse(50, 100);
+		
+		walls = new Wall[5];
+		walls[0] = new Wall(WallType.ECO);
+		walls[1] = new Wall(WallType.NORMAL);
+		walls[2] = new Wall(WallType.NORMAL);
+		walls[3] = new Wall(WallType.ECO);
+		walls[4] = new Wall(WallType.ECO);
+		
+		resources = new Resource[7];
+		resources[0] = new Resource(20, ResourceType.WOOD);
+		resources[1] = new Resource(20, ResourceType.INSULATION);
+		resources[2] = new Resource(20, ResourceType.INSULATION);
+		resources[3] = new Resource(20, ResourceType.INSULATION);
+		resources[4] = new Resource(20, ResourceType.WOOD);
+		resources[5] = new Resource(20, ResourceType.WOOD);
+		resources[6] = new Resource(20, ResourceType.WOOD);
 	}
 
 	@After
@@ -32,11 +51,7 @@ public class TestWarehouse {
 	
 	@Test
 	public void testStoreMultipleWall(){
-		Wall w1 = new Wall(WallType.ECO);
-		Wall w2 = new Wall(WallType.ECO);
-		Wall w3 = new Wall(WallType.ECO);
-		
-		assertEquals(w.storeWall(w1, w2, w3), true);
+		assertEquals(w.storeWall(walls), true);
 	}
 
 	@Test
@@ -47,11 +62,7 @@ public class TestWarehouse {
 	
 	@Test
 	public void testStoreMultipleResources(){
-		Resource r1 = new Resource(20, ResourceType.WOOD);
-		Resource r2 = new Resource(20, ResourceType.WOOD);
-		Resource r3 = new Resource(20, ResourceType.WOOD);
-		
-		assertEquals(w.storeResource(r1, r2, r3), true);
+		assertEquals(w.storeResource(resources), true);
 	}
 
 	@Test
@@ -65,37 +76,40 @@ public class TestWarehouse {
 
 	@Test
 	public void testRemoveWalls() {
-		fail("Not yet implemented");
+		w.storeWall(this.walls);
+		Wall[] walls = w.removeWalls(WallType.ECO, 2);
+		
+		assertNotNull(walls);
+		assertEquals(walls.length, 2);
 	}
 
 	@Test
-	public void testRemoveResourceResourceType() {
-		fail("Not yet implemented");
+	public void testRemoveResource() {
+		Resource res = new Resource(200, ResourceType.INSULATION);
+		
+		w.storeResource(res);
+		
+		assertEquals(w.removeResource(ResourceType.INSULATION), res);
 	}
 
 	@Test
-	public void testRemoveResourceResourceTypeInt() {
-		fail("Not yet implemented");
+	public void testRemoveResources() {
+		w.storeResource(this.resources);
+		Resource[] res = w.removeResource(ResourceType.INSULATION, 2);
+		
+		assertNotNull(res);
+		assertNotNull(res[0]);
+		assertNotNull(res[1]);
+		assertEquals(res.length, 2);
 	}
 
 	@Test
-	public void testIsInStorageWallType() {
-		fail("Not yet implemented");
+	public void testIsInStorageWall() {
+		
 	}
 
 	@Test
-	public void testIsInStorageWallTypeInt() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testIsInStorageResourceType() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testIsInStorageResourceTypeInt() {
-		fail("Not yet implemented");
+	public void testIsInStorageResource() {
 	}
 
 	@Test

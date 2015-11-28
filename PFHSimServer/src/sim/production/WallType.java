@@ -7,7 +7,7 @@ import java.util.List;
 import sim.procurement.ResourceType;
 
 public enum WallType {
-	ECO(new WallType.Tupel(ResourceType.WOOD, 5));
+	ECO(5, new WallType.Tupel(ResourceType.WOOD, 5));
 	
 	static class Tupel {
 		public ResourceType rt;
@@ -21,10 +21,11 @@ public enum WallType {
 	}
 	
 	private Tupel[] tupel;
+	private final int volume;
 	
-	
-	private WallType(Tupel... tupel) {
+	private WallType(int volume, Tupel... tupel) {
 		this.tupel = tupel;		
+		this.volume = volume;
 	}	
 	
 	public ResourceType[] getRequiredResourceTypes() {
@@ -41,6 +42,10 @@ public enum WallType {
 			rc[i] = tupel[i].count;
 		}
 		return rc;
+	}
+	
+	public int getVolume() {
+		return volume;
 	}
 	
 	

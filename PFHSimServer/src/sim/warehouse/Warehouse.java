@@ -89,10 +89,10 @@ public class Warehouse implements CostFactor{
 		//2. remove the reqested amount from the storage
 		Wall[] ret = new Wall[count];
 		int c = 0;
-		for (int i = 0; i < walls.size(); i++) {
+		for (int i = 0; i < walls.size() && c < count; i++) {
 			if(walls.get(i).getType() == type){
 				utilization -= walls.get(i).getVolume();
-				ret[c++] = walls.remove(i);
+				ret[c++] = walls.remove(i--);
 			}
 		}
 
@@ -119,10 +119,10 @@ public class Warehouse implements CostFactor{
 		//2. remove the reqested amount from the storage
 		Resource[] ret = new Resource[count];
 		int c = 0;
-		for (int i = 0; i < resources.size(); i++) {
+		for (int i = 0; i < resources.size() && c < count; i++) {
 			if(resources.get(i).getType() == type){
 				utilization -= resources.get(i).getVolume();
-				ret[c++] = resources.remove(i);
+				ret[c++] = resources.remove(i--);
 			}
 		}
 

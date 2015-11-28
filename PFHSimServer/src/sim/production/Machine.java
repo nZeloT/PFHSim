@@ -70,7 +70,6 @@ public class Machine implements CostFactor {
 		//Calculate production cost at highest performance possible.
 		int wallcost = 0;
 		for (int i = 0; i < removed_resources.length; i++) {
-			System.out.println("" + removed_resources[i].getCosts());
 				wallcost += removed_resources[i].getCosts();
 		}
 		wallcost += (int) (1/performance * this.costs);

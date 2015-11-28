@@ -14,7 +14,7 @@ public class ResourceMarket {
 
 	private static ResourceMarket instance = new ResourceMarket();
 	private ArrayList<ResourceList> resources;
-	int basiccapacity = 100;
+	private int basiccapacity = 100;
 
 	public static ResourceMarket get(){
 		return instance;
@@ -31,7 +31,7 @@ public class ResourceMarket {
 	 * Generate new Resources at the end of a Simulation
 	 * 	
 	 */
-	private void generateNewResources(){		
+	public void generateNewResources(){		
 		ResourceType types [] = ResourceType.values();
 		for (int i = 0; i < types.length; i++) {
 			int toAdd = basiccapacity - resources.get(i).getSize();
@@ -44,7 +44,7 @@ public class ResourceMarket {
 	 * @param amount The amount of the requested Resource
 	 * If enough on the market, get the Resource Array, otherwise get null
 	 */
-	private Resource[] sellResources(ResourceType type, int amount){
+	public Resource[] sellResources(ResourceType type, int amount){
 		ResourceType tmp = null;
 		int z = 0;
 		do{

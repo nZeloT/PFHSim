@@ -7,9 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestWarehouse {
+	
+	private Warehouse w;
 
 	@Before
 	public void setUp() throws Exception {
+		w = new Warehouse();
 	}
 
 	@After

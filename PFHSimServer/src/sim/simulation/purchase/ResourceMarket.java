@@ -2,8 +2,6 @@ package sim.simulation.purchase;
 
 import java.util.ArrayList;
 
-import com.sun.org.apache.bcel.internal.generic.IfInstruction;
-
 import sim.procurement.Resource;
 import sim.procurement.ResourceList;
 import sim.procurement.ResourceType;

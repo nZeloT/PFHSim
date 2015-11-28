@@ -3,20 +3,12 @@ package sim.production;
 import java.util.ArrayList;
 
 import sim.abstraction.CostFactor;
-import sim.hr.Employee;
 
-public class PFHouse implements CostFactor {
+public class ProductionHouse implements CostFactor {
 	
-	private int price;
+	private ArrayList<Machine> machines;
 	
 	private int costs;
-	private double quality;
-	
-	private PFHouseType type;
-	
-	private int buildDuration;
-	
-	private ArrayList<Employee> employees;
 
 	@Override
 	public int getCosts() {
@@ -25,7 +17,7 @@ public class PFHouse implements CostFactor {
 
 	@Override
 	public void setCosts(int costs) {
-
+		
 	}
 
 }

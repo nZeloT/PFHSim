@@ -9,6 +9,8 @@ public class Employee implements CostFactor{
 	private EmployeeType type;
 	private double skill;
 	
+	private boolean free;
+	
 	
 	@Override
 	public int getCosts() {

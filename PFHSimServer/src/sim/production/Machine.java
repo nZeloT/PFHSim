@@ -1,6 +1,9 @@
 package sim.production;
 
+import java.util.ArrayList;
+
 import sim.abstraction.CostFactor;
+import sim.hr.Employee;
 
 public class Machine implements CostFactor {
 	
@@ -9,6 +12,10 @@ public class Machine implements CostFactor {
 	
 	//production quality
 	private double quality;
+	
+	private boolean inOperation;
+	
+	private ArrayList<Employee> employees;
 
 	@Override
 	public int getCosts() {

@@ -2,9 +2,9 @@ package sim.procurement;
 
 import sim.abstraction.CostFactor;
 
-public class Ressource implements CostFactor{
+public class Resource implements CostFactor{
 	
-	private RessourceType type;
+	private ResourceType type;
 
 	private int costs;
 	private int volume;

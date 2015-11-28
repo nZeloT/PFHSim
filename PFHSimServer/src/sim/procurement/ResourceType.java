@@ -1,6 +1,6 @@
 package sim.procurement;
 
-public enum RessourceType {
+public enum ResourceType {
 	WOOD,
 	INSULATION
 }

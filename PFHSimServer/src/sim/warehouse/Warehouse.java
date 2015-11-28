@@ -17,6 +17,30 @@ public class Warehouse implements CostFactor{
 	private ArrayList<Resource> resources;
 	private ArrayList<Wall> walls;
 	
+	public boolean storeWall(Wall w){
+		return false;
+	}
+	
+	public boolean storeResource(Resource r){
+		return false;
+	}
+	
+	public boolean removeWall(Wall w){
+		return false;
+	}
+	
+	public boolean removeResource(Resource r){
+		return false;
+	}
+	
+	public int getUtilization(){
+		return 0;
+	}
+	
+	public int getCapacity() {
+		return capacity;
+	}
+	
 	@Override
 	public int getCosts() {
 		return costs;

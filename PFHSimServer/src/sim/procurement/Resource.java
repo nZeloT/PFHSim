@@ -20,4 +20,28 @@ public class Resource implements CostFactor{
 		
 	}
 	
+	public ResourceType getType() {
+		return type;
+	}
+	
+	public void setType(ResourceType type) {
+		this.type = type;
+	}
+	
+	public int getVolume() {
+		return volume;
+	}
+	
+	public void setVolume(int volume) {
+		this.volume = volume;
+	}
+	
+	public double getQuality() {
+		return quality;
+	}
+	
+	public void setQuality(double quality) {
+		this.quality = quality;
+	}
+	
 }

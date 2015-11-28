@@ -19,4 +19,22 @@ public class Wall implements CostFactor {
 
 	}
 
+	public WallType getType() {
+		return type;
+	}
+
+	public void setType(WallType type) {
+		this.type = type;
+	}
+
+	public double getQuality() {
+		return quality;
+	}
+
+	public void setQuality(double quality) {
+		this.quality = quality;
+	}
+	
+	
+
 }

@@ -34,5 +34,9 @@ public class ResourceList {
 	public ResourceType getType(){
 		return resource.get(0).getType();
 	}
+	
+	public int getCosts(){
+		return resource.get(0).getCosts();
+	}
 
 }

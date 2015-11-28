@@ -3,6 +3,7 @@ package sim;
 import java.util.ArrayList;
 
 import sim.hr.Employee;
+import sim.production.Machine;
 import sim.production.ProductionHouse;
 import sim.warehouse.Warehouse;
 
@@ -19,4 +20,6 @@ public class Enterprise {
 	private ArrayList<Employee> rnd;
 	private ArrayList<Employee> market;
 	
+	public Enterprise() {
+	}
 }

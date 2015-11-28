@@ -10,6 +10,7 @@ public class ProductionHouse implements CostFactor {
 	
 	private int costs;
 
+	
 	@Override
 	public int getCosts() {
 		return costs;

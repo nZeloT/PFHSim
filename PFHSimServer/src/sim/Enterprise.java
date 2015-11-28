@@ -8,6 +8,8 @@ import sim.warehouse.Warehouse;
 
 public class Enterprise {
 	
+	private int cash;
+	
 	private Warehouse warehouse;
 	private ProductionHouse production;
 	
@@ -16,6 +18,5 @@ public class Enterprise {
 	private ArrayList<Employee> procurement;
 	private ArrayList<Employee> rnd;
 	private ArrayList<Employee> market;
-	
 	
 }

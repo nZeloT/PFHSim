@@ -28,6 +28,9 @@ public class Warehouse implements CostFactor{
 	public Warehouse(int capacity, int costs){
 		this.capacity = capacity;
 		this.costs = costs;
+		this.resources = new ArrayList<Resource>();
+		this.walls = new ArrayList<Wall>();
+		this.employees = new ArrayList<Employee>();
 	}
 
 	public boolean storeWall(Wall... w){

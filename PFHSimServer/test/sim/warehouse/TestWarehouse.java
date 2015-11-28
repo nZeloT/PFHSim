@@ -6,13 +6,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sim.procurement.Resource;
+import sim.procurement.ResourceType;
+import sim.production.Wall;
+import sim.production.WallType;
+
 public class TestWarehouse {
 	
 	private Warehouse w;
 
 	@Before
 	public void setUp() throws Exception {
-		w = new Warehouse();
+		w = new Warehouse(50, 100);
 	}
 
 	@After
@@ -21,17 +26,41 @@ public class TestWarehouse {
 
 	@Test
 	public void testStoreWall() {
-		fail("Not yet implemented");
+		Wall wall = new Wall(WallType.ECO);
+		assertEquals(w.storeWall(wall), true);
+	}
+	
+	@Test
+	public void testStoreMultipleWall(){
+		Wall w1 = new Wall(WallType.ECO);
+		Wall w2 = new Wall(WallType.ECO);
+		Wall w3 = new Wall(WallType.ECO);
+		
+		assertEquals(w.storeWall(w1, w2, w3), true);
 	}
 
 	@Test
 	public void testStoreResource() {
-		fail("Not yet implemented");
+		Resource res = new Resource(20, ResourceType.WOOD);
+		assertEquals(w.storeResource(res), true);
+	}
+	
+	@Test
+	public void testStoreMultipleResources(){
+		Resource r1 = new Resource(20, ResourceType.WOOD);
+		Resource r2 = new Resource(20, ResourceType.WOOD);
+		Resource r3 = new Resource(20, ResourceType.WOOD);
+		
+		assertEquals(w.storeResource(r1, r2, r3), true);
 	}
 
 	@Test
 	public void testRemoveWall() {
-		fail("Not yet implemented");
+		Wall wall = new Wall(WallType.ECO);
+		
+		w.storeWall(wall);
+		
+		assertEquals(w.removeWall(WallType.ECO), wall);
 	}
 
 	@Test
@@ -70,28 +99,9 @@ public class TestWarehouse {
 	}
 
 	@Test
-	public void testGetUtilization() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetCapacity() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetCosts() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetOverallCosts() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetCapacity() {
-		fail("Not yet implemented");
+	public void testCapacity() {
+		w.setCapacity(100);
+		assertEquals(w.getCapacity(), 100);
 	}
 
 }

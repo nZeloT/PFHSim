@@ -1,22 +1,26 @@
 # Brainstormin Session Two 2015-11-28
 
-## Abteilungen
+departments
 *	Procurement
-    * Marktsimulation von Rohstoffen
-        * 1. Iteration: wood
-        * 2. Iteration: insulation material, windows
+   * 1. Iteration: wood
+   * 2. Iteration: insulation material, windows
 *	Products and Innovation (P&I)
-    * Market Research
-    * Product Research
+    * Product Research and Planning
+      * explore new house types  
+* Market Research
 *	Production
+   * production planning	  
 *	Human Resources
-
-
 *	Zweite Iterationsphase:
-    * Vertrieb (Marketing)
-    * Finanz und Rechnungswesen
+    * Sales (Marketing)
+    * Accounting and Controlling
 
-##	Newsfeed am Ende jeder Runde
+* first market: market for raw material 
+* second market: sales market
+   * for our houses
+
+   
+Newsfeed am Ende jeder Runde
 *	Informieren über aktuelle Trends / Random Events
 *	Wer in Marktforschung investiert, bekommt mehr Neuigkeiten
 

@@ -39,9 +39,11 @@ public class Machine implements CostFactor {
 	}
 	
 	
-	public Wall produceWall(WallType walltype) {
-		
-		//isInStorage(ResourceType r, int count/WallType);
+	public boolean produceWall(WallType walltype) {
+
+
+		if (performance<1 || !inOperation) 
+			return false;
 		
 		ResourceType[] rt = walltype.getRequiredResourceTypes();
 		int[] rc = walltype.getResourceCounts();
@@ -56,7 +58,7 @@ public class Machine implements CostFactor {
 		//If there are not enough resources available,
 		//terminate the process of creation.
 		if (removed_resources==null)
-			return null;
+			return false;
 		
 		
 		//Calculate production cost at highest performance possible.
@@ -73,7 +75,13 @@ public class Machine implements CostFactor {
 		Wall wall = new Wall();
 		wall.setCosts(costs);
 		
-		return wall;
+		
+		if (warehouse.storeWall(wall)) {
+			return true;
+		} else {
+			warehouse.storeResource(removed_resources);
+			return false;
+		}
 		
 		
 	}

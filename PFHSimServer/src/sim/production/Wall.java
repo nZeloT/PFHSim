@@ -8,6 +8,8 @@ public class Wall implements CostFactor {
 	private WallType type;
 	
 	private double quality;
+	
+	private int volume;
 
 	@Override
 	public int getCosts() {
@@ -35,6 +37,12 @@ public class Wall implements CostFactor {
 		this.quality = quality;
 	}
 	
+	public int getVolume() {
+		return volume;
+	}
 	
+	public void setVolume(int volume) {
+		this.volume = volume;
+	}
 
 }

@@ -17,11 +17,21 @@ public class Warehouse implements CostFactor{
 	private ArrayList<Resource> resources;
 	private ArrayList<Wall> walls;
 	
+	public Warehouse(){
+		this(50, 10);
+	}
+	
+	public Warehouse(int capacity, int costs){
+		this.capacity = capacity;
+		this.costs = costs;
+	}
+	
 	public boolean storeWall(Wall w){
 		return false;
 	}
 	
 	public boolean storeResource(Resource r){
+		
 		return false;
 	}
 	
@@ -45,6 +55,7 @@ public class Warehouse implements CostFactor{
 	public int getCosts() {
 		return costs;
 	}
+	
 	@Override
 	public void setCosts(int costs) {
 		

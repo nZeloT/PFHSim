@@ -105,11 +105,16 @@ public class TestWarehouse {
 
 	@Test
 	public void testIsInStorageWall() {
+		w.storeWall(this.walls);
 		
+		assertEquals(w.isInStorage(WallType.NORMAL, 2), true);
 	}
 
 	@Test
 	public void testIsInStorageResource() {
+		w.storeResource(this.resources);
+		
+		assertEquals(w.isInStorage(ResourceType.INSULATION, 3), true);
 	}
 
 	@Test

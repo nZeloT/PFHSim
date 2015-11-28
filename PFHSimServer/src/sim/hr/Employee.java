@@ -11,6 +11,13 @@ public class Employee implements CostFactor{
 	
 	private boolean free;
 	
+	public Employee(EmployeeType type) {
+		free = true;
+		skill= 1;
+		this.type = type;
+		costs = 200;
+		
+	}
 	
 	@Override
 	public int getCosts() {

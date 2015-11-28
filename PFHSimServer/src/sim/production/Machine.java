@@ -28,8 +28,9 @@ public class Machine implements CostFactor {
 		this.warehouse = warehouse;
 		this.performance = performance;
 		this.employees = employees;
-		this.costs = 20;
+		this.costs = 200;
 		this.performance = 30;
+		inOperation=true;
 	}
 	
 	@Override
@@ -69,12 +70,14 @@ public class Machine implements CostFactor {
 		//Calculate production cost at highest performance possible.
 		int wallcost = 0;
 		for (int i = 0; i < removed_resources.length; i++) {
-			wallcost += removed_resources[i].getCosts();
+			System.out.println("" + removed_resources[i].getCosts());
+				wallcost += removed_resources[i].getCosts();
 		}
-		wallcost += 1/performance * this.costs;
+		wallcost += (int) (1/performance * this.costs);
 		for (int i = 0; i < this.employees.size(); i++) {
-			wallcost += 1/performance * employees.get(i).getCosts();
+			wallcost += (int) (1/performance * employees.get(i).getCosts());
 		}
+		System.out.println("Production cost for one wall is: " + wallcost);
 		
 		
 		Wall wall = new Wall(walltype);

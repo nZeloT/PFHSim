@@ -61,7 +61,18 @@
   * need 3 employees 
   * operating cost : 1.000
   * price : 10.000
-  
+* brickwall machine
+ * output 20 walls per period
+ * need 3 employees
+ * operating cost : 1.500
+ * price : 15.000
+* panorama wall machine
+ * output 5 walls per period  
+ * need 3 employees
+ * operationg cost : 1.000
+ * price : 17.500
+ 
+
 ###employee
 * hr employee
   * manages 50 employees
@@ -83,7 +94,11 @@
   * salary per period : 1.500
   * designes every three period a new house type
   * works at research project lab
-   
+  
+### storage
+ * operation cost per period : 3.000
+ * per upgrade +1.000
+ 
 ### upgrade 
 * for employees
  * hr employee
@@ -91,12 +106,14 @@
   * hr training cost : 5000 
   * only one time
   * can manage 100 employee
+  * increases salary by 10%
   * training duration: 1 period
 * assembler (Bauarbeiter)
   * salary per period : 1.200
   * training goal: if every assembler for the house is trained, house can be build by one less employee
   * training cost: 1.000
   * training duration: 1 period
+  * increases salary by 10%
 * architect 
   * reduces time of design thinking of new houses by one period
   * during training no design thinking
@@ -118,3 +135,10 @@
  * level up duration: 1 period
  * during level up you can still use the storage 
  * need +1 storage keeper 
+
+###catalog for market
+* one housetype in every varition of walls
+* price is variable
+ * see all operation costs (machine + employees for machine) + material costs + employee cost + 
+   Sockelbetrag: hr manager salary, storage keeper salary, storage cost, architect salary, design thinking project cost 
+* training cost, upgrades, new purchases are effect bank account directly 

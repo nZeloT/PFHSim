@@ -1,6 +1,5 @@
 package sim.simulation.purchase;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import sim.procurement.Resource;

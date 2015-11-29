@@ -11,9 +11,10 @@ public class Wall implements CostFactor {
 	
 	private int volume;
 	
-	public Wall(WallType type) {
+	public Wall(WallType type, int costs) {
 		this.type = type;
 		volume = type.getVolume();
+		this.costs = costs;
 	}
 
 	@Override

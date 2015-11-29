@@ -5,6 +5,7 @@
 * window      = 30
 * concrete    = 6
 * roof tile   = 1
+
 ### wall types
 * light weight conctruction 
   * 5 wood, 1 insulation, 1 window

@@ -1,3 +1,17 @@
+# Review 2015-11-29
+
+* neue Backlogitems erstellt
+
+### Bericht für Greg 2015-11-29
+
+* Grundkonzept (Business Logik) steht 
+* Implementierung gestartet
+* gleichzeitige Produktion von UnitTest - funktionieren im Moment alle
+* kein IntegrationTest - demnächst
+* UI noch nicht ausgearbeitet 
+* MockUp in Entwicklung
+
+
 # Brainstormin Session Two 2015-11-28
 
 departments

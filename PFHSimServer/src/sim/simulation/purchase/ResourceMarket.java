@@ -13,9 +13,9 @@ public class ResourceMarket {
 
 	private static ResourceMarket instance = new ResourceMarket();
 //	private ArrayList<ResourceList> resources;
-	private HashMap<ResourceType,ResourceList> resources;
+	private HashMap<ResourceType, ResourceListItem> resources;
 	
-	public HashMap<ResourceType, ResourceList> getResources() {
+	public HashMap<ResourceType, ResourceListItem> getResources() {
 		return resources;
 	}
 
@@ -26,7 +26,7 @@ public class ResourceMarket {
 	}
 
 	public ResourceMarket(){
-		resources = new HashMap<ResourceType,ResourceList>();
+		resources = new HashMap<ResourceType,ResourceListItem>();
 		ResourceType types [] = ResourceType.values();
 		for (int i = 0; i < types.length; i++) {
 			resources.put(types[i], new ResourceList(50, types[i], 10));
@@ -39,7 +39,7 @@ public class ResourceMarket {
 	public void generateNewResources(){		
 		ResourceType types [] = ResourceType.values();
 		for (int i = 0; i < types.length; i++) {
-			ResourceList tmpresource = resources.get(types[i]);
+			ResourceListItem tmpresource = resources.get(types[i]);
 			int toAdd = basiccapacity -  tmpresource.getAmount();
 			tmpresource.addItems(toAdd);
 		}

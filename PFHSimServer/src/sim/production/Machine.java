@@ -5,7 +5,9 @@ import java.util.List;
 
 import sim.Enterprise;
 import sim.abstraction.CostFactor;
+import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Employee;
+import sim.hr.EmployeeType;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.warehouse.Warehouse;
@@ -47,8 +49,12 @@ public class Machine implements CostFactor {
 	 * Warehouse: A machine needs to access the warehouse to extract and store resources.
 	 * Employee: When generating a new machine, it needs at least 3 employees for being in operation!
 	 * */
-	public Machine(Warehouse warehouse, ArrayList<Employee> employees) {
+	public Machine(Warehouse warehouse, ArrayList<Employee> employees) throws Exception {
 		this.warehouse = warehouse;
+		for (int i = 0; i < employees.size(); i++) {
+			if (employees.get(i).getType() != EmployeeType.PRODUCTION)
+				throw new WrongEmployeeTypeException();
+		}
 		this.employees = employees;
 		this.costs = 200;
 		this.performance = 30;
@@ -56,9 +62,9 @@ public class Machine implements CostFactor {
 		//3 employees or more are neccessary for
 		//operating the machine.
 		if (employees.size() < 3) 
-			inOperation = true;
-		else 
 			inOperation = false;
+		else 
+			inOperation = true;
 	}
 	
 	@Override
@@ -97,7 +103,6 @@ public class Machine implements CostFactor {
 		for (int i = 0; i < rc.length; i++) {
 			
 			if (!warehouse.isInStorage(rt[i], rc[i])) {
-				System.out.println("aaaargh" + i);
 				return false;
 			}
 		}

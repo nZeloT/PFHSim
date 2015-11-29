@@ -14,14 +14,22 @@ import sim.warehouse.Warehouse;
 
 public class TestMachine {
 
-	/*@Test 
+	@Test 
 	public void testEmptyWarehouse() {
 
 		ArrayList<Employee> emps = new ArrayList<>();
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
-		Machine m = new Machine(new Warehouse(50, 100),emps);
+		Warehouse wh = null;
+		Machine m = null;
+		try {
+			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
+			m = new Machine(wh, emps);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		assertEquals(m.produceWall(WallType.ECO), false);
 	}
 	
@@ -32,9 +40,15 @@ public class TestMachine {
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
-		
-		Warehouse wh = new Warehouse(50, 100); 
-		Machine m = new Machine(wh, emps);
+		Warehouse wh = null;
+		Machine m = null;
+		try {
+			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
+			m = new Machine(wh, emps);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		Resource[] r = {
 				new Resource(100, ResourceType.WOOD),
 				new Resource(100, ResourceType.WOOD),
@@ -56,8 +70,15 @@ public class TestMachine {
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
-		Warehouse wh = new Warehouse(50, 100); 
-		Machine m = new Machine(wh, emps);
+		Warehouse wh = null;
+		Machine m = null;
+		try {
+			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
+			 m = new Machine(wh, emps);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		Resource[] r = {
 				new Resource(100, ResourceType.INSULATION),
 				new Resource(100, ResourceType.INSULATION),
@@ -76,8 +97,15 @@ public class TestMachine {
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
-		Warehouse wh = new Warehouse(50, 100); 
-		Machine m = new Machine(wh, emps);
+		Warehouse wh = null;
+		Machine m = null;
+		try {
+			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
+			 m = new Machine(wh, emps);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		Resource[] r = {
 				new Resource(100, ResourceType.INSULATION),
 				new Resource(100, ResourceType.WOOD),
@@ -90,7 +118,7 @@ public class TestMachine {
 		assertEquals(m.produceWall(WallType.ECO), true);
 		
 	}
-*/
+
 	@Test
 	public void testWhetherMultipleProductionProcessesWork() {
 
@@ -98,8 +126,15 @@ public class TestMachine {
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		emps.add(new Employee(EmployeeType.PRODUCTION));
-		Warehouse wh = new Warehouse(500, 100); 
-		Machine m = new Machine(wh, emps);
+		Warehouse wh = null;
+		Machine m = null;
+		try {
+			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
+			m = new Machine(wh, emps);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		Resource[] r = {
 				new Resource(100, ResourceType.INSULATION),
 				new Resource(100, ResourceType.WOOD),

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import sim.procurement.Resource;
-import sim.procurement.ResourceList;
 import sim.procurement.ResourceType;
 
 /**
@@ -41,8 +40,9 @@ public class ResourceMarket {
 	public void generateNewResources(){		
 		ResourceType types [] = ResourceType.values();
 		for (int i = 0; i < types.length; i++) {
-			int toAdd = basiccapacity - resources.get(i).getSize();
-			resources.put(types[i], new ResourceList(toAdd, types[i], 10));
+			ResourceList tmpresource = resources.get(types[i]);
+			int toAdd = basiccapacity -  tmpresource.getAmount();
+			tmpresource.addItems(toAdd);
 		}
 	}
 	/**
@@ -53,7 +53,7 @@ public class ResourceMarket {
 	 */
 	public Resource[] sellResources(ResourceType type, int amount){
 		ResourceList specialResource = resources.get(type);
-		if(amount > specialResource.getSize()){
+		if(amount > specialResource.getAmount()){
 			return null;
 		} else {
 			return specialResource.getndelete(amount);

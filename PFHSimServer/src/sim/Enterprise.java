@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import sim.hr.Employee;
 import sim.procurement.Resource;
-import sim.procurement.ResourceList;
 import sim.procurement.ResourceType;
 import sim.production.ProductionHouse;
+import sim.simulation.purchase.ResourceList;
 import sim.simulation.purchase.ResourceMarket;
 import sim.warehouse.Warehouse;
 

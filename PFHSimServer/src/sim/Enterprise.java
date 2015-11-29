@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import sim.hr.Employee;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
+import sim.production.PFHouseType;
 import sim.production.ProductionHouse;
+import sim.production.WallType;
 import sim.simulation.purchase.ResourceListItem;
 import sim.simulation.purchase.ResourceMarket;
 import sim.simulation.purchase.ResourceMarketException;
@@ -53,5 +55,17 @@ public class Enterprise {
 				throw new EnterpriseException("Not enough space in your warehouse!");
 			}
 		}
+	}
+	
+	public boolean isPFHouseProducable(PFHouseType type) {
+		
+		//enough resources
+		
+		
+		//enough emps
+		
+		
+				
+		return true;
 	}
 }

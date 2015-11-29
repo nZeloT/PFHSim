@@ -39,7 +39,7 @@ public class Machine implements CostFactor {
 	 * it is upgraded (the upgrade needs some time) or when
 	 * not enough employees are assigned to this machine.
 	 * */
-	private boolean inOperation;
+	private boolean inOperation = false;
 	
 	private ArrayList<Employee> employees;
 	

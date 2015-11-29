@@ -22,10 +22,12 @@ public class PFHouse implements CostFactor {
 	public int getCosts() {
 		return costs;
 	}
-
-	@Override
-	public void setCosts(int costs) {
-
+	
+	public PFHouse() {
+		
 	}
+	
+
+
 
 }

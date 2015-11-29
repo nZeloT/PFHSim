@@ -23,11 +23,6 @@ public class Wall implements CostFactor, StorageObject<WallType> {
 		return costs;
 	}
 
-	@Override
-	public void setCosts(int costs) {
-
-	}
-
 	public WallType getType() {
 		return type;
 	}

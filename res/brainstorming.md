@@ -1,10 +1,8 @@
-# 2015-11-29
+# Review 2015-11-29
 
 * neue Backlogitems erstellt
-* ab 2015-12-01 übernimmt auch Carmen Aufgaben
-* 
 
-## Bericht für Greg 2015-11-29
+### Bericht für Greg 2015-11-29
 
 * Grundkonzept (Business Logik) steht 
 * Implementierung gestartet

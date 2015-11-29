@@ -3,8 +3,8 @@ package sim.production;
 import sim.procurement.ResourceType;
 
 public enum WallType {
-	ECO(5, new WallType.Tupel(ResourceType.WOOD, 5)),
-	NORMAL(6, new WallType.Tupel(ResourceType.WOOD, 4));
+	ECO		(5, new WallType.Tupel(ResourceType.WOOD, 5)),
+	NORMAL	(6, new WallType.Tupel(ResourceType.WOOD, 4));
 	
 	static class Tupel {
 		public ResourceType rt;

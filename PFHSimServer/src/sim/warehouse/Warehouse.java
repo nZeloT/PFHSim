@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import sim.abstraction.CostFactor;
+import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.procurement.Resource;
@@ -45,7 +46,7 @@ public class Warehouse implements CostFactor{
 	 * 
 	 * @throws WarehouseException when the costs or capacity are below or equal to zero or the employees are not of type STORE_KEEPER
 	 */
-	public Warehouse(int capacity, int costs, Employee... emps) throws WarehouseException{
+	public Warehouse(int capacity, int costs, Employee... emps) throws WarehouseException, WrongEmployeeTypeException{
 		
 		this.capacity = capacity;
 		this.costs = costs;
@@ -65,7 +66,7 @@ public class Warehouse implements CostFactor{
 		
 		for (Employee e : emps) {
 			if(e.getType() != EmployeeType.STORE_KEEPER)
-				throw new WarehouseException("Only Employees of Type STORE_KEEPER can work in the Warehouse");
+				throw new WrongEmployeeTypeException();
 		}
 		
 		for (int i = 0; i < emps.length; i++) {
@@ -206,11 +207,13 @@ public class Warehouse implements CostFactor{
 
 	@Override
 	public void setCosts(int costs) {
-		this.costs = costs;
+		if(costs > 0)
+			this.costs = costs;
 	}
 
 	public void setCapacity(int capacity) {
-		this.capacity = capacity;
+		if(capacity > 0)
+			this.capacity = capacity;
 	}
 	
 //=====================================================================================

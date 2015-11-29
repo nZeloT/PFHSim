@@ -97,11 +97,18 @@ public class Enterprise {
 		EmployeeType[] et = type.getRequiredEmployeeTypes();
 		int[] ec= type.getEmployeeCounts();
 
-		//Check whether the needed employees are available (free).
-		EmployeeType[] tmp_et = new EmployeeType[et.length]; 
+		//Check whether the needed employees are available (free). 
 		int[] tmp_ec = new int[ec.length];
+		
 		for (int i = 0; i < employees.size(); i++) {
-			
+			for (int j = 0; j < et.length; j++) {
+				if (employees.get(i).getEmployeeType == et[j])
+					tmp_ec[j]++;					
+			}
+		}
+		for (int i = 0; i < et.length; i++) {
+			if (tmp_ec[i] < ec[i])
+				return false;
 		}
 		//enough employees
 

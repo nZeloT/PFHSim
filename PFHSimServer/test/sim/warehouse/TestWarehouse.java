@@ -23,11 +23,11 @@ public class TestWarehouse {
 		w = new Warehouse(50, 100);
 		
 		walls = new Wall[5];
-		walls[0] = new Wall(WallType.ECO);
-		walls[1] = new Wall(WallType.NORMAL);
-		walls[2] = new Wall(WallType.NORMAL);
-		walls[3] = new Wall(WallType.ECO);
-		walls[4] = new Wall(WallType.ECO);
+		walls[0] = new Wall(WallType.ECO, 20);
+		walls[1] = new Wall(WallType.NORMAL, 30);
+		walls[2] = new Wall(WallType.NORMAL, 40);
+		walls[3] = new Wall(WallType.ECO, 50);
+		walls[4] = new Wall(WallType.ECO, 60);
 		
 		resources = new Resource[7];
 		resources[0] = new Resource(20, ResourceType.WOOD);
@@ -45,7 +45,7 @@ public class TestWarehouse {
 
 	@Test
 	public void testStoreWall() {
-		Wall wall = new Wall(WallType.ECO);
+		Wall wall = new Wall(WallType.ECO, 20);
 		assertEquals(w.storeWall(wall), true);
 	}
 	
@@ -67,7 +67,7 @@ public class TestWarehouse {
 
 	@Test
 	public void testRemoveWall() {
-		Wall wall = new Wall(WallType.ECO);
+		Wall wall = new Wall(WallType.ECO, 30);
 		
 		w.storeWall(wall);
 		

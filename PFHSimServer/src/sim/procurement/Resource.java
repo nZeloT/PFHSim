@@ -1,8 +1,8 @@
 package sim.procurement;
 
-import sim.abstraction.CostFactor;
+import sim.warehouse.StorageObject;
 
-public class Resource{
+public class Resource implements StorageObject<ResourceType>{
 
 	private final ResourceType type;
 

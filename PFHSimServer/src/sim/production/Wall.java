@@ -1,8 +1,9 @@
 package sim.production;
 
 import sim.abstraction.CostFactor;
+import sim.warehouse.StorageObject;
 
-public class Wall implements CostFactor {
+public class Wall implements CostFactor, StorageObject<WallType> {
 	
 	private int costs;
 	private WallType type;

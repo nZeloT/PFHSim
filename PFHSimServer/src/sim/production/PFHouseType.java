@@ -1,5 +1,6 @@
 package sim.production;
 
+import sim.hr.EmployeeType;
 import sim.procurement.ResourceType;
 
 public enum PFHouseType {
@@ -8,14 +9,20 @@ public enum PFHouseType {
 			},
 			new PFHouseType.ResourceTupel[] {
 				new ResourceTupel(ResourceType.CONCRETE, 10)
-			}),
+			},
+			new PFHouseType.EmployeeTupel[] {
+				new EmployeeTupel(EmployeeType.ASSEMBLER, 10)
+			}, 1),
 	PENTHOUSE(new PFHouseType.WallTupel[]{
 				new WallTupel(WallType.NORMAL, 15),
 				new WallTupel(WallType.ECO, 25)
 			}, 
 			new PFHouseType.ResourceTupel[] {
 				new ResourceTupel(ResourceType.CONCRETE, 15)
-			});
+			},
+			new PFHouseType.EmployeeTupel[] {
+					new EmployeeTupel(EmployeeType.ASSEMBLER, 10)
+			}, 2);
 	
 	
 	
@@ -35,16 +42,28 @@ public enum PFHouseType {
 			this.count = count;
 		}
 	}
+	static class EmployeeTupel {
+		public EmployeeType employeetype;
+		public int count;
+		public EmployeeTupel(EmployeeType employeetype, int count) {
+			this.employeetype = employeetype;
+			this.count = count;
+		}
+	}
 	
 	
 	
 	private WallTupel[] walltupel;
 	private ResourceTupel[] resourcetupel;
+	private EmployeeTupel[] employeetupel;
+	private int ConstructionDuration;
 
-	private PFHouseType(WallTupel[] walltupel, ResourceTupel[] resourcetype) {
+	private PFHouseType(WallTupel[] walltupel, ResourceTupel[] resourcetupel, EmployeeTupel[] employeetupel, int ConstructionDuration) {
 		
 		this.walltupel = walltupel;
 		this.resourcetupel = resourcetupel;
+		this.employeetupel = employeetupel;
+		this.ConstructionDuration = ConstructionDuration;
 		
 	}
 	
@@ -79,6 +98,26 @@ public enum PFHouseType {
 			rc[i] = resourcetupel[i].count;
 		}
 		return rc;
+	}
+	
+	public EmployeeType[] getRequiredEmployeeTypes() {
+		EmployeeType[] et = new EmployeeType[employeetupel.length];
+		for (int i = 0; i < employeetupel.length; i++) {
+			et[i] = employeetupel[i].employeetype;
+		}
+		return et;
+	}
+
+	public int[] getEmployeeCounts() {
+		int[] ec = new int[employeetupel.length];
+		for (int i = 0; i < ec.length; i++) {
+			ec[i] = employeetupel[i].count;
+		}
+		return ec;
+	}
+	
+	public int getConstructionDuration() {
+		return ConstructionDuration;
 	}
 	
 	

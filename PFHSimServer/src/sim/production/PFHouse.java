@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import sim.abstraction.CostFactor;
 import sim.hr.Employee;
+import sim.hr.Workplace;
 
-public class PFHouse implements CostFactor {
+public class PFHouse implements CostFactor, Workplace {
 	
 	private int price;
 	
@@ -14,7 +15,7 @@ public class PFHouse implements CostFactor {
 	
 	private PFHouseType type;
 	
-	private int buildDuration;
+	private int buildDurationLeft;
 	
 	private ArrayList<Employee> employees;
 
@@ -23,8 +24,27 @@ public class PFHouse implements CostFactor {
 		return costs;
 	}
 	
-	public PFHouse() {
-		
+	public PFHouse(int price, int costs, PFHouseType type, int buildDurationLeft, ArrayList<Employee> employees) {
+		this.price = price;
+		this.costs = costs;
+		this.quality = 0;
+		this.type = type;
+		this.buildDurationLeft = buildDurationLeft;
+		this.employees = employees;
+	}
+
+	@Override
+	public boolean assignEmployee(Employee e) {
+		return false;
+	}
+
+	@Override
+	public boolean unassignEmployee(Employee e) {
+		return false;
+	}
+	
+	public void decreaseBuildDurationLeft() {
+		buildDurationLeft--;
 	}
 	
 

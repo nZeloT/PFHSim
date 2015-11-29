@@ -7,5 +7,6 @@ public enum EmployeeType {
 	SALES,
 	MARKET_RESEARCH,
 	STORE_KEEPER,
-	ARCHITECT
+	ARCHITECT,
+	ASSEMBLER;
 }

@@ -16,10 +16,5 @@ public class ProductionHouse implements CostFactor {
 		return costs;
 	}
 
-	@Override
-	public void setCosts(int costs) {
-		
-	}
-
 }
 	

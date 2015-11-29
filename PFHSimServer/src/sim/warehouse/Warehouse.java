@@ -32,6 +32,7 @@ public class Warehouse implements CostFactor{
 	private int costs;
 
 	private ArrayList<Employee> employees;
+	private int requiredEmployees;
 
 	private Warehouse.Storage<Wall, WallType> wallStore;
 	private Warehouse.Storage<Resource, ResourceType> resStore;
@@ -205,7 +206,6 @@ public class Warehouse implements CostFactor{
 		return getCosts() + costs;
 	}
 
-	@Override
 	public void setCosts(int costs) {
 		if(costs > 0)
 			this.costs = costs;
@@ -214,6 +214,29 @@ public class Warehouse implements CostFactor{
 	public void setCapacity(int capacity) {
 		if(capacity > 0)
 			this.capacity = capacity;
+	}
+	
+	public boolean assignEmployee(Employee e){
+		//check the employee type if it matches the requirement
+		if(e.getType() == EmployeeType.STORE_KEEPER){
+			e.setFree(false);
+			employees.add(e);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean unassignEmployee(Employee e){
+		//are there still enough employees in the warehouse after removal
+		if(employees.size() + 1 >= requiredEmployees){
+			employees.remove(e);
+			e.setFree(true);
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 //=====================================================================================

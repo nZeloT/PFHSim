@@ -78,6 +78,43 @@
   * salary per period : 1.000
 * store keeper (Lagerarbeiter)
   * salary per period : 700
+  * need 3 for your start storage
 * architect 
   * salary per period : 1.500
   * designes every three period a new house type
+  * works at research project lab
+   
+### upgrade 
+* for employees
+ * hr employee
+  * need one who is NOT on training 
+  * hr training cost : 5000 
+  * only one time
+  * can manage 100 employee
+  * training duration: 1 period
+* assembler (Bauarbeiter)
+  * salary per period : 1.200
+  * training goal: if every assembler for the house is trained, house can be build by one less employee
+  * training cost: 1.000
+  * training duration: 1 period
+* architect 
+  * reduces time of design thinking of new houses by one period
+  * during training no design thinking
+  * training cost : 10.000
+  * training duration: 1 period
+   
+* for houses
+ * order like mentioned above in description
+
+* for machines
+ * + 7 walls 
+ * duration for upgrade: 1 period
+ * upgrade cost: 1/3 of purchase price
+ * only three times of upgrade is possible
+ 
+* for storage
+ * volume of storage increses by 50%  
+ * cost: 50.000
+ * level up duration: 1 period
+ * during level up you can still use the storage 
+ * need +1 storage keeper 

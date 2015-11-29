@@ -1,3 +1,4 @@
+
 package sim.simulation.purchase;
 
 import static org.junit.Assert.*;
@@ -87,7 +88,4 @@ public class ResourceMarketTest {
 		}
 	}
 	
-
-	
-
 }

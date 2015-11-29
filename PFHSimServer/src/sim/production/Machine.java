@@ -1,18 +1,17 @@
 package sim.production;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import sim.Enterprise;
 import sim.abstraction.CostFactor;
 import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
+import sim.hr.Workplace;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.warehouse.Warehouse;
 
-public class Machine implements CostFactor {
+public class Machine implements CostFactor, Workplace {
 	
 	/**
 	 * Costs for a machine per period.
@@ -35,13 +34,10 @@ public class Machine implements CostFactor {
 	 * */
 	private double quality;
 	
-	/**For example, a machine is not in operation when
-	 * it is upgraded (the upgrade needs some time) or when
-	 * not enough employees are assigned to this machine.
-	 * */
-	private boolean inOperation = false;
+	private boolean inUpgrade;
 	
 	private ArrayList<Employee> employees;
+	private int requiredEmps;
 	
 	private Warehouse warehouse;
 	
@@ -51,20 +47,21 @@ public class Machine implements CostFactor {
 	 * */
 	public Machine(Warehouse warehouse, ArrayList<Employee> employees) throws Exception {
 		this.warehouse = warehouse;
+		this.employees = new ArrayList<Employee>();
+		this.requiredEmps = 3;
+
 		for (int i = 0; i < employees.size(); i++) {
 			if (employees.get(i).getType() != EmployeeType.PRODUCTION)
 				throw new WrongEmployeeTypeException();
 		}
-		this.employees = employees;
+		
+		for (Employee e : employees) {
+			e.assignWorkplace(this);
+		}
+		
 		this.costs = 200;
 		this.performance = 30;
 		this.utilization = 0;
-		//3 employees or more are neccessary for
-		//operating the machine.
-		if (employees.size() < 3) 
-			inOperation = false;
-		else 
-			inOperation = true;
 	}
 	
 	@Override
@@ -93,7 +90,7 @@ public class Machine implements CostFactor {
 	 * */
 	public boolean isProducable(WallType walltype) {
 		
-		if ((performance-utilization)<1 || !inOperation)
+		if ((performance-utilization)<1 || !isInOperation())
 			return false;
 		
 		ResourceType[] rt = walltype.getRequiredResourceTypes();
@@ -120,7 +117,7 @@ public class Machine implements CostFactor {
 	public boolean produceWall(WallType walltype) {
 
 
-		if ((performance-utilization)<1 || !inOperation) 
+		if ((performance-utilization)<1 || !isInOperation()) 
 			return false;
 		
 		
@@ -185,6 +182,38 @@ public class Machine implements CostFactor {
 		}
 		
 		
+	}
+
+	@Override
+	public boolean assignEmployee(Employee e) {
+		
+		if(e.getType() == EmployeeType.PRODUCTION){
+			employees.add(e);
+			return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean unassignEmployee(Employee e) {
+		return employees.remove(e);
+	}
+	
+	/**For example, a machine is not in operation when
+	 * it is upgraded (the upgrade needs some time) or when
+	 * not enough employees are assigned to this machine.
+	 * */
+	public boolean isInOperation(){
+		return employees.size() >= requiredEmps && !inUpgrade;
+	}
+	
+	public void setInUpgrade(boolean inUpgrade) {
+		this.inUpgrade = inUpgrade;
+	}
+	
+	public boolean isInUpgrade() {
+		return inUpgrade;
 	}
 
 }

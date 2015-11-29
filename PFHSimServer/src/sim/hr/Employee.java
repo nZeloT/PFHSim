@@ -68,4 +68,8 @@ public class Employee implements CostFactor{
 	public double getSkill() {
 		return skill;
 	}
+	
+	public Workplace getWork() {
+		return work;
+	}
 }

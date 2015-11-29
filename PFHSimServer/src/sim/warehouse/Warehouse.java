@@ -8,6 +8,7 @@ import sim.abstraction.CostFactor;
 import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
+import sim.hr.Workplace;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.production.Wall;
@@ -25,7 +26,7 @@ import sim.production.WallType;
  * 
  * @author Leon
  */
-public class Warehouse implements CostFactor{
+public class Warehouse implements CostFactor, Workplace{
 
 	private int capacity;
 	private int utilization;
@@ -48,7 +49,7 @@ public class Warehouse implements CostFactor{
 	 * @throws WarehouseException when the costs or capacity are below or equal to zero or the employees are not of type STORE_KEEPER
 	 */
 	public Warehouse(int capacity, int costs, Employee... emps) throws WarehouseException, WrongEmployeeTypeException{
-		
+		this.requiredEmployees = 3;
 		this.capacity = capacity;
 		this.costs = costs;
 		
@@ -56,8 +57,6 @@ public class Warehouse implements CostFactor{
 		this.resStore = new Storage<>(Resource.class);
 		
 		this.employees  = new ArrayList<Employee>();
-		
-		this.employees.addAll(Arrays.asList(emps));
 		
 		if(capacity <= 0)
 			throw new WarehouseException("Capacity below zero is not allowed!");
@@ -71,7 +70,7 @@ public class Warehouse implements CostFactor{
 		}
 		
 		for (int i = 0; i < emps.length; i++) {
-			emps[i].setFree(false);
+			emps[i].assignWorkplace(this);
 		}
 	}
 
@@ -216,10 +215,18 @@ public class Warehouse implements CostFactor{
 			this.capacity = capacity;
 	}
 	
+	public int getRequiredEmployees() {
+		return requiredEmployees;
+	}
+	
+	public void setRequiredEmployees(int requiredEmployees) {
+		this.requiredEmployees = requiredEmployees;
+	}
+	
+	@Override
 	public boolean assignEmployee(Employee e){
 		//check the employee type if it matches the requirement
 		if(e.getType() == EmployeeType.STORE_KEEPER){
-			e.setFree(false);
 			employees.add(e);
 			return true;
 		}
@@ -227,12 +234,11 @@ public class Warehouse implements CostFactor{
 		return false;
 	}
 	
+	@Override
 	public boolean unassignEmployee(Employee e){
 		//are there still enough employees in the warehouse after removal
 		if(employees.size() + 1 >= requiredEmployees){
 			employees.remove(e);
-			e.setFree(true);
-			
 			return true;
 		}
 		

@@ -11,11 +11,11 @@ public class Employee implements CostFactor{
 	
 	private Workplace work;
 	
-	public Employee(EmployeeType type, Workplace work) {
+	//TODO: should this be a constructor with default visibility? bescuase hiring is done through HR
+	public Employee(EmployeeType type) {
 		this.skill = 1;
 		this.type  = type;
 		this.costs = 800;
-		this.work  = work;
 	}
 	
 	public void increaseSkill(double factor){
@@ -45,7 +45,12 @@ public class Employee implements CostFactor{
 	}
 	
 	public boolean unassignWorkplace(){
-		return isAssigned() && work.unassignEmployee(this);
+		if(isAssigned() && work.unassignEmployee(this)){
+			work = null;
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override

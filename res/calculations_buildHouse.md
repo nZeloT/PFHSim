@@ -130,6 +130,9 @@
  * upgrade cost: 1/3 of purchase price
  * only three times of upgrade is possible
  
+*zweite Iteration
+ * Upgrade erhöht  Qualität der Wände --> Unterscheidung in hohe performance oder gute Qualität fur die Produktion
+
 * for storage
  * volume of storage increses by 50%  
  * cost: 50.000

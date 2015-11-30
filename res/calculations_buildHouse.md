@@ -21,7 +21,8 @@
   * price = 
 * panorama wall
   * 2 brick, 5 windows, 1 concrete, 3 insulation
-  * price =
+  * price
+
 ### house types
 * bungalow
   * 5 walls, 25 roof tiles, 6 wood for roof

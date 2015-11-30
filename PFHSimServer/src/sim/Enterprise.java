@@ -3,8 +3,8 @@ package sim;
 import java.util.ArrayList;
 
 import sim.hr.Employee;
-import sim.hr.EmployeeMgr;
 import sim.hr.EmployeeType;
+import sim.hr.HR;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.production.PFHouse;
@@ -26,7 +26,7 @@ public class Enterprise {
 	private ArrayList<PFHouse> housesInProduction;
 	
 	//Employee management for warehouse and production goes in the distinct classes
-	private EmployeeMgr employeemgr;
+	private HR employeemgr;
 	private ArrayList<Employee> hr;
 	private ArrayList<Employee> procurement;
 	private ArrayList<Employee> rnd;
@@ -102,7 +102,7 @@ public class Enterprise {
 		
 		for (int i = 0; i < employees.size(); i++) {
 			for (int j = 0; j < et.length; j++) {
-				if (employees.get(i).getEmployeeType == et[j])
+				if (employees.get(i).getType() == et[j])
 					tmp_ec[j]++;					
 			}
 		}

@@ -148,7 +148,6 @@ public class Machine implements CostFactor, Workplace {
 		//Calculate production cost at highest utilization possible.
 		//Therefore each resource-object taken from the warehouse must
 		//be included in the calculation.
-		@SuppressWarnings(value = { "unused" })
 		int wallcost = 0;
 		for (int i = 0; i < removed_resources.length; i++) {
 			for (int j = 0; j < removed_resources[i].length; j++) {
@@ -162,7 +161,7 @@ public class Machine implements CostFactor, Workplace {
 		}
 		
 		//Creation of a new wall.
-		Wall wall = new Wall(walltype, costs);
+		Wall wall = new Wall(walltype, wallcost);
 		
 		//Try to store the wall
 		if (warehouse.storeWall(wall)) {
@@ -182,6 +181,14 @@ public class Machine implements CostFactor, Workplace {
 		}
 		
 		
+	}
+	
+	public ArrayList<Employee> getAssignedEmployees() {
+		return employees;
+	}
+	
+	public int getRequiredEmps() {
+		return requiredEmps;
 	}
 
 	@Override
@@ -214,6 +221,22 @@ public class Machine implements CostFactor, Workplace {
 	
 	public boolean isInUpgrade() {
 		return inUpgrade;
+	}
+	
+	public void deltaPerformance(double factor){
+		performance += factor;
+	}
+	
+	public void deltaCosts(double factor){
+		costs += factor;
+	}
+	
+	public void deltaQuality(double factor){
+		quality += factor;
+	}
+	
+	public void deltaRequiredEmps(int amount){
+		requiredEmps += amount;
 	}
 
 }

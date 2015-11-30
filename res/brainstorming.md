@@ -2,6 +2,13 @@
 
 * neue Backlogitems erstellt
 
+Done:
+* aus Material Wände bauen
+* aus Wände, Material, Mitarbeiter Häuser bauen
+* Ausfuhrung des Upgrade fur Mitarbeiter, Maschine, noch nicht Auswirkungen
+
+
+
 ### Bericht für Greg 2015-11-29
 
 * Grundkonzept (Business Logik) steht 

@@ -21,11 +21,17 @@ public class Department implements Workplace {
 
 	@Override
 	public boolean unassignEmployee(Employee e) {
+		if(e.getWork() != this)
+			return false;
 		return employees.remove(e);
 	}
 	
 	public int getEmployeeCount(){
 		return employees.size();
+	}
+	
+	ArrayList<Employee> getEmployees(){
+		return employees;
 	}
 
 }

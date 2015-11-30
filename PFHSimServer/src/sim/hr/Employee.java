@@ -9,13 +9,16 @@ public class Employee implements CostFactor{
 	private EmployeeType type;
 	private double skill;
 	
+	private int upgradeCount;
+	
 	private Workplace work;
 	
-	//TODO: should this be a constructor with default visibility? bescuase hiring is done through HR
+	//TODO: should this be a constructor with default visibility? because hiring is done through HR
 	public Employee(EmployeeType type) {
 		this.skill = 1;
 		this.type  = type;
-		this.costs = 800;
+		this.costs = type.getBaseCost();
+		this.upgradeCount = 0;
 	}
 	
 	public void increaseSkill(double factor){
@@ -53,9 +56,32 @@ public class Employee implements CostFactor{
 		return false;
 	}
 	
+	public boolean canDoTraining(){
+		
+		if(upgradeCount < type.getPossibleUpgrades()){
+			if(!isAssigned())
+				return true;
+			else{
+				Workplace w = work;
+				if(unassignWorkplace() && assignWorkplace(w))
+					return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public int getCosts() {
 		return costs;
+	}
+	
+	public void visitedTraining(){
+		upgradeCount++;
+	}
+	
+	public int getVisitedTrainings() {
+		return upgradeCount;
 	}
 
 	public void setCosts(int costs) {

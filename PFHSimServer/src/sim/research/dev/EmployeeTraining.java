@@ -12,11 +12,11 @@ public class EmployeeTraining extends Upgrade implements Workplace {
 	private Workplace empWork;
 	private boolean running;
 	
-	public EmployeeTraining(Employee e, int duration, int costs, double skillInc, int costInc) {
-		super(duration, costs);
+	public EmployeeTraining(Employee e) {
+		super(e.getType().getUpgradeDuration(), e.getType().getUpgradeCosts());
 		this.employee = e;
-		this.skillIncrease = skillInc;
-		this.costIncrease = costInc;
+		this.skillIncrease = e.getType().getUpgradeSkillInc();
+		this.costIncrease = e.getType().getUpgradeCostInc();
 	}
 
 	@Override
@@ -32,6 +32,7 @@ public class EmployeeTraining extends Upgrade implements Workplace {
 		employee.assignWorkplace(empWork);
 		employee.increaseSkill(skillIncrease);
 		employee.increaseCosts(costIncrease);
+		employee.visitedTraining();
 	}
 
 	@Override

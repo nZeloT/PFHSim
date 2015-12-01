@@ -23,20 +23,10 @@ public class EnterpriseTest {
 	public void testEasyProductionCycle() {
 		
 		Enterprise e = null;
-		try {
-			e = new Enterprise();
-		} catch (WarehouseException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (WrongEmployeeTypeException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		e = new Enterprise();
 		
 		
-		Warehouse wh = e.getWarehouse();
-		
-				wh.storeResource(
+		e.getWarehouse().storeResource(
 				new Resource(50, ResourceType.WOOD),
 				new Resource(50, ResourceType.WOOD),
 				new Resource(50, ResourceType.WOOD),
@@ -60,7 +50,6 @@ public class EnterpriseTest {
 				new Resource(50, ResourceType.CONCRETE), 
 				new Resource(50, ResourceType.CONCRETE),  
 				new Resource(50, ResourceType.INSULATION));
-		e.setWarehouse(wh);
 
 		
 
@@ -72,12 +61,11 @@ public class EnterpriseTest {
 		p.add(new Employee(EmployeeType.PRODUCTION));
 		
 		e.getProductionHouse().operateNewMachine(p);
-		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, wh);
-		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, wh);
-		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, wh);
-		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, wh);
-		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, wh);
-		e.setWarehouse(wh);
+		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, e.getWarehouse());
+		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, e.getWarehouse());
+		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, e.getWarehouse());
+		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, e.getWarehouse());
+		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, e.getWarehouse());
 		
 
 		ArrayList<Employee> h = new ArrayList<>();

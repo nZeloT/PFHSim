@@ -2,6 +2,7 @@ package sim;
 
 import java.util.ArrayList;
 
+import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
@@ -14,9 +15,11 @@ import sim.procurement.ResourceType;
 import sim.production.PFHouse;
 import sim.production.PFHouseType;
 import sim.production.ProductionHouse;
+import sim.production.Wall;
 import sim.production.WallType;
 import sim.research.dev.ResearchProject;
 import sim.warehouse.Warehouse;
+import sim.warehouse.WarehouseException;
 
 public class Enterprise {
 	
@@ -25,7 +28,7 @@ public class Enterprise {
 	private Warehouse warehouse;
 	private ProductionHouse production;
 	
-	private ArrayList<PFHouse> housesInProduction;
+	private ArrayList<PFHouse> housesInConstruction;
 	
 	//Employee management for warehouse and production goes in the distinct classes
 	private HR employeemgr;
@@ -42,13 +45,18 @@ public class Enterprise {
 		housesInConstruction = new ArrayList<>();
 		employeemgr = new HR();
 		production = new ProductionHouse();
-		warehouse = new Warehouse(9999999, 150,
-				new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
-						new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
-						new Employee(EmployeeType.STORE_KEEPER));
+		try {
+			warehouse = new Warehouse(9999999, 150,
+					new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
+							new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
+							new Employee(EmployeeType.STORE_KEEPER));
+		} catch (WarehouseException e) {
+			e.printStackTrace();
+		} catch (WrongEmployeeTypeException e) {
+			e.printStackTrace();
+		}
 		cash = 0;
 	
-		housesInProduction = new ArrayList<>();
 		employeemgr = new HR();
 		
 		//get the first employees
@@ -243,5 +251,17 @@ public class Enterprise {
 		sum += marketResearch.getEmployeeCosts();
 		//TODO add Project Costs..
 		return sum;
+	}
+
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	public ProductionHouse getProductionHouse() {
+		return production;
+	}
+
+	public ArrayList<PFHouse> getHousesInConstruction() {
+		return housesInConstruction;
 	}
 }

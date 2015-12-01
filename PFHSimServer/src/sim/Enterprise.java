@@ -2,6 +2,7 @@ package sim;
 
 import java.util.ArrayList;
 
+import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
@@ -11,6 +12,7 @@ import sim.production.PFHouse;
 import sim.production.PFHouseType;
 import sim.production.ProductionHouse;
 import sim.production.WallType;
+import sim.research.dev.ResearchProject;
 import sim.simulation.purchase.ResourceListItem;
 import sim.simulation.purchase.ResourceMarket;
 import sim.simulation.purchase.ResourceMarketException;
@@ -27,14 +29,38 @@ public class Enterprise {
 	
 	//Employee management for warehouse and production goes in the distinct classes
 	private HR employeemgr;
-	private ArrayList<Employee> hr;
-	private ArrayList<Employee> procurement;
-	private ArrayList<Employee> rnd;
-	private ArrayList<Employee> market;
+	private Department sales;
+	private Department procurement;
+	private Department marketResearch;
+	private ResearchProject designthinking; //architect
+
 	
 	
 	public Enterprise() {
 		housesInProduction = new ArrayList<>();
+		employeemgr = new HR();
+		
+		//get the first employees
+		employeemgr.hire(EmployeeType.SALES);
+		employeemgr.hire(EmployeeType.PROCUREMENT);
+		employeemgr.hire(EmployeeType.MARKET_RESEARCH);
+		employeemgr.hire(EmployeeType.ARCHITECT);
+		
+		//instantiate the departments and assign employees
+		sales = new Department(EmployeeType.SALES);
+		sales.assignEmployee(employeemgr.getUnassignedEmployee(EmployeeType.SALES));
+		
+		procurement = new Department(EmployeeType.SALES);
+		procurement.assignEmployee(employeemgr.getUnassignedEmployee(EmployeeType.PROCUREMENT));
+		
+		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
+		marketResearch.assignEmployee(employeemgr.getUnassignedEmployee(EmployeeType.MARKET_RESEARCH));
+		
+		production = new ProductionHouse();
+		//TODO Add possibility to buy machines/machine type declaration
+		
+		designthinking = new ResearchProject();
+		//TODO Add functionality to add architect and get costs ;)
 	}
 
 	/**
@@ -117,6 +143,23 @@ public class Enterprise {
 		
 		housesInProduction.add(pfh);
 		
-		
+	}
+/*
+ * This Method calculates all costs which can't be related to a single house building project
+ * including:
+ * 			warehouse (including storage keepers) costs
+ * 			architect and architect project costs
+ * 			employees: market_reasearch, hr_manager, salesman, procurement manager
+ * @returns the actual FixedCosts
+ * 				
+ */
+	public int calculateFixedCosts(){
+		int sum = 0;
+		sum += warehouse.getCosts();
+		sum += sales.getEmployeeCosts();
+		sum += procurement.getEmployeeCosts();
+		sum += marketResearch.getEmployeeCosts();
+		//TODO add Project Costs..
+		return sum;
 	}
 }

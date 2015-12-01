@@ -33,5 +33,13 @@ public class Department implements Workplace {
 	ArrayList<Employee> getEmployees(){
 		return employees;
 	}
+	
+	public int getEmployeeCosts(){
+		int costs = 0;
+		for (Employee employee : employees) {
+			costs += employee.getCosts();
+		}
+		return costs;
+	}
 
 }

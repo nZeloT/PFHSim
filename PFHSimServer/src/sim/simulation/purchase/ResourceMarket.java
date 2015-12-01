@@ -19,7 +19,6 @@ public class ResourceMarket {
 		return instance;
 	}
 	
-	
 
 	private HashMap<ResourceType,ResourceListItem> resources;
 
@@ -35,7 +34,7 @@ public class ResourceMarket {
 		resources = new HashMap<ResourceType,ResourceListItem>();
 		ResourceType types [] = ResourceType.values();
 		for (int i = 0; i < types.length; i++) {
-			resources.put(types[i], new ResourceListItem(10, types[i]));
+			resources.put(types[i], new ResourceListItem(types[i]));
 		}
 	}
 	

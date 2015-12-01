@@ -9,11 +9,9 @@ import sim.procurement.ResourceType;
 public class ResourceListItem {
 	
 	private int amountofSolditems;
-	private int costs;
-	private ResourceType type;
+	private final ResourceType type;
 	
-	public ResourceListItem(int costs, ResourceType type){
-		this.costs = costs;	
+	public ResourceListItem(ResourceType type){
 		this.type = type;
 		amountofSolditems = 0;
 	}
@@ -23,7 +21,7 @@ public class ResourceListItem {
 		Resource[] resources = new Resource[amount];
 		amountofSolditems += amount;
 		for (int i = 0; i < amount; i++) {
-			resources[i] = new Resource(costs, type);
+			resources[i] = new Resource(type.getPrice(), type);
 		}
 		return resources;
 	}
@@ -35,11 +33,11 @@ public class ResourceListItem {
 
 	
 	public int getCosts(){
-		return costs;
+		return type.getPrice();
 	}
 	
 	public void setCosts(int newCosts){
-		this.costs = newCosts;
+		type.setPrice(newCosts);
 	}
 
 }

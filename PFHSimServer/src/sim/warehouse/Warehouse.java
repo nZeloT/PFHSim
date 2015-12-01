@@ -223,6 +223,15 @@ public class Warehouse implements CostFactor, Workplace{
 		this.requiredEmployees = requiredEmployees;
 	}
 	
+	
+	public int calculateAvgPrice(WallType type){
+		return wallStore.calcAvg(type);
+	}
+	
+	public int calculateAvgPrice(ResourceType resourceType) {
+		return resStore.calcAvg(resourceType);
+	}
+	
 	@Override
 	public boolean assignEmployee(Employee e){
 		//check the employee type if it matches the requirement
@@ -277,6 +286,25 @@ public class Warehouse implements CostFactor, Workplace{
 			storage.addAll(Arrays.asList(s));
 
 			return true;
+		}
+		
+		/*
+		 * sum up costs for walls or resources and calculate average, otherwise return 0;
+		 */
+		public int calcAvg(T t){
+			int sum = 0;
+			int count = 0;
+			for (int i = 0; i < storage.size(); i++) {
+				StorageObject tmp = storage.get(i);
+				if (tmp.getType() == t) {
+					count++;
+					sum += tmp.getCosts();
+				}
+			}
+			if (count > 0) {
+				return sum/count;
+			}
+			return 0;
 		}
 		
 		public S remove(T t){

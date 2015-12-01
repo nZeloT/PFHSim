@@ -16,6 +16,8 @@ import sim.production.PFHouseType;
 import sim.production.ProductionHouse;
 import sim.production.WallType;
 import sim.research.dev.ResearchProject;
+import sim.simulation.sales.Offer;
+import sim.simulation.sales.OfferException;
 import sim.warehouse.Warehouse;
 
 public class Enterprise {
@@ -162,4 +164,65 @@ public class Enterprise {
 		//TODO add Project Costs..
 		return sum;
 	}
+/*
+ * A new offer for the PrefabricatedHouseMarket
+ * Specify housetype you want to offer. Method checks if everything available.
+ * Price is set separately!
+ */
+	public void createOffer(PFHouseType housetype) throws EnterpriseException{
+		
+		WallType[] walltypes = housetype.getRequiredWallTypes();
+		int[] wallcount = housetype.getWallCounts();
+		for (int i = 0; i < wallcount.length; i++) {
+			if(!warehouse.isInStorage(walltypes[i], wallcount[i])){
+				throw new EnterpriseException("Not Enough Walls to create a Offer for this Type!");
+			}
+		}
+		
+		EmployeeType[] employees = housetype.getRequiredEmployeeTypes();
+		int[] employeecount = housetype.getEmployeeCounts();
+		for (int i = 0; i < employees.length; i++) {
+			//TODO: get method to check and not take employees.
+			employeemgr.getUnassignedEmployees(employees[i], employeecount[i]);
+		}
+		
+		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
+		int[] resourcecount = housetype.getResourceCounts();
+		for (int i = 0; i < wallcount.length; i++) {
+			if(!warehouse.isInStorage(resourcetypes[i], resourcecount[i])){
+				throw new EnterpriseException("Not enough Resources to build an offer!");
+			}
+		}
+		Offer offer = new Offer(housetype);		
+	}
+	
+	/*This Method doens't check if everything is available!!!!!!!! Make this sure before (method createOffer)
+	 * returns the variable costs for the offer
+	 * This includes:
+	 * Wall costs(machine, employee work, resources)
+	 * Assembler cost(for building the house)
+	 * additional resources
+	 */
+		public int calculateVariableCosts(PFHouseType housetype){
+			WallType[] walltypes = housetype.getRequiredWallTypes();
+			int[] wallcount = housetype.getWallCounts();
+			int costs = 0;
+			for (int i = 0; i < walltypes.length; i++) {
+				costs += warehouse.calculateAvgPrice(walltypes[i]) * wallcount[i]; //walls, resources (see Constructor) available so no rechecks again
+			}
+			
+			ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
+			int[] resourcecount = housetype.getResourceCounts();
+			for (int i = 0; i < resourcetypes.length; i++) {
+				costs += warehouse.calculateAvgPrice(resourcetypes[i]) * resourcecount[i];
+			}
+			
+			EmployeeType[] employestype = housetype.getRequiredEmployeeTypes();
+			int[] employeecount = housetype.getEmployeeCounts();
+			for (int i = 0; i < employeecount.length; i++) {
+				costs += EmployeeType.ASSEMBLER.getBaseCost() * employeecount[i]; 
+			}
+			
+			return costs;
+		}
 }

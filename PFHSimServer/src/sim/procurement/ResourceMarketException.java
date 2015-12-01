@@ -1,4 +1,4 @@
-package sim.simulation.purchase;
+package sim.procurement;
 
 public class ResourceMarketException extends Exception {
 

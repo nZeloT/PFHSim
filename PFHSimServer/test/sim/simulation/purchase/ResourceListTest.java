@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sim.procurement.Resource;
+import sim.procurement.ResourceListItem;
 import sim.procurement.ResourceType;
 
 public class ResourceListTest {
@@ -14,7 +15,7 @@ public class ResourceListTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		resource = new ResourceListItem(10, ResourceType.INSULATION);
+		resource = new ResourceListItem(ResourceType.INSULATION);
 	}
 
 

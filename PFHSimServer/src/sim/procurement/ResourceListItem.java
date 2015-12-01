@@ -1,10 +1,6 @@
 
 
-package sim.simulation.purchase;
-
-
-import sim.procurement.Resource;
-import sim.procurement.ResourceType;
+package sim.procurement;
 
 public class ResourceListItem {
 	

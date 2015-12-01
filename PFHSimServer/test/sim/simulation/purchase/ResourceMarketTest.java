@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sim.procurement.Resource;
+import sim.procurement.ResourceListItem;
+import sim.procurement.ResourceMarket;
+import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 
 public class ResourceMarketTest {
@@ -28,8 +31,8 @@ public class ResourceMarketTest {
 	public void testInstance() {
 	
 		HashMap<ResourceType,ResourceListItem>  inventory = new HashMap<ResourceType,ResourceListItem>();
-		inventory.put(ResourceType.WOOD, new ResourceListItem(10, ResourceType.WOOD));
-		inventory.put(ResourceType.INSULATION, new ResourceListItem(10, ResourceType.INSULATION));
+		inventory.put(ResourceType.WOOD, new ResourceListItem(ResourceType.WOOD));
+		inventory.put(ResourceType.INSULATION, new ResourceListItem(ResourceType.INSULATION));
 		assertEquals(marketinventory.get(ResourceType.INSULATION).getCosts(), inventory.get(ResourceType.INSULATION).getCosts());
 		assertEquals(marketinventory.get(ResourceType.WOOD).get(50)[0].getType(), ResourceType.WOOD);
 	}

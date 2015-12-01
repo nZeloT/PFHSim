@@ -1,10 +1,7 @@
-package sim.simulation.purchase;
+package sim.procurement;
 
 
 import java.util.HashMap;
-
-import sim.procurement.Resource;
-import sim.procurement.ResourceType;
 
 
 public class ResourceMarket {

@@ -7,15 +7,15 @@ import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
 import sim.procurement.Resource;
+import sim.procurement.ResourceListItem;
+import sim.procurement.ResourceMarket;
+import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import sim.production.PFHouse;
 import sim.production.PFHouseType;
 import sim.production.ProductionHouse;
 import sim.production.WallType;
 import sim.research.dev.ResearchProject;
-import sim.simulation.purchase.ResourceListItem;
-import sim.simulation.purchase.ResourceMarket;
-import sim.simulation.purchase.ResourceMarketException;
 import sim.warehouse.Warehouse;
 
 public class Enterprise {

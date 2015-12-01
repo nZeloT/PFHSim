@@ -39,14 +39,12 @@ public class Machine implements CostFactor, Workplace {
 	private ArrayList<Employee> employees;
 	private int requiredEmps;
 	
-	private Warehouse warehouse;
 	
 	/**
 	 * Warehouse: A machine needs to access the warehouse to extract and store resources.
 	 * Employee: When generating a new machine, it needs at least 3 employees for being in operation!
 	 * */
-	public Machine(Warehouse warehouse, ArrayList<Employee> employees) throws Exception {
-		this.warehouse = warehouse;
+	public Machine(ArrayList<Employee> employees) throws Exception {
 		this.employees = new ArrayList<Employee>();
 		this.requiredEmps = 3;
 
@@ -88,7 +86,7 @@ public class Machine implements CostFactor, Workplace {
 	 * This method increases the machine's utilization likewise.
 	 * 
 	 * */
-	public boolean isProducable(WallType walltype) {
+	public boolean isProducable(WallType walltype, Warehouse warehouse) {
 		
 		if ((performance-utilization)<1 || !isInOperation())
 			return false;
@@ -114,7 +112,7 @@ public class Machine implements CostFactor, Workplace {
 	 * stored in the warehouse at the end. The respective production-costs are calculated, too.
 	 * 
 	 * */
-	public boolean produceWall(WallType walltype) {
+	public boolean produceWall(WallType walltype, Warehouse warehouse) {
 
 
 		if ((performance-utilization)<1 || !isInOperation()) 
@@ -126,18 +124,18 @@ public class Machine implements CostFactor, Workplace {
 		
 		
 		//Get resources from warehouse.
-		Resource[][] removed_resources = new Resource[rt.length][rc.length];
+		ArrayList<Resource[]> removed_resources = new ArrayList<>();
 		for (int i = 0; i < rc.length; i++) {
-			removed_resources[i] = warehouse.removeResource(rt[i], rc[i]);
+			removed_resources.add(warehouse.removeResource(rt[i], rc[i]));
 			
 			//If there are not enough resources available,
 			//terminate the process of creation.
-			if (removed_resources[i]==null) {
+			if (removed_resources.get(i)==null) {
 				//But before termination, the from the warehouse already
 				//removed resources must be stored back.
 				for (int j = 0; j < i; j++) {
-					for (int k=0; k < removed_resources[j].length; k++) {
-						warehouse.storeResource(removed_resources[j][k]);
+					for (int k=0; k < removed_resources.get(j).length; k++) {
+						warehouse.storeResource(removed_resources.get(j)[k]);
 					}
 				}
 				return false;
@@ -149,9 +147,9 @@ public class Machine implements CostFactor, Workplace {
 		//Therefore each resource-object taken from the warehouse must
 		//be included in the calculation.
 		int wallcost = 0;
-		for (int i = 0; i < removed_resources.length; i++) {
-			for (int j = 0; j < removed_resources[i].length; j++) {
-				wallcost += removed_resources[i][j].getCosts();
+		for (int i = 0; i < removed_resources.size(); i++) {
+			for (int j = 0; j < removed_resources.get(i).length; j++) {
+				wallcost += removed_resources.get(i)[j].getCosts();
 			}
 		}
 		//calculation at highest utilization  possible.
@@ -172,9 +170,9 @@ public class Machine implements CostFactor, Workplace {
 			//If the warehouse is not able to store the wall
 			//(for example because of too less free space), store the
 			//already removed resources again.
-			for (int j = 0; j < removed_resources.length; j++) {
-				for (int k=0; k < removed_resources[j].length; k++) {
-					warehouse.storeResource(removed_resources[j][k]);
+			for (int j = 0; j < removed_resources.size(); j++) {
+				for (int k=0; k < removed_resources.get(j).length; k++) {
+					warehouse.storeResource(removed_resources.get(j)[k]);
 				}
 			}
 			return false;

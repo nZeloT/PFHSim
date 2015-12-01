@@ -5,13 +5,13 @@ import sim.procurement.ResourceType;
 
 public enum PFHouseType {
 	NORMAL(new PFHouseType.WallTupel[]{
-				new WallTupel(WallType.NORMAL, 20)
+				new WallTupel(WallType.NORMAL, 5)
 			},
 			new PFHouseType.ResourceTupel[] {
-				new ResourceTupel(ResourceType.CONCRETE, 10)
+				new ResourceTupel(ResourceType.CONCRETE, 5)
 			},
 			new PFHouseType.EmployeeTupel[] {
-				new EmployeeTupel(EmployeeType.ASSEMBLER, 10)
+				new EmployeeTupel(EmployeeType.ASSEMBLER, 5)
 			}, 1),
 	PENTHOUSE(new PFHouseType.WallTupel[]{
 				new WallTupel(WallType.NORMAL, 15),

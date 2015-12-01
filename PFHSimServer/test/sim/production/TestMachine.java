@@ -25,12 +25,12 @@ public class TestMachine {
 		Machine m = null;
 		try {
 			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			m = new Machine(wh, emps);
+			m = new Machine(emps);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		assertEquals(m.produceWall(WallType.ECO), false);
+		assertEquals(m.produceWall(WallType.ECO, wh), false);
 	}
 	
 	@Test
@@ -42,9 +42,9 @@ public class TestMachine {
 		emps.add(new Employee(EmployeeType.PRODUCTION));
 		Warehouse wh = null;
 		Machine m = null;
-		try {
+		try { 
 			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			m = new Machine(wh, emps);
+			m = new Machine(emps);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,7 +58,7 @@ public class TestMachine {
 				new Resource(100, ResourceType.WOOD),
 				new Resource(100, ResourceType.WOOD)};
 		wh.storeResource(r);
-		assertEquals(m.produceWall(WallType.ECO), true);
+		assertEquals(m.produceWall(WallType.ECO, wh), true);
 	}
 	
 	
@@ -74,7 +74,7 @@ public class TestMachine {
 		Machine m = null;
 		try {
 			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			 m = new Machine(wh, emps);
+			 m = new Machine(emps);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,7 +87,7 @@ public class TestMachine {
 				new Resource(100, ResourceType.INSULATION), 
 				new Resource(100, ResourceType.INSULATION)};
 		wh.storeResource(r);
-		assertEquals(m.produceWall(WallType.ECO), false);
+		assertEquals(m.produceWall(WallType.ECO, wh), false);
 	}
 
 	@Test
@@ -101,7 +101,7 @@ public class TestMachine {
 		Machine m = null;
 		try {
 			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			 m = new Machine(wh, emps);
+			 m = new Machine(emps);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -114,8 +114,8 @@ public class TestMachine {
 				new Resource(100, ResourceType.WOOD), 
 				new Resource(100, ResourceType.WOOD)};
 		wh.storeResource(r);
-		assertEquals(m.isProducable(WallType.ECO), true);
-		assertEquals(m.produceWall(WallType.ECO), true);
+		assertEquals(m.isProducable(WallType.ECO, wh), true);
+		assertEquals(m.produceWall(WallType.ECO, wh), true);
 		
 	}
 
@@ -130,7 +130,7 @@ public class TestMachine {
 		Machine m = null;
 		try {
 			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			m = new Machine(wh, emps);
+			m = new Machine(emps);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,18 +148,18 @@ public class TestMachine {
 				new Resource(100, ResourceType.WOOD)};
 		wh.storeResource(r);
 		
-		assertEquals(m.isProducable(WallType.ECO), true);
-		assertEquals(m.produceWall(WallType.ECO), true);
-		assertEquals(m.isProducable(WallType.ECO), false);
-		assertEquals(m.produceWall(WallType.ECO), false);
+		assertEquals(m.isProducable(WallType.ECO, wh), true);
+		assertEquals(m.produceWall(WallType.ECO, wh), true);
+		assertEquals(m.isProducable(WallType.ECO, wh), false);
+		assertEquals(m.produceWall(WallType.ECO, wh), false);
 		
 		wh.storeResource(new Resource(100, ResourceType.WOOD));
-		assertEquals(m.isProducable(WallType.ECO), true);
-		assertEquals(m.produceWall(WallType.ECO), true);
+		assertEquals(m.isProducable(WallType.ECO, wh), true);
+		assertEquals(m.produceWall(WallType.ECO, wh), true);
 
 		wh.storeResource(new Resource(100, ResourceType.WOOD));
-		assertEquals(m.isProducable(WallType.ECO), false);
-		assertEquals(m.produceWall(WallType.ECO), false);
+		assertEquals(m.isProducable(WallType.ECO, wh), false);
+		assertEquals(m.produceWall(WallType.ECO, wh), false);
 		
 		
 	}

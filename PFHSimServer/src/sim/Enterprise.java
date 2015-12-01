@@ -19,7 +19,6 @@ import sim.production.Wall;
 import sim.production.WallType;
 import sim.research.dev.ResearchProject;
 import sim.simulation.sales.Offer;
-import sim.simulation.sales.OfferException;
 import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
 
@@ -309,8 +308,9 @@ public class Enterprise {
 			
 			EmployeeType[] employestype = housetype.getRequiredEmployeeTypes();
 			int[] employeecount = housetype.getEmployeeCounts();
+			int duration = housetype.getConstructionDuration();
 			for (int i = 0; i < employeecount.length; i++) {
-				costs += EmployeeType.ASSEMBLER.getBaseCost() * employeecount[i]; 
+				costs += EmployeeType.ASSEMBLER.getBaseCost() * employeecount[i] * duration; 
 			}
 			
 			return costs;

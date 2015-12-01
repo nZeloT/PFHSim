@@ -7,7 +7,7 @@ public enum WallType {
 	//Create predefined types of walls and specify the 
 	//needed resources (for producing one wall).
 	ECO(5, new WallType.Tupel(ResourceType.WOOD, 5)),
-	NORMAL(6, new WallType.Tupel(ResourceType.WOOD, 4));	
+	NORMAL(6, new WallType.Tupel(ResourceType.WOOD, 2));	
 	
 	/**
 	 * One Tupel represents a kind of an attribute of the class "WallType"

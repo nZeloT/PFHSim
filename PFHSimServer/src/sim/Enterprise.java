@@ -35,8 +35,19 @@ public class Enterprise {
 	private ResearchProject designthinking; //architect
 
 	
+
+	
 	
 	public Enterprise() {
+		housesInConstruction = new ArrayList<>();
+		employeemgr = new HR();
+		production = new ProductionHouse();
+		warehouse = new Warehouse(9999999, 150,
+				new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
+						new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
+						new Employee(EmployeeType.STORE_KEEPER));
+		cash = 0;
+	
 		housesInProduction = new ArrayList<>();
 		employeemgr = new HR();
 		
@@ -91,58 +102,129 @@ public class Enterprise {
 		}
 	}
 	
-	public boolean producePFHouse(PFHouseType type, ArrayList<Employee> employees) throws EnterpriseException {
-		
-		//How much walls are needed for pfhousetype?
+	
+	/**
+	 * Creation of a new house-building-object.
+	 * 
+	 * @param type
+	 *            PFHouseType to build.
+	 * @param employees
+	 *            Employees assigned to building the PFHouse need to be
+	 *            provided.
+	 * @param price
+	 *            A price for selling the house must be provided.
+	 * 
+	 * @throws EnterpriseException
+	 *             This exception is thrown when there are not enough materials
+	 *             in your storage required for building the given type of a
+	 *             PFHouse.
+	 * 
+	 * @return This method returns a pre-factored-house-object as a result if
+	 *         the given parameters are correct and enough materials are in the
+	 *         warehouse.
+	 * 
+	 */
+
+	public void producePFHouse(PFHouseType type, ArrayList<Employee> employees, int price)
+			throws EnterpriseException {
+
+		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
+
+		// How much walls are needed for pfhousetype?
 		WallType[] wt = type.getRequiredWallTypes();
 		int[] wc = type.getWallCounts();
 
-		//Check whether the needed walls are in the warehouse.
+		// Check whether the needed walls are in the warehouse.
 		for (int i = 0; i < wt.length; i++) {
 			if (!warehouse.isInStorage(wt[i], wc[i])) {
 				throw new EnterpriseException("Not enough walls in your warehouse!");
 			}
-		} 
-		
+		}
 
-		//How much resources are needed for pfhousetype?
+		// How much resources are needed for pfhousetype?
 		ResourceType[] rt = type.getRequiredResourceTypes();
 		int[] rc = type.getResourceCounts();
 
-		//Check whether the needed resources are in the warehouse.
+		// Check whether the needed resources are in the warehouse.
 		for (int i = 0; i < rt.length; i++) {
-			if (warehouse.isInStorage(rt[i], rc[i])) {
+			if (!warehouse.isInStorage(rt[i], rc[i])) {
 				throw new EnterpriseException("Not enough resources in your warehouse!");
 			}
 		}
-		//enough resources in warehouse
-		
+		// enough resources in warehouse
 
-		
-		//How much employees are needed for pfhousetype?
+		// How much employees are needed for pfhousetype?
 		EmployeeType[] et = type.getRequiredEmployeeTypes();
-		int[] ec= type.getEmployeeCounts();
+		int[] ec = type.getEmployeeCounts();
 
-		//Check whether the needed employees are available (free). 
+		// Check whether the needed employees are provided.
 		int[] tmp_ec = new int[ec.length];
-		
+
+		// Count up tmp_ec for each employee-type provided in the
+		// employee-parameter.
+		// If a not required employee is provided, he/she will be removed
+		// from the list of employees needed for the house-building-job.
+		boolean requiredForJob = false;
 		for (int i = 0; i < employees.size(); i++) {
+			requiredForJob = false;
 			for (int j = 0; j < et.length; j++) {
-				if (employees.get(i).getType() == et[j])
-					tmp_ec[j]++;					
+				if (employees.get(i).getType() == et[j]) {
+					tmp_ec[j]++;
+					requiredForJob = true;
+				}
+			}
+			if (!requiredForJob) {
+				employees.remove(i);
+				i--;
 			}
 		}
 		for (int i = 0; i < et.length; i++) {
-			if (tmp_ec[i] < ec[i])
-				return false;
+			if (tmp_ec[i] < ec[i]) {
+				throw new EnterpriseException("Not enough employees to build this house!");
+			}
 		}
-		//enough employees
+		// enough employees
 
+		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:END
 
-		PFHouse pfh = new PFHouse(0, 0, type, type.getConstructionDuration(), employees);
-		
-		housesInProduction.add(pfh);
-		
+		// - 1. Removing the walls from the warehouse.
+		// No more check for "null" as return value from warehouse
+		// required, because this has already been
+		// checked above.
+		// - 2. Calculation of a houses production-costs
+		int costs = 0;
+		Wall[] tmp_wall = null;
+		for (int i = 0; i < wt.length; i++) {
+			tmp_wall = warehouse.removeWalls(wt[i], wc[i]);
+			for (int j = 0; j < tmp_wall.length; j++) {
+				costs += tmp_wall[j].getCosts();
+			}
+		}
+
+		// - 1. Removing the required resources and walls from the warehouse.
+		// No more check for "null" as return value from warehouse
+		// required, because this has already been
+		// checked above.
+		// - 2. Calculation of a houses production-costs
+		Resource[] tmp_resource = null;
+		for (int i = 0; i < wt.length; i++) {
+			tmp_resource = warehouse.removeResource(rt[i], rc[i]);
+			for (int j = 0; j < tmp_wall.length; j++) {
+				costs += tmp_resource[j].getCosts();
+			}
+		}
+
+		// Also include employee-costs into the calculation.
+		for (int i = 0; i < employees.size(); i++) {
+			costs += employees.get(i).getCosts() * type.getConstructionDuration();
+		}
+
+		// create a new house and append it to the array-list saving the houses
+		// which are in construction.
+		PFHouse pfh = new PFHouse(price, costs, type, type.getConstructionDuration(), employees);
+
+		housesInConstruction.add(pfh);
+
 	}
 /*
  * This Method calculates all costs which can't be related to a single house building project

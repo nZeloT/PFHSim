@@ -4,10 +4,7 @@ import sim.abstraction.CostFactor;
 
 public class Employee implements CostFactor{
 	
-	private int costs;
-	
 	private EmployeeType type;
-	private double skill;
 	
 	private int upgradeCount;
 	
@@ -15,18 +12,8 @@ public class Employee implements CostFactor{
 	
 	//TODO: should this be a constructor with default visibility? because hiring is done through HR
 	public Employee(EmployeeType type) {
-		this.skill = 1;
 		this.type  = type;
-		this.costs = type.getBaseCost();
 		this.upgradeCount = 0;
-	}
-	
-	public void increaseSkill(double factor){
-		this.skill += factor;
-	}
-	
-	public void increaseCosts(int costs){
-		this.costs += costs;
 	}
 	
 	public boolean assignWorkplace(Workplace w){
@@ -37,9 +24,10 @@ public class Employee implements CostFactor{
 			work = w;
 			
 			//could not assign the employee to the new workplace; leave him at his current
-			if(work.assignEmployee(this)){
+			if(!work.assignEmployee(this)){
 				work = old;
-				work.assignEmployee(this);
+				if(work != null)
+					work.assignEmployee(this);
 			}
 			return true;
 		}
@@ -53,7 +41,7 @@ public class Employee implements CostFactor{
 			return true;
 		}
 		
-		return false;
+		return !isAssigned();
 	}
 	
 	public boolean canDoTraining(){
@@ -73,21 +61,18 @@ public class Employee implements CostFactor{
 	
 	@Override
 	public int getCosts() {
-		return costs;
+		return type.getBaseCost() + upgradeCount * type.getUpgradeCostInc();
 	}
 	
 	public void visitedTraining(){
-		upgradeCount++;
+		if(upgradeCount < type.getPossibleUpgrades())
+			upgradeCount++;
 	}
 	
 	public int getVisitedTrainings() {
 		return upgradeCount;
 	}
 
-	public void setCosts(int costs) {
-		this.costs = costs;
-	}
-	
 	public EmployeeType getType() {
 		return type;
 	}
@@ -96,8 +81,8 @@ public class Employee implements CostFactor{
 		return work != null;
 	}
 	
-	public double getSkill() {
-		return skill;
+	public int getSkill() {
+		return 1 + upgradeCount * type.getUpgradeSkillInc();
 	}
 	
 	public Workplace getWork() {

@@ -14,7 +14,7 @@ public class Department implements Workplace {
 
 	@Override
 	public boolean assignEmployee(Employee e) {
-		if(e.getType() == type)
+		if(e.getType() == type && !employees.contains(e))
 			return employees.add(e);
 		return false;
 	}

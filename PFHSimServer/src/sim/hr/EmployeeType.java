@@ -1,5 +1,9 @@
 package sim.hr;
 
+/**
+ * This is the base definition of all fixed attributes to the corresponding EmployeeTypes
+ * @author Leon
+ */
 public enum EmployeeType {
 	
 	HR(1000, 1, 100, 1, 1, 5000),
@@ -16,11 +20,11 @@ public enum EmployeeType {
 	private int 	possibleUpgrades;
 	
 	private int 	upgradeCostInc;
-	private double 	upgradeSkillInc;
+	private int 	upgradeSkillInc;
 	private int		upgradeDuration;
 	private int		upgradeCosts;
 	
-	private EmployeeType(int baseCost, int possibleUpgrades, int upgradeCostInc, double upgradeSkillInc, int upgradeDuration,
+	private EmployeeType(int baseCost, int possibleUpgrades, int upgradeCostInc, int upgradeSkillInc, int upgradeDuration,
 			int upgradeCosts) {
 		this.baseCost = baseCost;
 		this.possibleUpgrades = possibleUpgrades;
@@ -42,7 +46,7 @@ public enum EmployeeType {
 		return upgradeCostInc;
 	}
 
-	public double getUpgradeSkillInc() {
+	public int getUpgradeSkillInc() {
 		return upgradeSkillInc;
 	}
 

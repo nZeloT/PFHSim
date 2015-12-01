@@ -4,6 +4,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import sim.hr.EmployeeTest;
+import sim.hr.HRTest;
 import sim.production.TestMachine;
 import sim.simulation.purchase.ResourceListTest;
 import sim.simulation.purchase.ResourceMarketTest;
@@ -11,8 +13,10 @@ import sim.warehouse.TestWarehouse;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	TestMachine.class,
+	EmployeeTest.class,
+	HRTest.class,
 	TestWarehouse.class,
+	TestMachine.class,
 	ResourceListTest.class,
 	ResourceMarketTest.class
 })

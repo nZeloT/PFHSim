@@ -59,6 +59,8 @@ public class Enterprise {
 		cash = 0;
 	
 		employeemgr = new HR();
+		Employee hrler = employeemgr.hire(EmployeeType.HR);
+		hrler.assignWorkplace(employeemgr);
 		
 		//get the first employees
 		employeemgr.hire(EmployeeType.SALES);
@@ -68,13 +70,13 @@ public class Enterprise {
 		
 		//instantiate the departments and assign employees
 		sales = new Department(EmployeeType.SALES);
-		sales.assignEmployee(employeemgr.getUnassignedEmployee(EmployeeType.SALES));
+		employeemgr.getUnassignedEmployee(EmployeeType.SALES).assignWorkplace(sales);
 		
 		procurement = new Department(EmployeeType.SALES);
-		procurement.assignEmployee(employeemgr.getUnassignedEmployee(EmployeeType.PROCUREMENT));
+		employeemgr.getUnassignedEmployee(EmployeeType.PROCUREMENT).assignWorkplace(procurement);
 		
 		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
-		marketResearch.assignEmployee(employeemgr.getUnassignedEmployee(EmployeeType.MARKET_RESEARCH));
+		employeemgr.getUnassignedEmployee(EmployeeType.MARKET_RESEARCH).assignWorkplace(marketResearch);
 		
 		production = new ProductionHouse();
 		//TODO Add possibility to buy machines/machine type declaration

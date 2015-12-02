@@ -3,6 +3,7 @@ package sim.warehouse;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import sim.abstraction.CostFactor;
 import sim.abstraction.WrongEmployeeTypeException;
@@ -57,6 +58,9 @@ public class Warehouse implements CostFactor, Workplace{
 		this.resStore = new Storage<>(Resource.class);
 		
 		this.employees  = new ArrayList<Employee>();
+		
+		if(emps == null || emps.length < 3)
+			throw new WarehouseException("Not enough Employees passed. At least 3 are required!");
 		
 		if(capacity <= 0)
 			throw new WarehouseException("Capacity below zero is not allowed!");
@@ -263,7 +267,7 @@ public class Warehouse implements CostFactor, Workplace{
 	 * @param <T> the StorageObjectType-Type e.g. WallType or ResourceType
 	 */
 	private class Storage<S extends StorageObject<T>, T>{
-		private ArrayList<S> storage;
+		private List<S> storage;
 		private Class<S> storageObjectCls;
 		
 		public Storage(Class<S> storageObjectCls) {
@@ -295,7 +299,7 @@ public class Warehouse implements CostFactor, Workplace{
 			int sum = 0;
 			int count = 0;
 			for (int i = 0; i < storage.size(); i++) {
-				StorageObject tmp = storage.get(i);
+				StorageObject<T> tmp = storage.get(i);
 				if (tmp.getType() == t) {
 					count++;
 					sum += tmp.getCosts();

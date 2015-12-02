@@ -1,6 +1,7 @@
 package sim.production;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sim.abstraction.CostFactor;
 import sim.hr.Employee;
@@ -26,7 +27,7 @@ public class ProductionHouse implements CostFactor {
 	}
 	
 	
-	public void operateNewMachine(ArrayList<Employee> employees) {
+	public void operateNewMachine(List<Employee> employees) {
 		
 		try {
 			machines.add(new Machine(employees));

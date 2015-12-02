@@ -1,21 +1,17 @@
 package sim;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Test;
 
-import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.production.PFHouseType;
-import sim.production.ProductionHouse;
 import sim.production.WallType;
-import sim.warehouse.Warehouse;
-import sim.warehouse.WarehouseException;
 
 public class EnterpriseTest {
 
@@ -24,7 +20,6 @@ public class EnterpriseTest {
 		
 		Enterprise e = null;
 		e = new Enterprise();
-		
 		
 		e.getWarehouse().storeResource(
 				new Resource(50, ResourceType.WOOD),
@@ -52,15 +47,9 @@ public class EnterpriseTest {
 				new Resource(50, ResourceType.INSULATION));
 
 		
-
-		ArrayList<Employee> p = new ArrayList<>();
-		p.add(new Employee(EmployeeType.PRODUCTION));
-		p.add(new Employee(EmployeeType.PRODUCTION));
-		p.add(new Employee(EmployeeType.PRODUCTION));
-		p.add(new Employee(EmployeeType.PRODUCTION));
-		p.add(new Employee(EmployeeType.PRODUCTION));
+		Employee[] p = e.getHR().hire(EmployeeType.PRODUCTION, 5);
 		
-		e.getProductionHouse().operateNewMachine(p);
+		e.getProductionHouse().operateNewMachine(Arrays.asList(p));
 		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, e.getWarehouse());
 		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, e.getWarehouse());
 		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, e.getWarehouse());
@@ -68,15 +57,9 @@ public class EnterpriseTest {
 		e.getProductionHouse().getMachines().get(0).produceWall(WallType.NORMAL, e.getWarehouse());
 		
 
-		ArrayList<Employee> h = new ArrayList<>();
-		h.add(new Employee(EmployeeType.ASSEMBLER));
-		h.add(new Employee(EmployeeType.ASSEMBLER));
-		h.add(new Employee(EmployeeType.ASSEMBLER));
-		h.add(new Employee(EmployeeType.ASSEMBLER));
-		h.add(new Employee(EmployeeType.ASSEMBLER)); 
-		
+		Employee[] h = e.getHR().hire(EmployeeType.ASSEMBLER, 5);
 		try {
-			e.producePFHouse(PFHouseType.NORMAL, h, 9000);
+			e.producePFHouse(PFHouseType.NORMAL, Arrays.asList(h), 9000);
 		} catch (EnterpriseException e1) {
 			e1.printStackTrace();
 		}

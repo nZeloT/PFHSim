@@ -5,8 +5,6 @@ import sim.hr.Workplace;
 
 public class EmployeeTraining extends Upgrade implements Workplace {
 	
-	private double skillIncrease;
-	private int costIncrease;
 	private Employee employee;
 	
 	private Workplace empWork;
@@ -15,8 +13,6 @@ public class EmployeeTraining extends Upgrade implements Workplace {
 	public EmployeeTraining(Employee e) {
 		super(e.getType().getUpgradeDuration(), e.getType().getUpgradeCosts());
 		this.employee = e;
-		this.skillIncrease = e.getType().getUpgradeSkillInc();
-		this.costIncrease = e.getType().getUpgradeCostInc();
 	}
 
 	@Override
@@ -30,8 +26,6 @@ public class EmployeeTraining extends Upgrade implements Workplace {
 	protected void finish() {
 		running = false;
 		employee.assignWorkplace(empWork);
-		employee.increaseSkill(skillIncrease);
-		employee.increaseCosts(costIncrease);
 		employee.visitedTraining();
 	}
 

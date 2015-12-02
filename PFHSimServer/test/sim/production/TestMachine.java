@@ -1,54 +1,58 @@
 package sim.production;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
+import sim.hr.HR;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.warehouse.Warehouse;
 
 public class TestMachine {
+	
+	private Employee[] emps;
+	private Warehouse w;
+	private Machine m;
+	
+	@Before
+	public void setUp(){
+		HR hr = new HR();
+		Employee hrG = hr.hire(EmployeeType.HR);
+		hrG.assignWorkplace(hr);
+		
+		emps = hr.hire(EmployeeType.PRODUCTION, 3);
+		
+		try{
+			w = new Warehouse(500, 100, hr.hire(EmployeeType.STORE_KEEPER, 3));
+		}catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+		
+		try {
+			m = new Machine(Arrays.asList(emps));
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		
+	}
 
 	@Test 
 	public void testEmptyWarehouse() {
-
-		ArrayList<Employee> emps = new ArrayList<>();
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		Warehouse wh = null;
-		Machine m = null;
-		try {
-			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			m = new Machine(emps);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		assertEquals(m.produceWall(WallType.ECO, wh), false);
+		assertEquals(m.produceWall(WallType.ECO, w), false);
 	}
 	
 	@Test
 	public void testSuccessfulProduction() {
-
-		ArrayList<Employee> emps = new ArrayList<>();
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		Warehouse wh = null;
-		Machine m = null;
-		try { 
-			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			m = new Machine(emps);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
 		Resource[] r = {
 				new Resource(100, ResourceType.WOOD),
 				new Resource(100, ResourceType.WOOD),
@@ -57,28 +61,14 @@ public class TestMachine {
 				new Resource(100, ResourceType.WOOD),  
 				new Resource(100, ResourceType.WOOD),
 				new Resource(100, ResourceType.WOOD)};
-		wh.storeResource(r);
-		assertEquals(m.produceWall(WallType.ECO, wh), true);
+		w.storeResource(r);
+		assertEquals(m.produceWall(WallType.ECO, w), true);
 	}
 	
 	
 
 	@Test
 	public void testWrongTypesOfResourcesInWarehouse() {
-
-		ArrayList<Employee> emps = new ArrayList<>();
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		Warehouse wh = null;
-		Machine m = null;
-		try {
-			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			 m = new Machine(emps);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
 		Resource[] r = {
 				new Resource(100, ResourceType.INSULATION),
 				new Resource(100, ResourceType.INSULATION),
@@ -86,26 +76,12 @@ public class TestMachine {
 				new Resource(100, ResourceType.INSULATION), 
 				new Resource(100, ResourceType.INSULATION), 
 				new Resource(100, ResourceType.INSULATION)};
-		wh.storeResource(r);
-		assertEquals(m.produceWall(WallType.ECO, wh), false);
+		w.storeResource(r);
+		assertEquals(m.produceWall(WallType.ECO, w), false);
 	}
 
 	@Test
 	public void testIfIsProducableAndProduceWallSuccessful() {
-
-		ArrayList<Employee> emps = new ArrayList<>();
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		Warehouse wh = null;
-		Machine m = null;
-		try {
-			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			 m = new Machine(emps);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
 		Resource[] r = {
 				new Resource(100, ResourceType.INSULATION),
 				new Resource(100, ResourceType.WOOD),
@@ -113,28 +89,14 @@ public class TestMachine {
 				new Resource(100, ResourceType.WOOD), 
 				new Resource(100, ResourceType.WOOD), 
 				new Resource(100, ResourceType.WOOD)};
-		wh.storeResource(r);
-		assertEquals(m.isProducable(WallType.ECO, wh), true);
-		assertEquals(m.produceWall(WallType.ECO, wh), true);
+		w.storeResource(r);
+		assertEquals(m.isProducable(WallType.ECO, w), true);
+		assertEquals(m.produceWall(WallType.ECO, w), true);
 		
 	}
 
 	@Test
 	public void testWhetherMultipleProductionProcessesWork() {
-
-		ArrayList<Employee> emps = new ArrayList<>();
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		emps.add(new Employee(EmployeeType.PRODUCTION));
-		Warehouse wh = null;
-		Machine m = null;
-		try {
-			wh = new Warehouse(500, 100, new Employee(EmployeeType.STORE_KEEPER));
-			m = new Machine(emps);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
 		Resource[] r = {
 				new Resource(100, ResourceType.INSULATION),
 				new Resource(100, ResourceType.WOOD),
@@ -146,20 +108,20 @@ public class TestMachine {
 				new Resource(100, ResourceType.WOOD),
 				new Resource(100, ResourceType.WOOD), 
 				new Resource(100, ResourceType.WOOD)};
-		wh.storeResource(r);
+		w.storeResource(r);
 		
-		assertEquals(m.isProducable(WallType.ECO, wh), true);
-		assertEquals(m.produceWall(WallType.ECO, wh), true);
-		assertEquals(m.isProducable(WallType.ECO, wh), false);
-		assertEquals(m.produceWall(WallType.ECO, wh), false);
+		assertEquals(m.isProducable(WallType.ECO, w), true);
+		assertEquals(m.produceWall(WallType.ECO, w), true);
+		assertEquals(m.isProducable(WallType.ECO, w), false);
+		assertEquals(m.produceWall(WallType.ECO, w), false);
 		
-		wh.storeResource(new Resource(100, ResourceType.WOOD));
-		assertEquals(m.isProducable(WallType.ECO, wh), true);
-		assertEquals(m.produceWall(WallType.ECO, wh), true);
+		w.storeResource(new Resource(100, ResourceType.WOOD));
+		assertEquals(m.isProducable(WallType.ECO, w), true);
+		assertEquals(m.produceWall(WallType.ECO, w), true);
 
-		wh.storeResource(new Resource(100, ResourceType.WOOD));
-		assertEquals(m.isProducable(WallType.ECO, wh), false);
-		assertEquals(m.produceWall(WallType.ECO, wh), false);
+		w.storeResource(new Resource(100, ResourceType.WOOD));
+		assertEquals(m.isProducable(WallType.ECO, w), false);
+		assertEquals(m.produceWall(WallType.ECO, w), false);
 		
 		
 	}

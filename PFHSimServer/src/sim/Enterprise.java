@@ -44,39 +44,42 @@ public class Enterprise {
 	
 	public Enterprise() {
 		housesInConstruction = new ArrayList<>();
-		employeemgr = new HR();
+		
+		hr = new HR();
+		Employee hrGuy = hr.hire(EmployeeType.HR);
+		
+		//first assign an HR guy to produce some HR capacity ;)
+		hrGuy.assignWorkplace(hr);
+		
+		Employee[] storeKeeper = hr.hire(EmployeeType.STORE_KEEPER, 3);
+		
 		production = new ProductionHouse();
 		try {
-			warehouse = new Warehouse(9999999, 150,
-					new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
-							new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
-							new Employee(EmployeeType.STORE_KEEPER));
+			warehouse = new Warehouse(9999999, 150, storeKeeper);
 		} catch (WarehouseException e) {
 			e.printStackTrace();
 		} catch (WrongEmployeeTypeException e) {
 			e.printStackTrace();
 		}
 		cash = 0;
-	
-		employeemgr = new HR();
 		Employee hrler = employeemgr.hire(EmployeeType.HR);
 		hrler.assignWorkplace(employeemgr);
 		
 		//get the first employees
-		employeemgr.hire(EmployeeType.SALES);
-		employeemgr.hire(EmployeeType.PROCUREMENT);
-		employeemgr.hire(EmployeeType.MARKET_RESEARCH);
-		employeemgr.hire(EmployeeType.ARCHITECT);
+		Employee salesEmp = hr.hire(EmployeeType.SALES);
+		Employee procuEmp = hr.hire(EmployeeType.PROCUREMENT);
+		Employee markeEmp = hr.hire(EmployeeType.MARKET_RESEARCH);
+		Employee archiEmp = hr.hire(EmployeeType.ARCHITECT);
 		
 		//instantiate the departments and assign employees
 		sales = new Department(EmployeeType.SALES);
-		employeemgr.getUnassignedEmployee(EmployeeType.SALES).assignWorkplace(sales);
+		salesEmp.assignWorkplace(sales);
 		
-		procurement = new Department(EmployeeType.SALES);
-		employeemgr.getUnassignedEmployee(EmployeeType.PROCUREMENT).assignWorkplace(procurement);
+		procurement = new Department(EmployeeType.PROCUREMENT);
+		procuEmp.assignWorkplace(procurement);
 		
 		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
-		employeemgr.getUnassignedEmployee(EmployeeType.MARKET_RESEARCH).assignWorkplace(marketResearch);
+		markeEmp.assignWorkplace(marketResearch);
 		
 		production = new ProductionHouse();
 		//TODO Add possibility to buy machines/machine type declaration

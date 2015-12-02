@@ -1,6 +1,7 @@
 package sim;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Department;
@@ -32,49 +33,48 @@ public class Enterprise {
 	private ArrayList<PFHouse> housesInConstruction;
 	
 	//Employee management for warehouse and production goes in the distinct classes
-	private HR employeemgr;
+	private HR hr;
 	private Department sales;
 	private Department procurement;
 	private Department marketResearch;
 	private ResearchProject designthinking; //architect
 
-	
-
-	
-	
 	public Enterprise() {
 		housesInConstruction = new ArrayList<>();
-		employeemgr = new HR();
+		
+		hr = new HR();
+		Employee hrGuy = hr.hire(EmployeeType.HR);
+		
+		//first assign an HR guy to produce some HR capacity ;)
+		hrGuy.assignWorkplace(hr);
+		
+		Employee[] storeKeeper = hr.hire(EmployeeType.STORE_KEEPER, 3);
+		
 		production = new ProductionHouse();
 		try {
-			warehouse = new Warehouse(9999999, 150,
-					new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
-							new Employee(EmployeeType.STORE_KEEPER), new Employee(EmployeeType.STORE_KEEPER),
-							new Employee(EmployeeType.STORE_KEEPER));
+			warehouse = new Warehouse(9999999, 150, storeKeeper);
 		} catch (WarehouseException e) {
 			e.printStackTrace();
 		} catch (WrongEmployeeTypeException e) {
 			e.printStackTrace();
 		}
 		cash = 0;
-	
-		employeemgr = new HR();
 		
 		//get the first employees
-		employeemgr.hire(EmployeeType.SALES);
-		employeemgr.hire(EmployeeType.PROCUREMENT);
-		employeemgr.hire(EmployeeType.MARKET_RESEARCH);
-		employeemgr.hire(EmployeeType.ARCHITECT);
+		Employee salesEmp = hr.hire(EmployeeType.SALES);
+		Employee procuEmp = hr.hire(EmployeeType.PROCUREMENT);
+		Employee markeEmp = hr.hire(EmployeeType.MARKET_RESEARCH);
+		Employee archiEmp = hr.hire(EmployeeType.ARCHITECT);
 		
 		//instantiate the departments and assign employees
 		sales = new Department(EmployeeType.SALES);
-		sales.assignEmployee(employeemgr.getUnassignedEmployee(EmployeeType.SALES));
+		salesEmp.assignWorkplace(sales);
 		
-		procurement = new Department(EmployeeType.SALES);
-		procurement.assignEmployee(employeemgr.getUnassignedEmployee(EmployeeType.PROCUREMENT));
+		procurement = new Department(EmployeeType.PROCUREMENT);
+		procuEmp.assignWorkplace(procurement);
 		
 		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
-		marketResearch.assignEmployee(employeemgr.getUnassignedEmployee(EmployeeType.MARKET_RESEARCH));
+		markeEmp.assignWorkplace(marketResearch);
 		
 		production = new ProductionHouse();
 		//TODO Add possibility to buy machines/machine type declaration
@@ -133,8 +133,7 @@ public class Enterprise {
 	 *         warehouse.
 	 * 
 	 */
-
-	public void producePFHouse(PFHouseType type, ArrayList<Employee> employees, int price)
+	public void producePFHouse(PFHouseType type, List<Employee> employees, int price)
 			throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
@@ -272,7 +271,7 @@ public class Enterprise {
 		int[] employeecount = housetype.getEmployeeCounts();
 		for (int i = 0; i < employees.length; i++) {
 			//TODO: get method to check and not take employees.
-			employeemgr.getUnassignedEmployees(employees[i], employeecount[i]);
+			hr.getUnassignedEmployees(employees[i], employeecount[i]);
 		}
 		
 		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
@@ -326,5 +325,9 @@ public class Enterprise {
 
 	public ArrayList<PFHouse> getHousesInConstruction() {
 		return housesInConstruction;
+	}
+	
+	public HR getHR() {
+		return hr;
 	}
 }

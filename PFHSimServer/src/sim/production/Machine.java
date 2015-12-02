@@ -1,6 +1,7 @@
 package sim.production;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sim.abstraction.CostFactor;
 import sim.abstraction.WrongEmployeeTypeException;
@@ -44,7 +45,7 @@ public class Machine implements CostFactor, Workplace {
 	 * Warehouse: A machine needs to access the warehouse to extract and store resources.
 	 * Employee: When generating a new machine, it needs at least 3 employees for being in operation!
 	 * */
-	public Machine(ArrayList<Employee> employees) throws Exception {
+	public Machine(List<Employee> employees) throws Exception {
 		this.employees = new ArrayList<Employee>();
 		this.requiredEmps = 3;
 

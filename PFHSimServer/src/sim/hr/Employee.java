@@ -10,8 +10,7 @@ public class Employee implements CostFactor{
 	
 	private Workplace work;
 	
-	//TODO: should this be a constructor with default visibility? because hiring is done through HR
-	public Employee(EmployeeType type) {
+	Employee(EmployeeType type) {
 		this.type  = type;
 		this.upgradeCount = 0;
 	}

@@ -54,6 +54,28 @@ public class HR extends Department {
 
 		return e;
 	}
+	
+	/**
+	 * HIre a bunch of new employees of any given type except HR; HR guys can only be hire single wise ATM;
+	 * @param t the employee type to be hired
+	 * @param amount the amount of new employees
+	 * @return the newly hire but unassigned employees or null if there is not enough HR capa
+	 */
+	public Employee[] hire(EmployeeType t, int amount){
+		if(t == EmployeeType.HR || getHRCapacity() - employeeCount < amount)
+			return null;
+		
+		Employee[] guys = new Employee[amount];
+		for (int i = 0; i < amount; i++) {
+			Employee e = new Employee(t);
+
+			employeeCount++;
+			employeeList.get(t).add(e);
+			guys[i] = e;
+		}
+		
+		return guys;
+	}
 
 	/**
 	 * Try to fire the given employee

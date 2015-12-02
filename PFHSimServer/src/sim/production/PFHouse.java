@@ -1,6 +1,6 @@
 package sim.production;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import sim.abstraction.CostFactor;
 import sim.hr.Employee;
@@ -17,14 +17,14 @@ public class PFHouse implements CostFactor, Workplace {
 	
 	private int buildDurationLeft;
 	
-	private ArrayList<Employee> employees;
+	private List<Employee> employees;
 
 	@Override
 	public int getCosts() {
 		return costs;
 	}
 	
-	public PFHouse(int price, int costs, PFHouseType type, int buildDurationLeft, ArrayList<Employee> employees) {
+	public PFHouse(int price, int costs, PFHouseType type, int buildDurationLeft, List<Employee> employees) {
 		this.price = price;
 		this.costs = costs;
 		this.quality = 0;

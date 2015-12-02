@@ -1,6 +1,7 @@
 package sim;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Department;
@@ -32,16 +33,12 @@ public class Enterprise {
 	private ArrayList<PFHouse> housesInConstruction;
 	
 	//Employee management for warehouse and production goes in the distinct classes
-	private HR employeemgr;
+	private HR hr;
 	private Department sales;
 	private Department procurement;
 	private Department marketResearch;
-	private ResearchProject designthinking; //architect
+//	private ResearchProject designthinking; //architect
 
-	
-
-	
-	
 	public Enterprise() {
 		housesInConstruction = new ArrayList<>();
 		
@@ -62,8 +59,8 @@ public class Enterprise {
 			e.printStackTrace();
 		}
 		cash = 0;
-		Employee hrler = employeemgr.hire(EmployeeType.HR);
-		hrler.assignWorkplace(employeemgr);
+		Employee hrler = hr.hire(EmployeeType.HR);
+		hrler.assignWorkplace(hr);
 		
 		//get the first employees
 		Employee salesEmp = hr.hire(EmployeeType.SALES);
@@ -84,7 +81,7 @@ public class Enterprise {
 		production = new ProductionHouse();
 		//TODO Add possibility to buy machines/machine type declaration
 		
-		designthinking = new ResearchProject();
+//		designthinking = new ResearchProject();
 		//TODO Add functionality to add architect and get costs ;)
 	}
 
@@ -139,7 +136,7 @@ public class Enterprise {
 	 * 
 	 */
 
-	public void producePFHouse(PFHouseType type, ArrayList<Employee> employees, int price)
+	public void producePFHouse(PFHouseType type, List<Employee> employees, int price)
 			throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
@@ -277,7 +274,7 @@ public class Enterprise {
 		int[] employeecount = housetype.getEmployeeCounts();
 		for (int i = 0; i < employees.length; i++) {
 			//TODO: get method to check and not take employees.
-			employeemgr.getUnassignedEmployees(employees[i], employeecount[i]);
+			hr.getUnassignedEmployees(employees[i], employeecount[i]);
 		}
 		
 		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
@@ -331,5 +328,9 @@ public class Enterprise {
 
 	public ArrayList<PFHouse> getHousesInConstruction() {
 		return housesInConstruction;
+	}
+	
+	public HR getHR() {
+		return hr;
 	}
 }

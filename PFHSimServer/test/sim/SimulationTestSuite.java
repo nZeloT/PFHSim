@@ -18,7 +18,8 @@ import sim.warehouse.TestWarehouse;
 	TestWarehouse.class,
 	TestMachine.class,
 	ResourceListTest.class,
-	ResourceMarketTest.class
+	ResourceMarketTest.class,
+	EnterpriseTest.class
 })
 public class SimulationTestSuite {
 

@@ -1,11 +1,15 @@
 package sim.warehouse;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sim.hr.Employee;
+import sim.hr.EmployeeType;
+import sim.hr.HR;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.production.Wall;
@@ -20,7 +24,11 @@ public class TestWarehouse {
 
 	@Before
 	public void setUp() throws Exception {
-		w = new Warehouse(50, 100);
+		HR empMgr = new HR();
+		Employee hrGuy = empMgr.hire(EmployeeType.HR);
+		hrGuy.assignWorkplace(empMgr);
+		
+		w = new Warehouse(50, 100, empMgr.hire(EmployeeType.STORE_KEEPER, 3));
 		
 		walls = new Wall[5];
 		walls[0] = new Wall(WallType.ECO, 20);

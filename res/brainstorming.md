@@ -17,7 +17,7 @@ Done:
 * kein IntegrationTest - demnächst
 * UI noch nicht ausgearbeitet 
 * MockUp in Entwicklung
-* Zugangsdaten für https://ninjamock.com/Designer/Workplace USER: pfh Passwort pfh
+* Zugangsdaten für https://ninjamock.com/Designer/Workplace USER: marcel@wolf4.de Passwort pfh
 
 
 # Brainstormin Session Two 2015-11-28

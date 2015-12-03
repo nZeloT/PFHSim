@@ -1,7 +1,10 @@
 package sim;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Department;
@@ -24,32 +27,33 @@ import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
 
 public class Enterprise {
-	
+
 	private int cash;
-	
+
 	private Warehouse warehouse;
 	private ProductionHouse production;
-	
+
 	private ArrayList<PFHouse> housesInConstruction;
-	
-	//Employee management for warehouse and production goes in the distinct classes
+
+	// Employee management for warehouse and production goes in the distinct
+	// classes
 	private HR hr;
 	private Department sales;
 	private Department procurement;
 	private Department marketResearch;
-//	private ResearchProject designthinking; //architect
+	// private ResearchProject designthinking; //architect
 
 	public Enterprise() {
 		housesInConstruction = new ArrayList<>();
-		
+
 		hr = new HR();
 		Employee hrGuy = hr.hire(EmployeeType.HR);
-		
-		//first assign an HR guy to produce some HR capacity ;)
+
+		// first assign an HR guy to produce some HR capacity ;)
 		hrGuy.assignWorkplace(hr);
-		
+
 		Employee[] storeKeeper = hr.hire(EmployeeType.STORE_KEEPER, 3);
-		
+
 		production = new ProductionHouse();
 		try {
 			warehouse = new Warehouse(9999999, 150, storeKeeper);
@@ -61,59 +65,61 @@ public class Enterprise {
 		cash = 0;
 		Employee hrler = hr.hire(EmployeeType.HR);
 		hrler.assignWorkplace(hr);
-		
-		//get the first employees
+
+		// get the first employees
 		Employee salesEmp = hr.hire(EmployeeType.SALES);
 		Employee procuEmp = hr.hire(EmployeeType.PROCUREMENT);
 		Employee markeEmp = hr.hire(EmployeeType.MARKET_RESEARCH);
 		Employee archiEmp = hr.hire(EmployeeType.ARCHITECT);
-		
-		//instantiate the departments and assign employees
+
+		// instantiate the departments and assign employees
 		sales = new Department(EmployeeType.SALES);
 		salesEmp.assignWorkplace(sales);
-		
+
 		procurement = new Department(EmployeeType.PROCUREMENT);
 		procuEmp.assignWorkplace(procurement);
-		
+
 		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
 		markeEmp.assignWorkplace(marketResearch);
-		
+
 		production = new ProductionHouse();
-		//TODO Add possibility to buy machines/machine type declaration
-		
-//		designthinking = new ResearchProject();
-		//TODO Add functionality to add architect and get costs ;)
+		// TODO Add possibility to buy machines/machine type declaration
+
+		// designthinking = new ResearchProject();
+		// TODO Add functionality to add architect and get costs ;)
 	}
 
 	/**
- * This can fail when: 
- * 	-Not enough space in the warehouse
- * 	-Not enough resources on the market
- * 	-Not enough money
- * @param type Resource type to buy
- * @param amount Amount of the resource to buy
- * @return if the order was successful
-	 * @throws ResourceMarketException for negative/zero amount
-	 * @throws EnterpriseException Not enough space in the warehouse or not enough Money
- */
-	public void buyResources(ResourceType type, int amount) throws EnterpriseException, ResourceMarketException{
+	 * This can fail when: -Not enough space in the warehouse -Not enough
+	 * resources on the market -Not enough money
+	 * 
+	 * @param type
+	 *            Resource type to buy
+	 * @param amount
+	 *            Amount of the resource to buy
+	 * @return if the order was successful
+	 * @throws ResourceMarketException
+	 *             for negative/zero amount
+	 * @throws EnterpriseException
+	 *             Not enough space in the warehouse or not enough Money
+	 */
+	public void buyResources(ResourceType type, int amount) throws EnterpriseException, ResourceMarketException {
 		ResourceMarket market = ResourceMarket.get();
 		ResourceListItem inventory = market.getResources().get(type);
 		Resource[] resources;
 		int price = amount * inventory.getCosts();
-		if(price < cash){
-			throw new EnterpriseException("Not enough Money to buy "+amount+" Resources!");
+		if (price < cash) {
+			throw new EnterpriseException("Not enough Money to buy " + amount + " Resources!");
 		}
-		
+
 		resources = market.sellResources(type, amount);
-		if(resources != null){
-			if(!warehouse.storeResource(resources)){
+		if (resources != null) {
+			if (!warehouse.storeResource(resources)) {
 				throw new EnterpriseException("Not enough space in your warehouse!");
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Creation of a new house-building-object.
 	 * 
@@ -135,19 +141,57 @@ public class Enterprise {
 	 *         warehouse.
 	 * 
 	 */
-
-	public void producePFHouse(PFHouseType type, List<Employee> employees, int price)
-			throws EnterpriseException {
+	public void producePFHouse(PFHouseType type, List<WallType> walltypes, List<Integer> wallcounts, List<Employee> employees,
+			int price) throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
-
+		if (walltypes==null || wallcounts==null) 
+			throw new EnterpriseException("WallType or count of WallType is not given");
+		if (walltypes.size() != wallcounts.size())
+			throw new EnterpriseException("Wrong combination of WallType and count of WallType given!");
+			
 		// How much walls are needed for pfhousetype?
 		WallType[] wt = type.getRequiredWallTypes();
 		int[] wc = type.getWallCounts();
 
-		// Check whether the needed walls are in the warehouse.
+		
+		int[] taken = new int[walltypes.size()]; 
+
+		boolean generalWallRequired = false;
+		int generalWallIndex = 0;
 		for (int i = 0; i < wt.length; i++) {
-			if (!warehouse.isInStorage(wt[i], wc[i])) {
+			int tmp = 0;
+			for (int j = 0; j < walltypes.size(); j++) {
+				if (walltypes.get(j) == wt[i]) {
+					tmp = wallcounts.get(j);
+				}
+			}
+			
+			if (wt[i] != WallType.GENERAL) {
+				if (tmp >= wc[i]) {
+					taken[i] = wc[i];
+				} else {
+					throw new EnterpriseException("The given walls are not valid for creating a PFHouse!");
+				}
+			} else {
+				generalWallRequired = true;
+				generalWallIndex = i;
+			}
+		}
+		int remainingWallCounts = 0;
+		if (generalWallRequired) {
+			for (int i = 0; i < walltypes.size(); i++) {
+				remainingWallCounts += wallcounts.get(i)-taken[i];
+			}
+		}
+		if (remainingWallCounts < wc[generalWallIndex]){
+			throw new EnterpriseException("Not enough walls of type 'GENERAL'!");
+		}
+		
+
+		// needed walls are in the warehouse.
+		for (int i = 0; i < walltypes.size(); i++) {
+			if (!warehouse.isInStorage(walltypes.get(i), taken[i])) {
 				throw new EnterpriseException("Not enough walls in your warehouse!");
 			}
 		}
@@ -206,7 +250,7 @@ public class Enterprise {
 		int costs = 0;
 		Wall[] tmp_wall = null;
 		for (int i = 0; i < wt.length; i++) {
-			tmp_wall = warehouse.removeWalls(wt[i], wc[i]);
+			tmp_wall = warehouse.removeWalls(walltypes.get(i), taken[i]);
 			for (int j = 0; j < tmp_wall.length; j++) {
 				costs += tmp_wall[j].getCosts();
 			}
@@ -237,86 +281,94 @@ public class Enterprise {
 		housesInConstruction.add(pfh);
 
 	}
-/*
- * This Method calculates all costs which can't be related to a single house building project
- * including:
- * 			warehouse (including storage keepers) costs
- * 			architect and architect project costs
- * 			employees: market_reasearch, hr_manager, salesman, procurement manager
- * @returns the actual FixedCosts
- * 				
- */
-	public int calculateFixedCosts(){
+
+	/*
+	 * This Method calculates all costs which can't be related to a single house
+	 * building project including: warehouse (including storage keepers) costs
+	 * architect and architect project costs employees: market_reasearch,
+	 * hr_manager, salesman, procurement manager
+	 * 
+	 * @returns the actual FixedCosts
+	 * 
+	 */
+	public int calculateFixedCosts() {
 		int sum = 0;
 		sum += warehouse.getCosts();
 		sum += sales.getEmployeeCosts();
 		sum += procurement.getEmployeeCosts();
 		sum += marketResearch.getEmployeeCosts();
-		//TODO add Project Costs..
+		// TODO add Project Costs..
 		return sum;
 	}
-/*
- * A new offer for the PrefabricatedHouseMarket
- * Specify housetype you want to offer. Method checks if everything available.
- * Price is set separately!
- */
-	public void createOffer(PFHouseType housetype) throws EnterpriseException{
-		
+
+	/*
+	 * A new offer for the PrefabricatedHouseMarket Specify housetype you want
+	 * to offer. Method checks if everything available. Price is set separately!
+	 */
+	public void createOffer(PFHouseType housetype) throws EnterpriseException {
+
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
 		for (int i = 0; i < wallcount.length; i++) {
-			if(!warehouse.isInStorage(walltypes[i], wallcount[i])){
+			if (!warehouse.isInStorage(walltypes[i], wallcount[i])) {
 				throw new EnterpriseException("Not Enough Walls to create a Offer for this Type!");
 			}
 		}
-		
+
 		EmployeeType[] employees = housetype.getRequiredEmployeeTypes();
 		int[] employeecount = housetype.getEmployeeCounts();
 		for (int i = 0; i < employees.length; i++) {
-			//TODO: get method to check and not take employees.
+			// TODO: get method to check and not take employees.
 			hr.getUnassignedEmployees(employees[i], employeecount[i]);
 		}
-		
+
 		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
 		int[] resourcecount = housetype.getResourceCounts();
 		for (int i = 0; i < wallcount.length; i++) {
-			if(!warehouse.isInStorage(resourcetypes[i], resourcecount[i])){
+			if (!warehouse.isInStorage(resourcetypes[i], resourcecount[i])) {
 				throw new EnterpriseException("Not enough Resources to build an offer!");
 			}
 		}
-		Offer offer = new Offer(housetype);		
+		Offer offer = new Offer(housetype);
 	}
-	
-	/*This Method doens't check if everything is available!!!!!!!! Make this sure before (method createOffer)
-	 * returns the variable costs for the offer
-	 * This includes:
-	 * Wall costs(machine, employee work, resources)
-	 * Assembler cost(for building the house)
-	 * additional resources
+
+	/*
+	 * This Method doens't check if everything is available!!!!!!!! Make this
+	 * sure before (method createOffer) returns the variable costs for the offer
+	 * This includes: Wall costs(machine, employee work, resources) Assembler
+	 * cost(for building the house) additional resources
 	 */
-		public int calculateVariableCosts(PFHouseType housetype){
-			WallType[] walltypes = housetype.getRequiredWallTypes();
-			int[] wallcount = housetype.getWallCounts();
-			int costs = 0;
-			for (int i = 0; i < walltypes.length; i++) {
-				costs += warehouse.calculateAvgPrice(walltypes[i]) * wallcount[i]; //walls, resources (see Constructor) available so no rechecks again
-			}
-			
-			ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
-			int[] resourcecount = housetype.getResourceCounts();
-			for (int i = 0; i < resourcetypes.length; i++) {
-				costs += warehouse.calculateAvgPrice(resourcetypes[i]) * resourcecount[i];
-			}
-			
-			EmployeeType[] employestype = housetype.getRequiredEmployeeTypes();
-			int[] employeecount = housetype.getEmployeeCounts();
-			int duration = housetype.getConstructionDuration();
-			for (int i = 0; i < employeecount.length; i++) {
-				costs += EmployeeType.ASSEMBLER.getBaseCost() * employeecount[i] * duration; 
-			}
-			
-			return costs;
+	public int calculateVariableCosts(PFHouseType housetype) {
+		WallType[] walltypes = housetype.getRequiredWallTypes();
+		int[] wallcount = housetype.getWallCounts();
+		int costs = 0;
+		for (int i = 0; i < walltypes.length; i++) {
+			costs += warehouse.calculateAvgPrice(walltypes[i]) * wallcount[i]; // walls,
+																				// resources
+																				// (see
+																				// Constructor)
+																				// available
+																				// so
+																				// no
+																				// rechecks
+																				// again
 		}
+
+		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
+		int[] resourcecount = housetype.getResourceCounts();
+		for (int i = 0; i < resourcetypes.length; i++) {
+			costs += warehouse.calculateAvgPrice(resourcetypes[i]) * resourcecount[i];
+		}
+
+		EmployeeType[] employestype = housetype.getRequiredEmployeeTypes();
+		int[] employeecount = housetype.getEmployeeCounts();
+		int duration = housetype.getConstructionDuration();
+		for (int i = 0; i < employeecount.length; i++) {
+			costs += EmployeeType.ASSEMBLER.getBaseCost() * employeecount[i] * duration;
+		}
+
+		return costs;
+	}
 
 	public Warehouse getWarehouse() {
 		return warehouse;
@@ -329,7 +381,7 @@ public class Enterprise {
 	public ArrayList<PFHouse> getHousesInConstruction() {
 		return housesInConstruction;
 	}
-	
+
 	public HR getHR() {
 		return hr;
 	}

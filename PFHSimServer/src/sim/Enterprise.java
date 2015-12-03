@@ -136,18 +136,57 @@ public class Enterprise {
 	 * 
 	 */
 
-	public void producePFHouse(PFHouseType type, List<Employee> employees, int price)
-			throws EnterpriseException {
+	public void producePFHouse(PFHouseType type, List<WallType> walltypes, List<Integer> wallcounts, List<Employee> employees,
+			int price) throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
-
+		if (walltypes==null || wallcounts==null) 
+			throw new EnterpriseException("WallType or count of WallType is not given");
+		if (walltypes.size() != wallcounts.size())
+			throw new EnterpriseException("Wrong combination of WallType and count of WallType given!");
+			
 		// How much walls are needed for pfhousetype?
 		WallType[] wt = type.getRequiredWallTypes();
 		int[] wc = type.getWallCounts();
 
-		// Check whether the needed walls are in the warehouse.
+		
+		int[] taken = new int[walltypes.size()]; 
+
+		boolean generalWallRequired = false;
+		int generalWallIndex = 0;
 		for (int i = 0; i < wt.length; i++) {
-			if (!warehouse.isInStorage(wt[i], wc[i])) {
+			int tmp = 0;
+			for (int j = 0; j < walltypes.size(); j++) {
+				if (walltypes.get(j) == wt[i]) {
+					tmp = wallcounts.get(j);
+				}
+			}
+			
+			if (wt[i] != WallType.GENERAL) {
+				if (tmp >= wc[i]) {
+					taken[i] = wc[i];
+				} else {
+					throw new EnterpriseException("The given walls are not valid for creating a PFHouse!");
+				}
+			} else {
+				generalWallRequired = true;
+				generalWallIndex = i;
+			}
+		}
+		int remainingWallCounts = 0;
+		if (generalWallRequired) {
+			for (int i = 0; i < walltypes.size(); i++) {
+				remainingWallCounts += wallcounts.get(i)-taken[i];
+			}
+		}
+		if (remainingWallCounts < wc[generalWallIndex]){
+			throw new EnterpriseException("Not enough walls of type 'GENERAL'!");
+		}
+		
+
+		// needed walls are in the warehouse.
+		for (int i = 0; i < walltypes.size(); i++) {
+			if (!warehouse.isInStorage(walltypes.get(i), taken[i])) {
 				throw new EnterpriseException("Not enough walls in your warehouse!");
 			}
 		}
@@ -206,7 +245,7 @@ public class Enterprise {
 		int costs = 0;
 		Wall[] tmp_wall = null;
 		for (int i = 0; i < wt.length; i++) {
-			tmp_wall = warehouse.removeWalls(wt[i], wc[i]);
+			tmp_wall = warehouse.removeWalls(walltypes.get(i), taken[i]);
 			for (int j = 0; j < tmp_wall.length; j++) {
 				costs += tmp_wall[j].getCosts();
 			}

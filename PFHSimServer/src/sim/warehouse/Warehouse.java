@@ -203,7 +203,7 @@ public class Warehouse implements CostFactor, Workplace{
 	public int getOverallCosts(){
 		int costs = 0;
 		for (int i = 0; i < employees.size(); i++) {
-			costs = employees.get(i).getCosts();
+			costs += employees.get(i).getCosts();
 		}
 
 		return getCosts() + costs;

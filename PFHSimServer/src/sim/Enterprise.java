@@ -52,13 +52,13 @@ public class Enterprise {
 		
 		production = new ProductionHouse();
 		try {
-			warehouse = new Warehouse(9999999, 150, storeKeeper);
+			warehouse = new Warehouse(9999999, 3000, storeKeeper);
 		} catch (WarehouseException e) {
 			e.printStackTrace();
 		} catch (WrongEmployeeTypeException e) {
 			e.printStackTrace();
 		}
-		cash = 0;
+		cash = 1000000;
 		Employee hrler = hr.hire(EmployeeType.HR);
 		hrler.assignWorkplace(hr);
 		
@@ -101,7 +101,7 @@ public class Enterprise {
 		ResourceListItem inventory = market.getResources().get(type);
 		Resource[] resources;
 		int price = amount * inventory.getCosts();
-		if(price < cash){
+		if(price > cash){
 			throw new EnterpriseException("Not enough Money to buy "+amount+" Resources!");
 		}
 		
@@ -248,19 +248,18 @@ public class Enterprise {
  */
 	public int calculateFixedCosts(){
 		int sum = 0;
-		sum += warehouse.getCosts();
+		sum += warehouse.getOverallCosts();
 		sum += sales.getEmployeeCosts();
 		sum += procurement.getEmployeeCosts();
 		sum += marketResearch.getEmployeeCosts();
+		sum += hr.getEmployeeCosts();
 		//TODO add Project Costs..
 		return sum;
 	}
 /*
- * A new offer for the PrefabricatedHouseMarket
- * Specify housetype you want to offer. Method checks if everything available.
- * Price is set separately!
+ * check the requirements for an Offer based on the housetype of the house a player wants to produce.
  */
-	public void createOffer(PFHouseType housetype) throws EnterpriseException{
+	public void checkRequirementsforOffer(PFHouseType housetype) throws EnterpriseException{
 		
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
@@ -284,10 +283,9 @@ public class Enterprise {
 				throw new EnterpriseException("Not enough Resources to build an offer!");
 			}
 		}
-		Offer offer = new Offer(housetype);		
 	}
 	
-	/*This Method doens't check if everything is available!!!!!!!! Make this sure before (method createOffer)
+	/*This Method doens't check if everything is available!!!!!!!! Make this sure before (class Enterprise Method checkRequirementsforOffer)
 	 * returns the variable costs for the offer
 	 * This includes:
 	 * Wall costs(machine, employee work, resources)
@@ -312,7 +310,7 @@ public class Enterprise {
 			int[] employeecount = housetype.getEmployeeCounts();
 			int duration = housetype.getConstructionDuration();
 			for (int i = 0; i < employeecount.length; i++) {
-				costs += EmployeeType.ASSEMBLER.getBaseCost() * employeecount[i] * duration; 
+				costs += employestype[i].getBaseCost() * employeecount[i] * duration; 
 			}
 			
 			return costs;

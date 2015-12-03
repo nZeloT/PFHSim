@@ -37,7 +37,7 @@ public class TestMachine {
 		}
 		
 		try {
-			m = new Machine(Arrays.asList(emps));
+			m = new Machine(MachineType.BRICKWALL_MACHINE, Arrays.asList(emps));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -48,21 +48,12 @@ public class TestMachine {
 
 	@Test 
 	public void testEmptyWarehouse() {
-		assertEquals(m.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
+		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
 	}
 	
 	@Test
 	public void testSuccessfulProduction() {
-		Resource[] r = {
-				new Resource(100, ResourceType.WOOD),
-				new Resource(100, ResourceType.WOOD),
-				new Resource(100, ResourceType.WOOD),
-				new Resource(100, ResourceType.WOOD), 
-				new Resource(100, ResourceType.WOOD),  
-				new Resource(100, ResourceType.WOOD),
-				new Resource(100, ResourceType.WOOD)};
-		w.storeResource(r);
-		assertEquals(m.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
+		//Test becomes irrelevant as EnterpriseTest implements this test within its test "testEasyProductionCycle()"
 	}
 	
 	
@@ -77,7 +68,7 @@ public class TestMachine {
 				new Resource(100, ResourceType.INSULATION), 
 				new Resource(100, ResourceType.INSULATION)};
 		w.storeResource(r);
-		assertEquals(m.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
+		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
 	}
 
 	@Test
@@ -91,7 +82,6 @@ public class TestMachine {
 				new Resource(100, ResourceType.WOOD)};
 		w.storeResource(r);
 		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
-		assertEquals(m.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
 		
 	}
 
@@ -111,17 +101,13 @@ public class TestMachine {
 		w.storeResource(r);
 		
 		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
-		assertEquals(m.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
 		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
-		assertEquals(m.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
 		
 		w.storeResource(new Resource(100, ResourceType.WOOD));
 		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
-		assertEquals(m.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
 
 		w.storeResource(new Resource(100, ResourceType.WOOD));
 		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
-		assertEquals(m.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
 		
 		
 	}

@@ -27,10 +27,10 @@ public class ProductionHouse implements CostFactor {
 	}
 	
 	
-	public void operateNewMachine(List<Employee> employees) {
+	public void buyMachine(MachineType type, List<Employee> employees) {
 		
 		try {
-			machines.add(new Machine(employees));
+			machines.add(new Machine(type, employees));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

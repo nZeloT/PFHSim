@@ -37,7 +37,7 @@ public class TestMachine {
 		}
 		
 		try {
-			m = new Machine(MachineType.BRICKWALL_MACHINE, Arrays.asList(emps));
+			m = new Machine(MachineType.BRICKWALL_MACHINE);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

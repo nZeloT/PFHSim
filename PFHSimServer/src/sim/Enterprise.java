@@ -3,6 +3,7 @@ package sim;
 import java.util.ArrayList;
 import java.util.List;
 
+import sim.abstraction.Tupel;
 import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Department;
 import sim.hr.Employee;
@@ -140,35 +141,39 @@ public class Enterprise {
 	 * 
 	 */
 
-	public void producePFHouse(PFHouseType type, List<WallType> walltypes, List<Integer> wallcounts,
-			List<Employee> employees, int price) throws EnterpriseException {
+	public void producePFHouse(Offer offer, List<Employee> employees) throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
-		if (walltypes == null || wallcounts == null)
-			throw new EnterpriseException("WallType or count of WallType is not given");
-		if (walltypes.size() != wallcounts.size())
-			throw new EnterpriseException("Wrong combination of WallType and count of WallType given!");
+
+		if (offer == null)
+			throw new EnterpriseException("Invalid offer given!");
 
 		// How much walls are needed for pfhousetype?
-		WallType[] wt = type.getRequiredWallTypes();
-		int[] wc = type.getWallCounts();
+		WallType[] wt = offer.getHousetype().getRequiredWallTypes();
+		int[] wc = offer.getHousetype().getWallCounts();
 
-		int[] taken = new int[walltypes.size()];
+		Tupel<WallType>[] tupel = offer.getWalltype();
+
+		int[] taken = new int[wt.length];
 
 		boolean generalWallRequired = false;
 		int generalWallIndex = 0;
+		// Search for the essential walls in the given walls from the offer.
 		for (int i = 0; i < wt.length; i++) {
-			int tmp = 0;
-			for (int j = 0; j < walltypes.size(); j++) {
-				if (walltypes.get(j) == wt[i]) {
-					tmp = wallcounts.get(j);
-				}
-			}
-
+			// If the currently (i) essential wall is not a GENERAL wall, check
+			// whether there are enough walls given in the offer...
 			if (wt[i] != WallType.GENERAL) {
-				if (tmp >= wc[i]) {
-					taken[i] = wc[i];
-				} else {
+
+				int tmp = 0;
+				for (int j = 0; j < tupel.length; j++) {
+					if (tupel[j].type == wt[i]) {
+						tmp = tupel[j].count;
+						taken[i] = wc[i];
+					}
+				}
+
+				if (tmp < wc[i]) {
+					// ...otherwise terminate the method.
 					throw new EnterpriseException("The given walls are not valid for creating a PFHouse!");
 				}
 			} else {
@@ -176,10 +181,13 @@ public class Enterprise {
 				generalWallIndex = i;
 			}
 		}
+
+		// Evaluate whether there are still enough walls in the offer for
+		// meeting the need for GENERAL-walls
 		int remainingWallCounts = 0;
 		if (generalWallRequired) {
-			for (int i = 0; i < walltypes.size(); i++) {
-				remainingWallCounts += wallcounts.get(i) - taken[i];
+			for (int i = 0; i < tupel.length; i++) {
+				remainingWallCounts += tupel[i].count - taken[i];
 			}
 		}
 		if (remainingWallCounts < wc[generalWallIndex]) {
@@ -187,15 +195,15 @@ public class Enterprise {
 		}
 
 		// needed walls are in the warehouse.
-		for (int i = 0; i < walltypes.size(); i++) {
-			if (!warehouse.isInStorage(walltypes.get(i), taken[i])) {
+		for (int i = 0; i < tupel.length; i++) {
+			if (!warehouse.isInStorage(tupel[i].type, taken[i])) {
 				throw new EnterpriseException("Not enough walls in your warehouse!");
 			}
 		}
 
 		// How much resources are needed for pfhousetype?
-		ResourceType[] rt = type.getRequiredResourceTypes();
-		int[] rc = type.getResourceCounts();
+		ResourceType[] rt = offer.getHousetype().getRequiredResourceTypes();
+		int[] rc = offer.getHousetype().getResourceCounts();
 
 		// Check whether the needed resources are in the warehouse.
 		for (int i = 0; i < rt.length; i++) {
@@ -206,8 +214,8 @@ public class Enterprise {
 		// enough resources in warehouse
 
 		// How much employees are needed for pfhousetype?
-		EmployeeType[] et = type.getRequiredEmployeeTypes();
-		int[] ec = type.getEmployeeCounts();
+		EmployeeType[] et = offer.getHousetype().getRequiredEmployeeTypes();
+		int[] ec = offer.getHousetype().getEmployeeCounts();
 
 		// Check whether the needed employees are provided.
 		int[] tmp_ec = new int[ec.length];
@@ -247,7 +255,7 @@ public class Enterprise {
 		int costs = 0;
 		Wall[] tmp_wall = null;
 		for (int i = 0; i < wt.length; i++) {
-			tmp_wall = warehouse.removeWalls(walltypes.get(i), taken[i]);
+			tmp_wall = warehouse.removeWalls(tupel[i].type, taken[i]);
 			for (int j = 0; j < tmp_wall.length; j++) {
 				costs += tmp_wall[j].getCosts();
 			}
@@ -268,12 +276,13 @@ public class Enterprise {
 
 		// Also include employee-costs into the calculation.
 		for (int i = 0; i < employees.size(); i++) {
-			costs += employees.get(i).getCosts() * type.getConstructionDuration();
+			costs += employees.get(i).getCosts() * offer.getHousetype().getConstructionDuration();
 		}
 
 		// create a new house and append it to the array-list saving the houses
 		// which are in construction.
-		PFHouse pfh = new PFHouse(price, costs, type, type.getConstructionDuration(), employees);
+		PFHouse pfh = new PFHouse(offer.getPrice(), costs, offer.getHousetype(),
+				offer.getHousetype().getConstructionDuration(), employees);
 
 		housesInConstruction.add(pfh);
 
@@ -368,8 +377,8 @@ public class Enterprise {
 
 		return costs;
 	}
-	
-	public void buyMachine(MachineType type) throws EnterpriseException{
+
+	public void buyMachine(MachineType type) throws EnterpriseException {
 		if (cash < type.getPrice()) {
 			throw new EnterpriseException("Not enough Money!");
 		}

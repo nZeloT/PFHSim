@@ -19,91 +19,91 @@ public enum PFHouseType implements GeneralType {
 	 * of a generic class. -> Object-array is casted to
 	 * the respective type in the constructor below.
 	 */
-	BUNGALOW(new Object[]{
+	BUNGALOW(new Tupel[]{
 				new Tupel<WallType>(WallType.GENERAL, 5)
 			},
-			new Object[] {
+			new Tupel[] {
 				new Tupel<ResourceType>(ResourceType.ROOF_TILE, 25),
 				new Tupel<ResourceType>(ResourceType.WOOD, 6)
 			},
-			new Object[] {
+			new Tupel[] {
 				new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 3)
 			}, 1),
-	BLOCK_HOUSE(new Object[]{
+	BLOCK_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 3), 
 			new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS, 3)
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 50),
 			new Tupel<ResourceType>(ResourceType.WOOD, 12)
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 5)
 		}, 1),
-	EFFICIENCY_HOUSE(new Object[]{
+	EFFICIENCY_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 6)
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.CONCRETE, 4),
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 5)
 		}, 1),
-	MULTI_FAMILY_HOUSE(new Object[]{
+	MULTI_FAMILY_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 12)
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 80),
 			new Tupel<ResourceType>(ResourceType.WOOD, 19)
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 9)
 		}, 2),
-	COMFORT_HOUSE(new Object[]{
+	COMFORT_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 6),
 			new Tupel<WallType>(WallType.PANORAMA_WALL, 1)
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 80),
 			new Tupel<ResourceType>(ResourceType.WOOD, 19)
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 8)
 		}, 2),
-	CITY_VILLA(new Object[]{
+	CITY_VILLA(new Tupel[]{
 			new Tupel<WallType>(WallType.PANORAMA_WALL, 2),
 			new Tupel<WallType>(WallType.GENERAL, 6)
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 100),
 			new Tupel<ResourceType>(ResourceType.WOOD, 21)
 		},
-		new Object[] {
+		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 10)
 		}, 2),
-	TRENDHOUSE(new Object[]{
+	TRENDHOUSE(new Tupel[]{
 				new Tupel<WallType>(WallType.PANORAMA_WALL, 3),
 				new Tupel<WallType>(WallType.GENERAL, 5)
 			},
-			new Object[] {
+			new Tupel[] {
 				new Tupel<ResourceType>(ResourceType.CONCRETE, 10)
 			},
-			new Object[] {
+			new Tupel[] {
 				new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 9)
 			}, 2);
 	
 		
 	private Tupel<WallType>[] walltupel;
 	private Tupel<ResourceType>[] resourcetupel;
-	private Tupel<EmployeeType>[] employeetupel;
+	private Tupel<EmployeeType>[] employeetupel; 
 	private int constructionDuration;
 
-	@SuppressWarnings("unchecked")
-	private PFHouseType(Object[] walltupel, Object[] resourcetupel, Object[] employeetupel, int constructionDuration) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private PFHouseType(Tupel[] walltupel, Tupel[] resourcetupel, Tupel[] employeetupel, int constructionDuration) {
 		
-		this.walltupel = (Tupel<WallType>[]) walltupel;
-		this.resourcetupel= (Tupel<ResourceType>[]) resourcetupel;
-		this.employeetupel = (Tupel<EmployeeType>[]) employeetupel;
+		this.walltupel = walltupel;
+		this.resourcetupel= resourcetupel;
+		this.employeetupel = employeetupel;
 		this.constructionDuration = constructionDuration;
 		
 	}

@@ -1,18 +1,28 @@
 package sim.simulation.sales;
 
+import sim.abstraction.Tupel;
 import sim.production.PFHouseType;
+import sim.production.WallType;
 
 public class Offer {
 	
 	private int price;
 	private PFHouseType housetype;
+	private Tupel<WallType>[] walltype;
 
-	public Offer(PFHouseType housetype) {
+	@SafeVarargs
+	public Offer(int price, PFHouseType housetype, Tupel<WallType>... walltype) {
+		this.price = price;
 		this.housetype = housetype;
-	}
-	
+		this.walltype = walltype;
+	} 
+
 	public void setPrice(int price){
 		this.price = price;
+	}
+
+	public Tupel<WallType>[] getWalltype() {
+		return walltype;
 	}
 
 	public PFHouseType getHousetype() {

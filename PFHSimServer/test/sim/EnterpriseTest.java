@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import sim.abstraction.Tupel;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
@@ -17,6 +18,7 @@ import sim.production.MachineException;
 import sim.production.MachineType;
 import sim.production.PFHouseType;
 import sim.production.WallType;
+import sim.simulation.sales.Offer;
 import sim.warehouse.Warehouse;
 
 public class EnterpriseTest {
@@ -92,7 +94,7 @@ public class EnterpriseTest {
 				new Resource(50, ResourceType.WINDOW), new Resource(50, ResourceType.WINDOW),
 				new Resource(50, ResourceType.WINDOW), new Resource(50, ResourceType.WINDOW),
 				new Resource(50, ResourceType.WINDOW), new Resource(50, ResourceType.WINDOW),
-				new Resource(50, ResourceType.WINDOW), new Resource(50, ResourceType.WINDOW),
+	 			new Resource(50, ResourceType.WINDOW), new Resource(50, ResourceType.WINDOW),
 				new Resource(50, ResourceType.WINDOW), new Resource(50, ResourceType.WINDOW),
 				new Resource(50, ResourceType.WINDOW), new Resource(50, ResourceType.WINDOW),
 				new Resource(50, ResourceType.ROOF_TILE), new Resource(50, ResourceType.ROOF_TILE),
@@ -139,7 +141,7 @@ public class EnterpriseTest {
 				new Resource(50, ResourceType.CONCRETE));
 
 		Employee[] p = e.getHR().hire(EmployeeType.PRODUCTION, 5);
-		e.getProductionHouse().buyMachine(MachineType.WOODWALL_MACHINE, Arrays.asList(p));
+		e.getProductionHouse().buyMachine(MachineType.WOODWALL_MACHINE);
 		for (Employee emp : p) {
 			e.getProductionHouse().getMachines().get(0).assignEmployee(emp);
 		}
@@ -167,8 +169,8 @@ public class EnterpriseTest {
 		wallcounts.add(5);
 
 		try {
-			e.producePFHouse(PFHouseType.BUNGALOW, walltypes, wallcounts, Arrays.asList(a), 5500);
-			for (Employee emp : a) {
+			e.producePFHouse(new Offer(5500, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)), Arrays.asList(a));
+			for (Employee emp : a) { 
 				e.getHousesInConstruction().get(0).assignEmployee(emp);
 			}
 		} catch (EnterpriseException e1) {
@@ -178,6 +180,7 @@ public class EnterpriseTest {
 		assertNotNull(e.getHousesInConstruction().get(0));
 
 	}
+
 
 	@Test
 	public void testFixCosts() {
@@ -205,7 +208,7 @@ public class EnterpriseTest {
 		}
 
 	}
-
+	
 	@Test
 	public void testVariableCosts() {
 		// not ready

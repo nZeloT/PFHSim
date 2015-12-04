@@ -1,10 +1,12 @@
 package sim.hr;
 
+import sim.abstraction.GeneralType;
+
 /**
  * This is the base definition of all fixed attributes to the corresponding EmployeeTypes
  * @author Leon
  */
-public enum EmployeeType {
+public enum EmployeeType implements GeneralType {
 	
 	HR(1000, 1, 100, 1, 1, 5000),
 	PRODUCTION(800, 0, 0, 0, 0, 0),

@@ -1,62 +1,51 @@
 package sim.production;
 
+import sim.abstraction.GeneralType;
+import sim.abstraction.Tupel;
 import sim.procurement.ResourceType;
 
-public enum WallType {
+public enum WallType implements GeneralType {
 	
 
 	//Create predefined types of walls and specify the 
 	//needed resources (for producing one wall).
 	 GENERAL(0),
 	 LIGHT_WEIGHT_CONSTRUCTION(80, 
-			new WallType.Tupel(ResourceType.WOOD, 5),
-			new WallType.Tupel(ResourceType.INSULATION, 1),
-			new WallType.Tupel(ResourceType.WINDOW, 1)),
+			new Tupel<ResourceType>(ResourceType.WOOD, 5),
+			new Tupel<ResourceType>(ResourceType.INSULATION, 1),
+			new Tupel<ResourceType>(ResourceType.WINDOW, 1)),
 	 LIGHT_WEIGHT_CONSTRUCTION_PLUS(120, 
-			new WallType.Tupel(ResourceType.WOOD, 5),
-			new WallType.Tupel(ResourceType.INSULATION, 3),
-			new WallType.Tupel(ResourceType.WINDOW, 1)),
+			new Tupel<ResourceType>(ResourceType.WOOD, 5),
+			new Tupel<ResourceType>(ResourceType.INSULATION, 3),
+			new Tupel<ResourceType>(ResourceType.WINDOW, 1)),
 	 MASSIVE_LIGHT_CONSTRUCTION(80,
-			new WallType.Tupel(ResourceType.BRICK, 5),
-			new WallType.Tupel(ResourceType.INSULATION, 1),
-			new WallType.Tupel(ResourceType.WINDOW, 1),
-			new WallType.Tupel(ResourceType.CONCRETE, 1)),
+			new Tupel<ResourceType>(ResourceType.BRICK, 5),
+			new Tupel<ResourceType>(ResourceType.INSULATION, 1),
+			new Tupel<ResourceType>(ResourceType.WINDOW, 1),
+			new Tupel<ResourceType>(ResourceType.CONCRETE, 1)),
 	 MASSIVE_PLUS_CONSTUCTION(155, 
-			new WallType.Tupel(ResourceType.BRICK, 5),
-			new WallType.Tupel(ResourceType.INSULATION, 5),
-			new WallType.Tupel(ResourceType.WINDOW, 1),
-			new WallType.Tupel(ResourceType.CONCRETE, 1)),
+			new Tupel<ResourceType>(ResourceType.BRICK, 5),
+			new Tupel<ResourceType>(ResourceType.INSULATION, 5),
+			new Tupel<ResourceType>(ResourceType.WINDOW, 1),
+			new Tupel<ResourceType>(ResourceType.CONCRETE, 1)),
 	 PANORAMA_WALL(131,
-			new WallType.Tupel(ResourceType.BRICK, 2),
-			new WallType.Tupel(ResourceType.INSULATION, 3),
-			new WallType.Tupel(ResourceType.WINDOW, 5),
-			new WallType.Tupel(ResourceType.CONCRETE, 1));
+			new Tupel<ResourceType>(ResourceType.BRICK, 2),
+			new Tupel<ResourceType>(ResourceType.INSULATION, 3),
+			new Tupel<ResourceType>(ResourceType.WINDOW, 5),
+			new Tupel<ResourceType>(ResourceType.CONCRETE, 1));
 
 	
-	/**
-	 * One Tupel represents a kind of an attribute of the class "WallType"
-	 * containing a type of resource needed for producing a specific wall
-	 * and the number of resources required.
-	 * */
-	static class Tupel {
-		public ResourceType rt;
-		public int count;
-		
-		Tupel(ResourceType rt, int count) {
-			this.rt = rt;
-			this.count = count;
-		}
-		
-	}
 	
-	private Tupel[] tupel;
+	
+	private Tupel<ResourceType>[] tupel;
 	private final int volume;
 	
 	
 	/**
 	 * Volume = Place needed for storing one wall in the warehouse.
 	 * */
-	private WallType(int volume, Tupel... tupel) {
+	@SafeVarargs
+	private WallType(int volume, Tupel<ResourceType>... tupel) {
 		this.tupel = tupel;		
 		this.volume = volume;
 	}	
@@ -67,7 +56,7 @@ public enum WallType {
 	public ResourceType[] getRequiredResourceTypes() {
 		ResourceType[] rt = new ResourceType[tupel.length];
 		for (int i = 0; i < rt.length; i++) {
-			rt[i] = tupel[i].rt;
+			rt[i] = tupel[i].type;
 		}
 		return rt;
 	}

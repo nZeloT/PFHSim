@@ -28,14 +28,14 @@ public class TestWarehouse {
 		Employee hrGuy = empMgr.hire(EmployeeType.HR);
 		hrGuy.assignWorkplace(empMgr);
 		
-		w = new Warehouse(50, 100, empMgr.hire(EmployeeType.STORE_KEEPER, 3));
+		w = new Warehouse(5000, 100, empMgr.hire(EmployeeType.STORE_KEEPER, 3));
 		
 		walls = new Wall[5];
-		walls[0] = new Wall(WallType.ECO, 20);
-		walls[1] = new Wall(WallType.NORMAL, 30);
-		walls[2] = new Wall(WallType.NORMAL, 40);
-		walls[3] = new Wall(WallType.ECO, 50);
-		walls[4] = new Wall(WallType.ECO, 60);
+		walls[0] = new Wall(WallType.GENERAL, 20);
+		walls[1] = new Wall(WallType.GENERAL, 30);
+		walls[2] = new Wall(WallType.GENERAL, 40);
+		walls[3] = new Wall(WallType.LIGHT_WEIGHT_CONSTRUCTION, 50);
+		walls[4] = new Wall(WallType.LIGHT_WEIGHT_CONSTRUCTION, 60);
 		
 		resources = new Resource[7];
 		resources[0] = new Resource(20, ResourceType.WOOD);
@@ -53,7 +53,7 @@ public class TestWarehouse {
 
 	@Test
 	public void testStoreWall() {
-		Wall wall = new Wall(WallType.ECO, 20);
+		Wall wall = new Wall(WallType.GENERAL, 20);
 		assertEquals(w.storeWall(wall), true);
 	}
 	
@@ -75,17 +75,17 @@ public class TestWarehouse {
 
 	@Test
 	public void testRemoveWall() {
-		Wall wall = new Wall(WallType.ECO, 30);
+		Wall wall = new Wall(WallType.GENERAL, 30);
 		
 		w.storeWall(wall);
 		
-		assertEquals(w.removeWall(WallType.ECO), wall);
+		assertEquals(w.removeWall(WallType.GENERAL), wall);
 	}
 
 	@Test
 	public void testRemoveWalls() {
 		w.storeWall(this.walls);
-		Wall[] walls = w.removeWalls(WallType.ECO, 2);
+		Wall[] walls = w.removeWalls(WallType.GENERAL, 2);
 		
 		assertNotNull(walls);
 		assertEquals(walls.length, 2);
@@ -115,7 +115,7 @@ public class TestWarehouse {
 	public void testIsInStorageWall() {
 		w.storeWall(this.walls);
 		
-		assertEquals(w.isInStorage(WallType.NORMAL, 2), true);
+		assertEquals(w.isInStorage(WallType.LIGHT_WEIGHT_CONSTRUCTION, 2), true);
 	}
 
 	@Test

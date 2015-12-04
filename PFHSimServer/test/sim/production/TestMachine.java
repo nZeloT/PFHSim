@@ -100,10 +100,9 @@ public class TestMachine {
 				new Resource(100, ResourceType.WOOD)};
 		w.storeResource(r);
 		
-		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
 		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
 		
-		w.storeResource(new Resource(100, ResourceType.WOOD));
+		w.storeResource(new Resource(100, ResourceType.WINDOW));
 		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
 
 		w.storeResource(new Resource(100, ResourceType.WOOD));

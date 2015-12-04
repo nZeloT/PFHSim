@@ -16,6 +16,11 @@ import sim.research.dev.UpgradeFactors;
 public class HR extends Department {
 
 	/**
+	 * Ensure the allowed employee count is at least 1 to hire 1 HR guy at the beginning
+	 */
+	private static final int BASE_EMP_COUNT = 1;
+
+	/**
 	 * register of all hired employees
 	 */
 	private HashMap<EmployeeType, ArrayList<Employee>> employeeList;
@@ -41,20 +46,18 @@ public class HR extends Department {
 	 * @return the newly hired employee or null if no new employee could be hired because of HR capa limitations
 	 */
 	public Employee hire(EmployeeType type){
-		if(type != EmployeeType.HR){
-			//Check whether there is enough HR capa for anything but new HR people ;D
-			if(getHRCapacity() - employeeCount < 1)
-				return null;
-		}
+		//Check whether there is enough HR capa
+		if(getHRCapacity() - employeeCount >= 1){
+			Employee e = new Employee(type);
 
-		Employee e = new Employee(type);
+			employeeCount++;
+			employeeList.get(type).add(e);
 
-		employeeCount++;
-		employeeList.get(type).add(e);
-
-		return e;
+			return e;
+		}else
+			return null;
 	}
-	
+
 	/**
 	 * HIre a bunch of new employees of any given type except HR; HR guys can only be hire single wise ATM;
 	 * @param t the employee type to be hired
@@ -62,9 +65,9 @@ public class HR extends Department {
 	 * @return the newly hire but unassigned employees or null if there is not enough HR capa
 	 */
 	public Employee[] hire(EmployeeType t, int amount){
-		if(t == EmployeeType.HR || getHRCapacity() - employeeCount < amount)
+		if(getHRCapacity() - employeeCount < amount)
 			return null;
-		
+
 		Employee[] guys = new Employee[amount];
 		for (int i = 0; i < amount; i++) {
 			Employee e = new Employee(t);
@@ -73,7 +76,7 @@ public class HR extends Department {
 			employeeList.get(t).add(e);
 			guys[i] = e;
 		}
-		
+
 		return guys;
 	}
 
@@ -83,22 +86,14 @@ public class HR extends Department {
 	 * @return whether the employee could be fired successfully
 	 */
 	public boolean fire(Employee e){
+		
 		//1. try to unassign the employee
-		if(e.unassignWorkplace() && e.getType() != EmployeeType.HR){
+		if(e.unassignWorkplace()){
 
 			//2. Fired!
 			employeeCount--;
 			//try to remove him from the list
 			return employeeList.get(e.getType()).remove(e);
-		}else{
-
-			//temporary make the employeecount one less to unassign the HR guy
-			employeeCount--;
-			if(e.unassignWorkplace())
-				return employeeList.get(e.getType()).remove(e);
-			else
-				employeeCount++;
-
 		}
 
 		return false;
@@ -177,16 +172,15 @@ public class HR extends Department {
 	}
 
 	@Override
-	public boolean unassignEmployee(Employee e) {
-		if(e.getWork() != this)
+	protected boolean unassignEmployee(Employee e, boolean calledFromEmployeeObject) {
+		if(e.getWork() != this) // for the sake of safety ;)
 			return false;
 
 		int manageable = getHRCapacity();
 		manageable -= e.getSkill() * UpgradeFactors.HR_MANAGE_AMOUNT_FACTOR;
 
-		//if we want to fire the hr guy, the employeecount is 1 less. this enables firing but not only unassigning
 		if(manageable >= employeeCount)
-			return super.unassignEmployee(e);
+			return super.unassignEmployee(e, calledFromEmployeeObject);
 
 		return false;
 	}
@@ -198,6 +192,7 @@ public class HR extends Department {
 		int manageable = 0;
 		for (Employee hrEmp : getEmployees())
 			manageable += (hrEmp.getSkill() * UpgradeFactors.HR_MANAGE_AMOUNT_FACTOR);
+		manageable += BASE_EMP_COUNT;
 		return manageable;
 	}
 }

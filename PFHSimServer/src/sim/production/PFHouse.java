@@ -3,10 +3,11 @@ package sim.production;
 import java.util.List;
 
 import sim.abstraction.CostFactor;
+import sim.hr.Department;
 import sim.hr.Employee;
-import sim.hr.Workplace;
+import sim.hr.EmployeeType;
 
-public class PFHouse implements CostFactor, Workplace {
+public class PFHouse extends Department implements CostFactor {
 	
 	private int price;
 	
@@ -16,8 +17,6 @@ public class PFHouse implements CostFactor, Workplace {
 	private PFHouseType type;
 	
 	private int buildDurationLeft;
-	
-	private List<Employee> employees;
 
 	@Override
 	public int getCosts() {
@@ -25,29 +24,21 @@ public class PFHouse implements CostFactor, Workplace {
 	}
 	
 	public PFHouse(int price, int costs, PFHouseType type, int buildDurationLeft, List<Employee> employees) {
+		super(EmployeeType.ASSEMBLER);
+		
 		this.price = price;
 		this.costs = costs;
 		this.quality = 0;
 		this.type = type;
 		this.buildDurationLeft = buildDurationLeft;
-		this.employees = employees;
+		
+		for (Employee e : employees) {
+			e.assignWorkplace(this);
+		}
 	}
 
-	@Override
-	public boolean assignEmployee(Employee e) {
-		return false;
-	}
-
-	@Override
-	public boolean unassignEmployee(Employee e) {
-		return false;
-	}
-	
 	public void decreaseBuildDurationLeft() {
 		buildDurationLeft--;
 	}
-	
-
-
 
 }

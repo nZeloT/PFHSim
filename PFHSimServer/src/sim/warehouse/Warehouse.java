@@ -7,9 +7,9 @@ import java.util.List;
 
 import sim.abstraction.CostFactor;
 import sim.abstraction.WrongEmployeeTypeException;
+import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
-import sim.hr.Workplace;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.production.Wall;
@@ -27,13 +27,12 @@ import sim.production.WallType;
  * 
  * @author Leon
  */
-public class Warehouse implements CostFactor, Workplace{
+public class Warehouse extends Department implements CostFactor{
 
 	private int capacity;
 	private int utilization;
 	private int costs;
 
-	private ArrayList<Employee> employees;
 	private int requiredEmployees;
 
 	private Warehouse.Storage<Wall, WallType> wallStore;
@@ -50,14 +49,14 @@ public class Warehouse implements CostFactor, Workplace{
 	 * @throws WarehouseException when the costs or capacity are below or equal to zero or the employees are not of type STORE_KEEPER
 	 */
 	public Warehouse(int capacity, int costs, Employee... emps) throws WarehouseException, WrongEmployeeTypeException{
+		super(EmployeeType.STORE_KEEPER);
+		
 		this.requiredEmployees = 3;
 		this.capacity = capacity;
 		this.costs = costs;
 		
 		this.wallStore = new Storage<>(Wall.class);
 		this.resStore = new Storage<>(Resource.class);
-		
-		this.employees  = new ArrayList<Employee>();
 		
 		if(emps == null || emps.length < 3)
 			throw new WarehouseException("Not enough Employees passed. At least 3 are required!");
@@ -201,12 +200,7 @@ public class Warehouse implements CostFactor, Workplace{
 	 * @return the complete costs of the warehouse
 	 */
 	public int getOverallCosts(){
-		int costs = 0;
-		for (int i = 0; i < employees.size(); i++) {
-			costs += employees.get(i).getCosts();
-		}
-
-		return getCosts() + costs;
+		return getCosts() + getEmployeeCosts();
 	}
 
 	public void setCosts(int costs) {
@@ -237,22 +231,11 @@ public class Warehouse implements CostFactor, Workplace{
 	}
 	
 	@Override
-	public boolean assignEmployee(Employee e){
-		//check the employee type if it matches the requirement
-		if(e.getType() == EmployeeType.STORE_KEEPER){
-			employees.add(e);
-			return true;
-		}
+	protected boolean unassignEmployee(Employee e, boolean calledFromEmployeeObject){
 		
-		return false;
-	}
-	
-	@Override
-	public boolean unassignEmployee(Employee e){
 		//are there still enough employees in the warehouse after removal
-		if(employees.size() + 1 >= requiredEmployees){
-			employees.remove(e);
-			return true;
+		if(getEmployeeCount() + 1 >= requiredEmployees){
+			return super.unassignEmployee(e, calledFromEmployeeObject);
 		}
 		
 		return false;

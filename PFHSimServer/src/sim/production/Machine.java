@@ -1,19 +1,15 @@
 package sim.production;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import sim.abstraction.CostFactor;
-import sim.abstraction.WrongEmployeeTypeException;
-import sim.hr.Employee;
+import sim.hr.Department;
 import sim.hr.EmployeeType;
-import sim.hr.Workplace;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.warehouse.Warehouse;
 
-public class Machine implements CostFactor, Workplace {
+public class Machine extends Department implements CostFactor {
 
 	/**
 	 * Costs for a machine per period.
@@ -38,7 +34,6 @@ public class Machine implements CostFactor, Workplace {
 
 	private boolean inUpgrade;
 
-	private ArrayList<Employee> employees;
 	private int requiredEmps;
 
 	private MachineType type;
@@ -48,18 +43,9 @@ public class Machine implements CostFactor, Workplace {
 	 * resources. Employee: When generating a new machine, it needs at least 3
 	 * employees for being in operation!
 	 */
-	public Machine(MachineType type) throws Exception {
-		this.employees = new ArrayList<Employee>();
+	public Machine(MachineType type){
+		super(EmployeeType.PRODUCTION);
 		this.requiredEmps = type.getRequiredEmps();
-
-		for (int i = 0; i < employees.size(); i++) {
-			if (employees.get(i).getType() != EmployeeType.PRODUCTION)
-				throw new WrongEmployeeTypeException();
-		}
-
-		for (Employee e : employees) {
-			e.assignWorkplace(this);
-		}
 
 		this.costs = type.getCosts();
 		this.performance = type.getOutput();
@@ -177,9 +163,7 @@ public class Machine implements CostFactor, Workplace {
 		}
 		// calculation at highest utilization possible.
 		wallcost += (int) (1.0 / performance * this.costs);
-		for (int i = 0; i < this.employees.size(); i++) {
-			wallcost += (int) (1.0 / performance * employees.get(i).getCosts());
-		}
+		wallcost += (int) (1.0 / performance * getEmployeeCosts());
 
 		// Creation of a new wall.
 		Wall wall = new Wall(walltype, wallcost);
@@ -203,28 +187,8 @@ public class Machine implements CostFactor, Workplace {
 
 	}
 
-	public ArrayList<Employee> getAssignedEmployees() {
-		return employees;
-	}
-
 	public int getRequiredEmps() {
 		return requiredEmps;
-	}
-
-	@Override
-	public boolean assignEmployee(Employee e) {
-
-		if (e.getType() == EmployeeType.PRODUCTION) {
-			employees.add(e);
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public boolean unassignEmployee(Employee e) {
-		return employees.remove(e);
 	}
 
 	/**
@@ -233,7 +197,7 @@ public class Machine implements CostFactor, Workplace {
 	 * this machine.
 	 */
 	public boolean isInOperation() {
-		return employees.size() >= requiredEmps && !inUpgrade;
+		return getEmployeeCount() >= requiredEmps && !inUpgrade;
 	}
 
 	public void setInUpgrade(boolean inUpgrade) {

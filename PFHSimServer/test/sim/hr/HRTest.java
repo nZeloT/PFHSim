@@ -27,11 +27,14 @@ public class HRTest {
 
 		hrEmp.assignWorkplace(hr);
 
-		for (int i = 0; i < 49; i++) {
-			assertNotNull(hr.hire(EmployeeType.STORE_KEEPER));
+		Employee fire = null;
+		for (int i = 0; i < 50; i++) {
+			assertNotNull(fire = hr.hire(EmployeeType.STORE_KEEPER));
 		}
 
 		assertNull(hr.hire(EmployeeType.STORE_KEEPER));
+		
+		hr.fire(fire);
 
 		//hire a new HR guy
 		Employee hrEmp2 = hr.hire(EmployeeType.HR);
@@ -49,10 +52,10 @@ public class HRTest {
 
 		hrEmp.assignWorkplace(hr);
 
-		Employee[] e = new Employee[49];
+		Employee[] e = new Employee[50];
 		Department d = new Department(EmployeeType.STORE_KEEPER);
 
-		for (int i = 0; i < 49; i++) {
+		for (int i = 0; i < 50; i++) {
 			e[i] = hr.hire(EmployeeType.STORE_KEEPER);
 			e[i].assignWorkplace(d);
 		}
@@ -65,14 +68,13 @@ public class HRTest {
 		e[0] = null;
 		assertEquals(true, hr.fire(e[1]));
 		e[1] = null;
-		assertEquals(47, d.getEmployeeCount());
+		assertEquals(48, d.getEmployeeCount());
 
 		//3. try to fire the hr guy again
 		assertEquals(false, hr.fire(hrEmp));
 
 		//4. hire some more guys again
-		e[0] = hr.hire(EmployeeType.STORE_KEEPER);
-		e[0].assignWorkplace(d);
+		//leave e[0] empty to be able to hire a HR guy :D
 		e[1] = hr.hire(EmployeeType.STORE_KEEPER);
 		e[1].assignWorkplace(d);
 
@@ -95,7 +97,8 @@ public class HRTest {
 
 		//4. fire the remaining guys
 		for (Employee emp : e) {
-			assertEquals(true, hr.fire(emp));
+			if(emp != null)
+				assertEquals(true, hr.fire(emp));
 		}
 
 		//5. lastly fire the HR guy

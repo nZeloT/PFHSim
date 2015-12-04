@@ -1,6 +1,8 @@
 package sim.procurement;
 
-public enum ResourceType {
+import sim.abstraction.GeneralType;
+
+public enum ResourceType implements GeneralType {
 	WOOD(5,10),
 	INSULATION(3,20),
 	CONCRETE(3,6),

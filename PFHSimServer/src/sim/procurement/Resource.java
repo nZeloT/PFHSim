@@ -2,7 +2,7 @@ package sim.procurement;
 
 import sim.warehouse.StorageObject;
 
-public class Resource implements StorageObject<ResourceType>{
+public class Resource implements StorageObject<ResourceType> {
 
 	private final ResourceType type;
 

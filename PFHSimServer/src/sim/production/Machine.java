@@ -48,7 +48,7 @@ public class Machine implements CostFactor, Workplace {
 	 * resources. Employee: When generating a new machine, it needs at least 3
 	 * employees for being in operation!
 	 */
-	public Machine(MachineType type, List<Employee> employees) throws Exception {
+	public Machine(MachineType type) throws Exception {
 		this.employees = new ArrayList<Employee>();
 		this.requiredEmps = type.getRequiredEmps();
 

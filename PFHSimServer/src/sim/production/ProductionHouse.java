@@ -10,16 +10,17 @@ public class ProductionHouse implements CostFactor {
 	
 	private ArrayList<Machine> machines;
 	
-	private int costs;
+	private final int basecosts;
 
 	
 	public ProductionHouse() {
 		machines = new ArrayList<>();
+		basecosts = 500;
 	}
 	
 	@Override
 	public int getCosts() {
-		return costs;
+		return basecosts;
 	}
 	
 	public ArrayList<Machine> getMachines() {
@@ -27,10 +28,10 @@ public class ProductionHouse implements CostFactor {
 	}
 	
 	
-	public void buyMachine(MachineType type, List<Employee> employees) {
+	public void buyMachine(MachineType type) {
 		
 		try {
-			machines.add(new Machine(type, employees));
+			machines.add(new Machine(type));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

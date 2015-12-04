@@ -1,9 +1,11 @@
 package sim.production;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sim.abstraction.CostFactor;
 import sim.hr.Department;
+import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
@@ -222,6 +224,14 @@ public class Machine extends Department implements CostFactor {
 
 	public void deltaRequiredEmps(int amount) {
 		requiredEmps += amount;
+	}
+	
+	public List<Employee> getAssignedEmployees(){
+		return getEmployees();
+	}
+	
+	public MachineType getType() {
+		return type;
 	}
 
 }

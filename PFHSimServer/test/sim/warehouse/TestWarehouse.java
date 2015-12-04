@@ -28,7 +28,7 @@ public class TestWarehouse {
 		Employee hrGuy = empMgr.hire(EmployeeType.HR);
 		hrGuy.assignWorkplace(empMgr);
 		
-		w = new Warehouse(5000, 100, empMgr.hire(EmployeeType.STORE_KEEPER, 3));
+		w = new Warehouse(empMgr.hire(EmployeeType.STORE_KEEPER, 3));
 		
 		walls = new Wall[5];
 		walls[0] = new Wall(WallType.GENERAL, 20);

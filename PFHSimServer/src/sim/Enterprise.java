@@ -14,13 +14,18 @@ import sim.procurement.ResourceListItem;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
+import sim.production.Machine;
 import sim.production.MachineType;
 import sim.production.PFHouse;
 import sim.production.PFHouseType;
 import sim.production.ProductionHouse;
 import sim.production.Wall;
 import sim.production.WallType;
+import sim.research.dev.EmployeeTraining;
+import sim.research.dev.ExtendWarehouse;
+import sim.research.dev.MachineUpgrade;
 import sim.research.dev.ResearchProject;
+import sim.research.dev.Upgrade;
 import sim.simulation.sales.Offer;
 import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
@@ -32,7 +37,10 @@ public class Enterprise {
 	private Warehouse warehouse;
 	private ProductionHouse production;
 
-	private ArrayList<PFHouse> housesInConstruction;
+	private List<PFHouse> housesInConstruction;
+	private List<PFHouseType> researchedHouseTypes;
+	
+	private List<Upgrade> upgradesInProg;
 
 	// Employee management for warehouse and production goes in the distinct
 	// classes
@@ -44,6 +52,8 @@ public class Enterprise {
 
 	public Enterprise() {
 		housesInConstruction = new ArrayList<>();
+		researchedHouseTypes = new ArrayList<>();
+		upgradesInProg 		 = new ArrayList<>();
 
 		hr = new HR();
 		Employee hrGuy = hr.hire(EmployeeType.HR);
@@ -55,7 +65,7 @@ public class Enterprise {
 
 		production = new ProductionHouse();
 		try {
-			warehouse = new Warehouse(9999999, 3000, storeKeeper);
+			warehouse = new Warehouse(storeKeeper);
 		} catch (WarehouseException e) {
 			e.printStackTrace();
 		} catch (WrongEmployeeTypeException e) {
@@ -86,6 +96,30 @@ public class Enterprise {
 
 		// designthinking = new ResearchProject();
 		// TODO Add functionality to add architect and get costs ;)
+	}
+	
+	/**
+	 * Method to simulate one time-step for the enterprise
+	 */
+	public void doSimulationStep(){
+		
+		//TODO: handle more necessary stuff :D
+		
+		//TODO: handle the house production progress
+		
+		//Handle the upgrade progress
+		for (int i = 0; i < upgradesInProg.size(); i++) {
+			Upgrade u = upgradesInProg.get(i);
+			if(!u.isFinished())
+				u.simRound();
+			else{
+				upgradesInProg.remove(i--); //do not forget to reduce the index when removing an item ;)
+				
+				if(u instanceof ResearchProject){
+					researchedHouseTypes.add( ((ResearchProject)u).getReasearchType() );
+				}
+			}
+		}
 	}
 
 	/**
@@ -140,11 +174,9 @@ public class Enterprise {
 	 *         warehouse.
 	 * 
 	 */
-
 	public void producePFHouse(Offer offer, List<Employee> employees) throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
-
 		if (offer == null)
 			throw new EnterpriseException("Invalid offer given!");
 
@@ -288,7 +320,7 @@ public class Enterprise {
 
 	}
 
-	/*
+	/**
 	 * This Method calculates all costs which can't be related to a single house
 	 * building project including: warehouse (including storage keepers) costs
 	 * architect and architect project costs employees: market_reasearch,
@@ -309,7 +341,7 @@ public class Enterprise {
 		return sum;
 	}
 
-	/*
+	/**
 	 * check the requirements for an Offer based on the housetype of the house a
 	 * player wants to produce.
 	 */
@@ -339,10 +371,10 @@ public class Enterprise {
 		}
 	}
 
-	/*
-	 * This Method doens't check if everything is available!!!!!!!! Make this
-	 * sure before (class Enterprise Method checkRequirementsforOffer) returns
-	 * the variable costs for the offer This includes: Wall costs(machine,
+	/**
+	 * This Method doens't check if everything is available!!!!!!!! Make
+	 * sure this is the case before (class Enterprise Method checkRequirementsforOffer) 
+	 * returns the variable costs for the offer This includes: Wall costs(machine,
 	 * employee work, resources) Assembler cost(for building the house)
 	 * additional resources
 	 */
@@ -377,6 +409,22 @@ public class Enterprise {
 
 		return costs;
 	}
+	
+	public void startEmployeeTraining(Employee e){
+		upgradesInProg.add(new EmployeeTraining(e));
+	}
+	
+	public void startMachineUpgrade(Machine m){
+		upgradesInProg.add(new MachineUpgrade(m, hr));
+	}
+	
+	public void startWarehouseExtension(){
+		upgradesInProg.add(new ExtendWarehouse(warehouse));
+	}
+	
+	public void startResearchProject(PFHouseType type, Employee arch){
+		upgradesInProg.add(new ResearchProject(type, arch));
+	}
 
 	public void buyMachine(MachineType type) throws EnterpriseException {
 		if (cash < type.getPrice()) {
@@ -393,8 +441,12 @@ public class Enterprise {
 		return production;
 	}
 
-	public ArrayList<PFHouse> getHousesInConstruction() {
+	public List<PFHouse> getHousesInConstruction() {
 		return housesInConstruction;
+	}
+	
+	public List<PFHouseType> getResearchedHouseTypes() {
+		return researchedHouseTypes;
 	}
 
 	public HR getHR() {

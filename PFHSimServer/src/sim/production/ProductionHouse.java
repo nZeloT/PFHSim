@@ -1,10 +1,8 @@
 package sim.production;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import sim.abstraction.CostFactor;
-import sim.hr.Employee;
 
 public class ProductionHouse implements CostFactor {
 	

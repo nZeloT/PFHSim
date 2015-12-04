@@ -1,41 +1,33 @@
 package sim.research.dev;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import sim.hr.Employee;
-import sim.hr.HR;
 import sim.hr.EmployeeType;
+import sim.hr.HR;
 import sim.production.Machine;
+import sim.production.MachineType;
 
 public class MachineUpgrade extends Upgrade {
-
-	private double perfInc;
-	private int costInc;
-	private double qualityInc;
-	private int requiredEmpInc;
 
 	private Machine machine;
 	private HR empMgr;
 
-	public MachineUpgrade(Machine m, HR empMgr, int duration, int costs, double perfInc, double qualityInc, int costInc, int requiredEmpInc) {
-		super(duration, costs);
+	public MachineUpgrade(Machine m, HR empMgr) {
+		super(m.getType().getUpgradeDuration(), m.getType().getUpgradeCosts());
 
 		this.machine = m;
 		this.empMgr = empMgr;
 
-		this.perfInc = perfInc;
-		this.qualityInc = qualityInc;
-		this.costInc = costInc;
-		this.requiredEmpInc = requiredEmpInc;
 	}
 
 	@Override
-	public void start() {
+	protected void setup() {
 		//1. set machine to inupgrade
 		machine.setInUpgrade(true);
 
 		//2. unassign employees
-		ArrayList<Employee> emps = machine.getAssignedEmployees();
+		List<Employee> emps = machine.getAssignedEmployees();
 		for (Employee e : emps) {
 			e.unassignWorkplace();
 		}
@@ -44,10 +36,11 @@ public class MachineUpgrade extends Upgrade {
 	@Override
 	protected void finish() {
 		//1. set machine to not in upgrade
-		machine.deltaCosts(costInc);
-		machine.deltaPerformance(perfInc);
-		machine.deltaQuality(qualityInc);
-		machine.deltaRequiredEmps(requiredEmpInc);
+		MachineType t = machine.getType();
+		machine.deltaCosts(t.getUpgradeCostInc());
+		machine.deltaPerformance(t.getUpgradePerfInc());
+		machine.deltaQuality(t.getUpgradeQualInc());
+		machine.deltaRequiredEmps(t.getUpgradeEmpInc());
 		machine.setInUpgrade(false);
 
 		//2. try to reassign employees

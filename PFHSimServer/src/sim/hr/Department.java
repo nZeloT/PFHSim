@@ -81,7 +81,7 @@ public class Department {
 		return costs;
 	}
 	
-	List<Employee> getEmployees(){
+	protected List<Employee> getEmployees(){
 		return employees;
 	}
 

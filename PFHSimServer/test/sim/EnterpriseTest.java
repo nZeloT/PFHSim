@@ -187,7 +187,7 @@ public class EnterpriseTest {
 		hrGuy.assignWorkplace(employmgr);
 		Warehouse storage;
 		try {
-			storage = new Warehouse(99999, 3000, employmgr.hire(EmployeeType.STORE_KEEPER, 3));
+			storage = new Warehouse(employmgr.hire(EmployeeType.STORE_KEEPER, 3));
 			assertEquals(5100, storage.getOverallCosts());
 			testfixcosts += storage.getOverallCosts();
 			testfixcosts += employmgr.getEmployeeCosts();

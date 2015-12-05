@@ -8,7 +8,7 @@ import sim.production.MachineType;
 
 public class TestUtils {
 
-	public Enterprise initializeEnterprise() {
+	public static Enterprise initializeEnterprise() {
 		
 		
 		Enterprise e = new Enterprise();

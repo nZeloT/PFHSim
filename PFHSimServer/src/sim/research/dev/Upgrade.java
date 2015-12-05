@@ -2,19 +2,20 @@ package sim.research.dev;
 
 import sim.abstraction.CostFactor;
 
-public abstract class Upgrade implements CostFactor{
+public abstract class Upgrade<T> implements CostFactor{
 	
 	private int costs;
 	
 	private int duration;
-	private boolean finished;
+	private boolean finished;	
 	
-	
-	public Upgrade(int duration, int costs) {
+	Upgrade(int duration, int costs) {
 		this.duration = duration;
 		this.costs = costs;
 		this.finished = false;
 	}
+	
+	abstract T getUpgradeObject();
 	
 	public final void start(){
 		if(!finished)

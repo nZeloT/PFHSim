@@ -183,20 +183,12 @@ public class Warehouse extends Department implements CostFactor{
 	 * @return the maximum capacity of the warehouse
 	 */
 	public int getCapacity() {
-		int capa = BASE_CAPA;
-		for (int i = 0; i < lvl; i++) {
-			capa *= UpgradeFactors.WAREHOUSE_CAPA_INC;
-		}
-		return capa;
+		return (int) (BASE_CAPA * Math.pow(UpgradeFactors.WAREHOUSE_CAPA_INC, lvl));
 	}
 
 	@Override
 	public int getCosts() {
-		int costs = BASE_COSTS;
-		for (int i = 0; i < lvl; i++) {
-			costs *= UpgradeFactors.WAREHOUSE_COST_INC;
-		}
-		return costs;
+		return (int) (BASE_COSTS * Math.pow(UpgradeFactors.WAREHOUSE_COST_INC, lvl));
 	}
 
 	/**
@@ -207,11 +199,7 @@ public class Warehouse extends Department implements CostFactor{
 	}
 
 	public int getRequiredEmployees() {
-		int emps = BASE_REQ_EMP;
-		for (int i = 0; i < lvl; i++) {
-			emps += UpgradeFactors.WAREHOUSE_EMP_INC;
-		}
-		return emps;
+		return (int) (BASE_REQ_EMP * Math.pow(UpgradeFactors.WAREHOUSE_EMP_INC, lvl));
 	}
 	
 	public void upgrade(){

@@ -4,7 +4,7 @@ import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 
-public class EmployeeTraining extends Upgrade {
+public class EmployeeTraining extends Upgrade<Employee> {
 	
 	private Employee employee;
 	private UpgradeDep upgradeDep;
@@ -12,7 +12,7 @@ public class EmployeeTraining extends Upgrade {
 	private Department empWork;
 	private boolean running;
 	
-	public EmployeeTraining(Employee e) {
+	EmployeeTraining(Employee e) {
 		super(e.getType().getUpgradeDuration(), e.getType().getUpgradeCosts());
 		this.upgradeDep = new UpgradeDep(e.getType());
 		this.employee = e;
@@ -37,6 +37,10 @@ public class EmployeeTraining extends Upgrade {
 		running = false;
 		employee.assignWorkplace(empWork);
 		employee.visitedTraining();
+	}
+	
+	@Override Employee getUpgradeObject() {
+		return employee;
 	}
 	
 	

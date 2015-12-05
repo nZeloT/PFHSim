@@ -1,5 +1,6 @@
 package sim.research.dev;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sim.hr.Employee;
@@ -8,17 +9,16 @@ import sim.hr.HR;
 import sim.production.Machine;
 import sim.production.MachineType;
 
-public class MachineUpgrade extends Upgrade {
+public class MachineUpgrade extends Upgrade<Machine> {
 
 	private Machine machine;
 	private HR empMgr;
 
-	public MachineUpgrade(Machine m, HR empMgr) {
+	MachineUpgrade(Machine m, HR empMgr) {
 		super(m.getType().getUpgradeDuration(), m.getType().getUpgradeCosts());
 
 		this.machine = m;
 		this.empMgr = empMgr;
-
 	}
 
 	@Override
@@ -26,8 +26,8 @@ public class MachineUpgrade extends Upgrade {
 		//1. set machine to inupgrade
 		machine.setInUpgrade(true);
 
-		//2. unassign employees
-		List<Employee> emps = machine.getAssignedEmployees();
+		//2. unassign employees | this is needed because otherwise we only get a reference then remove items from it ...
+		List<Employee> emps = new ArrayList<>(machine.getAssignedEmployees());
 		for (Employee e : emps) {
 			e.unassignWorkplace();
 		}
@@ -50,6 +50,10 @@ public class MachineUpgrade extends Upgrade {
 				e.assignWorkplace(machine);
 			}
 		}
+	}
+	
+	@Override Machine getUpgradeObject() {
+		return machine;
 	}
 
 }

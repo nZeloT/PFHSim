@@ -14,18 +14,13 @@ import sim.procurement.ResourceListItem;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
-import sim.production.Machine;
 import sim.production.MachineType;
 import sim.production.PFHouse;
 import sim.production.PFHouseType;
 import sim.production.ProductionHouse;
 import sim.production.Wall;
 import sim.production.WallType;
-import sim.research.dev.EmployeeTraining;
-import sim.research.dev.ExtendWarehouse;
-import sim.research.dev.MachineUpgrade;
-import sim.research.dev.ResearchProject;
-import sim.research.dev.Upgrade;
+import sim.research.dev.UpgradeProcessor;
 import sim.simulation.sales.Offer;
 import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
@@ -40,7 +35,7 @@ public class Enterprise {
 	private List<PFHouse> housesInConstruction;
 	private List<PFHouseType> researchedHouseTypes;
 	
-	private List<Upgrade> upgradesInProg;
+	private UpgradeProcessor upgrades;
 
 	// Employee management for warehouse and production goes in the distinct
 	// classes
@@ -53,7 +48,7 @@ public class Enterprise {
 	public Enterprise() {
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
-		upgradesInProg 		 = new ArrayList<>();
+		upgrades			 = new UpgradeProcessor();
 
 		hr = new HR();
 		Employee hrGuy = hr.hire(EmployeeType.HR);
@@ -108,18 +103,7 @@ public class Enterprise {
 		//TODO: handle the house production progress
 		
 		//Handle the upgrade progress
-		for (int i = 0; i < upgradesInProg.size(); i++) {
-			Upgrade u = upgradesInProg.get(i);
-			if(!u.isFinished())
-				u.simRound();
-			else{
-				upgradesInProg.remove(i--); //do not forget to reduce the index when removing an item ;)
-				
-				if(u instanceof ResearchProject){
-					researchedHouseTypes.add( ((ResearchProject)u).getReasearchType() );
-				}
-			}
-		}
+		upgrades.processUpgrades(this);
 	}
 
 	/**
@@ -409,22 +393,6 @@ public class Enterprise {
 
 		return costs;
 	}
-	
-	public void startEmployeeTraining(Employee e){
-		upgradesInProg.add(new EmployeeTraining(e));
-	}
-	
-	public void startMachineUpgrade(Machine m){
-		upgradesInProg.add(new MachineUpgrade(m, hr));
-	}
-	
-	public void startWarehouseExtension(){
-		upgradesInProg.add(new ExtendWarehouse(warehouse));
-	}
-	
-	public void startResearchProject(PFHouseType type, Employee arch){
-		upgradesInProg.add(new ResearchProject(type, arch));
-	}
 
 	public void buyMachine(MachineType type) throws EnterpriseException {
 		if (cash < type.getPrice()) {
@@ -451,5 +419,9 @@ public class Enterprise {
 
 	public HR getHR() {
 		return hr;
+	}
+	
+	public UpgradeProcessor getUpgradeProcessor() {
+		return upgrades;
 	}
 }

@@ -2,14 +2,14 @@ package sim.research.dev;
 
 import sim.warehouse.Warehouse;
 
-public class ExtendWarehouse extends Upgrade {
+public class ExtendWarehouse extends Upgrade<Warehouse> {
 	
 	private static final int UPGRADE_COSTS = 1000;
 	private static final int UPGRADE_DURATION = 2;
 	
 	private Warehouse w;
 	
-	public ExtendWarehouse(Warehouse w) {
+	ExtendWarehouse(Warehouse w) {
 		super(UPGRADE_DURATION, UPGRADE_COSTS);
 		this.w = w;
 	}
@@ -22,6 +22,10 @@ public class ExtendWarehouse extends Upgrade {
 	@Override
 	protected void finish() {
 		w.upgrade();
+	}
+	
+	@Override Warehouse getUpgradeObject() {
+		return w;
 	}
 
 }

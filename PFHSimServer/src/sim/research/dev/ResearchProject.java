@@ -5,12 +5,12 @@ import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.production.PFHouseType;
 
-public class ResearchProject extends Upgrade{
+public class ResearchProject extends Upgrade<Employee>{
 
 	private Employee arch;
 	private UpgradeDep dep;
 	
-	public ResearchProject(PFHouseType type, Employee architect) {
+	ResearchProject(PFHouseType type, Employee architect) {
 		super(type.getResearchDuration(), type.getResearchCosts());
 		this.reasearchType = type;
 		this.arch = architect;
@@ -34,6 +34,10 @@ public class ResearchProject extends Upgrade{
 	
 	public PFHouseType getReasearchType() {
 		return reasearchType;
+	}
+	
+	@Override Employee getUpgradeObject() {
+		return arch;
 	}
 	
 	private class UpgradeDep extends Department {

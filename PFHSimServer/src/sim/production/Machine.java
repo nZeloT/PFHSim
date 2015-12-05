@@ -233,5 +233,9 @@ public class Machine extends Department implements CostFactor {
 	public MachineType getType() {
 		return type;
 	}
+	
+	public int getPerformance() {
+		return performance;
+	}
 
 }

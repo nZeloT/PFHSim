@@ -4,11 +4,25 @@ Done:
 * Cost calculation and test cases
 * building houses, types of houses and material changed
 * MockUp done (80%)
-*
+* Upgrade System
+ 
+
 
 * Question/Problem: What if you save resources for a villa, but your simulation bot wants 1000 bungalows from you and your warehouse is now empty? How to simulate the rivalry thought?
 
 * At present: Simulate different groups of buyers
+
+What happens in a new round?
+* calculate new prices for resources
+* Upgrade and building time decreases by 1
+* give machine a new plan what to produce in this round
+* producing walls: material is immediatly away from warehouse, when starting the machine
+
+* simulation: if an upgrade is finished now, update atrributes from employee/house catalog/machine 
+* simulation: reduce material in warehouse from house projects which were selled
+* simulation: add produced walls 
+
+* simulation: picks employees for house project, picks material from warehouse, transfer money on your account
 
 # Review 2015-11-29
 

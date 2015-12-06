@@ -1,3 +1,15 @@
+#Review 2015-12-06
+
+Done:
+* Cost calculation and test cases
+* building houses, types of houses and material changed
+* MockUp done (80%)
+*
+
+* Question/Problem: What if you save resources for a villa, but your simulation bot wants 1000 bungalows from you and your warehouse is now empty? How to simulate the rivalry thought?
+
+* At present: Simulate different groups of buyers
+
 # Review 2015-11-29
 
 * neue Backlogitems erstellt
@@ -6,8 +18,6 @@ Done:
 * aus Material Wände bauen
 * aus Wände, Material, Mitarbeiter Häuser bauen
 * Ausfuhrung des Upgrade fur Mitarbeiter, Maschine, noch nicht Auswirkungen
-
-
 
 ### Bericht für Greg 2015-11-29
 

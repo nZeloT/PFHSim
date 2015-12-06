@@ -34,6 +34,9 @@ public class Enterprise {
 
 	private List<PFHouse> housesInConstruction;
 	private List<PFHouseType> researchedHouseTypes;
+	
+	//This list represents a catalogue of pfhouse-offers, which
+	//specify the walls for a house-type as well as the price.
 	private List<Offer> offers;
 	
 	private UpgradeProcessor upgrades;
@@ -109,6 +112,10 @@ public class Enterprise {
 	 * Method to simulate one time-step for the enterprise
 	 */
 	public void doSimulationStep(){
+
+		//TODO: decrease construction-duration-counter for pfhouses
+		
+		//TODO: process results from buyer's market-simulation.
 		
 		//TODO: handle more necessary stuff :D
 		
@@ -302,14 +309,10 @@ public class Enterprise {
 			}
 		}
 
-		// Also include employee-costs into the calculation.
-		for (int i = 0; i < employees.size(); i++) {
-			costs += employees.get(i).getCosts() * offer.getHousetype().getConstructionDuration();
-		}
 
 		// create a new house and append it to the array-list saving the houses
 		// which are in construction.
-		PFHouse pfh = new PFHouse(offer.getPrice(), costs, offer.getHousetype(),
+		PFHouse pfh = new PFHouse(offer.getPrice(), this.calculateVariableCosts(offer.getHousetype()), offer.getHousetype(),
 				offer.getHousetype().getConstructionDuration(), employees);
 
 		housesInConstruction.add(pfh);

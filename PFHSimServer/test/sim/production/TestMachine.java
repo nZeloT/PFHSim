@@ -42,7 +42,7 @@ public class TestMachine {
 		}
 
 		try {
-			m = new Machine(MachineType.BRICKWALL_MACHINE);
+			m = new Machine(MachineType.WOODWALL_MACHINE);
 			Arrays.asList(hr.hire(EmployeeType.PRODUCTION, 5)).forEach((emp) -> {m.assignEmployee(emp);});	
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,6 +80,7 @@ public class TestMachine {
 	@Test
 	public void testIfIsProducableAndProduceWallSuccessful() {
 		Resource[] r = {
+				new Resource(100, ResourceType.WINDOW),
 				new Resource(100, ResourceType.INSULATION),
 				new Resource(100, ResourceType.WOOD),
 				new Resource(100, ResourceType.WOOD),
@@ -111,8 +112,6 @@ public class TestMachine {
 		w.storeResource(new Resource(100, ResourceType.WINDOW));
 		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), true);
 
-		w.storeResource(new Resource(100, ResourceType.WOOD));
-		assertEquals(m.isProducable(WallType.LIGHT_WEIGHT_CONSTRUCTION, w), false);
 
 
 	}

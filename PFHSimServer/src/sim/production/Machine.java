@@ -105,7 +105,6 @@ public class Machine extends Department implements CostFactor {
 			}
 		}
 
-		utilization++;
 		return true;
 	}
 

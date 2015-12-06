@@ -14,6 +14,7 @@ import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.production.Wall;
 import sim.production.WallType;
+import sim.research.dev.UpgradeFactors;
 
 /**
  * This is the Warehouse of the enterprise.
@@ -28,12 +29,14 @@ import sim.production.WallType;
  * @author Leon
  */
 public class Warehouse extends Department implements CostFactor{
+	
+	private static final int BASE_CAPA = 999999;
+	private static final int BASE_COSTS = 3000;
+	private static final int BASE_REQ_EMP = 3;
 
-	private int capacity;
 	private int utilization;
-	private int costs;
-
-	private int requiredEmployees;
+	
+	private int lvl;
 
 	private Warehouse.Storage<Wall, WallType> wallStore;
 	private Warehouse.Storage<Resource, ResourceType> resStore;
@@ -48,24 +51,16 @@ public class Warehouse extends Department implements CostFactor{
 	 * 
 	 * @throws WarehouseException when the costs or capacity are below or equal to zero or the employees are not of type STORE_KEEPER
 	 */
-	public Warehouse(int capacity, int costs, Employee... emps) throws WarehouseException, WrongEmployeeTypeException{
+	public Warehouse(Employee... emps) throws WarehouseException, WrongEmployeeTypeException{
 		super(EmployeeType.STORE_KEEPER);
 		
-		this.requiredEmployees = 3;
-		this.capacity = capacity;
-		this.costs = costs;
+		this.lvl = 0;
 		
 		this.wallStore = new Storage<>(Wall.class);
 		this.resStore = new Storage<>(Resource.class);
 		
 		if(emps == null || emps.length < 3)
 			throw new WarehouseException("Not enough Employees passed. At least 3 are required!");
-		
-		if(capacity <= 0)
-			throw new WarehouseException("Capacity below zero is not allowed!");
-		
-		if(costs <= 0)
-			throw new WarehouseException("Costs below zero are not allowed!");
 		
 		for (Employee e : emps) {
 			if(e.getType() != EmployeeType.STORE_KEEPER)
@@ -188,12 +183,12 @@ public class Warehouse extends Department implements CostFactor{
 	 * @return the maximum capacity of the warehouse
 	 */
 	public int getCapacity() {
-		return capacity;
+		return (int) (BASE_CAPA * Math.pow(UpgradeFactors.WAREHOUSE_CAPA_INC, lvl));
 	}
 
 	@Override
 	public int getCosts() {
-		return costs;
+		return (int) (BASE_COSTS * Math.pow(UpgradeFactors.WAREHOUSE_COST_INC, lvl));
 	}
 
 	/**
@@ -203,24 +198,17 @@ public class Warehouse extends Department implements CostFactor{
 		return getCosts() + getEmployeeCosts();
 	}
 
-	public void setCosts(int costs) {
-		if(costs > 0)
-			this.costs = costs;
-	}
-
-	public void setCapacity(int capacity) {
-		if(capacity > 0)
-			this.capacity = capacity;
-	}
-	
 	public int getRequiredEmployees() {
-		return requiredEmployees;
+		return (int) (BASE_REQ_EMP * Math.pow(UpgradeFactors.WAREHOUSE_EMP_INC, lvl));
 	}
 	
-	public void setRequiredEmployees(int requiredEmployees) {
-		this.requiredEmployees = requiredEmployees;
+	public void upgrade(){
+		lvl++;
 	}
 	
+	public int getUpgrades() {
+		return lvl;
+	}
 	
 	public int calculateAvgPrice(WallType type){
 		return wallStore.calcAvg(type);
@@ -234,7 +222,7 @@ public class Warehouse extends Department implements CostFactor{
 	protected boolean unassignEmployee(Employee e, boolean calledFromEmployeeObject){
 		
 		//are there still enough employees in the warehouse after removal
-		if(getEmployeeCount() + 1 >= requiredEmployees){
+		if(getEmployeeCount() + 1 >= getRequiredEmployees()){
 			return super.unassignEmployee(e, calledFromEmployeeObject);
 		}
 		
@@ -265,7 +253,7 @@ public class Warehouse extends Department implements CostFactor{
 			}
 
 			//1. figure out how many space we need to store the resource
-			if(utilization + volume > capacity)
+			if(utilization + volume > getCapacity())
 				return false;
 
 			//2. ok enough space. store it

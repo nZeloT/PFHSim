@@ -1,25 +1,35 @@
 package sim.research.dev;
 
+import sim.hr.Department;
 import sim.hr.Employee;
-import sim.hr.Workplace;
+import sim.hr.EmployeeType;
 
-public class EmployeeTraining extends Upgrade implements Workplace {
+public class EmployeeTraining extends Upgrade<Employee> {
 	
 	private Employee employee;
+	private UpgradeDep upgradeDep;
 	
-	private Workplace empWork;
+	private Department empWork;
 	private boolean running;
 	
-	public EmployeeTraining(Employee e) {
+	EmployeeTraining(Employee e) {
 		super(e.getType().getUpgradeDuration(), e.getType().getUpgradeCosts());
+		this.upgradeDep = new UpgradeDep(e.getType());
 		this.employee = e;
 	}
 
 	@Override
-	public void start() {
+	protected void setup() {
 		empWork = employee.getWork();
-		employee.assignWorkplace(this);
-		running = true;
+		running = employee.assignWorkplace(upgradeDep);
+	}
+	
+	@Override
+	public void simRound() {
+		if(running)
+			super.simRound();
+		else
+			setup();
 	}
 
 	@Override
@@ -28,16 +38,28 @@ public class EmployeeTraining extends Upgrade implements Workplace {
 		employee.assignWorkplace(empWork);
 		employee.visitedTraining();
 	}
-
-	@Override
-	public boolean assignEmployee(Employee e) {
-		return !running;
+	
+	@Override Employee getUpgradeObject() {
+		return employee;
 	}
-
-	@Override
-	public boolean unassignEmployee(Employee e) {
-		//only allow reassignment of the employee when training is not running
-		return !running;
+	
+	
+	private class UpgradeDep extends Department {
+		
+		public UpgradeDep(EmployeeType t) {
+			super(t);
+		}
+		
+		@Override
+		protected boolean assignEmployee(Employee e, boolean calledFromEmployeeObject) {
+			return !running && super.assignEmployee(e, calledFromEmployeeObject);
+		}
+		
+		@Override
+		protected boolean unassignEmployee(Employee e, boolean calledFromEmployeeObject) {
+			return !running && super.unassignEmployee(e, calledFromEmployeeObject);
+		}
+		
 	}
 	
 }

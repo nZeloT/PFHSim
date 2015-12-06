@@ -20,7 +20,7 @@ import sim.production.PFHouseType;
 import sim.production.ProductionHouse;
 import sim.production.Wall;
 import sim.production.WallType;
-import sim.research.dev.ResearchProject;
+import sim.research.dev.UpgradeProcessor;
 import sim.simulation.sales.Offer;
 import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
@@ -32,7 +32,10 @@ public class Enterprise {
 	private Warehouse warehouse;
 	private ProductionHouse production;
 
-	private ArrayList<PFHouse> housesInConstruction;
+	private List<PFHouse> housesInConstruction;
+	private List<PFHouseType> researchedHouseTypes;
+	
+	private UpgradeProcessor upgrades;
 
 	// Employee management for warehouse and production goes in the distinct
 	// classes
@@ -44,6 +47,8 @@ public class Enterprise {
 
 	public Enterprise() {
 		housesInConstruction = new ArrayList<>();
+		researchedHouseTypes = new ArrayList<>();
+		upgrades			 = new UpgradeProcessor();
 
 		hr = new HR();
 		Employee hrGuy = hr.hire(EmployeeType.HR);
@@ -55,7 +60,7 @@ public class Enterprise {
 
 		production = new ProductionHouse();
 		try {
-			warehouse = new Warehouse(9999999, 3000, storeKeeper);
+			warehouse = new Warehouse(storeKeeper);
 		} catch (WarehouseException e) {
 			e.printStackTrace();
 		} catch (WrongEmployeeTypeException e) {
@@ -86,6 +91,19 @@ public class Enterprise {
 
 		// designthinking = new ResearchProject();
 		// TODO Add functionality to add architect and get costs ;)
+	}
+	
+	/**
+	 * Method to simulate one time-step for the enterprise
+	 */
+	public void doSimulationStep(){
+		
+		//TODO: handle more necessary stuff :D
+		
+		//TODO: handle the house production progress
+		
+		//Handle the upgrade progress
+		upgrades.processUpgrades(this);
 	}
 
 	/**
@@ -140,11 +158,9 @@ public class Enterprise {
 	 *         warehouse.
 	 * 
 	 */
-
 	public void producePFHouse(Offer offer, List<Employee> employees) throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
-
 		if (offer == null)
 			throw new EnterpriseException("Invalid offer given!");
 
@@ -288,7 +304,7 @@ public class Enterprise {
 
 	}
 
-	/*
+	/**
 	 * This Method calculates all costs which can't be related to a single house
 	 * building project including: warehouse (including storage keepers) costs
 	 * architect and architect project costs employees: market_reasearch,
@@ -309,7 +325,7 @@ public class Enterprise {
 		return sum;
 	}
 
-	/*
+	/**
 	 * check the requirements for an Offer based on the housetype of the house a
 	 * player wants to produce.
 	 */
@@ -339,10 +355,10 @@ public class Enterprise {
 		}
 	}
 
-	/*
-	 * This Method doens't check if everything is available!!!!!!!! Make this
-	 * sure before (class Enterprise Method checkRequirementsforOffer) returns
-	 * the variable costs for the offer This includes: Wall costs(machine,
+	/**
+	 * This Method doens't check if everything is available!!!!!!!! Make
+	 * sure this is the case before (class Enterprise Method checkRequirementsforOffer) 
+	 * returns the variable costs for the offer This includes: Wall costs(machine,
 	 * employee work, resources) Assembler cost(for building the house)
 	 * additional resources
 	 */
@@ -393,11 +409,19 @@ public class Enterprise {
 		return production;
 	}
 
-	public ArrayList<PFHouse> getHousesInConstruction() {
+	public List<PFHouse> getHousesInConstruction() {
 		return housesInConstruction;
+	}
+	
+	public List<PFHouseType> getResearchedHouseTypes() {
+		return researchedHouseTypes;
 	}
 
 	public HR getHR() {
 		return hr;
+	}
+	
+	public UpgradeProcessor getUpgradeProcessor() {
+		return upgrades;
 	}
 }

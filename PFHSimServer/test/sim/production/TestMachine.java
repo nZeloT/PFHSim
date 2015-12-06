@@ -35,7 +35,7 @@ public class TestMachine {
 		emps = hr.hire(EmployeeType.PRODUCTION, 3);
 
 		try{
-			w = new Warehouse(500, 100, hr.hire(EmployeeType.STORE_KEEPER, 3));
+			w = new Warehouse(hr.hire(EmployeeType.STORE_KEEPER, 3));
 		}catch(Exception e){
 			e.printStackTrace();
 			fail();
@@ -123,7 +123,7 @@ public class TestMachine {
 			Employee hrGuy = empMgr.hire(EmployeeType.HR);
 			hrGuy.assignWorkplace(empMgr);
 
-			w = new Warehouse(5000, 100, empMgr.hire(EmployeeType.STORE_KEEPER, 3));
+			w = new Warehouse(empMgr.hire(EmployeeType.STORE_KEEPER, 3));
 
 			resources = new Resource[9];
 			resources[0] = new Resource(20, ResourceType.WOOD);

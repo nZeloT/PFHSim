@@ -29,7 +29,7 @@ public class Employee implements CostFactor{
 			work = w;
 			
 			//could not assign the employee to the new workplace; leave him at his current
-			if(!work.assignEmployee(this, true)){
+			if(work != null && !work.assignEmployee(this, true)){
 				work = old;
 				if(work != null)
 					work.assignEmployee(this, true);

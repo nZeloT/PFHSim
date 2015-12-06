@@ -12,7 +12,7 @@ public class Wall implements CostFactor, StorageObject<WallType> {
 	
 	private int volume;
 	
-	Wall(WallType type, int costs) throws MachineException {
+	protected Wall(WallType type, int costs) throws MachineException {
 		if (type == WallType.GENERAL)
 			throw new MachineException("Cannot instantiate a wall of type 'GENERAL'!");
 			

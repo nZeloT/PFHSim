@@ -12,6 +12,7 @@ import sim.hr.EmployeeType;
 import sim.hr.HR;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
+import sim.production.MachineException;
 import sim.production.Wall;
 import sim.production.WallType;
 
@@ -28,14 +29,14 @@ public class TestWarehouse {
 		Employee hrGuy = empMgr.hire(EmployeeType.HR);
 		hrGuy.assignWorkplace(empMgr);
 		
-		w = new Warehouse(5000, 100, empMgr.hire(EmployeeType.STORE_KEEPER, 3));
+		w = new Warehouse(empMgr.hire(EmployeeType.STORE_KEEPER, 3));
 		
 		walls = new Wall[5];
-		walls[0] = new Wall(WallType.GENERAL, 20);
-		walls[1] = new Wall(WallType.GENERAL, 30);
-		walls[2] = new Wall(WallType.GENERAL, 40);
-		walls[3] = new Wall(WallType.LIGHT_WEIGHT_CONSTRUCTION, 50);
-		walls[4] = new Wall(WallType.LIGHT_WEIGHT_CONSTRUCTION, 60);
+		walls[0] = new TestWall(WallType.MASSIVE_PLUS_CONSTUCTION, 20);
+		walls[1] = new TestWall(WallType.MASSIVE_PLUS_CONSTUCTION, 30);
+		walls[2] = new TestWall(WallType.MASSIVE_PLUS_CONSTUCTION, 40);
+		walls[3] = new TestWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, 50);
+		walls[4] = new TestWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, 60);
 		
 		resources = new Resource[7];
 		resources[0] = new Resource(20, ResourceType.WOOD);
@@ -52,8 +53,8 @@ public class TestWarehouse {
 	}
 
 	@Test
-	public void testStoreWall() {
-		Wall wall = new Wall(WallType.GENERAL, 20);
+	public void testStoreWall() throws Exception {
+		Wall wall = new TestWall(WallType.MASSIVE_PLUS_CONSTUCTION, 20);
 		assertEquals(w.storeWall(wall), true);
 	}
 	
@@ -74,18 +75,18 @@ public class TestWarehouse {
 	}
 
 	@Test
-	public void testRemoveWall() {
-		Wall wall = new Wall(WallType.GENERAL, 30);
+	public void testRemoveWall() throws Exception {
+		Wall wall = new TestWall(WallType.MASSIVE_PLUS_CONSTUCTION, 30);
 		
 		w.storeWall(wall);
 		
-		assertEquals(w.removeWall(WallType.GENERAL), wall);
+		assertEquals(w.removeWall(WallType.MASSIVE_PLUS_CONSTUCTION), wall);
 	}
 
 	@Test
 	public void testRemoveWalls() {
 		w.storeWall(this.walls);
-		Wall[] walls = w.removeWalls(WallType.GENERAL, 2);
+		Wall[] walls = w.removeWalls(WallType.MASSIVE_PLUS_CONSTUCTION, 2);
 		
 		assertNotNull(walls);
 		assertEquals(walls.length, 2);
@@ -124,11 +125,13 @@ public class TestWarehouse {
 		
 		assertEquals(w.isInStorage(ResourceType.INSULATION, 3), true);
 	}
+	
+	private static class TestWall extends Wall{
 
-	@Test
-	public void testCapacity() {
-		w.setCapacity(100);
-		assertEquals(w.getCapacity(), 100);
+		TestWall(WallType type, int costs) throws MachineException {
+			super(type, costs);
+		}
+		
 	}
 
 }

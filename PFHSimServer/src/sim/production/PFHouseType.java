@@ -28,7 +28,7 @@ public enum PFHouseType implements GeneralType {
 			},
 			new Tupel[] {
 				new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 3)
-			}, 1),
+			}, 1, 0, 0),
 	BLOCK_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 3), 
 			new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS, 3)
@@ -39,7 +39,7 @@ public enum PFHouseType implements GeneralType {
 		},
 		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 5)
-		}, 1),
+		}, 1, 1, 10000),
 	EFFICIENCY_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 6)
 		},
@@ -48,7 +48,7 @@ public enum PFHouseType implements GeneralType {
 		},
 		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 5)
-		}, 1),
+		}, 1, 2, 20000),
 	MULTI_FAMILY_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 12)
 		},
@@ -58,7 +58,7 @@ public enum PFHouseType implements GeneralType {
 		},
 		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 9)
-		}, 2),
+		}, 2, 3, 30000),
 	COMFORT_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 6),
 			new Tupel<WallType>(WallType.PANORAMA_WALL, 1)
@@ -69,7 +69,7 @@ public enum PFHouseType implements GeneralType {
 		},
 		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 8)
-		}, 2),
+		}, 2, 4, 40000),
 	CITY_VILLA(new Tupel[]{
 			new Tupel<WallType>(WallType.PANORAMA_WALL, 2),
 			new Tupel<WallType>(WallType.GENERAL, 6)
@@ -80,7 +80,7 @@ public enum PFHouseType implements GeneralType {
 		},
 		new Tupel[] {
 			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 10)
-		}, 2),
+		}, 2, 5, 50000),
 	TRENDHOUSE(new Tupel[]{
 				new Tupel<WallType>(WallType.PANORAMA_WALL, 3),
 				new Tupel<WallType>(WallType.GENERAL, 5)
@@ -90,25 +90,29 @@ public enum PFHouseType implements GeneralType {
 			},
 			new Tupel[] {
 				new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 9)
-			}, 2);
+			}, 2, 6, 60000);
 	
 		
 	private Tupel<WallType>[] walltupel;
 	private Tupel<ResourceType>[] resourcetupel;
 	private Tupel<EmployeeType>[] employeetupel; 
 	private int constructionDuration;
+	
+	private int researchDuration;
+	private int researchCosts;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private PFHouseType(Tupel[] walltupel, Tupel[] resourcetupel, Tupel[] employeetupel, int constructionDuration) {
+	private PFHouseType(Tupel[] walltupel, Tupel[] resourcetupel, Tupel[] employeetupel, int constructionDuration,
+			int researchDuration, int researchCosts) {
 		
 		this.walltupel = walltupel;
 		this.resourcetupel= resourcetupel;
 		this.employeetupel = employeetupel;
 		this.constructionDuration = constructionDuration;
 		
+		this.researchCosts = researchCosts;
+		this.researchDuration = researchDuration;
 	}
-	
-	
 	
 	public WallType[] getRequiredWallTypes() {
 		WallType[] wt = new WallType[walltupel.length];
@@ -160,6 +164,14 @@ public enum PFHouseType implements GeneralType {
 	
 	public int getConstructionDuration() {
 		return constructionDuration;
+	}
+	
+	public int getResearchCosts() {
+		return researchCosts;
+	}
+	
+	public int getResearchDuration() {
+		return researchDuration;
 	}
 	
 }

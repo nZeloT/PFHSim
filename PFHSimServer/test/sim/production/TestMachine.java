@@ -3,6 +3,8 @@ package sim.production;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,6 +43,7 @@ public class TestMachine {
 
 		try {
 			m = new Machine(MachineType.BRICKWALL_MACHINE);
+			Arrays.asList(hr.hire(EmployeeType.PRODUCTION, 5)).forEach((emp) -> {m.assignEmployee(emp);});	
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

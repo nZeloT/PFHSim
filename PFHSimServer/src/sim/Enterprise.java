@@ -34,6 +34,7 @@ public class Enterprise {
 
 	private List<PFHouse> housesInConstruction;
 	private List<PFHouseType> researchedHouseTypes;
+	private List<Offer> offers;
 	
 	private UpgradeProcessor upgrades;
 
@@ -49,6 +50,7 @@ public class Enterprise {
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
 		upgrades			 = new UpgradeProcessor();
+		offers 				 = new ArrayList<>();
 
 		hr = new HR();
 		Employee hrGuy = hr.hire(EmployeeType.HR);
@@ -87,12 +89,22 @@ public class Enterprise {
 		markeEmp.assignWorkplace(marketResearch);
 
 		production = new ProductionHouse();
+		
+		offers = new ArrayList<Offer>();
 		// TODO Add possibility to buy machines/machine type declaration
 
 		// designthinking = new ResearchProject();
 		// TODO Add functionality to add architect and get costs ;)
 	}
 	
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
+	public void setOffers(Offer offer) {
+		this.offers.add(offer);
+	}
+
 	/**
 	 * Method to simulate one time-step for the enterprise
 	 */

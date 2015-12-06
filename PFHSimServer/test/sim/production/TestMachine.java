@@ -132,6 +132,8 @@ public class TestMachine {
 			resources[6] = new Resource(20, ResourceType.WOOD);
 			resources[7] = new Resource(20, ResourceType.WOOD);
 			resources[8] = new Resource(30, ResourceType.WINDOW);
+			
+			w.storeResource(resources);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -188,7 +190,6 @@ public class TestMachine {
 		try {
 			masch.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w);
 		} catch (MachineException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(w.isInStorage(WallType.LIGHT_WEIGHT_CONSTRUCTION),true);	

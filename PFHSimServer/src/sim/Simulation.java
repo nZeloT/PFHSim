@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import sim.abstraction.Tupel;
 import sim.production.PFHouseType;
 import sim.simulation.sales.Offer;
 
@@ -12,8 +11,19 @@ public class Simulation {
 
 	private List<Enterprise> enterprises = new ArrayList<Enterprise>();
 	private List<List<Offer>> offerList = new ArrayList<List<Offer>>();
+	private List<ResultingPurchases> results = new ArrayList<ResultingPurchases>();
 
 	private HashMap<PFHouseType, List<OfferTupel>> htt;
+	
+	class ResultingPurchases{
+		public OfferTupel succOffer;
+		public int amountofPurchases;
+		
+		public ResultingPurchases(OfferTupel offer, int amount) {
+			this.succOffer = offer;
+			this.amountofPurchases = amount;
+		}
+	}
 
 	class OfferTupel {
 		public Offer offer;
@@ -31,14 +41,14 @@ public class Simulation {
 		htt = new HashMap<>();
 
 	}
-
-	public void evaluateOffers() {
+/**
+ * sort offers in the right Housetype category an ascending by Price for purchase Simulation
+ */
+	public void sortOffers() {
 
 		for (int j = 0; j < enterprises.size(); j++) {
 			offerList.add(enterprises.get(j).getOffers());
 		}
-
-		// simulate group of buyers = cheapest offering
 
 		for (int k = 0; k < offerList.size(); k++) {
 			List<Offer> offer = offerList.get(k);
@@ -69,5 +79,33 @@ public class Simulation {
 			}
 		}
 
+	}
+	/**
+	 * simulate market consumer group looking for the cheapest prices in every category
+	 * @param maxAmount maximal Amount of offers to purchase
+	 * @param minAmount minimum Amount of offers to purchase
+	 * @param step define by how many offers to decrease the purchase amount for the next offer
+	 * The results are written in the result list for purchases
+	 */
+	public void buyCheapHouses(int maxAmount,int minAmount, int step){
+		PFHouseType houseteypes[] = PFHouseType.values();
+		for (int i = 0; i < houseteypes.length; i++) {
+			List<Simulation.OfferTupel> offersForOneCat = htt.get(houseteypes[i]);
+			if (offersForOneCat == null) { //make sure a List of offers exist
+				continue;
+			}
+			int currentAmount = maxAmount;
+			int c = 0;
+			while (currentAmount >= minAmount) {
+				OfferTupel offer = offersForOneCat.get(c);
+				if (offer == null) {
+					break;
+				}
+				results.add(new ResultingPurchases(offer, currentAmount));
+				currentAmount -= step;
+				c++;
+			}
+			
+		}
 	}
 }

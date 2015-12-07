@@ -141,9 +141,9 @@ public class Enterprise {
 	 */
 	public void buyResources(ResourceType type, int amount) throws EnterpriseException, ResourceMarketException {
 		ResourceMarket market = ResourceMarket.get();
-		ResourceListItem inventory = market.getResources().get(type);
+		ResourceListItem resource = market.getResources().get(type);
 		Resource[] resources;
-		int price = amount * inventory.getCosts();
+		int price = amount * resource.getCosts();
 		if (price > cash) {
 			throw new EnterpriseException("Not enough Money to buy " + amount + " Resources!");
 		}
@@ -335,7 +335,6 @@ public class Enterprise {
 		sum += procurement.getEmployeeCosts();
 		sum += marketResearch.getEmployeeCosts();
 		sum += hr.getEmployeeCosts();
-		sum += warehouse.getCosts();
 		// TODO add Project Costs..
 		return sum;
 	}

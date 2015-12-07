@@ -14,6 +14,7 @@ import sim.hr.HR;
 import sim.procurement.Resource;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceType;
+import sim.production.Machine;
 import sim.production.MachineException;
 import sim.production.MachineType;
 import sim.production.PFHouseType;
@@ -90,9 +91,8 @@ public class EnterpriseTest {
 	
 	@Test
 	public void testVariableCosts() {
-		// not ready
-		fail();
 		try {
+			ResourceMarket market = ResourceMarket.get();
 			Enterprise e = new Enterprise();
 			e.buyResources(ResourceType.WOOD, 500);
 			e.buyResources(ResourceType.BRICK, 500);
@@ -100,8 +100,16 @@ public class EnterpriseTest {
 			e.buyResources(ResourceType.ROOF_TILE, 500);
 			e.buyResources(ResourceType.WINDOW, 500);
 			e.buyResources(ResourceType.INSULATION, 500);
-
-			ResourceMarket market = ResourceMarket.get();
+			e.buyMachine(MachineType.WOODWALL_MACHINE);
+			Machine machine = e.getProductionHouse().getMachines().get(0);
+			Employee[] es = e.getHR().hire(EmployeeType.PRODUCTION, 3);
+			for (int i = 0; i < es.length; i++) {
+				es[i].assignWorkplace(machine);
+			}
+			
+			machine.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, e.getWarehouse());
+			//easy part
+			assertEquals(e.getWarehouse().removeWall(WallType.LIGHT_WEIGHT_CONSTRUCTION).getCosts(), 236);
 			market.adjustPrices();
 
 			e.buyResources(ResourceType.WOOD, 500);
@@ -110,6 +118,9 @@ public class EnterpriseTest {
 			e.buyResources(ResourceType.ROOF_TILE, 500);
 			e.buyResources(ResourceType.WINDOW, 500);
 			e.buyResources(ResourceType.INSULATION, 500);
+			
+			machine.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, e.getWarehouse());
+			assertEquals(e.getWarehouse().removeWall(WallType.LIGHT_WEIGHT_CONSTRUCTION).getCosts(), 239);
 
 		} catch (Exception e) {
 			e.printStackTrace();

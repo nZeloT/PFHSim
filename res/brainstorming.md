@@ -1,3 +1,15 @@
+### ToDo for presenationday
+
+* Define Use Cases // Welche Ereignisse gibt es? 
+* Show Unittest, show Coding
+* Show Fachkonzeptschicht // Business Logik
+* Was ist das Besondere an unserem Game?
+* Group of Buyers zeigen
+* Klassendiagramm
+
+* Präsentationszeit: 15 min, 
+* PowerPoint erwünscht, nicht verpflichtend 
+
 #Review 2015-12-06
 
 Done:

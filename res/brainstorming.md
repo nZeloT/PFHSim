@@ -16,7 +16,7 @@
 1. Produce/Calculate houses
 2. Produce new walls with the machines
 
-* ToDo at Sprintweek No. 3
+* ToDo at Sprintweek three
 ** Reduce machine output and choose which wall type to build 
 ** Check if houose is realizable, implement a maximal amount of production which are realizable
 ** Continue implementing the group of buyers

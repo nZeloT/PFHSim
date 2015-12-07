@@ -5,7 +5,7 @@ Done:
 * building houses, types of houses and material changed
 * MockUp done (80%)
 * Upgrade System
- 
+* groups of buyers simulation startet
 
 
 * Question/Problem: What if you save resources for a villa, but your simulation bot wants 1000 bungalows from you and your warehouse is now empty? How to simulate the rivalry thought?

@@ -1,3 +1,4 @@
+# Review 2015-12-07
 ### ToDo for presenationday
 
 * Define Use Cases // Welche Ereignisse gibt es? 
@@ -7,8 +8,22 @@
 * Group of Buyers zeigen
 * Klassendiagramm
 
-* Präsentationszeit: 15 min, 
+* Präsentationszeit: 15 min, max. 20min
 * PowerPoint erwünscht, nicht verpflichtend 
+ 
+### Review Notes
+* Strategy 
+1. Produce/Calculate houses
+2. Produce new walls with the machines
+
+*ToDo at Sprintweek No. 3
+** Reduce machine output and choose which wall type to build 
+** Check if houose is realizable, implement a maximal amount of production which are realizable
+** Continue implementing the group of buyers
+** Implement a second cash integer
+** Think about server-client-model
+** Start realisation of UI
+** Prepare presenation for 2015-12-14
 
 #Review 2015-12-06
 

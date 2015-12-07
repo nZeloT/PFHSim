@@ -16,14 +16,14 @@
 1. Produce/Calculate houses
 2. Produce new walls with the machines
 
-* ToDo at Sprintweek three
-** Reduce machine output and choose which wall type to build 
-** Check if houose is realizable, implement a maximal amount of production which are realizable
-** Continue implementing the group of buyers
-** Implement a second cash integer
-** Think about server-client-model
-** Start realisation of UI
-** Prepare presenation for 2015-12-14
+### ToDo at Sprintweek three
+ * Reduce machine output and choose which wall type to build 
+ * Check if houose is realizable, implement a maximal amount of production which are realizable
+ * Continue implementing the group of buyers
+ * Implement a second cash integer
+ * Think about server-client-model
+ * Start realisation of UI
+ * Prepare presenation for 2015-12-14
 
 ### Information from the call with Greg
 * Server-Client-Architecture : he is not interested in, so it is our fault

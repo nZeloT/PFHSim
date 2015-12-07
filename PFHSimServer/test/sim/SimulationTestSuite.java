@@ -21,7 +21,8 @@ import sim.warehouse.TestWarehouse;
 	ResourceListTest.class,
 	ResourceMarketTest.class,
 	EnterpriseTest.class,
-	UpgradeTest.class
+	UpgradeTest.class,
+	SimulationTest.class
 })
 public class SimulationTestSuite {
 

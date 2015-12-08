@@ -17,6 +17,7 @@ import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceType;
 import sim.production.Machine;
 import sim.production.MachineException;
+import sim.production.MachineType;
 import sim.production.PFHouseType;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
@@ -105,7 +106,8 @@ public class EnterpriseTest {
 				es[i].assignWorkplace(machine);
 			}
 			
-			machine.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, e.getWarehouse());
+			machine.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
+			machine.produceWall(e.getWarehouse());
 			//easy part
 			assertEquals(e.getWarehouse().removeWall(WallType.LIGHT_WEIGHT_CONSTRUCTION).getCosts(), 236);
 			market.adjustPrices();
@@ -117,7 +119,7 @@ public class EnterpriseTest {
 			e.buyResources(ResourceType.WINDOW, 500);
 			e.buyResources(ResourceType.INSULATION, 500);
 			
-			machine.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, e.getWarehouse());
+			machine.produceWall(e.getWarehouse());
 			assertEquals(e.getWarehouse().removeWall(WallType.LIGHT_WEIGHT_CONSTRUCTION).getCosts(), 239);
 
 		} catch (Exception e) {

@@ -132,7 +132,7 @@ public class Machine extends Department implements CostFactor {
 
 		// Get resources from warehouse.
 		ArrayList<Resource[]> removed_resources = new ArrayList<>();
-		int[] avg_costs = new int[walltype.getRequiredResourceTypes().length]; //save the avg costs before removing
+		int[] avg_costs = new int[rt.length]; //save the avg costs before removing
 		for (int i = 0; i < rc.length; i++) {
 			avg_costs[i] = warehouse.calculateAvgPrice(rt[i]);
 			removed_resources.add(warehouse.removeResource(rt[i], rc[i]));

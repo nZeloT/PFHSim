@@ -8,22 +8,18 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
-import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.warehouse.Warehouse;
-import sim.warehouse.WarehouseException;
 
 public class TestMachine {
 
-	private Employee[] emps;
 	private Warehouse w;
 	private Machine m;
 
-	private Wall[] walls;
 	private Resource[] resources;
 
 	@Before
@@ -31,8 +27,6 @@ public class TestMachine {
 		HR hr = new HR();
 		Employee hrG = hr.hire(EmployeeType.HR);
 		hrG.assignWorkplace(hr);
-
-		emps = hr.hire(EmployeeType.PRODUCTION, 3);
 
 		try{
 			w = new Warehouse(hr.hire(EmployeeType.STORE_KEEPER, 3));
@@ -160,7 +154,8 @@ public class TestMachine {
 		emp2.assignWorkplace(masch);
 
 		try {
-			masch.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w);
+			masch.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
+			masch.produceWall(w);
 		} catch (MachineException e) {
 			assertEquals(w.isInStorage(WallType.LIGHT_WEIGHT_CONSTRUCTION), false);
 		}
@@ -190,7 +185,8 @@ public class TestMachine {
 
 		}
 		try {
-			masch.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w);
+			masch.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
+			masch.produceWall(w);
 		} catch (MachineException e) {
 			e.printStackTrace();
 		}
@@ -222,7 +218,8 @@ public class TestMachine {
 		Employee emp4 = emplManager.hire(EmployeeType.PRODUCTION);
 		emp4.assignWorkplace(masch);
 		try {
-			masch.produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION, w);
+			masch.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
+			masch.produceWall(w);
 		} catch (MachineException e) {
 			fail();
 		}

@@ -1,6 +1,8 @@
 package sim;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,12 +13,10 @@ import sim.abstraction.Tupel;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
-import sim.procurement.Resource;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceType;
 import sim.production.Machine;
 import sim.production.MachineException;
-import sim.production.MachineType;
 import sim.production.PFHouseType;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
@@ -30,16 +30,13 @@ public class EnterpriseTest {
 		Enterprise e = TestUtils.initializeEnterprise();
 
 		try {
-			e.getProductionHouse().getMachines().get(0).produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION,
-					e.getWarehouse());
-			e.getProductionHouse().getMachines().get(0).produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION,
-					e.getWarehouse());
-			e.getProductionHouse().getMachines().get(0).produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION,
-					e.getWarehouse());
-			e.getProductionHouse().getMachines().get(0).produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION,
-					e.getWarehouse());
-			e.getProductionHouse().getMachines().get(0).produceWall(WallType.LIGHT_WEIGHT_CONSTRUCTION,
-					e.getWarehouse());
+			Machine m = e.getProductionHouse().getMachines().get(0);
+			m.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
+			m.produceWall(e.getWarehouse());
+			m.produceWall(e.getWarehouse());
+			m.produceWall(e.getWarehouse());
+			m.produceWall(e.getWarehouse());
+			m.produceWall(e.getWarehouse());
 		} catch (MachineException e2) {
 			e2.printStackTrace();
 		}
@@ -52,7 +49,9 @@ public class EnterpriseTest {
 		wallcounts.add(5);
 
 		try {
-			e.producePFHouse(new Offer(5500, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)), Arrays.asList(a));
+			e.producePFHouse(
+					new Offer(5500, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)),
+					Arrays.asList(a));
 		} catch (EnterpriseException e1) {
 			e1.printStackTrace();
 		}
@@ -60,7 +59,6 @@ public class EnterpriseTest {
 		assertNotNull(e.getHousesInConstruction().get(0));
 
 	}
-
 
 	@Test
 	public void testFixCosts() {
@@ -88,7 +86,7 @@ public class EnterpriseTest {
 		}
 
 	}
-	
+
 	@Test
 	public void testVariableCosts() {
 		try {

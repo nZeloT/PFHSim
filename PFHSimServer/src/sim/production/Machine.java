@@ -40,6 +40,9 @@ public class Machine extends Department implements CostFactor {
 
 	private MachineType type;
 
+	private WallType productionType;
+	private int maxOutput;
+
 	/**
 	 * Warehouse: A machine needs to access the warehouse to extract and store
 	 * resources. Employee: When generating a new machine, it needs at least 3
@@ -53,6 +56,9 @@ public class Machine extends Department implements CostFactor {
 		this.performance = type.getOutput();
 		this.utilization = 0;
 		this.type = type;
+
+		this.maxOutput = this.performance;
+		this.productionType = type.getWalltypesToHandle()[0];
 	}
 
 	@Override
@@ -91,7 +97,7 @@ public class Machine extends Department implements CostFactor {
 		}
 		if (!ableToHandle)
 			return false;
-		
+
 		if ((performance - utilization) < 1 || !isInOperation())
 			return false;
 
@@ -116,23 +122,13 @@ public class Machine extends Department implements CostFactor {
 	 * the end. The respective production-costs are calculated, too.
 	 * 
 	 */
-	public void produceWall(WallType walltype, Warehouse warehouse) throws MachineException  {
+	public void produceWall(Warehouse warehouse) throws MachineException  {
 
-		// Wrong machine-type for building such a type of wall?
-		boolean ableToHandle = false;
-		WallType[] walltypesToHandle = type.getWalltypesToHandle();
-		for (WallType tmp : walltypesToHandle) {
-			if (tmp == walltype)
-				ableToHandle = true;
-		}
-		if (!ableToHandle)
-			throw new MachineException("This machine is not able to produce the given WallType!");
-			
-		if ((performance - utilization) < 1 || !isInOperation())
+		if ((performance - utilization) < 1 || !isInOperation() || utilization+1 > maxOutput)
 			throw new MachineException("This machine is too busy or within an upgrade and thus it cannot be used currently!");
 
-		ResourceType[] rt = walltype.getRequiredResourceTypes();
-		int[] rc = walltype.getResourceCounts();
+		ResourceType[] rt = productionType.getRequiredResourceTypes();
+		int[] rc = productionType.getResourceCounts();
 
 		// Get resources from warehouse.
 		ArrayList<Resource[]> removed_resources = new ArrayList<>();
@@ -167,7 +163,7 @@ public class Machine extends Department implements CostFactor {
 		wallcost += (int) (1.0 / performance * getEmployeeCosts());
 
 		// Creation of a new wall.
-		Wall wall = new Wall(walltype, wallcost);
+		Wall wall = new Wall(productionType, wallcost);
 
 		// Try to store the wall
 		if (warehouse.storeWall(wall)) {
@@ -186,6 +182,31 @@ public class Machine extends Department implements CostFactor {
 			throw new MachineException("Warehouse has not enough capacity to store the wall!");
 		}
 
+	}
+
+	/**
+	 * Set the Walltype produced by the machine within the next simulation step
+	 * @param productionType the walltype to produce; needs to be one of the handable of the machine
+	 * @throws MachineException in failure an exception is thrown
+	 */
+	public void setProductionType(WallType productionType) throws MachineException {
+		// Wrong machine-type for building such a type of wall?
+		boolean ableToHandle = false;
+		WallType[] walltypesToHandle = type.getWalltypesToHandle();
+		for (WallType tmp : walltypesToHandle) {
+			if (tmp == productionType)
+				ableToHandle = true;
+		}
+		if (!ableToHandle)
+			throw new MachineException("This machine is not able to produce the given WallType!");
+		
+		this.productionType = productionType;
+	}
+	
+	public boolean setMaxOutput(int maxOutput) {
+		if(maxOutput <= performance)
+			this.maxOutput = maxOutput;
+		return maxOutput <= performance;
 	}
 
 	public int getRequiredEmps() {
@@ -224,17 +245,25 @@ public class Machine extends Department implements CostFactor {
 	public void deltaRequiredEmps(int amount) {
 		requiredEmps += amount;
 	}
-	
+
 	public List<Employee> getAssignedEmployees(){
 		return getEmployees();
 	}
-	
+
 	public MachineType getType() {
 		return type;
 	}
-	
+
 	public int getPerformance() {
 		return performance;
+	}
+	
+	public int getMaxOutput() {
+		return maxOutput;
+	}
+	
+	public WallType getProductionType() {
+		return productionType;
 	}
 
 }

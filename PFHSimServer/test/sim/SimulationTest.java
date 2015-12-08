@@ -38,18 +38,12 @@ public class SimulationTest {
 		e2.addOffer(new Offer(8000, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
 	}
 
-	@Test
-	public void testSort() {
+	@Test 
+	public void testSort() { 
 
-		Simulation s = new Simulation(Arrays.asList(e, e2));
-		s.sortOffers();
-	}
-	
-	@Test
-	public void testCheapBuyers(){
-		Simulation s = new Simulation(Arrays.asList(e, e2));
-		s.sortOffers();
-		s.buyCheapHouses(20, 5, 5);
+		Simulation s = new Simulation();
+		s.simulateSalesMarket(e, e2);
+		
 	}
 
 }

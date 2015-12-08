@@ -2,9 +2,7 @@ package sim;
 
 import java.util.Arrays;
 
-import sim.hr.Employee;
 import sim.hr.EmployeeType;
-import sim.procurement.Resource;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import sim.production.MachineType;

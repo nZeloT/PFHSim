@@ -1,6 +1,5 @@
 package sim;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,9 +11,12 @@ public class Simulation {
 
 	private HashMap<Enterprise, List<Offer>> in = new HashMap<>();
 	
+	@SuppressWarnings("unused")
 	private Enterprise[] enterprises;
 	
 	private CheapBuyer cheapbuyer = new CheapBuyer(); 
+	private PricePerformanceBuyer priceperformancebuyer = new PricePerformanceBuyer(); 
+	private ExpensiveBuyer expensivebuyer = new ExpensiveBuyer(); 
 
 	
 	
@@ -30,16 +32,16 @@ public class Simulation {
 			}
 			in.put(enterprises[j], offers);
 		}
-		
+		 
 		
 		cheapbuyer.sortOffers(in);
-		in = cheapbuyer.registerPurchases(500, 10, 20, enterprises);
+		in = cheapbuyer.registerPurchases(500, 10, 20, enterprises); 
 		
-		//priceperformancebuyer.sortOffers(in);
+		priceperformancebuyer.sortOffers(in); 
 		//in = priceperformancebuyer.registerPurchases(500, 10, 20, enterprises);
 		
-		//expensivebuyer.sortOffers(in);
-		//in = HashMap<Enterprise, List<Offer>> result = expensivebuyer.registerPurchases(500, 10, 20, enterprises);
+		expensivebuyer.sortOffers(in);
+		//in = expensivebuyer.registerPurchases(500, 10, 20, enterprises);
 		
 	}
 

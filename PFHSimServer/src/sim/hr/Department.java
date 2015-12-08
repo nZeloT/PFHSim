@@ -55,6 +55,16 @@ public class Department {
 	}
 	
 	/**
+	 * unassign all assigned employee
+	 * @return whether all employees could be unassigned;
+	 */
+	public final boolean unassignAllEmployees(){
+		while(!employees.isEmpty() && employees.get(0).unassignWorkplace())
+			;
+		return employees.isEmpty();
+	}
+	
+	/**
 	 * internal unassignment handling; overwrite this method for further checks; but call exactly this method then from within
 	 * @param e the employee to unassign
 	 * @param calledFromEmployeeObject whether the call came from the employee object; just pass this value

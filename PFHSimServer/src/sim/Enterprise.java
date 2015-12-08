@@ -14,6 +14,7 @@ import sim.procurement.ResourceListItem;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
+import sim.production.MachineException;
 import sim.production.MachineType;
 import sim.production.PFHouse;
 import sim.production.PFHouseType;
@@ -26,8 +27,11 @@ import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
 
 public class Enterprise {
+	
+	private static final int START_CASH = 100000;
 
 	private int cash;
+	private int saldo;
 
 	private Warehouse warehouse;
 	private ProductionHouse production;
@@ -50,12 +54,21 @@ public class Enterprise {
 	// private ResearchProject designthinking; //architect
 
 	public Enterprise() {
+		cash = START_CASH;
+		
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
+		
 		upgrades			 = new UpgradeProcessor();
+		
 		offers 				 = new ArrayList<>();
-
+		
+		production = new ProductionHouse();
+		sales = new Department(EmployeeType.SALES);
+		procurement = new Department(EmployeeType.PROCUREMENT);
+		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
 		hr = new HR();
+
 		Employee hrGuy = hr.hire(EmployeeType.HR);
 
 		// first assign an HR guy to produce some HR capacity ;)
@@ -63,7 +76,6 @@ public class Enterprise {
 
 		Employee[] storeKeeper = hr.hire(EmployeeType.STORE_KEEPER, 3);
 
-		production = new ProductionHouse();
 		try {
 			warehouse = new Warehouse(storeKeeper);
 		} catch (WarehouseException e) {
@@ -71,58 +83,42 @@ public class Enterprise {
 		} catch (WrongEmployeeTypeException e) {
 			e.printStackTrace();
 		}
-		cash = 1000000;
-		Employee hrler = hr.hire(EmployeeType.HR);
-		hrler.assignWorkplace(hr);
-
-		// get the first employees
-		Employee salesEmp = hr.hire(EmployeeType.SALES);
-		Employee procuEmp = hr.hire(EmployeeType.PROCUREMENT);
-		Employee markeEmp = hr.hire(EmployeeType.MARKET_RESEARCH);
-		Employee archiEmp = hr.hire(EmployeeType.ARCHITECT);
-
-		// instantiate the departments and assign employees
-		sales = new Department(EmployeeType.SALES);
-		salesEmp.assignWorkplace(sales);
-
-		procurement = new Department(EmployeeType.PROCUREMENT);
-		procuEmp.assignWorkplace(procurement);
-
-		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
-		markeEmp.assignWorkplace(marketResearch);
-
-		production = new ProductionHouse();
-		
-		offers = new ArrayList<Offer>();
-		// TODO Add possibility to buy machines/machine type declaration
-
-		// designthinking = new ResearchProject();
-		// TODO Add functionality to add architect and get costs ;)
 	}
 	
-	public List<Offer> getOffers() {
-		return offers;
-	}
-
-	public void setOffers(Offer offer) {
-		this.offers.add(offer);
-	}
-
 	/**
 	 * Method to simulate one time-step for the enterprise
 	 */
 	public void doSimulationStep(){
-
-		//TODO: decrease construction-duration-counter for pfhouses
+		int oldCash = cash;
 		
 		//TODO: process results from buyer's market-simulation.
 		
-		//TODO: handle more necessary stuff :D
+		for (int i = 0; i < housesInConstruction.size(); i++) {
+			PFHouse h = housesInConstruction.get(i);
+			h.processConstruction();
+			
+			cash -= h.getEmployeeCosts();
+			
+			if(h.isFinished()){
+				housesInConstruction.remove(i--);
+				
+				cash += h.getPrice();
+				cash -= h.getCosts();
+			}
+		}
 		
-		//TODO: handle the house production progress
+		//process machine production
+		//TODO: how to handle the errors to show them on the UI; maybe aggregate all occurred errors during simulation in one big list / map?
+		List<MachineException> productionErrors = production.processProduction(warehouse);
 		
 		//Handle the upgrade progress
 		upgrades.processUpgrades(this);
+		
+		//handle more cash flow things
+		cash -= calculateFixedCosts();
+		
+		//calculate the cash difference;
+		saldo = cash - oldCash;
 	}
 
 	/**
@@ -312,8 +308,10 @@ public class Enterprise {
 
 		// create a new house and append it to the array-list saving the houses
 		// which are in construction.
-		PFHouse pfh = new PFHouse(offer.getPrice(), this.calculateVariableCosts(offer.getHousetype()), offer.getHousetype(),
-				offer.getHousetype().getConstructionDuration(), employees);
+		
+		//TODO calc variable costs does not work here. calc the price based on the concrete walltype
+		PFHouse pfh = new PFHouse(offer.getPrice(), this.calculateVariableCosts(offer.getHousetype()), 
+				offer.getHousetype(), employees);
 
 		housesInConstruction.add(pfh);
 
@@ -412,7 +410,7 @@ public class Enterprise {
 		if (cash < type.getPrice()) {
 			throw new EnterpriseException("Not enough Money!");
 		}
-		production.buyMachine(type);
+		cash -= production.buyMachine(type);
 	}
 
 	public Warehouse getWarehouse() {
@@ -437,5 +435,21 @@ public class Enterprise {
 	
 	public UpgradeProcessor getUpgradeProcessor() {
 		return upgrades;
+	}
+	
+	public int getCash() {
+		return cash;
+	}
+	
+	public int getSaldo() {
+		return saldo;
+	}
+	
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
+	public void addOffer(Offer offer) {
+		this.offers.add(offer);
 	}
 }

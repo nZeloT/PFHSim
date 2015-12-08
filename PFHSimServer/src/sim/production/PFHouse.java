@@ -18,27 +18,45 @@ public class PFHouse extends Department implements CostFactor {
 	
 	private int buildDurationLeft;
 
-	@Override
-	public int getCosts() {
-		return costs;
-	}
-	
-	public PFHouse(int price, int costs, PFHouseType type, int buildDurationLeft, List<Employee> employees) {
+	public PFHouse(int price, int costs, PFHouseType type, List<Employee> employees) {
 		super(EmployeeType.ASSEMBLER);
 		
 		this.price = price;
 		this.costs = costs;
 		this.quality = 0;
 		this.type = type;
-		this.buildDurationLeft = buildDurationLeft;
+		this.buildDurationLeft = type.getConstructionDuration();
 		
 		for (Employee e : employees) {
 			e.assignWorkplace(this);
 		}
 	}
 
-	public void decreaseBuildDurationLeft() {
+	public void processConstruction() {
 		buildDurationLeft--;
+		if(isFinished())
+			unassignAllEmployees();
+	}
+	
+	public boolean isFinished(){
+		return buildDurationLeft == 0;
+	}
+	
+	@Override
+	public int getCosts() {
+		return costs;
+	}
+	
+	public int getPrice() {
+		return price;
+	}
+	
+	public double getQuality() {
+		return quality;
+	}
+	
+	public PFHouseType getType() {
+		return type;
 	}
 
 }

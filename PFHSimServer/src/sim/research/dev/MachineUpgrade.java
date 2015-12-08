@@ -1,8 +1,5 @@
 package sim.research.dev;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
@@ -13,6 +10,8 @@ public class MachineUpgrade extends Upgrade<Machine> {
 
 	private Machine machine;
 	private HR empMgr;
+	
+	private boolean unassignedAll;
 
 	MachineUpgrade(Machine m, HR empMgr) {
 		super(m.getType().getUpgradeDuration(), m.getType().getUpgradeCosts());
@@ -26,11 +25,16 @@ public class MachineUpgrade extends Upgrade<Machine> {
 		//1. set machine to inupgrade
 		machine.setInUpgrade(true);
 
-		//2. unassign employees | this is needed because otherwise we only get a reference then remove items from it ...
-		List<Employee> emps = new ArrayList<>(machine.getAssignedEmployees());
-		for (Employee e : emps) {
-			e.unassignWorkplace();
-		}
+		//2. unassign employees
+		unassignedAll = machine.unassignAllEmployees();
+	}
+	
+	@Override
+	public void simRound() {
+		if(unassignedAll)
+			super.simRound();
+		else
+			setup();
 	}
 
 	@Override

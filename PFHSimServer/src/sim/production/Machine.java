@@ -115,6 +115,16 @@ public class Machine extends Department implements CostFactor {
 	}
 
 	/**
+	 * Produce as many walls as requested or until an error occurs; this is for simulation and therefore not public
+	 */
+	void runProductionStep(Warehouse w) throws MachineException{
+		utilization = 0;
+		while(utilization < maxOutput){
+			produceWall(w);
+		}
+	}
+
+	/**
 	 * 
 	 * Produce wall - method is to be called within the simulation-period at the
 	 * end of each period to produce a wall. Therefore all required resources
@@ -125,30 +135,23 @@ public class Machine extends Department implements CostFactor {
 	public void produceWall(Warehouse warehouse) throws MachineException  {
 
 		if ((performance - utilization) < 1 || !isInOperation() || utilization+1 > maxOutput)
-			throw new MachineException("This machine is too busy or within an upgrade and thus it cannot be used currently!");
+			throw new MachineException(this, "This machine is too busy or within an upgrade and thus it cannot be used currently!");
 
 		ResourceType[] rt = productionType.getRequiredResourceTypes();
 		int[] rc = productionType.getResourceCounts();
 
 		// Get resources from warehouse.
-		ArrayList<Resource[]> removed_resources = new ArrayList<>();
+		List<Resource[]> removed_resources = new ArrayList<>();
 		int[] avg_costs = new int[rt.length]; //save the avg costs before removing
 		for (int i = 0; i < rc.length; i++) {
 			avg_costs[i] = warehouse.calculateAvgPrice(rt[i]);
-			removed_resources.add(warehouse.removeResource(rt[i], rc[i]));
-
 			// If there are not enough resources available,
 			// terminate the process of creation.
-			if (removed_resources.get(i) == null) {
-				// But before termination, the from the warehouse already
-				// removed resources must be stored back.
-				for (int j = 0; j < i; j++) {
-					for (int k = 0; k < removed_resources.get(j).length; k++) {
-						warehouse.storeResource(removed_resources.get(j)[k]);
-					}
-				}
-				throw new MachineException("Not enough resources available in the warehouse!");
-			}
+			if (warehouse.isInStorage(rt[i], rc[i])) 
+				removed_resources.add(warehouse.removeResource(rt[i], rc[i]));
+			else
+				throw new MachineException(this, "Not enough resources available in the warehouse!");
+			
 		}
 
 		// Calculate production cost at highest utilization possible.
@@ -167,8 +170,7 @@ public class Machine extends Department implements CostFactor {
 
 		// Try to store the wall
 		if (warehouse.storeWall(wall)) {
-			if (utilization > 0)
-				utilization--;
+			utilization++;
 			//return true; - Successful case.
 		} else {
 			// If the warehouse is not able to store the wall
@@ -179,7 +181,7 @@ public class Machine extends Department implements CostFactor {
 					warehouse.storeResource(removed_resources.get(j)[k]);
 				}
 			}
-			throw new MachineException("Warehouse has not enough capacity to store the wall!");
+			throw new MachineException(this, "Warehouse has not enough capacity to store the wall!");
 		}
 
 	}
@@ -198,11 +200,11 @@ public class Machine extends Department implements CostFactor {
 				ableToHandle = true;
 		}
 		if (!ableToHandle)
-			throw new MachineException("This machine is not able to produce the given WallType!");
-		
+			throw new MachineException(this, "This machine is not able to produce the given WallType!");
+
 		this.productionType = productionType;
 	}
-	
+
 	public boolean setMaxOutput(int maxOutput) {
 		if(maxOutput <= performance)
 			this.maxOutput = maxOutput;
@@ -246,10 +248,6 @@ public class Machine extends Department implements CostFactor {
 		requiredEmps += amount;
 	}
 
-	public List<Employee> getAssignedEmployees(){
-		return getEmployees();
-	}
-
 	public MachineType getType() {
 		return type;
 	}
@@ -257,11 +255,11 @@ public class Machine extends Department implements CostFactor {
 	public int getPerformance() {
 		return performance;
 	}
-	
+
 	public int getMaxOutput() {
 		return maxOutput;
 	}
-	
+
 	public WallType getProductionType() {
 		return productionType;
 	}

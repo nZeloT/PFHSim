@@ -103,7 +103,6 @@ public class Enterprise {
 				housesInConstruction.remove(i--);
 				
 				cash += h.getPrice();
-				cash -= h.getCosts();
 			}
 		}
 		

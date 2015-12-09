@@ -10,21 +10,50 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import sim.abstraction.Tupel;
+import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
 import sim.procurement.ResourceMarket;
+import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import sim.production.Machine;
 import sim.production.MachineException;
 import sim.production.MachineType;
 import sim.production.PFHouseType;
+import sim.production.PFHouseTypeTest;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
 import sim.warehouse.Warehouse;
 
 public class EnterpriseTest {
 
+	@Test
+	public void testIfAmountOfHousesIsProducible() throws EnterpriseException, ResourceMarketException{
+
+		Enterprise e = TestUtils.initializeEnterprise();
+		Employee[] assembler = e.getHR().hire(EmployeeType.ASSEMBLER, 20);
+		
+		e.buyResources(ResourceType.WOOD, 28);
+		e.buyResources(ResourceType.ROOF_TILE, 50);
+		
+		try {
+			Machine m = e.getProductionHouse().getMachines().get(0);
+			m.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
+			
+			for(int i = 0; i<12; i++){
+				m.produceWall(e.getWarehouse());
+			}
+
+			e.checkRequirementsforOffer(PFHouseType.BLOCK_HOUSE, 4);
+			
+		} catch (MachineException e2) {
+			e2.printStackTrace();
+			fail();
+		}
+		
+		
+	}
 	@Test
 	public void testEasyProductionCycle() {
 

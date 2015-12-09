@@ -353,8 +353,9 @@ public class Enterprise {
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
 		
+		
 		for (int i = 0; i < wallcount.length; i++) {
-			if (!warehouse.isInStorage(walltypes[i], wallcount[i]*amount)) {
+			if (!warehouse.isInStorage(walltypes[0], wallcount[0]*amount)) {
 				throw new EnterpriseException("Not Enough Walls to create a Offer for this Type!");
 			}
 		}

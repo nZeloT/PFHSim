@@ -163,6 +163,24 @@ public class Warehouse extends Department implements CostFactor{
 	}
 
 	/**
+	 * get the max amount of the defined resources in the warehouse
+	 * @param type the resourcetype to check
+	 * @return maxAmount
+	 */
+	public int getMaxAmount(ResourceType type){
+		return resStore.maxAvailable(type);
+	}
+	
+	/**
+	 * get the max amount of the defined walls in the warehouse
+	 * @param type the wallType to check
+	 * @return maxAmount
+	 */
+	public int getMaxAmount(WallType type){
+		return wallStore.maxAvailable(type);
+	}
+	
+	/**
 	 * check whether the given amount of resources of the given resourcetype are in the warehouse
 	 * @param type the resourcetype to check
 	 * @param count the amount of resources to go for
@@ -294,11 +312,11 @@ public class Warehouse extends Department implements CostFactor{
 		}
 		
 		public S[] remove(T t, int amount){
-			//1. check if the ecessary count is avaliable
+			//1. check if the necessary count is available
 			if(!isInStorage(t, amount))
 				return null;
 
-			//2. remove the reqested amount from the storage
+			//2. remove the requested amount from the storage
 			@SuppressWarnings("unchecked")
 			S[] ret = (S[]) Array.newInstance(storageObjectCls, amount);
 			
@@ -311,6 +329,17 @@ public class Warehouse extends Department implements CostFactor{
 			}
 
 			return ret;
+		}
+		
+		public int maxAvailable(T t){
+			int c = 0;
+		
+			for (int i = 0; i < storage.size(); i++) {
+				if(storage.get(i).getType() == t){
+					c++;
+				}
+			}
+			return c;
 		}
 		
 		public boolean isInStorage(T t, int amount){

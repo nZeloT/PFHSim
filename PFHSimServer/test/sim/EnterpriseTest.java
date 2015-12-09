@@ -40,6 +40,7 @@ public class EnterpriseTest {
 			m.produceWall(e.getWarehouse());
 		} catch (MachineException e2) {
 			e2.printStackTrace();
+			fail();
 		}
 
 		Employee[] a = e.getHR().hire(EmployeeType.ASSEMBLER, 3);
@@ -77,7 +78,6 @@ public class EnterpriseTest {
 			testfixcosts += EmployeeType.SALES.getBaseCost();
 			testfixcosts += EmployeeType.PROCUREMENT.getBaseCost();
 			testfixcosts += EmployeeType.MARKET_RESEARCH.getBaseCost();
-			testfixcosts += employmgr.getEmployeeCosts();
 			Enterprise e = new Enterprise();
 			assertEquals(testfixcosts, e.calculateFixedCosts());
 

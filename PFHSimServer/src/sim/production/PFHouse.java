@@ -2,10 +2,15 @@ package sim.production;
 
 import java.util.List;
 
+import sim.EnterpriseException;
 import sim.abstraction.CostFactor;
+import sim.abstraction.Tupel;
 import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
+import sim.procurement.ResourceType;
+import sim.simulation.sales.Offer;
+import sim.warehouse.Warehouse;
 
 public class PFHouse extends Department implements CostFactor {
 	
@@ -15,6 +20,7 @@ public class PFHouse extends Department implements CostFactor {
 	private double quality;
 	
 	private PFHouseType type;
+	private Warehouse warehouse;
 	
 	private int buildDurationLeft;
 

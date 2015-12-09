@@ -75,6 +75,9 @@ public class Enterprise {
 		hrGuy.assignWorkplace(hr);
 
 		Employee[] storeKeeper = hr.hire(EmployeeType.STORE_KEEPER, 3);
+		hr.hire(EmployeeType.SALES).assignWorkplace(sales);
+		hr.hire(EmployeeType.PROCUREMENT).assignWorkplace(procurement);
+		hr.hire(EmployeeType.MARKET_RESEARCH).assignWorkplace(marketResearch);
 
 		try {
 			warehouse = new Warehouse(storeKeeper);
@@ -341,32 +344,74 @@ public class Enterprise {
 	 * check the requirements for an Offer based on the housetype of the house a
 	 * player wants to produce.
 	 */
-	public void checkRequirementsforOffer(PFHouseType housetype) throws EnterpriseException {
+	public void checkRequirementsforOffer(PFHouseType housetype, int amount) throws EnterpriseException {
 
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
+		
 		for (int i = 0; i < wallcount.length; i++) {
-			if (!warehouse.isInStorage(walltypes[i], wallcount[i])) {
+			if (!warehouse.isInStorage(walltypes[i], wallcount[i]*amount)) {
 				throw new EnterpriseException("Not Enough Walls to create a Offer for this Type!");
 			}
 		}
 
 		EmployeeType[] employees = housetype.getRequiredEmployeeTypes();
 		int[] employeecount = housetype.getEmployeeCounts();
+		
 		for (int i = 0; i < employees.length; i++) {
-			// TODO: get method to check and not take employees.
-			hr.getUnassignedEmployees(employees[i], employeecount[i]);
+			int maxAmount = hr.getMaxCapacity(employees[i]);
+				if(employeecount[i]*amount > maxAmount){
+					throw new EnterpriseException("Not enough Employees to build the houses");
+				}
 		}
 
 		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
 		int[] resourcecount = housetype.getResourceCounts();
 		for (int i = 0; i < wallcount.length; i++) {
-			if (!warehouse.isInStorage(resourcetypes[i], resourcecount[i])) {
+			if (!warehouse.isInStorage(resourcetypes[i], resourcecount[i]*amount)) {
 				throw new EnterpriseException("Not enough Resources to build an offer!");
 			}
 		}
 	}
 
+	public int getMaxProducibleHouses(PFHouseType pfhouse){
+		int maximum = 0;
+		
+		// check walls
+		WallType[] walltypes = pfhouse.getRequiredWallTypes();
+		int[] wallcount = pfhouse.getWallCounts();
+		
+		boolean first = true;
+		for (int i = 0; i < wallcount.length; i++) {
+			int max = warehouse.getMaxAmount(walltypes[i])/wallcount[i];
+			if (first) {
+				maximum = max;
+				first = false;
+			}
+			maximum = Math.min(max, maximum);
+		}
+		
+		// check resources
+		ResourceType[] resourcetypes = pfhouse.getRequiredResourceTypes();
+		int[] resourcecount = pfhouse.getResourceCounts();
+		
+		for (int i = 0; i < resourcetypes.length; i++) {
+			int max = warehouse.getMaxAmount(resourcetypes[i])/ resourcecount[i];
+			maximum = Math.min(max, maximum);
+		}
+		
+		// check employees
+		EmployeeType[] employees = pfhouse.getRequiredEmployeeTypes();
+		int[] employeecount = pfhouse.getEmployeeCounts();
+		
+		for (int i = 0; i < employees.length; i++) {
+			int max = hr.getMaxCapacity(employees[i])/employeecount[i];
+			maximum = Math.min(max, maximum);
+		}
+		
+		return maximum;
+	}
+	
 	/**
 	 * This Method doens't check if everything is available!!!!!!!! Make
 	 * sure this is the case before (class Enterprise Method checkRequirementsforOffer) 

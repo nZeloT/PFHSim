@@ -63,8 +63,9 @@ not needed
 transfer the full **DIS** report
 
 * S: END CLNT-0-INFO CLNT-1-INFO ...
-* 
-Comments, Florian:
+
+
+#######Comments, Florian:
 
 *Analysis-->RES: I would really prefer a solution where you can buy resources multiple times a round. This makes it much more fexible for the user. Send one request for one buying action instantly when button is clicked.
 

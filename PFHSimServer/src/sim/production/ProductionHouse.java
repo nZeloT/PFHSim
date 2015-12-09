@@ -22,6 +22,13 @@ public class ProductionHouse implements CostFactor {
 	public int getCosts() {
 		return basecosts;
 	}
+	
+	public int getMachineCosts(){
+		int costs = 0;
+		for (Machine m : machines)
+			costs += m.getCosts();
+		return costs;
+	}
 
 	public List<Machine> getMachines() {
 		return machines;

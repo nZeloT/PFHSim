@@ -27,6 +27,8 @@ public class UpgradeProcessor {
 				u.simRound();
 			else{
 				upgradesInProg.remove(i--); //do not forget to reduce the index when removing an item ;)
+				
+				
 
 				if(u instanceof ResearchProject){
 					//not nice but easy
@@ -36,49 +38,49 @@ public class UpgradeProcessor {
 		}
 	}
 
-	public boolean startEmployeeTraining(Employee e){
+	public int startEmployeeTraining(Employee e){
 		if(!check(e))
-			return false;
+			return -1;
 		
 		EmployeeTraining t = new EmployeeTraining(e);
 		t.setup();
 		upgradesInProg.add(t);
-		return true;
+		return t.getCosts();
 	}
 
-	public boolean startMachineUpgrade(Machine m, HR hr){
+	public int startMachineUpgrade(Machine m, HR hr){
 		if(!check(m))
-			return false;
+			return -1;
 		
 		MachineUpgrade up = new MachineUpgrade(m, hr);
 		up.setup();
 		upgradesInProg.add(up);
-		return true;
+		return up.getCosts();
 	}
 
-	public boolean startWarehouseExtension(Warehouse w){
+	public int startWarehouseExtension(Warehouse w){
 		if(!check(w))
-			return false;
+			return -1;
 		
 		ExtendWarehouse ex = new ExtendWarehouse(w);
 		ex.setup();
 		upgradesInProg.add(ex);
-		return true;
+		return ex.getCosts();
 	}
 
 	@SuppressWarnings("rawtypes")
-	public boolean startResearchProject(PFHouseType type, Employee arch){
+	public int startResearchProject(PFHouseType type, Employee arch){
 		
 		for (Upgrade u : upgradesInProg) {
 			if(u instanceof ResearchProject)
 				if(arch.equals(u.getUpgradeObject()) || type == ((ResearchProject)u).getReasearchType())
-					return false;
+					return -1;
 		}
 		
 		ResearchProject res = new ResearchProject(type, arch);
 		res.setup();
 		upgradesInProg.add(res);
-		return true;
+		return res.getCosts();
 	}
 	
 	@SuppressWarnings("rawtypes")

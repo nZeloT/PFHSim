@@ -88,16 +88,15 @@ public class Enterprise {
 	/**
 	 * Method to simulate one time-step for the enterprise
 	 */
-	public void doSimulationStep(){
+	public List<Exception> doSimulationStep(){
 		int oldCash = cash;
+		List<Exception> errorStore = new ArrayList<>();
 		
 		//TODO: process results from buyer's market-simulation.
 		
 		for (int i = 0; i < housesInConstruction.size(); i++) {
 			PFHouse h = housesInConstruction.get(i);
 			h.processConstruction();
-			
-			cash -= h.getEmployeeCosts();
 			
 			if(h.isFinished()){
 				housesInConstruction.remove(i--);
@@ -109,15 +108,21 @@ public class Enterprise {
 		//process machine production
 		//TODO: how to handle the errors to show them on the UI; maybe aggregate all occurred errors during simulation in one big list / map?
 		List<MachineException> productionErrors = production.processProduction(warehouse);
+		errorStore.addAll(productionErrors);
 		
 		//Handle the upgrade progress
 		upgrades.processUpgrades(this);
 		
 		//handle more cash flow things
-		cash -= calculateFixedCosts();
+		cash -= hr.getOverallEmployeeCosts(); //this makes sure we also pay for unassigned employees ;)
+		cash -= production.getCosts();
+		cash -=    production.getMachineCosts();
+		cash -= warehouse.getCosts();
 		
 		//calculate the cash difference;
 		saldo = cash - oldCash;
+		
+		return errorStore;
 	}
 
 	/**
@@ -410,6 +415,11 @@ public class Enterprise {
 			throw new EnterpriseException("Not enough Money!");
 		}
 		cash -= production.buyMachine(type);
+	}
+	
+	public void addExpense(int ex){
+		if(ex > 0)
+			cash -= ex;
 	}
 
 	public Warehouse getWarehouse() {

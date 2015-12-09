@@ -2,6 +2,7 @@
 
 Version: 1; Author: Leon
 
+
 ###Server Tasks
 Required:
 * **RES**: Handle the resource selling; Every Enterprise buys resources on the same market
@@ -62,3 +63,13 @@ not needed
 transfer the full **DIS** report
 
 * S: END CLNT-0-INFO CLNT-1-INFO ...
+* 
+Comments, Florian:
+
+*Analysis-->RES: I would really prefer a solution where you can buy resources multiple times a round. This makes it much more fexible for the user. Send one request for one buying action instantly when button is clicked.
+
+*Simulation Phase: I would also transfer the new resource prices at the end of a simulation phase, so that the player is able to see how much his invests would cost now. We can leave the price at the RES-Protocoll as an ACK/Recheck.
+
+*End Game criteria: We also need to think about that. Different opportunities, xxxx Euro reached, xx% Market Shar (xx>70%?), last player with positiv cash. Easiest would be EURO reached.., but is that the best? Also possible when all houses are available for everyone, go for 2 more rounds or something like that.
+
+*CHK-->something for iteration 2 :D

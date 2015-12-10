@@ -1,8 +1,8 @@
 package sim.procurement;
 
-import sim.abstraction.StorebleType;
+import sim.abstraction.StoreableType;
 
-public enum ResourceType implements StorebleType {
+public enum ResourceType implements StoreableType {
 	WOOD(5,10, "wood"),
 	INSULATION(3,20, "insulation"),
 	CONCRETE(3,6, "concrete"),

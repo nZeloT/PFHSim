@@ -40,8 +40,8 @@ public class Enterprise {
 	private List<PFHouse> housesInConstruction;
 	private List<PFHouseType> researchedHouseTypes;
 
-	//This list represents a catalogue of pfhouse-offers, which
-	//specify the walls for a house-type as well as the price.
+	// This list represents a catalogue of pfhouse-offers, which
+	// specify the walls for a house-type as well as the price.
 	private List<Offer> offers;
 
 	private UpgradeProcessor upgrades;
@@ -60,9 +60,9 @@ public class Enterprise {
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
 
-		upgrades			 = new UpgradeProcessor();
+		upgrades = new UpgradeProcessor();
 
-		offers 				 = new ArrayList<>();
+		offers = new ArrayList<>();
 
 		production = new ProductionHouse();
 		sales = new Department(EmployeeType.SALES);
@@ -92,16 +92,17 @@ public class Enterprise {
 	/**
 	 * Method to simulate one time-step for the enterprise
 	 */
-	public List<Exception> doSimulationStep(int[] soldAmounts){
+	public List<Exception> doSimulationStep(int[] soldAmounts) {
 		int oldCash = cash;
 		List<Exception> errorStore = new ArrayList<>();
 
-		//process results from buyer's market-simulation.
-		if(soldAmounts.length != offers.size())
+		// process results from buyer's market-simulation.
+		if (soldAmounts.length != offers.size())
 			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
-		else{
+		else {
 			for (Offer offer : offers) {
-				startPFHouseProduction(offer, hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
+				startPFHouseProduction(offer,
+						hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
 			}
 		}
 
@@ -109,27 +110,30 @@ public class Enterprise {
 			PFHouse h = housesInConstruction.get(i);
 			h.processConstruction();
 
-			if(h.isFinished()){
+			if (h.isFinished()) {
 				housesInConstruction.remove(i--);
 
-				cash += h.getPrice(); // employee costs are handled through hr; resources and walls did already cost
+				cash += h.getPrice(); // employee costs are handled through hr;
+										// resources and walls did already cost
 			}
 		}
 
-		//process machine production
+		// process machine production
 		List<MachineException> productionErrors = production.processProduction(warehouse);
 		errorStore.addAll(productionErrors);
 
-		//Handle the upgrade progress
-		upgrades.processUpgrades(this); // upgrades cost only once at the beginning
+		// Handle the upgrade progress
+		upgrades.processUpgrades(this); // upgrades cost only once at the
+										// beginning
 
-		//handle more cash flow things
-		cash -= hr.getOverallEmployeeCosts(); //this makes sure we also pay for unassigned employees ;)
+		// handle more cash flow things
+		cash -= hr.getOverallEmployeeCosts(); // this makes sure we also pay for
+												// unassigned employees ;)
 		cash -= production.getCosts();
-		cash -=    production.getMachineCosts();
+		cash -= production.getMachineCosts();
 		cash -= warehouse.getCosts();
 
-		//calculate the cash difference;
+		// calculate the cash difference;
 		saldo = cash - oldCash;
 
 		return errorStore;
@@ -157,7 +161,7 @@ public class Enterprise {
 			throw new EnterpriseException("Not enough Money to buy " + amount + " Resources!");
 		}
 
-		if(warehouse.isInStorage(type, amount)){
+		if (warehouse.isInStorage(type, amount)) {
 			Resource[] resources = market.sellResources(type, amount);
 			cash -= price;
 			if (resources != null) {
@@ -321,12 +325,12 @@ public class Enterprise {
 			}
 		}
 
-
 		// create a new house and append it to the array-list saving the houses
 		// which are in construction.
 
-		//TODO calc variable costs does not work here. calc the price based on the concrete walltype
-		PFHouse pfh = new PFHouse(offer.getPrice(), this.calculateVariableCosts(offer.getHousetype()), 
+		// TODO calc variable costs does not work here. calc the price based on
+		// the concrete walltype
+		PFHouse pfh = new PFHouse(offer.getPrice(), this.calculateVariableCosts(offer),
 				offer.getHousetype(), employees);
 
 		housesInConstruction.add(pfh);
@@ -362,9 +366,8 @@ public class Enterprise {
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
 
-
 		for (int i = 0; i < wallcount.length; i++) {
-			if (!warehouse.isInStorage(walltypes[0], wallcount[0]*amount)) {
+			if (!warehouse.isInStorage(walltypes[0], wallcount[0] * amount)) {
 				throw new EnterpriseException("Not Enough Walls to create a Offer for this Type!");
 			}
 		}
@@ -374,7 +377,7 @@ public class Enterprise {
 
 		for (int i = 0; i < employees.length; i++) {
 			int maxAmount = hr.getMaxCapacity(employees[i]);
-			if(employeecount[i]*amount > maxAmount){
+			if (employeecount[i] * amount > maxAmount) {
 				throw new EnterpriseException("Not enough Employees to build the houses");
 			}
 		}
@@ -382,13 +385,13 @@ public class Enterprise {
 		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
 		int[] resourcecount = housetype.getResourceCounts();
 		for (int i = 0; i < wallcount.length; i++) {
-			if (!warehouse.isInStorage(resourcetypes[i], resourcecount[i]*amount)) {
+			if (!warehouse.isInStorage(resourcetypes[i], resourcecount[i] * amount)) {
 				throw new EnterpriseException("Not enough Resources to build an offer!");
 			}
 		}
 	}
 
-	public int getMaxProducibleHouses(PFHouseType pfhouse){
+	public int getMaxProducibleHouses(PFHouseType pfhouse) {
 		int maximum = 0;
 
 		// check walls
@@ -397,7 +400,7 @@ public class Enterprise {
 
 		boolean first = true;
 		for (int i = 0; i < wallcount.length; i++) {
-			int max = warehouse.getStoredAmount(walltypes[i])/wallcount[i];
+			int max = warehouse.getStoredAmount(walltypes[i]) / wallcount[i];
 			if (first) {
 				maximum = max;
 				first = false;
@@ -410,7 +413,7 @@ public class Enterprise {
 		int[] resourcecount = pfhouse.getResourceCounts();
 
 		for (int i = 0; i < resourcetypes.length; i++) {
-			int max = warehouse.getStoredAmount(resourcetypes[i])/ resourcecount[i];
+			int max = warehouse.getStoredAmount(resourcetypes[i]) / resourcecount[i];
 			maximum = Math.min(max, maximum);
 		}
 
@@ -419,7 +422,7 @@ public class Enterprise {
 		int[] employeecount = pfhouse.getEmployeeCounts();
 
 		for (int i = 0; i < employees.length; i++) {
-			int max = hr.getMaxCapacity(employees[i])/employeecount[i];
+			int max = hr.getMaxCapacity(employees[i]) / employeecount[i];
 			maximum = Math.min(max, maximum);
 		}
 
@@ -427,18 +430,18 @@ public class Enterprise {
 	}
 
 	/**
-	 * This Method doens't check if everything is available!!!!!!!! Make
-	 * sure this is the case before (class Enterprise Method checkRequirementsforOffer) 
-	 * returns the variable costs for the offer This includes: Wall costs(machine,
-	 * employee work, resources) Assembler cost(for building the house)
-	 * additional resources
+	 * This Method doens't check if everything is available!!!!!!!! Make sure
+	 * this is the case before (class Enterprise Method
+	 * checkRequirementsforOffer) returns the variable costs for the offer This
+	 * includes: Wall costs(machine, employee work, resources) Assembler
+	 * cost(for building the house) additional resources
 	 */
-	public int calculateVariableCosts(PFHouseType housetype) {
-		WallType[] walltypes = housetype.getRequiredWallTypes();
-		int[] wallcount = housetype.getWallCounts();
+	public int calculateVariableCosts(Offer offer) {
+		Tupel<WallType>[] walltypes = offer.getWalltype();
 		int costs = 0;
 		for (int i = 0; i < walltypes.length; i++) {
-			costs += warehouse.calculateAvgPrice(walltypes[i]) * wallcount[i]; // walls,
+			costs += warehouse.calculateAvgPrice(walltypes[i].type) * walltypes[i].count;
+			// walls,
 			// resources
 			// (see
 			// Constructor)
@@ -449,19 +452,18 @@ public class Enterprise {
 			// again
 		}
 
-		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
-		int[] resourcecount = housetype.getResourceCounts();
+		ResourceType[] resourcetypes = offer.getHousetype().getRequiredResourceTypes();
+		int[] resourcecount = offer.getHousetype().getResourceCounts();
 		for (int i = 0; i < resourcetypes.length; i++) {
 			costs += warehouse.calculateAvgPrice(resourcetypes[i]) * resourcecount[i];
 		}
 
-		EmployeeType[] employestype = housetype.getRequiredEmployeeTypes();
-		int[] employeecount = housetype.getEmployeeCounts();
-		int duration = housetype.getConstructionDuration();
+		EmployeeType[] employestype = offer.getHousetype().getRequiredEmployeeTypes();
+		int[] employeecount = offer.getHousetype().getEmployeeCounts();
+		int duration = offer.getHousetype().getConstructionDuration();
 		for (int i = 0; i < employeecount.length; i++) {
 			costs += employestype[i].getBaseCost() * employeecount[i] * duration;
 		}
-
 		return costs;
 	}
 
@@ -472,32 +474,30 @@ public class Enterprise {
 		cash -= production.buyMachine(type);
 	}
 
-
-
 	public boolean startEmployeeTraining(Employee e) {
-		int costs = upgrades.startEmployeeTraining(e); 
-		if(costs > 0)
+		int costs = upgrades.startEmployeeTraining(e);
+		if (costs > 0)
 			cash -= costs;
 		return costs >= 0;
 	}
 
 	public boolean startMachineUpgrade(Machine m, HR hr) {
 		int costs = upgrades.startMachineUpgrade(m, hr);
-		if(costs > 0)
+		if (costs > 0)
 			cash -= costs;
 		return costs >= 0;
 	}
 
 	public boolean startWarehouseExtension(Warehouse w) {
 		int costs = upgrades.startWarehouseExtension(w);
-		if(costs > 0)
+		if (costs > 0)
 			cash -= 0;
 		return costs >= 0;
 	}
 
 	public boolean startResearchProject(PFHouseType type, Employee arch) {
 		int costs = upgrades.startResearchProject(type, arch);
-		if(costs > 0)
+		if (costs > 0)
 			cash -= costs;
 		return costs >= 0;
 	}

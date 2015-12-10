@@ -4,16 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import sim.Enterprise;
-import sim.abstraction.Tupel;
 import sim.production.PFHouseType;
-import sim.production.WallType;
 
 public class ExpensiveBuyer implements GroupOfBuyers {
 
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedOffers = new HashMap<>();
-	private final double minQualityPriceRatio = 29.0/10000000; 
 	private int numberOfOffers = 0;
 
 	@Override

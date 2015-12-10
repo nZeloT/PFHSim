@@ -1,8 +1,8 @@
 package sim.procurement;
 
-import sim.abstraction.StorebleType;
+import sim.abstraction.StoreableType;
 
-public enum ResourceType implements StorebleType {
+public enum ResourceType implements StoreableType {
 	WOOD(5,10, "wood"),
 	INSULATION(3,20, "insulation"),
 	CONCRETE(3,6, "concrete"),
@@ -11,13 +11,13 @@ public enum ResourceType implements StorebleType {
 	ROOF_TILE(1,1, "roof tile");
 	
 	private int volume;
-	private int price;
 	private String name;
+	private final int basePrice;
 	
 	private ResourceType(int v, int p, String name) {
 		this.volume = v;
-		this.price = p;
 		this.name = name;
+		this.basePrice = p;
 	}
 	
 	public String toString() {
@@ -28,14 +28,9 @@ public enum ResourceType implements StorebleType {
 	public int getVolume() {
 		return volume;
 	}
-
-	public int getPrice() {
-		return price;
+	
+	public int getBasePrice() {
+		return basePrice;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	
-	
 }

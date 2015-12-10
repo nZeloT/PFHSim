@@ -1,7 +1,5 @@
 package sim.simulation.sales;
 
-import sim.Enterprise;
-
 class EnterpriseOfferTupel {
 	public Offer offer;
 	public int enterprise;

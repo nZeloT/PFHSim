@@ -1,12 +1,11 @@
 package sim.production;
 
-import sim.abstraction.StorebleType;
+import sim.abstraction.StoreableType;
 import sim.abstraction.Tupel;
 import sim.procurement.ResourceType;
 
-public enum WallType implements StorebleType {
+public enum WallType implements StoreableType {
 	
-
 	//Create predefined types of walls and specify the 
 	//needed resources (for producing one wall).
 	 GENERAL(0,0),

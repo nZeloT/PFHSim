@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sim.Enterprise;
-
 
 public class SalesSimulation {
 
@@ -27,7 +25,7 @@ public class SalesSimulation {
 
 		//Get LATEST data from enterprises.
 		enterprises = new int[enterpriseoffers.size()];
-		int i = 0;
+		int i = 0; 
 		for (Map.Entry<Integer, List<Offer>> entry : enterpriseoffers.entrySet()) {
 			enterprises[i] = entry.getKey();
 			

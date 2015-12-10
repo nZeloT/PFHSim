@@ -7,13 +7,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import sim.Enterprise;
-import sim.TestUtils;
 import sim.abstraction.Tupel;
 import sim.production.PFHouseType;
 import sim.production.WallType;
-import sim.simulation.sales.Offer;
-import sim.simulation.sales.SalesSimulation;
 
 public class SimulationTest {
 

@@ -257,6 +257,8 @@ public class Warehouse extends Department implements CostFactor{
 	}
 	
 //=====================================================================================
+	//this is the area for all the new and nice WTF Java Syntax stuff :D enjoy ;)
+	
 	/**
 	 * A Storage for one StorageObject-Type e.g. Wall or Resource<br>
 	 * This is for simplification and reduced code duplicates.<br>
@@ -290,23 +292,24 @@ public class Warehouse extends Department implements CostFactor{
 			return true;
 		}
 		
-		/*
+		/**
 		 * sum up costs for walls or resources and calculate average, otherwise return 0;
 		 */
 		public int calcAvg(T t){
-			int sum = 0;
-			int count = 0;
-			for (int i = 0; i < storage.size(); i++) {
-				StorageObject<T> tmp = storage.get(i);
-				if (tmp.getType() == t) {
-					count++;
-					sum += tmp.getCosts();
-				}
-			}
-			if (count > 0) {
-				return sum/count;
-			}
-			return 0;
+//			int sum = 0;
+//			int count = 0;
+//			for (int i = 0; i < storage.size(); i++) {
+//				StorageObject<T> tmp = storage.get(i);
+//				if (tmp.getType() == t) {
+//					count++;
+//					sum += tmp.getCosts();
+//				}
+//			}
+//			if (count > 0) {
+//				return sum/count;
+//			}
+			
+			return (int) storage.stream().filter(o -> o.getType() == t).mapToInt(o -> o.getCosts()).average().orElse(0);
 		}
 		
 		public S remove(T t){
@@ -341,24 +344,24 @@ public class Warehouse extends Department implements CostFactor{
 		}
 		
 		public int getStoredAmount(T t){
-			int c = 0;
-		
-			for (int i = 0; i < storage.size(); i++) {
-				if(storage.get(i).getType() == t){
-					c++;
-				}
-			}
-			return c;
+//			int c = 0;
+//		
+//			for (int i = 0; i < storage.size(); i++) {
+//				if(storage.get(i).getType() == t){
+//					c++;
+//				}
+//			}
+			return (int) storage.stream().filter(o -> o.getType() == t).count();
 		}
 		
 		public boolean isInStorage(T t, int amount){
-			int c = 0;
-			for (int i = 0; i < storage.size() && c < amount; i++) {
-				if(storage.get(i).getType() == t){
-					c++;
-				}
-			}
-			return c >= amount;
+//			int c = 0;
+//			for (int i = 0; i < storage.size() && c < amount; i++) {
+//				if(storage.get(i).getType() == t){
+//					c++;
+//				}
+//			}
+			return storage.stream().filter(o -> o.getType() == t).count() >= amount;
 		}
 		
 		public boolean isStoreable(T t, int amount){

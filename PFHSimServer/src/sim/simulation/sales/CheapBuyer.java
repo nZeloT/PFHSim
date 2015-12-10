@@ -1,12 +1,12 @@
-package sim;
+package sim.simulation.sales;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sim.Enterprise;
 import sim.production.PFHouseType;
-import sim.simulation.sales.Offer;
 
 public class CheapBuyer implements GroupOfBuyer {
 

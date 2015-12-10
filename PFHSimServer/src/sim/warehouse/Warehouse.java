@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import sim.abstraction.CostFactor;
+import sim.abstraction.StorebleType;
 import sim.abstraction.WrongEmployeeTypeException;
 import sim.hr.Department;
 import sim.hr.Employee;
@@ -167,8 +168,8 @@ public class Warehouse extends Department implements CostFactor{
 	 * @param type the resourcetype to check
 	 * @return maxAmount
 	 */
-	public int getMaxAmount(ResourceType type){
-		return resStore.maxAvailable(type);
+	public int getStoredAmount(ResourceType type){
+		return resStore.getStoredAmount(type);
 	}
 	
 	/**
@@ -176,8 +177,8 @@ public class Warehouse extends Department implements CostFactor{
 	 * @param type the wallType to check
 	 * @return maxAmount
 	 */
-	public int getMaxAmount(WallType type){
-		return wallStore.maxAvailable(type);
+	public int getStoredAmount(WallType type){
+		return wallStore.getStoredAmount(type);
 	}
 	
 	/**
@@ -188,6 +189,14 @@ public class Warehouse extends Department implements CostFactor{
 	 */
 	public boolean isInStorage(ResourceType type, int count){
 		return resStore.isInStorage(type, count);
+	}
+	
+	public boolean isStoreable(ResourceType t, int amount){
+		return resStore.isStoreable(t, amount);
+	}
+	
+	public boolean isStoreable(WallType t, int amount){
+		return wallStore.isStoreable(t, amount);
 	}
 
 	/**
@@ -255,7 +264,7 @@ public class Warehouse extends Department implements CostFactor{
 	 * @param <S> the StorageObject-Type
 	 * @param <T> the StorageObjectType-Type e.g. WallType or ResourceType
 	 */
-	private class Storage<S extends StorageObject<T>, T>{
+	private class Storage<S extends StorageObject<T>, T extends StorebleType>{
 		private List<S> storage;
 		private Class<S> storageObjectCls;
 		
@@ -331,7 +340,7 @@ public class Warehouse extends Department implements CostFactor{
 			return ret;
 		}
 		
-		public int maxAvailable(T t){
+		public int getStoredAmount(T t){
 			int c = 0;
 		
 			for (int i = 0; i < storage.size(); i++) {
@@ -350,6 +359,11 @@ public class Warehouse extends Department implements CostFactor{
 				}
 			}
 			return c >= amount;
+		}
+		
+		public boolean isStoreable(T t, int amount){
+			int volume = t.getVolume() * amount;
+			return getCapacity() - utilization - volume >= 0;
 		}
 	}
 

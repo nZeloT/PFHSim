@@ -10,7 +10,6 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import sim.abstraction.Tupel;
-import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
@@ -21,7 +20,6 @@ import sim.production.Machine;
 import sim.production.MachineException;
 import sim.production.MachineType;
 import sim.production.PFHouseType;
-import sim.production.PFHouseTypeTest;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
 import sim.warehouse.Warehouse;
@@ -85,10 +83,8 @@ public class EnterpriseTest {
 					Arrays.asList(a));
 		} catch (EnterpriseException e1) {
 			e1.printStackTrace();
+			fail();
 		}
-
-		assertNotNull(e.getHousesInConstruction().get(0));
-
 	}
 
 	@Test

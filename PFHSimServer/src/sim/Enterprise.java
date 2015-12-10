@@ -14,6 +14,7 @@ import sim.procurement.ResourceListItem;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
+import sim.production.Machine;
 import sim.production.MachineException;
 import sim.production.MachineType;
 import sim.production.PFHouse;
@@ -104,7 +105,7 @@ public class Enterprise {
 			if(h.isFinished()){
 				housesInConstruction.remove(i--);
 				
-				cash += h.getPrice();
+				cash += h.getPrice(); // employee costs are handled through hr; resources and walls did already cost
 			}
 		}
 		
@@ -114,7 +115,7 @@ public class Enterprise {
 		errorStore.addAll(productionErrors);
 		
 		//Handle the upgrade progress
-		upgrades.processUpgrades(this);
+		upgrades.processUpgrades(this); // upgrades cost only once at the beginning
 		
 		//handle more cash flow things
 		cash -= hr.getOverallEmployeeCosts(); //this makes sure we also pay for unassigned employees ;)
@@ -151,7 +152,7 @@ public class Enterprise {
 			throw new EnterpriseException("Not enough Money to buy " + amount + " Resources!");
 		}
 
-		resources = market.sellResources(type, amount);
+		resources = market.sellResources(type, amount);	
 		if (resources != null) {
 			if (!warehouse.storeResource(resources)) {
 				throw new EnterpriseException("Not enough space in your warehouse!");
@@ -388,7 +389,7 @@ public class Enterprise {
 		
 		boolean first = true;
 		for (int i = 0; i < wallcount.length; i++) {
-			int max = warehouse.getMaxAmount(walltypes[i])/wallcount[i];
+			int max = warehouse.getStoredAmount(walltypes[i])/wallcount[i];
 			if (first) {
 				maximum = max;
 				first = false;
@@ -401,7 +402,7 @@ public class Enterprise {
 		int[] resourcecount = pfhouse.getResourceCounts();
 		
 		for (int i = 0; i < resourcetypes.length; i++) {
-			int max = warehouse.getMaxAmount(resourcetypes[i])/ resourcecount[i];
+			int max = warehouse.getStoredAmount(resourcetypes[i])/ resourcecount[i];
 			maximum = Math.min(max, maximum);
 		}
 		
@@ -463,9 +464,34 @@ public class Enterprise {
 		cash -= production.buyMachine(type);
 	}
 	
-	public void addExpense(int ex){
-		if(ex > 0)
-			cash -= ex;
+	
+	
+	public boolean startEmployeeTraining(Employee e) {
+		int costs = upgrades.startEmployeeTraining(e); 
+		if(costs > 0)
+			cash -= costs;
+		return costs >= 0;
+	}
+
+	public boolean startMachineUpgrade(Machine m, HR hr) {
+		int costs = upgrades.startMachineUpgrade(m, hr);
+		if(costs > 0)
+			cash -= costs;
+		return costs >= 0;
+	}
+
+	public boolean startWarehouseExtension(Warehouse w) {
+		int costs = upgrades.startWarehouseExtension(w);
+		if(costs > 0)
+			cash -= 0;
+		return costs >= 0;
+	}
+
+	public boolean startResearchProject(PFHouseType type, Employee arch) {
+		int costs = upgrades.startResearchProject(type, arch);
+		if(costs > 0)
+			cash -= costs;
+		return costs >= 0;
 	}
 
 	public Warehouse getWarehouse() {
@@ -486,10 +512,6 @@ public class Enterprise {
 
 	public HR getHR() {
 		return hr;
-	}
-	
-	public UpgradeProcessor getUpgradeProcessor() {
-		return upgrades;
 	}
 	
 	public int getCash() {

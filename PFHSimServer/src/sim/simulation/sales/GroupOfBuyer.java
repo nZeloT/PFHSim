@@ -1,8 +1,9 @@
-package sim;
+package sim.simulation.sales;
 
 import java.util.HashMap;
 import java.util.List;
-import sim.simulation.sales.Offer;
+
+import sim.Enterprise;
 
 public interface GroupOfBuyer {
 

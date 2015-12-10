@@ -173,5 +173,5 @@ public enum PFHouseType implements GeneralType {
 	public int getResearchDuration() {
 		return researchDuration;
 	}
-	
+
 }

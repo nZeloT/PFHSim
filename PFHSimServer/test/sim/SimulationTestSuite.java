@@ -10,6 +10,7 @@ import sim.production.TestMachine;
 import sim.research.dev.UpgradeTest;
 import sim.simulation.purchase.ResourceListTest;
 import sim.simulation.purchase.ResourceMarketTest;
+import sim.simulation.sales.SimulationTest;
 import sim.warehouse.TestWarehouse;
 
 @RunWith(Suite.class)
@@ -22,7 +23,8 @@ import sim.warehouse.TestWarehouse;
 	ResourceMarketTest.class,
 	EnterpriseTest.class,
 	UpgradeTest.class,
-	SimulationTest.class
+	SimulationTest.class,
+	IntegrationTest.class
 })
 public class SimulationTestSuite {
 

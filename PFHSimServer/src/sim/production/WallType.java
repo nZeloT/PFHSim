@@ -1,10 +1,10 @@
 package sim.production;
 
-import sim.abstraction.GeneralType;
+import sim.abstraction.StorebleType;
 import sim.abstraction.Tupel;
 import sim.procurement.ResourceType;
 
-public enum WallType implements GeneralType {
+public enum WallType implements StorebleType {
 	
 
 	//Create predefined types of walls and specify the 
@@ -72,6 +72,7 @@ public enum WallType implements GeneralType {
 		return rc;
 	}
 	
+	@Override
 	public int getVolume() {
 		return volume;
 	}

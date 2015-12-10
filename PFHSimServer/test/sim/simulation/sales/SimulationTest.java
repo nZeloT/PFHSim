@@ -1,11 +1,15 @@
-package sim;
+package sim.simulation.sales;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import sim.Enterprise;
+import sim.TestUtils;
 import sim.abstraction.Tupel;
 import sim.production.PFHouseType;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
+import sim.simulation.sales.SalesSimulation;
 
 public class SimulationTest {
 	
@@ -32,7 +36,7 @@ public class SimulationTest {
 	@Test  
 	public void testSortAndReturn() { 
 
-		Simulation s = new Simulation();
+		SalesSimulation s = new SalesSimulation();
 		s.simulateSalesMarket(e, e2); 
 		
 	}

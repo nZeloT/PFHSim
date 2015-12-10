@@ -33,7 +33,8 @@ public class PFHouse extends Department implements CostFactor {
 	}
 
 	public void processConstruction() {
-		buildDurationLeft--;
+		if(getEmployeeCount() >= type.getEmployeeCount())
+			buildDurationLeft--;
 		if(isFinished())
 			unassignAllEmployees();
 	}
@@ -57,6 +58,11 @@ public class PFHouse extends Department implements CostFactor {
 	
 	public PFHouseType getType() {
 		return type;
+	}
+	
+	@Override
+	protected boolean unassignEmployee(Employee e, boolean calledFromEmployeeObject) {
+		return isFinished() && super.unassignEmployee(e, calledFromEmployeeObject);
 	}
 
 }

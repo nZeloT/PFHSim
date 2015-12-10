@@ -14,6 +14,7 @@ import sim.procurement.ResourceListItem;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
+import sim.production.Machine;
 import sim.production.MachineException;
 import sim.production.MachineType;
 import sim.production.PFHouse;
@@ -27,7 +28,7 @@ import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
 
 public class Enterprise {
-	
+
 	private static final int START_CASH = 100000;
 
 	private int cash;
@@ -38,11 +39,11 @@ public class Enterprise {
 
 	private List<PFHouse> housesInConstruction;
 	private List<PFHouseType> researchedHouseTypes;
-	
+
 	//This list represents a catalogue of pfhouse-offers, which
 	//specify the walls for a house-type as well as the price.
 	private List<Offer> offers;
-	
+
 	private UpgradeProcessor upgrades;
 
 	// Employee management for warehouse and production goes in the distinct
@@ -55,14 +56,14 @@ public class Enterprise {
 
 	public Enterprise() {
 		cash = START_CASH;
-		
+
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
-		
+
 		upgrades			 = new UpgradeProcessor();
-		
+
 		offers 				 = new ArrayList<>();
-		
+
 		production = new ProductionHouse();
 		sales = new Department(EmployeeType.SALES);
 		procurement = new Department(EmployeeType.PROCUREMENT);
@@ -75,6 +76,9 @@ public class Enterprise {
 		hrGuy.assignWorkplace(hr);
 
 		Employee[] storeKeeper = hr.hire(EmployeeType.STORE_KEEPER, 3);
+		hr.hire(EmployeeType.SALES).assignWorkplace(sales);
+		hr.hire(EmployeeType.PROCUREMENT).assignWorkplace(procurement);
+		hr.hire(EmployeeType.MARKET_RESEARCH).assignWorkplace(marketResearch);
 
 		try {
 			warehouse = new Warehouse(storeKeeper);
@@ -84,40 +88,51 @@ public class Enterprise {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Method to simulate one time-step for the enterprise
 	 */
-	public void doSimulationStep(){
+	public List<Exception> doSimulationStep(int[] soldAmounts){
 		int oldCash = cash;
-		
-		//TODO: process results from buyer's market-simulation.
-		
+		List<Exception> errorStore = new ArrayList<>();
+
+		//process results from buyer's market-simulation.
+		if(soldAmounts.length != offers.size())
+			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
+		else{
+			for (Offer offer : offers) {
+				startPFHouseProduction(offer, hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
+			}
+		}
+
 		for (int i = 0; i < housesInConstruction.size(); i++) {
 			PFHouse h = housesInConstruction.get(i);
 			h.processConstruction();
-			
-			cash -= h.getEmployeeCosts();
-			
+
 			if(h.isFinished()){
 				housesInConstruction.remove(i--);
-				
-				cash += h.getPrice();
+
+				cash += h.getPrice(); // employee costs are handled through hr; resources and walls did already cost
 			}
 		}
-		
+
 		//process machine production
-		//TODO: how to handle the errors to show them on the UI; maybe aggregate all occurred errors during simulation in one big list / map?
 		List<MachineException> productionErrors = production.processProduction(warehouse);
-		
+		errorStore.addAll(productionErrors);
+
 		//Handle the upgrade progress
-		upgrades.processUpgrades(this);
-		
+		upgrades.processUpgrades(this); // upgrades cost only once at the beginning
+
 		//handle more cash flow things
-		cash -= calculateFixedCosts();
-		
+		cash -= hr.getOverallEmployeeCosts(); //this makes sure we also pay for unassigned employees ;)
+		cash -= production.getCosts();
+		cash -=    production.getMachineCosts();
+		cash -= warehouse.getCosts();
+
 		//calculate the cash difference;
 		saldo = cash - oldCash;
+
+		return errorStore;
 	}
 
 	/**
@@ -137,16 +152,18 @@ public class Enterprise {
 	public void buyResources(ResourceType type, int amount) throws EnterpriseException, ResourceMarketException {
 		ResourceMarket market = ResourceMarket.get();
 		ResourceListItem resource = market.getResources().get(type);
-		Resource[] resources;
 		int price = amount * resource.getCosts();
 		if (price > cash) {
 			throw new EnterpriseException("Not enough Money to buy " + amount + " Resources!");
 		}
 
-		resources = market.sellResources(type, amount);
-		if (resources != null) {
-			if (!warehouse.storeResource(resources)) {
-				throw new EnterpriseException("Not enough space in your warehouse!");
+		if(warehouse.isInStorage(type, amount)){
+			Resource[] resources = market.sellResources(type, amount);
+			cash -= price;
+			if (resources != null) {
+				if (!warehouse.storeResource(resources)) {
+					throw new EnterpriseException("Not enough space in your warehouse!");
+				}
 			}
 		}
 	}
@@ -172,7 +189,7 @@ public class Enterprise {
 	 *         warehouse.
 	 * 
 	 */
-	public void producePFHouse(Offer offer, List<Employee> employees) throws EnterpriseException {
+	public void startPFHouseProduction(Offer offer, List<Employee> employees) throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
 		if (offer == null)
@@ -307,7 +324,7 @@ public class Enterprise {
 
 		// create a new house and append it to the array-list saving the houses
 		// which are in construction.
-		
+
 		//TODO calc variable costs does not work here. calc the price based on the concrete walltype
 		PFHouse pfh = new PFHouse(offer.getPrice(), this.calculateVariableCosts(offer.getHousetype()), 
 				offer.getHousetype(), employees);
@@ -340,30 +357,73 @@ public class Enterprise {
 	 * check the requirements for an Offer based on the housetype of the house a
 	 * player wants to produce.
 	 */
-	public void checkRequirementsforOffer(PFHouseType housetype) throws EnterpriseException {
+	public void checkRequirementsforOffer(PFHouseType housetype, int amount) throws EnterpriseException {
 
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
+
+
 		for (int i = 0; i < wallcount.length; i++) {
-			if (!warehouse.isInStorage(walltypes[i], wallcount[i])) {
+			if (!warehouse.isInStorage(walltypes[0], wallcount[0]*amount)) {
 				throw new EnterpriseException("Not Enough Walls to create a Offer for this Type!");
 			}
 		}
 
 		EmployeeType[] employees = housetype.getRequiredEmployeeTypes();
 		int[] employeecount = housetype.getEmployeeCounts();
+
 		for (int i = 0; i < employees.length; i++) {
-			// TODO: get method to check and not take employees.
-			hr.getUnassignedEmployees(employees[i], employeecount[i]);
+			int maxAmount = hr.getMaxCapacity(employees[i]);
+			if(employeecount[i]*amount > maxAmount){
+				throw new EnterpriseException("Not enough Employees to build the houses");
+			}
 		}
 
 		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
 		int[] resourcecount = housetype.getResourceCounts();
 		for (int i = 0; i < wallcount.length; i++) {
-			if (!warehouse.isInStorage(resourcetypes[i], resourcecount[i])) {
+			if (!warehouse.isInStorage(resourcetypes[i], resourcecount[i]*amount)) {
 				throw new EnterpriseException("Not enough Resources to build an offer!");
 			}
 		}
+	}
+
+	public int getMaxProducibleHouses(PFHouseType pfhouse){
+		int maximum = 0;
+
+		// check walls
+		WallType[] walltypes = pfhouse.getRequiredWallTypes();
+		int[] wallcount = pfhouse.getWallCounts();
+
+		boolean first = true;
+		for (int i = 0; i < wallcount.length; i++) {
+			int max = warehouse.getStoredAmount(walltypes[i])/wallcount[i];
+			if (first) {
+				maximum = max;
+				first = false;
+			}
+			maximum = Math.min(max, maximum);
+		}
+
+		// check resources
+		ResourceType[] resourcetypes = pfhouse.getRequiredResourceTypes();
+		int[] resourcecount = pfhouse.getResourceCounts();
+
+		for (int i = 0; i < resourcetypes.length; i++) {
+			int max = warehouse.getStoredAmount(resourcetypes[i])/ resourcecount[i];
+			maximum = Math.min(max, maximum);
+		}
+
+		// check employees
+		EmployeeType[] employees = pfhouse.getRequiredEmployeeTypes();
+		int[] employeecount = pfhouse.getEmployeeCounts();
+
+		for (int i = 0; i < employees.length; i++) {
+			int max = hr.getMaxCapacity(employees[i])/employeecount[i];
+			maximum = Math.min(max, maximum);
+		}
+
+		return maximum;
 	}
 
 	/**
@@ -379,14 +439,14 @@ public class Enterprise {
 		int costs = 0;
 		for (int i = 0; i < walltypes.length; i++) {
 			costs += warehouse.calculateAvgPrice(walltypes[i]) * wallcount[i]; // walls,
-																				// resources
-																				// (see
-																				// Constructor)
-																				// available
-																				// so
-																				// no
-																				// rechecks
-																				// again
+			// resources
+			// (see
+			// Constructor)
+			// available
+			// so
+			// no
+			// rechecks
+			// again
 		}
 
 		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
@@ -412,6 +472,36 @@ public class Enterprise {
 		cash -= production.buyMachine(type);
 	}
 
+
+
+	public boolean startEmployeeTraining(Employee e) {
+		int costs = upgrades.startEmployeeTraining(e); 
+		if(costs > 0)
+			cash -= costs;
+		return costs >= 0;
+	}
+
+	public boolean startMachineUpgrade(Machine m, HR hr) {
+		int costs = upgrades.startMachineUpgrade(m, hr);
+		if(costs > 0)
+			cash -= costs;
+		return costs >= 0;
+	}
+
+	public boolean startWarehouseExtension(Warehouse w) {
+		int costs = upgrades.startWarehouseExtension(w);
+		if(costs > 0)
+			cash -= 0;
+		return costs >= 0;
+	}
+
+	public boolean startResearchProject(PFHouseType type, Employee arch) {
+		int costs = upgrades.startResearchProject(type, arch);
+		if(costs > 0)
+			cash -= costs;
+		return costs >= 0;
+	}
+
 	public Warehouse getWarehouse() {
 		return warehouse;
 	}
@@ -423,7 +513,7 @@ public class Enterprise {
 	public List<PFHouse> getHousesInConstruction() {
 		return housesInConstruction;
 	}
-	
+
 	public List<PFHouseType> getResearchedHouseTypes() {
 		return researchedHouseTypes;
 	}
@@ -431,19 +521,15 @@ public class Enterprise {
 	public HR getHR() {
 		return hr;
 	}
-	
-	public UpgradeProcessor getUpgradeProcessor() {
-		return upgrades;
-	}
-	
+
 	public int getCash() {
 		return cash;
 	}
-	
+
 	public int getSaldo() {
 		return saldo;
 	}
-	
+
 	public List<Offer> getOffers() {
 		return offers;
 	}

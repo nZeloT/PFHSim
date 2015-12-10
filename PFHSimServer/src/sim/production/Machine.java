@@ -5,7 +5,6 @@ import java.util.List;
 
 import sim.abstraction.CostFactor;
 import sim.hr.Department;
-import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;

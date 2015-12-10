@@ -14,6 +14,7 @@ import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
 import sim.procurement.ResourceMarket;
+import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import sim.production.Machine;
 import sim.production.MachineException;
@@ -25,6 +26,32 @@ import sim.warehouse.Warehouse;
 
 public class EnterpriseTest {
 
+	@Test
+	public void testIfAmountOfHousesIsProducible() throws EnterpriseException, ResourceMarketException{
+
+		Enterprise e = TestUtils.initializeEnterprise();
+		Employee[] assembler = e.getHR().hire(EmployeeType.ASSEMBLER, 20);
+		
+		e.buyResources(ResourceType.WOOD, 28);
+		e.buyResources(ResourceType.ROOF_TILE, 50);
+		
+		try {
+			Machine m = e.getProductionHouse().getMachines().get(0);
+			m.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
+			
+			for(int i = 0; i<12; i++){
+				m.produceWall(e.getWarehouse());
+			}
+
+			e.checkRequirementsforOffer(PFHouseType.BLOCK_HOUSE, 4);
+			
+		} catch (MachineException e2) {
+			e2.printStackTrace();
+			fail();
+		}
+		
+		
+	}
 	@Test
 	public void testEasyProductionCycle() {
 
@@ -40,6 +67,7 @@ public class EnterpriseTest {
 			m.produceWall(e.getWarehouse());
 		} catch (MachineException e2) {
 			e2.printStackTrace();
+			fail();
 		}
 
 		Employee[] a = e.getHR().hire(EmployeeType.ASSEMBLER, 3);
@@ -50,15 +78,13 @@ public class EnterpriseTest {
 		wallcounts.add(5);
 
 		try {
-			e.producePFHouse(
+			e.startPFHouseProduction(
 					new Offer(5500, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)),
 					Arrays.asList(a));
 		} catch (EnterpriseException e1) {
 			e1.printStackTrace();
+			fail();
 		}
-
-		assertNotNull(e.getHousesInConstruction().get(0));
-
 	}
 
 	@Test
@@ -77,7 +103,6 @@ public class EnterpriseTest {
 			testfixcosts += EmployeeType.SALES.getBaseCost();
 			testfixcosts += EmployeeType.PROCUREMENT.getBaseCost();
 			testfixcosts += EmployeeType.MARKET_RESEARCH.getBaseCost();
-			testfixcosts += employmgr.getEmployeeCosts();
 			Enterprise e = new Enterprise();
 			assertEquals(testfixcosts, e.calculateFixedCosts());
 

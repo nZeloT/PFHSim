@@ -195,4 +195,11 @@ public class HR extends Department {
 		manageable += BASE_EMP_COUNT;
 		return manageable;
 	}
+	
+	public int getMaxCapacity(EmployeeType type){
+	
+		ArrayList<Employee> list = employeeList.get(type);
+		
+		return list.size();
+	}
 }

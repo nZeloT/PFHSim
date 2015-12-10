@@ -7,5 +7,4 @@ package sim.abstraction;
  *
  */
 public interface GeneralType {
-
 }

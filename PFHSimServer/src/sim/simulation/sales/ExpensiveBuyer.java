@@ -1,11 +1,11 @@
-package sim;
+package sim.simulation.sales;
 
 import java.util.HashMap;
 import java.util.List;
 
-import sim.simulation.sales.Offer;
+import sim.Enterprise;
 
-public class PricePerformanceBuyer implements GroupOfBuyer {
+public class ExpensiveBuyer implements GroupOfBuyer {
 
 	@Override
 	public void sortOffers(HashMap<Enterprise, List<Offer>> in) {

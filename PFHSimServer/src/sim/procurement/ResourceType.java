@@ -1,8 +1,8 @@
 package sim.procurement;
 
-import sim.abstraction.GeneralType;
+import sim.abstraction.StorebleType;
 
-public enum ResourceType implements GeneralType {
+public enum ResourceType implements StorebleType {
 	WOOD(5,10, "wood"),
 	INSULATION(3,20, "insulation"),
 	CONCRETE(3,6, "concrete"),
@@ -24,6 +24,7 @@ public enum ResourceType implements GeneralType {
 		return name;
 	}
 	
+	@Override
 	public int getVolume() {
 		return volume;
 	}

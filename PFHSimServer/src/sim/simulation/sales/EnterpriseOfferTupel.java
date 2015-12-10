@@ -1,6 +1,6 @@
-package sim;
+package sim.simulation.sales;
 
-import sim.simulation.sales.Offer;
+import sim.Enterprise;
 
 class EnterpriseOfferTupel {
 	public Offer offer;

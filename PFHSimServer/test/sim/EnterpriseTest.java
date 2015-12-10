@@ -43,15 +43,14 @@ public class EnterpriseTest {
 				m.produceWall(e.getWarehouse());
 			}
 
-			e.checkRequirementsforOffer(PFHouseType.BLOCK_HOUSE, 4);
+			e.checkRequirementsforOffer(PFHouseType.BLOCK_HOUSE, 4, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION,5));
 			
 		} catch (MachineException e2) {
 			e2.printStackTrace();
 			fail();
 		}
 		
-		
-	}
+		}
 	@Test
 	public void testEasyProductionCycle() {
 

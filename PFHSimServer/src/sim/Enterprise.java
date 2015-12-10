@@ -357,18 +357,17 @@ public class Enterprise {
 		return sum;
 	}
 
-	/**
-	 * check the requirements for an Offer based on the housetype of the house a
-	 * player wants to produce.
-	 */
-	public void checkRequirementsforOffer(PFHouseType housetype, int amount) throws EnterpriseException {
+	public void checkRequirementsforOffer(PFHouseType housetype, int amount, Tupel<WallType>...selectedWalltype)
+			throws EnterpriseException {
 
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
-
+	
 		for (int i = 0; i < wallcount.length; i++) {
-			if (!warehouse.isInStorage(walltypes[0], wallcount[0] * amount)) {
-				throw new EnterpriseException("Not Enough Walls to create a Offer for this Type!");
+			if (selectedWalltype[0].type == walltypes[i] || walltypes[i] == WallType.PANORAMA_WALL) {
+				if (!warehouse.isInStorage(walltypes[i], wallcount[i] * amount)) {
+					throw new EnterpriseException("Not Enough Walls to create a Offer for this Type!");
+				}
 			}
 		}
 
@@ -428,6 +427,7 @@ public class Enterprise {
 
 		return maximum;
 	}
+
 
 	/**
 	 * This Method doens't check if everything is available!!!!!!!! Make sure

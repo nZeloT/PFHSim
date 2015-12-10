@@ -2,15 +2,10 @@ package sim.production;
 
 import java.util.List;
 
-import sim.EnterpriseException;
 import sim.abstraction.CostFactor;
-import sim.abstraction.Tupel;
 import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
-import sim.procurement.ResourceType;
-import sim.simulation.sales.Offer;
-import sim.warehouse.Warehouse;
 
 public class PFHouse extends Department implements CostFactor {
 	
@@ -20,7 +15,6 @@ public class PFHouse extends Department implements CostFactor {
 	private double quality;
 	
 	private PFHouseType type;
-	private Warehouse warehouse;
 	
 	private int buildDurationLeft;
 
@@ -39,7 +33,8 @@ public class PFHouse extends Department implements CostFactor {
 	}
 
 	public void processConstruction() {
-		buildDurationLeft--;
+		if(getEmployeeCount() >= type.getEmployeeCount())
+			buildDurationLeft--;
 		if(isFinished())
 			unassignAllEmployees();
 	}
@@ -63,6 +58,11 @@ public class PFHouse extends Department implements CostFactor {
 	
 	public PFHouseType getType() {
 		return type;
+	}
+	
+	@Override
+	protected boolean unassignEmployee(Employee e, boolean calledFromEmployeeObject) {
+		return isFinished() && super.unassignEmployee(e, calledFromEmployeeObject);
 	}
 
 }

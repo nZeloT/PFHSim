@@ -34,7 +34,7 @@ public class IntegrationTest {
 		sim.simulateSalesMarket(e);
 		
 		for (Enterprise en : e) {
-			en.doSimulationStep();
+			en.doSimulationStep(new int[0]);
 		}
 		
 		assertEquals(0, 0);

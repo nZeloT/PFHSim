@@ -78,7 +78,7 @@ public class EnterpriseTest {
 		wallcounts.add(5);
 
 		try {
-			e.producePFHouse(
+			e.startPFHouseProduction(
 					new Offer(5500, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)),
 					Arrays.asList(a));
 		} catch (EnterpriseException e1) {

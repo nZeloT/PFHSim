@@ -92,11 +92,18 @@ public class Enterprise {
 	/**
 	 * Method to simulate one time-step for the enterprise
 	 */
-	public List<Exception> doSimulationStep(){
+	public List<Exception> doSimulationStep(int[] soldAmounts){
 		int oldCash = cash;
 		List<Exception> errorStore = new ArrayList<>();
 
-		//TODO: process results from buyer's market-simulation.
+		//process results from buyer's market-simulation.
+		if(soldAmounts.length != offers.size())
+			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
+		else{
+			for (Offer offer : offers) {
+				startPFHouseProduction(offer, hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
+			}
+		}
 
 		for (int i = 0; i < housesInConstruction.size(); i++) {
 			PFHouse h = housesInConstruction.get(i);
@@ -110,7 +117,6 @@ public class Enterprise {
 		}
 
 		//process machine production
-		//TODO: how to handle the errors to show them on the UI; maybe aggregate all occurred errors during simulation in one big list / map?
 		List<MachineException> productionErrors = production.processProduction(warehouse);
 		errorStore.addAll(productionErrors);
 
@@ -183,7 +189,7 @@ public class Enterprise {
 	 *         warehouse.
 	 * 
 	 */
-	public void producePFHouse(Offer offer, List<Employee> employees) throws EnterpriseException {
+	public void startPFHouseProduction(Offer offer, List<Employee> employees) throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
 		if (offer == null)

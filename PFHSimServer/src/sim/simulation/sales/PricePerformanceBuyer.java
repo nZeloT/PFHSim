@@ -9,16 +9,16 @@ import sim.Enterprise;
 import sim.production.PFHouseType;
 
 
-public class PricePerformanceBuyer implements GroupOfBuyer {
+public class PricePerformanceBuyer implements GroupOfBuyers {
 
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedOffers = new HashMap<>();
 	
 	//TODO implement logic, wait for Corrections first
 	
 	@Override
-	public void sortOffers(HashMap<Enterprise, List<Offer>> in) {
+	public void sortOffers(HashMap<Integer, List<Offer>> in) {
 		//same as cheap Offers. Sort for each category ascending by price
-		for (Map.Entry<Enterprise, List<Offer>> entry : in.entrySet()) {
+		for (Map.Entry<Integer, List<Offer>> entry : in.entrySet()) {
 
 			List<Offer> offer = entry.getValue();
 			for (int i = 0; i < offer.size(); i++) {
@@ -50,7 +50,7 @@ public class PricePerformanceBuyer implements GroupOfBuyer {
 	}
 
 	@Override
-	public HashMap<Enterprise, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, Enterprise[] e) {
+	public HashMap<Integer, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, int[] e) {
 		return null;
 	}
 

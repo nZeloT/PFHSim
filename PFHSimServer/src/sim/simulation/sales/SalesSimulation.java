@@ -3,6 +3,7 @@ package sim.simulation.sales;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sim.Enterprise;
 
@@ -10,11 +11,10 @@ import sim.Enterprise;
 public class SalesSimulation {
 
 
-	private HashMap<Enterprise, List<Offer>> in = new HashMap<>();
+	private int[] enterprises = null;
+	private HashMap<Integer, List<Offer>> in = new HashMap<>();
 	
-//	private Enterprise[] enterprises;
-	
-	private List<GroupOfBuyer> buyerGroups;
+	private List<GroupOfBuyers> buyerGroups;
 	
 	public SalesSimulation() {
 		buyerGroups = new ArrayList<>();
@@ -23,21 +23,24 @@ public class SalesSimulation {
 //		buyerGroups.add(new ExpensiveBuyer());
 	}
 	
-	public void simulateSalesMarket(Enterprise... enterprises) {
+	public void simulateSalesMarket(HashMap<Integer, List<Offer>> enterpriseoffers) {
 
 		//Get LATEST data from enterprises.
-//		this.enterprises = enterprises;
-		for (int j = 0; j < enterprises.length; j++) {
-			List<Offer> offers = enterprises[j].getOffers();
-			//Reset number of purchases from last round.
-			for (int i = 0; i < offers.size(); i++) {
-				offers.get(i).setNumberOfPurchases(0);
+		enterprises = new int[enterpriseoffers.size()];
+		int i = 0;
+		for (Map.Entry<Integer, List<Offer>> entry : enterpriseoffers.entrySet()) {
+			enterprises[i] = entry.getKey();
+			
+			//reset purchase data from last simulation-round.
+			List<Offer> tmp = entry.getValue();  
+			for (int k = 0; k < tmp.size(); k++) {
+				tmp.get(k).setNumberOfPurchases(0);
 			}
-			in.put(enterprises[j], offers);
+			i++;
 		}
 		 
-		for (GroupOfBuyer g : buyerGroups) {
-			g.sortOffers(in);
+		for (GroupOfBuyers g : buyerGroups) {
+			g.sortOffers(enterpriseoffers);
 			in = g.registerPurchases(500, 10, 20, enterprises);
 		}
 		

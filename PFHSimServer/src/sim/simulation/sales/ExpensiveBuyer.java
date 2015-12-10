@@ -5,15 +5,15 @@ import java.util.List;
 
 import sim.Enterprise;
 
-public class ExpensiveBuyer implements GroupOfBuyer {
+public class ExpensiveBuyer implements GroupOfBuyers {
 
 	@Override
-	public void sortOffers(HashMap<Enterprise, List<Offer>> in) {
+	public void sortOffers(HashMap<Integer, List<Offer>> in) {
 		
 	}
 
 	@Override
-	public HashMap<Enterprise, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, Enterprise[] e) {
+	public HashMap<Integer, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, int[] e) {
 		return null;
 	}
 

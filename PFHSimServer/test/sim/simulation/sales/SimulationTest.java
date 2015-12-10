@@ -21,18 +21,27 @@ public class SimulationTest {
 
 	@Before
 	public void setUp() throws Exception {
-
+/*
+ 		//Cheap buyer test
 		List<Offer> tmp = Arrays.asList(
-				(new Offer(5000, PFHouseType.BLOCK_HOUSE, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
-				(new Offer(7000, PFHouseType.BLOCK_HOUSE, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
-				(new Offer(5000, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
-				(new Offer(7000, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))));
+				(new Offer(5000, 1, PFHouseType.BLOCK_HOUSE, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
+				(new Offer(7000, 1, PFHouseType.BLOCK_HOUSE, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
+				(new Offer(5000, 1, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
+				(new Offer(7000, 1, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))));
 		enterpriseoffer.put(0, tmp);
 		tmp = Arrays.asList(
-				(new Offer(6000, PFHouseType.BLOCK_HOUSE, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
-				(new Offer(8000, PFHouseType.BLOCK_HOUSE, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
-				(new Offer(6000, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
-				(new Offer(8000, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))));
+				(new Offer(6000, 1, PFHouseType.BLOCK_HOUSE, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
+				(new Offer(8000, 1, PFHouseType.BLOCK_HOUSE, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
+				(new Offer(6000, 1, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))),
+				(new Offer(8000, 1, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))));
+		enterpriseoffer.put(1, tmp);*/
+		
+		//expensive buyer test
+		List<Offer> tmp = Arrays.asList(
+				(new Offer(1500000, 1, PFHouseType.CITY_VILLA, new Tupel<WallType>(WallType.PANORAMA_WALL, 8))));
+		enterpriseoffer.put(0, tmp);
+		tmp = Arrays.asList(
+				(new Offer(500000, 1, PFHouseType.CITY_VILLA, new Tupel<WallType>(WallType.PANORAMA_WALL, 3), new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))));
 		enterpriseoffer.put(1, tmp);
 	}
  

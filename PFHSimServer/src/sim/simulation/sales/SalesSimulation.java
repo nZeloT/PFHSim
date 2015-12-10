@@ -18,9 +18,9 @@ public class SalesSimulation {
 	
 	public SalesSimulation() {
 		buyerGroups = new ArrayList<>();
-		buyerGroups.add(new CheapBuyer());
+//		buyerGroups.add(new CheapBuyer());
 //		buyerGroups.add(new PricePerformanceBuyer());
-//		buyerGroups.add(new ExpensiveBuyer());
+		buyerGroups.add(new ExpensiveBuyer());
 	}
 	
 	public void simulateSalesMarket(HashMap<Integer, List<Offer>> enterpriseoffers) {
@@ -41,7 +41,7 @@ public class SalesSimulation {
 		 
 		for (GroupOfBuyers g : buyerGroups) {
 			g.sortOffers(enterpriseoffers);
-			in = g.registerPurchases(500, 10, 20, enterprises);
+			in = g.registerPurchases(10, 50, 20, enterprises);
 		}
 		
 	}

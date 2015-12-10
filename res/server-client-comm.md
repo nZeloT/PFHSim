@@ -1,6 +1,6 @@
 #Server Client Communication Draft
 
-Version: 1; Author: Leon
+Version: 2; Author: Leon
 
 
 ###Server Tasks
@@ -12,6 +12,45 @@ Required:
 Optional:
 * **CHK**:Check that the actions executed by the enterprise on the client side are valid
 * more to come ...
+
+====================================================================================================================
+##Everything rethought
+Version 2; Author: Leon
+
+###Idea
+The idea is basically to have one message exchange per round with the server. At the beginning of eaach round all the necessary informations are transferred from the server. This includes:
+* new resource prices, 
+* amount of sold offers and 
+* the respective amount of market research info
+* flag whether the game is finished
+
+At the end of the round the client sends a round finished, waiting for simulation to go message with the following additional info:
+* the amount of resources bought for the price of the finished round
+* the new offer catalog
+* the investment in market research
+* (any additional info that may be required for market research)
+* (an action log to make validation possible)
+
+Still when sending only one message per round the server client core should map arround some kind of aggregation storage. Meaning provide an API as it is now, e.g. buy resources whenever you want, but store the amount values unti the round is finished and pack them into one single message.
+
+###Possible Problems
+This, as the previous version does not allow reentering the game after a disconnect because we don't know exactly what happend on the client side.
+
+###Processing Steps
+0. the server is initilized with a end game criteria
+1. user buys resources and does all the other stuff; amounts get stored and summed
+2. user finishes the round; all required infos are send to the server
+3. server calculates the new resource prices
+4. sells some houses
+5. does some market research
+6. client recieves the respective info
+7. is the game finished? if not continue with step 1.
+
+I skip a detialed description of the protocol, as it is only one message on each side.
+
+====================================================================================================================
+##The old stuff
+Version 1; Author: Leon
 
 ###Analysis
 
@@ -67,10 +106,10 @@ transfer the full **DIS** report
 
 #######Comments, Florian:
 
-*Analysis-->RES: I would really prefer a solution where you can buy resources multiple times a round. This makes it much more fexible for the user. Send one request for one buying action instantly when button is clicked.
+* Analysis-->RES: I would really prefer a solution where you can buy resources multiple times a round. This makes it much more fexible for the user. Send one request for one buying action instantly when button is clicked.
 
-*Simulation Phase: I would also transfer the new resource prices at the end of a simulation phase, so that the player is able to see how much his invests would cost now. We can leave the price at the RES-Protocoll as an ACK/Recheck.
+* Simulation Phase: I would also transfer the new resource prices at the end of a simulation phase, so that the player is able to see how much his invests would cost now. We can leave the price at the RES-Protocoll as an ACK/Recheck.
 
-*End Game criteria: We also need to think about that. Different opportunities, xxxx Euro reached, xx% Market Shar (xx>70%?), last player with positiv cash. Easiest would be EURO reached.., but is that the best? Also possible when all houses are available for everyone, go for 2 more rounds or something like that.
+* End Game criteria: We also need to think about that. Different opportunities, xxxx Euro reached, xx% Market Shar (xx>70%?), last player with positiv cash. Easiest would be EURO reached.., but is that the best? Also possible when all houses are available for everyone, go for 2 more rounds or something like that.
 
-*CHK-->something for iteration 2 :D
+* CHK-->something for iteration 2 :D

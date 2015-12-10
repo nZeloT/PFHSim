@@ -9,6 +9,12 @@ import sim.simulation.sales.Offer;
 
 public class ServerSimulation {
 	
+	private ResourceMarket market;
+	
+	public ServerSimulation() {
+		market = new ResourceMarket();
+	}
+	
 	public ServerMessage[] simulationStep(ClientMessage[] clntMsgs){
 		return new ServerMessage[clntMsgs.length];
 	}
@@ -18,6 +24,6 @@ public class ServerSimulation {
 	}
 	
 	public ServerMessage getSetupMessage(){
-		return new ServerMessage(ResourceMarket.get().getPrices(), new int[0], false, new ArrayList<Offer>());
+		return new ServerMessage(market.getCosts(), new int[0], false, new ArrayList<Offer>());
 	}
 }

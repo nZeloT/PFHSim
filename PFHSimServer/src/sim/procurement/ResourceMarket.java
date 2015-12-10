@@ -1,37 +1,22 @@
 package sim.procurement;
 
-
 import java.util.HashMap;
 
-
+/**
+ * this is the SERVER only part of the ResourceMarket
+ */
 public class ResourceMarket {
 	
+	private HashMap<ResourceType, Integer> costs;
+
 	/**
-	 * ResourceMarket a singleton because only one market exists
-	 * and needs to be known to every enterprise
+	 * initialize with some default prices
 	 */
-	private static ResourceMarket instance = new ResourceMarket();
-	
-	public static ResourceMarket get(){
-		return instance;
-	}
-	
-
-	private HashMap<ResourceType,ResourceListItem> resources;
-
-	
-	public HashMap<ResourceType, ResourceListItem> getResources() {
-		return resources;
-	}
-	
-/**
- * Don't use this!!!!!, use the get Method because this is a singleton implementation and only public for testing
- */
 	public ResourceMarket(){
-		resources = new HashMap<ResourceType,ResourceListItem>();
-		ResourceType types [] = ResourceType.values();
-		for (int i = 0; i < types.length; i++) {
-			resources.put(types[i], new ResourceListItem(types[i]));
+		costs = new HashMap<ResourceType, Integer>();
+		
+		for (ResourceType t : ResourceType.values()) {
+			costs.put(t, t.getBasePrice());
 		}
 	}
 	
@@ -42,39 +27,21 @@ public class ResourceMarket {
 	 * 	150-200 sold 	   --> price stays
 	 * 	less than 150 sold --> price -15%
 	 */
-	public void adjustPrices(){		
-		ResourceType types [] = ResourceType.values();
-		for (int i = 0; i < types.length; i++) {
-			ResourceListItem tmpresource = resources.get(types[i]);
-			int amount = tmpresource.getAmountofSoldItems();
-			int costs = tmpresource.getCosts();
+	public void adjustPrices(HashMap<ResourceType, Integer> soldAmounts){
+		for (ResourceType t : ResourceType.values()) {
+			int amount = soldAmounts.get(t);
+			int costs = this.costs.get(t);
 			if (amount < 150) {
 				costs *= 0.85;
 			}
 			if (amount > 200) {
 				costs *= 1.15;
 			}
-			tmpresource.setCosts(costs);
+			this.costs.put(t, costs);
 		}
 	}
 	
-	/**
-	 * 	Get resources from the resource market
-	 * @param resource The resource to sell
-	 * @param amount The amount of the requested Resource
-	 * If enough on the market, get the Resource Array, otherwise get null
-	 */
-	public Resource[] sellResources(ResourceType type, int amount) throws ResourceMarketException{
-		if (amount < 1) {
-			throw new ResourceMarketException("Please specify a positiv amount!");
-		}
-		ResourceListItem specialResource = resources.get(type);
-		return specialResource.get(amount);
+	public HashMap<ResourceType, Integer> getCosts() {
+		return costs;
 	}
-	
-	public int[] getPrices(){
-		return new int[0];
-	}
-	
-	
 }

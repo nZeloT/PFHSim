@@ -3,8 +3,6 @@ package sim.simulation.sales;
 import java.util.HashMap;
 import java.util.List;
 
-import sim.Enterprise;
-
 public class ExpensiveBuyer implements GroupOfBuyers {
 
 	@Override

@@ -11,13 +11,13 @@ public enum ResourceType implements StoreableType {
 	ROOF_TILE(1,1, "roof tile");
 	
 	private int volume;
-	private int price;
 	private String name;
+	private final int basePrice;
 	
 	private ResourceType(int v, int p, String name) {
 		this.volume = v;
-		this.price = p;
 		this.name = name;
+		this.basePrice = p;
 	}
 	
 	public String toString() {
@@ -28,14 +28,9 @@ public enum ResourceType implements StoreableType {
 	public int getVolume() {
 		return volume;
 	}
-
-	public int getPrice() {
-		return price;
+	
+	public int getBasePrice() {
+		return basePrice;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	
-	
 }

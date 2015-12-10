@@ -11,7 +11,6 @@ import sim.hr.EmployeeType;
 import sim.hr.HR;
 import sim.hr.WrongEmployeeTypeException;
 import sim.procurement.Resource;
-import sim.procurement.ResourceListItem;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
@@ -158,16 +157,14 @@ public class Enterprise {
 	 * @throws EnterpriseException
 	 *             Not enough space in the warehouse or not enough Money
 	 */
-	public void buyResources(ResourceType type, int amount) throws EnterpriseException, ResourceMarketException {
-		ResourceMarket market = ResourceMarket.get();
-		ResourceListItem resource = market.getResources().get(type);
-		int price = amount * resource.getCosts();
+	public void buyResources(ResourceMarket market, ResourceType type, int amount) throws EnterpriseException, ResourceMarketException {
+		int price = amount * market.getPrice(type);
 		if (price > cash) {
 			throw new EnterpriseException("Not enough Money to buy " + amount + " Resources!");
 		}
 
 		if (warehouse.isInStorage(type, amount)) {
-			Resource[] resources = market.sellResources(type, amount);
+			Resource[] resources = market.buyResources(type, amount);
 			cash -= price;
 			if (resources != null) {
 				if (!warehouse.storeResource(resources)) {

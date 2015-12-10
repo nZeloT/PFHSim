@@ -8,7 +8,7 @@ import java.util.Map;
 import sim.Enterprise;
 import sim.production.PFHouseType;
 
-public class CheapBuyer implements GroupOfBuyer {
+public class CheapBuyer implements GroupOfBuyers {
 
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedOffers = new HashMap<>();
 
@@ -16,9 +16,9 @@ public class CheapBuyer implements GroupOfBuyer {
 	 * sort offers in the right Housetype category an ascending by Price for
 	 * purchase Simulation
 	 */
-	public void sortOffers(HashMap<Enterprise, List<Offer>> in) {
+	public void sortOffers(HashMap<Integer, List<Offer>> in) {
 
-		for (Map.Entry<Enterprise, List<Offer>> entry : in.entrySet()) {
+		for (Map.Entry<Integer, List<Offer>> entry : in.entrySet()) {
 
 			List<Offer> offer = entry.getValue();
 			for (int i = 0; i < offer.size(); i++) {
@@ -64,8 +64,8 @@ public class CheapBuyer implements GroupOfBuyer {
 	 *            purchases
 	 */
 	@Override
-	public HashMap<Enterprise, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, Enterprise[] e) {
-		HashMap<Enterprise, List<Offer>> results = new HashMap<>();
+	public HashMap<Integer, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, int[] e) {
+		HashMap<Integer, List<Offer>> results = new HashMap<>();
 		PFHouseType houseteypes[] = PFHouseType.values();
 		for (int i = 0; i < e.length; i++) {
 			results.put(e[i], new ArrayList<Offer>());

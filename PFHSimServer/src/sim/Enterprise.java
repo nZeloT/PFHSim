@@ -1,6 +1,7 @@
 package sim;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import sim.abstraction.Tupel;
@@ -101,8 +102,12 @@ public class Enterprise {
 			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
 		else {
 			for (Offer offer : offers) {
-				startPFHouseProduction(offer,
-						hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
+				try {
+					startPFHouseProduction(offer,
+							hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
+				} catch (EnterpriseException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -193,12 +198,13 @@ public class Enterprise {
 	 *         warehouse.
 	 * 
 	 */
-	public void startPFHouseProduction(Offer offer, List<Employee> employees) throws EnterpriseException {
+	public void startPFHouseProduction(Offer offer, Employee[] pEmployees) throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
 		if (offer == null)
 			throw new EnterpriseException("Invalid offer given!");
 
+		
 		// How much walls are needed for pfhousetype?
 		WallType[] wt = offer.getHousetype().getRequiredWallTypes();
 		int[] wc = offer.getHousetype().getWallCounts();
@@ -264,35 +270,18 @@ public class Enterprise {
 		}
 		// enough resources in warehouse
 
-		// How much employees are needed for pfhousetype?
-		EmployeeType[] et = offer.getHousetype().getRequiredEmployeeTypes();
-		int[] ec = offer.getHousetype().getEmployeeCounts();
-
 		// Check whether the needed employees are provided.
-		int[] tmp_ec = new int[ec.length];
-
-		// Count up tmp_ec for each employee-type provided in the
-		// employee-parameter.
 		// If a not required employee is provided, he/she will be removed
 		// from the list of employees needed for the house-building-job.
-		boolean requiredForJob = false;
+		List<Employee> employees = Arrays.asList(pEmployees);
 		for (int i = 0; i < employees.size(); i++) {
-			requiredForJob = false;
-			for (int j = 0; j < et.length; j++) {
-				if (employees.get(i).getType() == et[j]) {
-					tmp_ec[j]++;
-					requiredForJob = true;
-				}
-			}
-			if (!requiredForJob) {
+			if (employees.get(i).getType() != EmployeeType.ASSEMBLER) {
 				employees.remove(i);
 				i--;
 			}
 		}
-		for (int i = 0; i < et.length; i++) {
-			if (tmp_ec[i] < ec[i]) {
-				throw new EnterpriseException("Not enough employees to build this house!");
-			}
+		if (employees.size() < offer.getHousetype().getEmployeeCount()) {
+			throw new EnterpriseException("Not enough employees to build this house!");
 		}
 		// enough employees
 
@@ -327,11 +316,8 @@ public class Enterprise {
 
 		// create a new house and append it to the array-list saving the houses
 		// which are in construction.
-
-		// TODO calc variable costs does not work here. calc the price based on
-		// the concrete walltype
-		PFHouse pfh = new PFHouse(offer.getPrice(), this.calculateVariableCosts(offer),
-				offer.getHousetype(), employees);
+		PFHouse pfh = new PFHouse(offer.getPrice(), this.calculateVariableCosts(offer), offer.getHousetype(),
+				employees);
 
 		housesInConstruction.add(pfh);
 
@@ -357,12 +343,12 @@ public class Enterprise {
 		return sum;
 	}
 
-	public void checkRequirementsforOffer(PFHouseType housetype, int amount, Tupel<WallType>...selectedWalltype)
+	public void checkRequirementsforOffer(PFHouseType housetype, int amount, Tupel<WallType>... selectedWalltype)
 			throws EnterpriseException {
 
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
-	
+
 		for (int i = 0; i < wallcount.length; i++) {
 			if (selectedWalltype[0].type == walltypes[i] || walltypes[i] == WallType.PANORAMA_WALL) {
 				if (!warehouse.isInStorage(walltypes[i], wallcount[i] * amount)) {
@@ -371,14 +357,8 @@ public class Enterprise {
 			}
 		}
 
-		EmployeeType[] employees = housetype.getRequiredEmployeeTypes();
-		int[] employeecount = housetype.getEmployeeCounts();
-
-		for (int i = 0; i < employees.length; i++) {
-			int maxAmount = hr.getMaxCapacity(employees[i]);
-			if (employeecount[i] * amount > maxAmount) {
-				throw new EnterpriseException("Not enough Employees to build the houses");
-			}
+		if (housetype.getEmployeeCount() < hr.getMaxCapacity(EmployeeType.ASSEMBLER)) {
+			throw new EnterpriseException("Not enough Employees to build the houses");
 		}
 
 		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
@@ -417,17 +397,12 @@ public class Enterprise {
 		}
 
 		// check employees
-		EmployeeType[] employees = pfhouse.getRequiredEmployeeTypes();
-		int[] employeecount = pfhouse.getEmployeeCounts();
-
-		for (int i = 0; i < employees.length; i++) {
-			int max = hr.getMaxCapacity(employees[i]) / employeecount[i];
-			maximum = Math.min(max, maximum);
-		}
-
+		int max = hr.getMaxCapacity(EmployeeType.ASSEMBLER) / pfhouse.getEmployeeCount();
+		
+		
+		maximum = Math.min(max, maximum);
 		return maximum;
 	}
-
 
 	/**
 	 * This Method doens't check if everything is available!!!!!!!! Make sure
@@ -458,12 +433,10 @@ public class Enterprise {
 			costs += warehouse.calculateAvgPrice(resourcetypes[i]) * resourcecount[i];
 		}
 
-		EmployeeType[] employestype = offer.getHousetype().getRequiredEmployeeTypes();
-		int[] employeecount = offer.getHousetype().getEmployeeCounts();
 		int duration = offer.getHousetype().getConstructionDuration();
-		for (int i = 0; i < employeecount.length; i++) {
-			costs += employestype[i].getBaseCost() * employeecount[i] * duration;
-		}
+		
+		costs += EmployeeType.ASSEMBLER.getBaseCost() * offer.getHousetype().getEmployeeCount() * duration;
+		
 		return costs;
 	}
 

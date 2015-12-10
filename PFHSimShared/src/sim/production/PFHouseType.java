@@ -25,10 +25,7 @@ public enum PFHouseType implements GeneralType {
 			new Tupel[] {
 				new Tupel<ResourceType>(ResourceType.ROOF_TILE, 25),
 				new Tupel<ResourceType>(ResourceType.WOOD, 6)
-			},
-			new Tupel[] {
-				new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 3)
-			}, 1, 0, 0),
+			}, 3, 1, 0, 0),
 	BLOCK_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 3), 
 			new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS, 3)
@@ -36,29 +33,20 @@ public enum PFHouseType implements GeneralType {
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 50),
 			new Tupel<ResourceType>(ResourceType.WOOD, 12)
-		},
-		new Tupel[] {
-			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 5)
-		}, 1, 1, 10000),
+		}, 5, 1, 1, 10000),
 	EFFICIENCY_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 6)
 		},
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.CONCRETE, 4),
-		},
-		new Tupel[] {
-			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 5)
-		}, 1, 2, 20000),
+		}, 5, 1, 2, 20000),
 	MULTI_FAMILY_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 12)
 		},
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 80),
 			new Tupel<ResourceType>(ResourceType.WOOD, 19)
-		},
-		new Tupel[] {
-			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 9)
-		}, 2, 3, 30000),
+		}, 9, 2, 3, 30000),
 	COMFORT_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 6),
 			new Tupel<WallType>(WallType.PANORAMA_WALL, 1)
@@ -66,10 +54,7 @@ public enum PFHouseType implements GeneralType {
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 80),
 			new Tupel<ResourceType>(ResourceType.WOOD, 19)
-		},
-		new Tupel[] {
-			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 8)
-		}, 2, 4, 40000),
+		}, 8, 2, 4, 40000),
 	CITY_VILLA(new Tupel[]{
 			new Tupel<WallType>(WallType.PANORAMA_WALL, 2),
 			new Tupel<WallType>(WallType.GENERAL, 6)
@@ -77,37 +62,32 @@ public enum PFHouseType implements GeneralType {
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 100),
 			new Tupel<ResourceType>(ResourceType.WOOD, 21)
-		},
-		new Tupel[] {
-			new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 10)
-		}, 2, 5, 50000),
+		}, 10, 2, 5, 50000),
 	TRENDHOUSE(new Tupel[]{
 				new Tupel<WallType>(WallType.PANORAMA_WALL, 3),
 				new Tupel<WallType>(WallType.GENERAL, 5)
 			},
 			new Tupel[] {
 				new Tupel<ResourceType>(ResourceType.CONCRETE, 10)
-			},
-			new Tupel[] {
-				new Tupel<EmployeeType>(EmployeeType.ASSEMBLER, 9)
-			}, 2, 6, 60000);
+			}, 9, 2, 6, 60000);
 	
 		
 	private Tupel<WallType>[] walltupel;
 	private Tupel<ResourceType>[] resourcetupel;
-	private Tupel<EmployeeType>[] employeetupel; 
+	
+	private int employeecount; 
 	private int constructionDuration;
 	
 	private int researchDuration;
 	private int researchCosts;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private PFHouseType(Tupel[] walltupel, Tupel[] resourcetupel, Tupel[] employeetupel, int constructionDuration,
+	private PFHouseType(Tupel[] walltupel, Tupel[] resourcetupel, int employeecount, int constructionDuration,
 			int researchDuration, int researchCosts) {
 		
 		this.walltupel = walltupel;
 		this.resourcetupel= resourcetupel;
-		this.employeetupel = employeetupel;
+		this.employeecount = employeecount;
 		this.constructionDuration = constructionDuration;
 		
 		this.researchCosts = researchCosts;
@@ -145,21 +125,9 @@ public enum PFHouseType implements GeneralType {
 		}
 		return rc;
 	}
-	
-	public EmployeeType[] getRequiredEmployeeTypes() {
-		EmployeeType[] et = new EmployeeType[employeetupel.length];
-		for (int i = 0; i < employeetupel.length; i++) {
-			et[i] = employeetupel[i].type;
-		}
-		return et;
-	}
 
-	public int[] getEmployeeCounts() {
-		int[] ec = new int[employeetupel.length];
-		for (int i = 0; i < employeetupel.length; i++) {
-			ec[i] = employeetupel[i].count;
-		}
-		return ec;
+	public int getEmployeeCount() {
+		return employeecount;
 	}
 	
 	public int getConstructionDuration() {

@@ -4,9 +4,9 @@ import sim.Enterprise;
 
 class EnterpriseOfferTupel {
 	public Offer offer;
-	public Enterprise enterprise;
+	public int enterprise;
 
-	public EnterpriseOfferTupel(Enterprise enterprise, Offer offer) {
+	public EnterpriseOfferTupel(int enterprise, Offer offer) {
 		this.offer = offer;
 		this.enterprise = enterprise;
 	}

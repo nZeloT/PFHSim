@@ -71,7 +71,7 @@ public class UpgradeTest {
 		e.startResearchProject(PFHouseType.BLOCK_HOUSE, arch);
 		
 		for (int i = 0; i < 100; i++) {
-			e.doSimulationStep();
+			e.doSimulationStep(new int[0]);
 		}
 		
 		//check if the expected upgrades are in place

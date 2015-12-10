@@ -31,6 +31,7 @@ public class ServerConnection {
 		if(!closed){
 			try {
 				out.writeObject(clnt);
+				out.flush();
 				serv = (ServerMessage)in.readObject();
 			} catch (Exception e) {
 				e.printStackTrace();

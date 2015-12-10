@@ -72,5 +72,9 @@ public class ResourceMarket {
 		return specialResource.get(amount);
 	}
 	
+	public int[] getPrices(){
+		return new int[0];
+	}
+	
 	
 }

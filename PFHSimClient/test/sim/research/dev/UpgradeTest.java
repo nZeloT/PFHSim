@@ -2,6 +2,8 @@ package sim.research.dev;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,7 +73,7 @@ public class UpgradeTest {
 		e.startResearchProject(PFHouseType.BLOCK_HOUSE, arch);
 		
 		for (int i = 0; i < 100; i++) {
-			e.doSimulationStep(new int[0]);
+			e.doSimulationStep(new ArrayList<>());
 		}
 		
 		//check if the expected upgrades are in place

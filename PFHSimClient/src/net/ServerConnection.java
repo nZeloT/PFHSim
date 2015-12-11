@@ -1,53 +1,47 @@
 package net;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import net.shared.ClientMessage;
+import net.shared.Connection;
 import net.shared.ServerMessage;
 
-public class ServerConnection {
-
-	private Socket s;
-	private ObjectInputStream in;
-	private ObjectOutputStream out;
-
-	private boolean closed = true;
+//------------------for no having the UI freeze
+public class ServerConnection extends Connection<ClientMessage, ServerMessage>{
 
 	public ServerConnection(Socket s) {
-		try {
-			in = new ObjectInputStream(s.getInputStream());
-			out = new ObjectOutputStream(s.getOutputStream());
-			closed = false;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		super(s);
 	}
 
-	public ServerMessage doRoundTrip(ClientMessage clnt){
-		ServerMessage serv = null;
-		if(!closed){
-			try {
-				out.writeObject(clnt);
-				out.flush();
-				serv = (ServerMessage)in.readObject();
-			} catch (Exception e) {
-				e.printStackTrace();
+	@Override
+	public void run(){
+		try{
+			while(!closed){
+				//wait for the server to send info
+				ServerMessage serv = (ServerMessage)in.readObject();
+
+				synchronized (ansLock) {
+					ans = serv;
+				}
+
+				ClientMessage clnt = null;
+				do{
+					synchronized (msgLock) {
+						clnt = msg;
+						msg = null;
+					}
+					
+					Thread.sleep(500);
+				}while(clnt == null && !closed);
+
+				if(clnt != null){
+					out.writeObject(clnt);
+					out.flush();
+				}
 			}
-		}
-		return serv;
-	}
-
-	public void close(){
-		try {
-			closed = true;
-			in.close();
-			out.close();
-			s.close();
-		} catch (IOException e) {
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
+
 }

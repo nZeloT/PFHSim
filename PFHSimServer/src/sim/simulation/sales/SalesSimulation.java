@@ -43,5 +43,9 @@ public class SalesSimulation {
 		}
 		
 	}
+	
+	public HashMap<Integer, List<Offer>> getSalesData() {
+		return in;
+	}
 
 }

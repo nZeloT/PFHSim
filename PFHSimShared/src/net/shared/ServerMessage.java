@@ -1,21 +1,20 @@
 package net.shared;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
 import sim.procurement.ResourceType;
 import sim.simulation.sales.Offer;
 
-public class ServerMessage implements Serializable{
+public class ServerMessage implements Message{
 	private static final long serialVersionUID = 5729214100566288796L;
 	
 	private final HashMap<ResourceType, Integer> newResourcePrices;
-	private final int[] soldOfferAmounts;
+	private final List<Offer> soldOfferAmounts;
 	private final boolean gameEnded;
 	private final List<Offer> marketResearch;
 	
-	public ServerMessage(HashMap<ResourceType, Integer> newResourcePrices, int[] soldOfferAmounts, boolean gameEnded,
+	public ServerMessage(HashMap<ResourceType, Integer> newResourcePrices, List<Offer> soldOfferAmounts, boolean gameEnded,
 			List<Offer> marketResearch) {
 		super();
 		this.newResourcePrices = newResourcePrices;
@@ -28,7 +27,7 @@ public class ServerMessage implements Serializable{
 		return newResourcePrices;
 	}
 
-	public int[] getSoldOfferAmounts() {
+	public List<Offer> getSoldOfferAmounts() {
 		return soldOfferAmounts;
 	}
 

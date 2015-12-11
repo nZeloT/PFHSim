@@ -2,6 +2,8 @@ package sim;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import sim.abstraction.Tupel;
@@ -33,7 +35,7 @@ public class IntegrationTest {
 //		sim.simulateSalesMarket(e);
 		
 		for (Enterprise en : e) {
-			en.doSimulationStep(new int[0]);
+			en.doSimulationStep(new ArrayList<>());
 		}
 		
 		assertEquals(0, 0);

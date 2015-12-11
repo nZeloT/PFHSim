@@ -34,6 +34,7 @@ public class Enterprise {
 	private int cash;
 	private int saldo;
 
+	ResourceMarket market;
 	private Warehouse warehouse;
 	private ProductionHouse production;
 
@@ -54,9 +55,11 @@ public class Enterprise {
 	private Department marketResearch;
 	// private ResearchProject designthinking; //architect
 
-	public Enterprise() {
+	public Enterprise(ResourceMarket market) {
 		cash = START_CASH;
 
+		this.market = market;
+		
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
 
@@ -92,12 +95,12 @@ public class Enterprise {
 	/**
 	 * Method to simulate one time-step for the enterprise
 	 */
-	public List<Exception> doSimulationStep(int[] soldAmounts) {
+	public List<Exception> doSimulationStep(List<Offer> soldOffer) {
 		int oldCash = cash;
 		List<Exception> errorStore = new ArrayList<>();
 
 		// process results from buyer's market-simulation.
-		if (soldAmounts.length != offers.size())
+		if (soldOffer.size() != offers.size())
 			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
 		else {
 			for (Offer offer : offers) {
@@ -157,13 +160,13 @@ public class Enterprise {
 	 * @throws EnterpriseException
 	 *             Not enough space in the warehouse or not enough Money
 	 */
-	public void buyResources(ResourceMarket market, ResourceType type, int amount) throws EnterpriseException, ResourceMarketException {
+	public void buyResources(ResourceType type, int amount) throws EnterpriseException, ResourceMarketException {
 		int price = amount * market.getPrice(type);
 		if (price > cash) {
 			throw new EnterpriseException("Not enough Money to buy " + amount + " Resources!");
 		}
 
-		if (warehouse.isInStorage(type, amount)) {
+		if (warehouse.isStoreable(type, amount)) {
 			Resource[] resources = market.buyResources(type, amount);
 			cash -= price;
 			if (resources != null) {

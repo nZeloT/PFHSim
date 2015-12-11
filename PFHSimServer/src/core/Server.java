@@ -33,6 +33,7 @@ public class Server {
 		setup();
 		
 		do{
+			System.out.println("Waiting for Client Input ...");
 			ClientMessage clntMsg[] = new ClientMessage[clients.length];
 			//1. Receive the round details from the clients
 			for (int i = 0; i < clients.length; i++) {
@@ -48,12 +49,15 @@ public class Server {
 				
 				//he has answered. save the answer and wait for the next one
 				clntMsg[i] = clients[i].retrieveAnswer();
+				System.out.println("\t" + (i+1) + "/" + clntMsg.length);
 			}
 			
 			//2. pass the data to the simulation
+			System.out.println("Processing input data ...");
 			ServerMessage[] servMsg = sim.simulationStep(clntMsg);
 			
 			//3. Get the respective message for each client
+			System.out.println("Sending Server Info ...");
 			for (int i = 0; i < clients.length; i++) {
 				clients[i].placeMessasge(servMsg[i]);
 			}
@@ -70,10 +74,9 @@ public class Server {
 		System.out.println("Let's begin with the setup.");
 		System.out.println("How many of you are going to attend this session?");
 
-		int clientCount = readInt("I'm sorry, but I didn't get it right. Could you please repeat?", 2, Integer.MAX_VALUE);
+		int clientCount = readInt("I'm sorry, but I didn't get it right. Could you please repeat?", 1, Integer.MAX_VALUE);
 		clients = new ClientConnection[clientCount];
 
-		//TODO: adjust this
 		ServerMessage setupMsg = sim.getSetupMessage();
 
 		ServerSocket ss = null;
@@ -138,7 +141,8 @@ public class Server {
 	private int readInt(String errorMsg, int min, int max){
 		boolean repeat = false;
 		int n = 0;
-		while(repeat){
+		do{
+			repeat = false;
 			try {
 				String input = userIn.readLine();
 				n = Integer.parseInt(input);
@@ -157,7 +161,7 @@ public class Server {
 				e.printStackTrace();
 				System.exit(-1);
 			}
-		}
+		}while(repeat);
 		return n;
 	}
 

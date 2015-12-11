@@ -23,19 +23,18 @@ public class TestUtils {
 	 */
 	public static Enterprise initializeEnterprise() {
 		
-		Enterprise e = new Enterprise();
-		ResourceMarket m = getMarket();
+		Enterprise e = new Enterprise(getMarket());
 		
 		e.getHR().assignEmployee(e.getHR().hire(EmployeeType.HR));
 		Arrays.asList(e.getHR().hire(EmployeeType.STORE_KEEPER, 5)).forEach((emp) -> {e.getWarehouse().assignEmployee(emp);});
 
 		try {
-			e.buyResources(m, ResourceType.WOOD, 80);
-			e.buyResources(m, ResourceType.BRICK, 10);
-			e.buyResources(m, ResourceType.CONCRETE, 20);
-			e.buyResources(m, ResourceType.INSULATION, 30);
-			e.buyResources(m, ResourceType.ROOF_TILE, 150);
-			e.buyResources(m, ResourceType.WINDOW, 25);
+			e.buyResources(ResourceType.WOOD, 80);
+			e.buyResources(ResourceType.BRICK, 10);
+			e.buyResources(ResourceType.CONCRETE, 20);
+			e.buyResources(ResourceType.INSULATION, 30);
+			e.buyResources(ResourceType.ROOF_TILE, 150);
+			e.buyResources(ResourceType.WINDOW, 25);
 		} catch (EnterpriseException e1) {
 			e1.printStackTrace();
 		} catch (ResourceMarketException e1) {

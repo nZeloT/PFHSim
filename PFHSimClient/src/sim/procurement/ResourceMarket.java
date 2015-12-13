@@ -46,13 +46,7 @@ public class ResourceMarket {
 		return soldResources;
 	}
 	
-	public int[] getSoldAmounts(){
-		int[] amounts = new int[soldResources.size()];
-		int i = 0;
-		for (Integer a : soldResources.values()) {
-			amounts[i++] = a;
-		}
-		return amounts;
+	public HashMap<ResourceType, Integer> getCosts() {
+		return costs;
 	}
-	
 }

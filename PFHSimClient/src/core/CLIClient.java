@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Map.Entry;
 
 import bsh.EvalError;
 import bsh.Interpreter;
@@ -13,6 +14,7 @@ import net.shared.ClientMessage;
 import net.shared.ServerMessage;
 import sim.Enterprise;
 import sim.procurement.ResourceMarket;
+import sim.procurement.ResourceType;
 
 public class CLIClient {
 	private static final int SERVER_PORT = 44444;
@@ -75,6 +77,16 @@ public class CLIClient {
 				}
 			}
 
+			//6. some output :D
+			System.out.println();
+			System.out.println("<-------------------------------->");
+			System.out.println("New Prices:");
+			for (Entry<ResourceType, Integer> e : market.getCosts().entrySet()) {
+				System.out.println("\t" + e.getKey() + "\t\t" + e.getValue());
+			}
+			System.out.println("<-------------------------------->");
+			System.out.println();
+			
 			if(!finish){
 				//3. process user action
 				processUserInput();

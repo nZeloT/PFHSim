@@ -8,9 +8,19 @@
 
 Spielbeobachtungen (Bugs):
 * maximal purchases for offer - done but unknown if it works
-* resource market will NOT be reseted
+* resource market will NOT be reseted - done
 * handle with received offers doe not work - done
- * response of offers - unkown
+
+* ToDo: 
+ * enterprise: old offers in a new round - what happens with them then?
+  * Answer: new round needs new offers needed
+ * only possible to calculate offers for available housetypes
+ * price perfomance buyer is not 100% correct
+ * Quality theme must be developed and implemented
+ * wer wann welchen Check macht und was dann passiert - wann sollten Exception geworfen werden, was wird doppelt gechecked
+ * PFHouse makes possible to unassign employees
+ * Test the UI concerning Exception Handling
+ * Need Sales Man to sale houses, Procurment Man for buying resources at the market
 
 
 # Review 2015-12-07

@@ -103,7 +103,7 @@ public class Enterprise {
 		if (soldOffer.size() != offers.size())
 			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
 		else {
-			for (Offer offer : offers) {
+			for (Offer offer : soldOffer) {
 				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getMaximumProducable(); i++) {
 					try {
 						System.out.println("DOSIM -- started house production: " + offer.getHousetype() + "; " + i + " / " + offer.getNumberOfPurchases());

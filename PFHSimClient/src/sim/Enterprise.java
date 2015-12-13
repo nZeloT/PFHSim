@@ -368,7 +368,7 @@ public class Enterprise {
 			}
 		}
 
-		if (housetype.getEmployeeCount() < hr.getMaxCapacity(EmployeeType.ASSEMBLER)) {
+		if (housetype.getEmployeeCount() > hr.getMaxCapacity(EmployeeType.ASSEMBLER)) {
 			throw new EnterpriseException("Not enough Employees to build the houses");
 		}
 

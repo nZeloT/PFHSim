@@ -17,7 +17,7 @@ public class SalesSimulation {
 	public SalesSimulation() {
 		buyerGroups = new ArrayList<>();
 		buyerGroups.add(new CheapBuyer());
-		buyerGroups.add(new PricePerformanceBuyer());
+//		buyerGroups.add(new PricePerformanceBuyer());
 		buyerGroups.add(new ExpensiveBuyer());
 	}
 	
@@ -39,7 +39,7 @@ public class SalesSimulation {
 		 
 		for (GroupOfBuyers g : buyerGroups) {
 			g.sortOffers(enterpriseoffers);
-			in = g.registerPurchases(10, 50, 20, enterprises);
+			in = g.registerPurchases(50, 10, 5, enterprises);
 		}
 		
 	}

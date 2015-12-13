@@ -3,6 +3,7 @@ package core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.shared.ClientMessage;
 import net.shared.ServerMessage;
@@ -58,6 +59,16 @@ public class ServerSimulation {
 		
 		//5. is the game finished?
 		boolean isFinished = isFinished();
+		
+		//6. some output :D
+		System.out.println();
+		System.out.println("<-------------------------------->");
+		System.out.println("New Prices:");
+		for (Entry<ResourceType, Integer> e : market.getCosts().entrySet()) {
+			System.out.println("\t" + e.getKey() + "\t\t" + e.getValue());
+		}
+		System.out.println("<-------------------------------->");
+		System.out.println();
 		
 		//6. build the response objects
 		HashMap<Integer, List<Offer>> salesData = sales.getSalesData();

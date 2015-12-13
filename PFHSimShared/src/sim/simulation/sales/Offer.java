@@ -11,18 +11,23 @@ public class Offer {
 	private PFHouseType housetype;
 	private Tupel<WallType>[] walltype;
 	private int numberOfPurchases;
+	private int maximumProducable;
 
 	@SafeVarargs
-	public Offer(int price, int qualityCoefficient, PFHouseType housetype, Tupel<WallType>... walltype) {
+	public Offer(int price, int qualityCoefficient, PFHouseType housetype,int max, Tupel<WallType>... walltype) {
 		this.price = price;
 		this.housetype = housetype;
 		this.walltype = walltype;
 		numberOfPurchases = 0;
-
+		maximumProducable = max;
 		quality = 0;
 		for (int i = 0; i < walltype.length; i++) {
 			quality += qualityCoefficient * walltype[i].type.getQualityFactor() * walltype[i].count;
 		}
+	}
+	
+	public int getAmountofProducable(){
+		return maximumProducable;
 	}
 
 	public int getQuality() {

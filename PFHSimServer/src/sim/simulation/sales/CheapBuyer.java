@@ -10,7 +10,8 @@ import sim.production.PFHouseType;
 public class CheapBuyer implements GroupOfBuyers {
 
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedOffers = new HashMap<>();
-
+	private int undistributed = 0;
+	
 	/**
 	 * sort offers in the right Housetype category an ascending by Price for
 	 * purchase Simulation
@@ -64,6 +65,7 @@ public class CheapBuyer implements GroupOfBuyers {
 	 */
 	@Override
 	public HashMap<Integer, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, int[] e) {
+		
 		HashMap<Integer, List<Offer>> results = new HashMap<>();
 		PFHouseType houseteypes[] = PFHouseType.values();
 		for (int i = 0; i < e.length; i++) {
@@ -71,6 +73,7 @@ public class CheapBuyer implements GroupOfBuyers {
 		}
 
 		for (int i = 0; i < sortedOffers.size(); i++) {
+			undistributed = 0;
 			List<EnterpriseOfferTupel> offersForOneCat = sortedOffers.get(houseteypes[i]);
 			if (offersForOneCat == null) { // make sure a List of offers exist
 				continue;
@@ -83,7 +86,11 @@ public class CheapBuyer implements GroupOfBuyers {
 					if (tmp == null) {
 						break;
 					}
-					int num = tmp.offer.getNumberOfPurchases() + currentAmount;
+					int num = tmp.offer.getNumberOfPurchases() + currentAmount + undistributed;
+					if (tmp.offer.getMaximumProducable() < num) {
+						undistributed += tmp.offer.getMaximumProducable()-num;
+						num = tmp.offer.getMaximumProducable();
+					}
 					tmp.offer.setNumberOfPurchases(num);
 					List<Offer> tmp2 = results.get(tmp.enterprise);
 					tmp2.add(tmp.offer);

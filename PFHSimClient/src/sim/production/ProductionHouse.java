@@ -45,6 +45,7 @@ public class ProductionHouse implements CostFactor {
 		for (Machine m : machines) {
 			try {
 				m.runProductionStep(w);
+				System.out.println("DOSIM --  wall produced");
 			} catch (MachineException me) {
 				errors.add(me);
 			}

@@ -29,7 +29,7 @@ import sim.warehouse.WarehouseException;
 
 public class Enterprise {
 
-	private static final int START_CASH = 100000;
+	private static final int START_CASH = 1000000;
 
 	private int cash;
 	private int saldo;

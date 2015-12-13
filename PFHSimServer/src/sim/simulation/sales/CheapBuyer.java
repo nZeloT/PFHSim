@@ -83,11 +83,12 @@ public class CheapBuyer implements GroupOfBuyers {
 					if (tmp == null) {
 						break;
 					}
-
-					tmp.offer.setNumberOfPurchases(tmp.offer.getNumberOfPurchases() + currentAmount);
+					int num = tmp.offer.getNumberOfPurchases() + currentAmount;
+					tmp.offer.setNumberOfPurchases(num);
 					List<Offer> tmp2 = results.get(tmp.enterprise);
 					tmp2.add(tmp.offer);
 					results.put(tmp.enterprise, tmp2);
+					System.out.println("Enterprise "+ tmp.enterprise + " sold " + num + " for Housetype "+ tmp.offer.getHousetype());
 
 					currentAmount -= step;
 					c++;

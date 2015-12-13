@@ -112,10 +112,12 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 				List<EnterpriseOfferTupel> succoff = entry.getValue();
 				for (int i = 0; i < succoff.size() && minAmount <= current; i++, current -= step) {
 					Offer actual = succoff.get(i).offer;
-					actual.setNumberOfPurchases(current);
+					int amount = actual.getNumberOfPurchases() + current;
+					actual.setNumberOfPurchases(amount);
 					List<Offer> tmp = results.get(succoff.get(i).enterprise);
 					tmp.add(actual);
 					results.put(succoff.get(i).enterprise, tmp);
+					System.out.println("Enterprise "+ succoff.get(i).enterprise + " sold " + amount + " for Housetype "+ actual.getHousetype());
 				}
 			}
 		}

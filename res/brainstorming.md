@@ -34,11 +34,11 @@
 
 ### Information from the call with Greg
 * Server-Client-Architecture : he is not interested in, so it is our fault
-** pay attention to not announce too many advices/restriction to the players 
+ * pay attention to not announce too many advices/restriction to the players 
 * catch useless input data from input fields - e.g.: number of employees - "abc"
 * UI Ideas from other groups
-** header information with player's name, time left, number of round
-** end page with scores
+ * header information with player's name, time left, number of round
+ * end page with scores
 * 60% test coverage are enough (our actual coverage is ca. 90%)
 #Review 2015-12-06
 

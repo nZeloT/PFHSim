@@ -52,7 +52,7 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 
 
 	@Override
-	public HashMap<Integer, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, int[] e) {
+	public HashMap<Integer, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, int[] e) {
 				
 		HashMap<Integer, List<Offer>> results = new HashMap<>();
 //		PFHouseType houseteypes[] = PFHouseType.values();

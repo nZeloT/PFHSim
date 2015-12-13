@@ -39,7 +39,7 @@ public class SalesSimulation {
 		 
 		for (GroupOfBuyers g : buyerGroups) {
 			g.sortOffers(enterpriseoffers);
-			in = g.registerPurchases(10, 50, 20, enterprises);
+			in = g.registerPurchases(50, 10, 20, enterprises);
 		}
 		
 	}

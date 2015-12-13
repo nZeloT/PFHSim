@@ -1,11 +1,14 @@
 package sim.simulation.sales;
 
+import java.io.Serializable;
+
 import sim.abstraction.Tupel;
 import sim.production.PFHouseType;
 import sim.production.WallType;
 
-public class Offer {
-
+public class Offer implements Serializable{
+	private static final long serialVersionUID = 1718456673834939980L;
+	
 	private int price;
 	private int quality;
 	private PFHouseType housetype;

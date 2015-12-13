@@ -111,9 +111,7 @@ public class CLIClient {
 					running = false;
 				else
 					System.out.println(inter.eval(input));
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (EvalError e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}while(running);

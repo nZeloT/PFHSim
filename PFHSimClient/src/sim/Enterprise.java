@@ -104,11 +104,13 @@ public class Enterprise {
 			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
 		else {
 			for (Offer offer : offers) {
-				try {
-					startPFHouseProduction(offer,
-							hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
-				} catch (EnterpriseException e) {
-					e.printStackTrace();
+				for (int i = 0; i < offer.getNumberOfPurchases(); i++) {
+					try {
+						startPFHouseProduction(offer,
+								hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
+					} catch (EnterpriseException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

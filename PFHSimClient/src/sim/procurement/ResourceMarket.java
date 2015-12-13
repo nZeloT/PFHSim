@@ -49,4 +49,10 @@ public class ResourceMarket {
 	public HashMap<ResourceType, Integer> getCosts() {
 		return costs;
 	}
+	
+	public void resetAmounts(){
+		for (ResourceType t : ResourceType.values()) {
+			soldResources.put(t, 0);
+		}
+	}
 }

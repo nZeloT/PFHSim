@@ -68,5 +68,9 @@ public class Offer implements Serializable{
 	public int getNumberOfPurchases() {
 		return numberOfPurchases;
 	}
+	
+	public int getMaximumProducable() {
+		return maximumProducable;
+	}
 
 }

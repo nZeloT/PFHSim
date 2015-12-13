@@ -19,17 +19,17 @@ public class IntegrationTest {
 		e[0] = TestUtils.initializeEnterprise();
 		e[1] = TestUtils.initializeEnterprise();
 		e[2] = TestUtils.initializeEnterprise();
-		
+		 
 //		SalesSimulation sim = new SalesSimulation();
 		
 		for (Enterprise en : e) {
-			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
-			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
-			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
-			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
-			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
-			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
-			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
+			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, 100, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
+			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, 100, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
+			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, 100, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
+			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, 100, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
+			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, 100, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
+			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, 100, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
+			en.addOffer( new Offer(1, ((int)(5500 + 10000 * Math.random())), PFHouseType.BUNGALOW, 100, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)) );
 		}
 
 //		sim.simulateSalesMarket(e);

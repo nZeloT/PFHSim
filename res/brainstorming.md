@@ -1,3 +1,10 @@
+## Review 2015-12-13
+* Finished the group of buyers
+* separated server and client
+ * server finished, client for tests is implmented 
+* developed presentation for monday
+* played the game via console
+
 # Review 2015-12-07
 ### ToDo for presenationday
 

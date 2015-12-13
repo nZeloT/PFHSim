@@ -50,7 +50,6 @@ public class CLIUtils {
 		} catch (EnterpriseException | ResourceMarketException e) {
 			e.printStackTrace();
 		}
-		ent.addOffer(new Offer(100000, 25, PFHouseType.BUNGALOW, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
 	}
 	
 	public static void createOffer(Enterprise ent){

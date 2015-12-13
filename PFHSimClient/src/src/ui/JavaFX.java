@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class JavaFXTest extends Application {
+public class JavaFX extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {

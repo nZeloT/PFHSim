@@ -10,6 +10,7 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedOffers = new HashMap<>();
 	private int numberOfOffers = 0;
+	private int undistributed = 0;
 
 	@Override
 	public void sortOffers(HashMap<Integer, List<Offer>> in) {
@@ -61,6 +62,7 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 		}
 
 		for (int i = 0; i < sortedOffers.size(); i++) {
+			undistributed = 0;
 			List<EnterpriseOfferTupel> tmp = sortedOffers.get(PFHouseType.CITY_VILLA);
 			int demand = (int) (((maxAmount - minAmount) / (1.0*tmp.size()) + minAmount)*tmp.size()); 
 
@@ -71,7 +73,12 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 			
 			for (int j = 0; j < tmp.size(); j++) {
 				double ratio = (1.0*tmp.get(j).expensiveBuyerInterest)/cumulatedQualities;
-				tmp.get(j).offer.setNumberOfPurchases((int) (ratio * demand));
+				
+				int num = (int) (ratio * demand) + undistributed;
+				if (tmp.get(j).offer.getMaximumProducable() < num) {
+					undistributed += tmp.get(j).offer.getMaximumProducable()-num;
+					num = tmp.get(j).offer.getMaximumProducable();
+				}
 				
 				System.out.println("Enterprise: " + tmp.get(j).enterprise + ", Offer: " + tmp.get(j).offer.getWalltype() + ", no. of purchases: " + tmp.get(j).offer.getNumberOfPurchases());
 				

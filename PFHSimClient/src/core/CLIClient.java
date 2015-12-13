@@ -1,12 +1,12 @@
 package core;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
-import bsh.EvalError;
 import bsh.Interpreter;
 import bsh.NameSpace;
 import net.ServerConnection;
@@ -93,7 +93,7 @@ public class CLIClient {
 
 				//4. collect info to send to server
 				System.out.println("Sending Client Info ...");
-				ClientMessage clnt = new ClientMessage(market.getSoldResources(), e.getOffers());
+				ClientMessage clnt = new ClientMessage(new HashMap<>(market.getSoldResources()), new ArrayList<>(e.getOffers()));
 				server.placeMessasge(clnt);
 			}
 		}while(!finish);

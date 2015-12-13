@@ -212,7 +212,7 @@ public class Enterprise {
 	public void startPFHouseProduction(Offer offer, Employee[] pEmployees) throws EnterpriseException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
-		if (offer == null)
+		if (offer == null && pEmployees != null)
 			throw new EnterpriseException("Invalid offer given!");
 
 		

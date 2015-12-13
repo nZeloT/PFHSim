@@ -4,6 +4,14 @@
  * server finished, client for tests is implmented 
 * developed presentation for monday
 * played the game via console
+ 
+
+Spielbeobachtungen (Bugs):
+* maximal purchases for offer - done but unknown if it works
+* resource market will NOT be reseted
+* handle with received offers doe not work - done
+ * response of offers - unkown
+
 
 # Review 2015-12-07
 ### ToDo for presenationday

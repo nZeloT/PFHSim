@@ -106,6 +106,7 @@ public class Enterprise {
 			for (Offer offer : offers) {
 				for (int i = 0; i < offer.getNumberOfPurchases(); i++) {
 					try {
+						System.out.println("DOSIM -- started house production: " + offer.getHousetype() + "; " + i + " / " + offer.getNumberOfPurchases());
 						startPFHouseProduction(offer,
 								hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
 					} catch (EnterpriseException e) {
@@ -120,6 +121,7 @@ public class Enterprise {
 			h.processConstruction();
 
 			if (h.isFinished()) {
+				System.out.println("DOSIM -- house poduction finished: " + h.getType());
 				housesInConstruction.remove(i--);
 
 				cash += h.getPrice(); // employee costs are handled through hr;
@@ -130,6 +132,10 @@ public class Enterprise {
 		// process machine production
 		List<MachineException> productionErrors = production.processProduction(warehouse);
 		errorStore.addAll(productionErrors);
+		
+		for (MachineException me : productionErrors) {
+			System.out.println("DOSIM -- wall production errors: " + me.getMessage());
+		}
 
 		// Handle the upgrade progress
 		upgrades.processUpgrades(this); // upgrades cost only once at the
@@ -144,6 +150,9 @@ public class Enterprise {
 
 		// calculate the cash difference;
 		saldo = cash - oldCash;
+		
+		
+		System.out.println("DOSIM -- " + cash + " -- " + saldo);
 
 		return errorStore;
 	}

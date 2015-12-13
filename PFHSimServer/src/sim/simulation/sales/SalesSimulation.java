@@ -16,8 +16,8 @@ public class SalesSimulation {
 	
 	public SalesSimulation() {
 		buyerGroups = new ArrayList<>();
-//		buyerGroups.add(new CheapBuyer());
-//		buyerGroups.add(new PricePerformanceBuyer());
+		buyerGroups.add(new CheapBuyer());
+		buyerGroups.add(new PricePerformanceBuyer());
 		buyerGroups.add(new ExpensiveBuyer());
 	}
 	

@@ -2,7 +2,6 @@ package sim.production;
 
 import sim.abstraction.GeneralType;
 import sim.abstraction.Tupel;
-import sim.hr.EmployeeType;
 import sim.procurement.ResourceType;
 
 /**

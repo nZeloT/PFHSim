@@ -73,7 +73,7 @@ public class ServerSimulation {
 		//6. build the response objects
 		HashMap<Integer, List<Offer>> salesData = sales.getSalesData();
 		for (int i = 0; i < servMsgs.length; i++) {
-			servMsgs[i] = new ServerMessage(market.getCosts(), salesData.get(i), isFinished, marketResearch);
+			servMsgs[i] = new ServerMessage(new HashMap<>(market.getCosts()), salesData.get(i), isFinished, marketResearch);
 		}
 		
 		return servMsgs;

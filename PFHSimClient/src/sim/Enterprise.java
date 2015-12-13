@@ -106,7 +106,7 @@ public class Enterprise {
 			for (Offer offer : soldOffer) {
 				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getMaximumProducable(); i++) {
 					try {
-						System.out.println("DOSIM -- started house production: " + offer.getHousetype() + "; " + i + " / " + offer.getNumberOfPurchases());
+						System.out.println("DOSIM -- started house production: " + offer.getHousetype() + "; " + (i+1) + " / " + offer.getNumberOfPurchases());
 						startPFHouseProduction(offer,
 								hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
 					} catch (EnterpriseException e) {

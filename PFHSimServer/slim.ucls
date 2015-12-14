@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <enumeration id="1" language="java" name="sim.hr.EmployeeType" project="PFHSimShared" 
     file="/PFHSimShared/src/sim/hr/EmployeeType.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1341" y="53"/>    
+    <position height="-1" width="-1" x="838" y="166"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -12,7 +12,7 @@
   </enumeration>  
   <class id="2" language="java" name="sim.simulation.sales.Offer" project="PFHSimShared" 
     file="/PFHSimShared/src/sim/simulation/sales/Offer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="860" y="456"/>    
+    <position height="-1" width="-1" x="1351" y="437"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -39,7 +39,7 @@
   </enumeration>  
   <enumeration id="5" language="java" name="sim.production.PFHouseType" project="PFHSimShared" 
     file="/PFHSimShared/src/sim/production/PFHouseType.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="860" y="356"/>    
+    <position height="-1" width="-1" x="1351" y="337"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -48,7 +48,7 @@
   </enumeration>  
   <class id="6" language="java" name="sim.research.dev.ExtendWarehouse" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/research/dev/ExtendWarehouse.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1396" y="681"/>    
+    <position height="-1" width="-1" x="777" y="796"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="sim.procurement.Resource" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/procurement/Resource.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="696" y="145"/>    
+    <position height="-1" width="-1" x="694" y="135"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="sim.production.PFHouse" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/production/PFHouse.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1155" y="327"/>    
+    <position height="-1" width="-1" x="1188" y="338"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="sim.research.dev.EmployeeTraining" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/research/dev/EmployeeTraining.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1395" y="766"/>    
+    <position height="-1" width="-1" x="629" y="796"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -102,7 +102,7 @@
   </class>  
   <class id="12" language="java" name="sim.research.dev.Upgrade" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/research/dev/Upgrade.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1184" y="710"/>    
+    <position height="-1" width="-1" x="778" y="689"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -111,7 +111,7 @@
   </class>  
   <enumeration id="13" language="java" name="sim.production.MachineType" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/production/MachineType.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="378" y="338"/>    
+    <position height="-1" width="-1" x="379" y="340"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -120,7 +120,7 @@
   </enumeration>  
   <class id="14" language="java" name="sim.procurement.ResourceMarket" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/procurement/ResourceMarket.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1000" y="687"/>    
+    <position height="-1" width="-1" x="827" y="590"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -129,7 +129,7 @@
   </class>  
   <class id="15" language="java" name="sim.research.dev.UpgradeProcessor" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/research/dev/UpgradeProcessor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1178" y="589"/>    
+    <position height="-1" width="-1" x="1000" y="689"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -147,7 +147,7 @@
   </interface>  
   <class id="17" language="java" name="sim.research.dev.ResearchProject" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/research/dev/ResearchProject.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1395" y="585"/>    
+    <position height="-1" width="-1" x="931" y="796"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -174,7 +174,7 @@
   </class>  
   <class id="20" language="java" name="sim.warehouse.Warehouse" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/warehouse/Warehouse.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1014" y="56"/>    
+    <position height="-1" width="-1" x="1112" y="54"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -183,7 +183,7 @@
   </class>  
   <class id="21" language="java" name="sim.research.dev.MachineUpgrade" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/research/dev/MachineUpgrade.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1393" y="846"/>    
+    <position height="-1" width="-1" x="466" y="794"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -201,7 +201,7 @@
   </class>  
   <class id="23" language="java" name="sim.hr.HR" project="PFHSimClient" file="/PFHSimClient/src/sim/hr/HR.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1266" y="325"/>    
+    <position height="-1" width="-1" x="1000" y="449"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -210,7 +210,7 @@
   </class>  
   <class id="24" language="java" name="sim.hr.Department" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/hr/Department.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1156" y="155"/>    
+    <position height="-1" width="-1" x="1014" y="339"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -219,7 +219,7 @@
   </class>  
   <class id="25" language="java" name="sim.hr.Employee" project="PFHSimClient" 
     file="/PFHSimClient/src/sim/hr/Employee.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1353" y="187"/>    
+    <position height="-1" width="-1" x="1000" y="167"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -229,10 +229,10 @@
   <association id="26">    
     <end type="SOURCE" refId="11" navigable="false">      
       <attribute id="27" name="type">        
-        <position height="0" width="0" x="-169" y="-113"/>      
+        <position height="0" width="0" x="-168" y="-111"/>      
       </attribute>      
       <multiplicity id="28" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-169" y="-113"/>      
+        <position height="0" width="0" x="-168" y="-111"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="13" navigable="true"/>    
@@ -257,10 +257,10 @@
   <association id="33">    
     <end type="SOURCE" refId="9" navigable="false">      
       <attribute id="34" name="type">        
-        <position height="0" width="0" x="-3" y="-229"/>      
+        <position height="0" width="0" x="488" y="-248"/>      
       </attribute>      
       <multiplicity id="35" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-3" y="-229"/>      
+        <position height="0" width="0" x="488" y="-248"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
@@ -285,10 +285,10 @@
   <association id="40">    
     <end type="SOURCE" refId="18" navigable="false">      
       <attribute id="41" name="market">        
-        <position height="0" width="0" x="-154" y="622"/>      
+        <position height="0" width="0" x="-327" y="525"/>      
       </attribute>      
       <multiplicity id="42" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-154" y="622"/>      
+        <position height="0" width="0" x="-327" y="525"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="14" navigable="true"/>    
@@ -329,10 +329,10 @@
   <association id="51">    
     <end type="SOURCE" refId="18" navigable="false">      
       <attribute id="52" name="upgrades">        
-        <position height="0" width="0" x="-279" y="409"/>      
+        <position height="0" width="0" x="-457" y="509"/>      
       </attribute>      
       <multiplicity id="53" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-279" y="409"/>      
+        <position height="0" width="0" x="-457" y="509"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="15" navigable="true"/>    
@@ -353,22 +353,24 @@
   <association id="57">    
     <end type="SOURCE" refId="18" navigable="false">      
       <attribute id="58" name="hr">        
-        <position height="0" width="0" x="114" y="-42"/>      
+        <position height="0" width="0" x="-152" y="82"/>      
       </attribute>      
       <multiplicity id="59" minimum="0" maximum="1">        
-        <position height="0" width="0" x="114" y="-42"/>      
+        <position height="0" width="0" x="-152" y="82"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="23" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="60">    
+    <bendpoint x="1441" y="589"/>    
+    <bendpoint x="1441" y="54"/>    
     <end type="SOURCE" refId="18" navigable="false">      
       <attribute id="61" name="warehouse">        
-        <position height="0" width="0" x="-127" y="-728"/>      
+        <position height="0" width="0" x="-29" y="-730"/>      
       </attribute>      
       <multiplicity id="62" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-127" y="-728"/>      
+        <position height="0" width="0" x="-29" y="-730"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="20" navigable="true"/>    
@@ -394,10 +396,10 @@
   <association id="67">    
     <end type="SOURCE" refId="18" navigable="false">      
       <attribute id="68" name="offers">        
-        <position height="0" width="0" x="-1" y="83"/>      
+        <position height="0" width="0" x="490" y="64"/>      
       </attribute>      
       <multiplicity id="69" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-1" y="83"/>      
+        <position height="0" width="0" x="490" y="64"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
@@ -418,10 +420,10 @@
   <association id="73">    
     <end type="SOURCE" refId="24" navigable="false">      
       <attribute id="74" name="employees">        
-        <position height="0" width="0" x="40" y="-426"/>      
+        <position height="0" width="0" x="-313" y="-446"/>      
       </attribute>      
       <multiplicity id="75" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="40" y="-426"/>      
+        <position height="0" width="0" x="-313" y="-446"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="25" navigable="true"/>    
@@ -430,10 +432,10 @@
   <association id="76">    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="77" name="housetype">        
-        <position height="0" width="0" x="-3" y="-229"/>      
+        <position height="0" width="0" x="488" y="-248"/>      
       </attribute>      
       <multiplicity id="78" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-3" y="-229"/>      
+        <position height="0" width="0" x="488" y="-248"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
@@ -459,10 +461,10 @@
   <association id="83">    
     <end type="SOURCE" refId="24" navigable="false">      
       <attribute id="84" name="type">        
-        <position height="0" width="0" x="29" y="-735"/>      
+        <position height="0" width="0" x="-474" y="-622"/>      
       </attribute>      
       <multiplicity id="85" minimum="0" maximum="1">        
-        <position height="0" width="0" x="29" y="-735"/>      
+        <position height="0" width="0" x="-474" y="-622"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
@@ -471,10 +473,10 @@
   <association id="86">    
     <end type="SOURCE" refId="18" navigable="false">      
       <attribute id="87" name="housesInConstruction">        
-        <position height="0" width="0" x="132" y="-38"/>      
+        <position height="0" width="0" x="165" y="-27"/>      
       </attribute>      
       <multiplicity id="88" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="132" y="-38"/>      
+        <position height="0" width="0" x="165" y="-27"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="9" navigable="true"/>    
@@ -507,10 +509,10 @@
   <association id="95">    
     <end type="SOURCE" refId="25" navigable="false">      
       <attribute id="96" name="type">        
-        <position height="0" width="0" x="29" y="-735"/>      
+        <position height="0" width="0" x="-474" y="-622"/>      
       </attribute>      
       <multiplicity id="97" minimum="0" maximum="1">        
-        <position height="0" width="0" x="29" y="-735"/>      
+        <position height="0" width="0" x="-474" y="-622"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
@@ -523,10 +525,10 @@
   <association id="99">    
     <end type="SOURCE" refId="15" navigable="false">      
       <attribute id="100" name="upgradesInProg">        
-        <position height="0" width="0" x="-504" y="531"/>      
+        <position height="0" width="0" x="-910" y="510"/>      
       </attribute>      
       <multiplicity id="101" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-504" y="531"/>      
+        <position height="0" width="0" x="-910" y="510"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="12" navigable="true"/>    
@@ -535,10 +537,10 @@
   <association id="102">    
     <end type="SOURCE" refId="25" navigable="false">      
       <attribute id="103" name="work">        
-        <position height="0" width="0" x="15" y="-460"/>      
+        <position height="0" width="0" x="-127" y="-276"/>      
       </attribute>      
       <multiplicity id="104" minimum="0" maximum="1">        
-        <position height="0" width="0" x="15" y="-460"/>      
+        <position height="0" width="0" x="-127" y="-276"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="24" navigable="true"/>    

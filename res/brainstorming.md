@@ -8,9 +8,25 @@
 
 Spielbeobachtungen (Bugs):
 * maximal purchases for offer - done but unknown if it works
-* resource market will NOT be reseted
+* resource market will NOT be reseted - done
 * handle with received offers doe not work - done
- * response of offers - unkown
+
+* ToDo: 
+ * enterprise: old offers in a new round - what should happen with them then?
+  * ATM: client ruft startPFHouseProduction Methode pro offer so oft auf, wie number of purchases gesetzt ist; maximal jedoch so oft wie der spieler festgelegt hat; Auf dem server werden die offers vor der verkaufssimulation genullt
+  * PLAN: number of purchases auf dem client zurücksetzen
+ * it should only be possible to calculate offers for available housetypes
+  * combine this with the sales department? which then takes control over all the offer stuff? meaning: wie viele offers darf man aufgeben? alles was mit offer zu tun hat von enterprise ins sales department; was passiert wenn ein sales mensch entlassen wird? werden die offers die dann zu viel sind gelöscht? kann man ihn nicht entlassen?
+ * price perfomance buyer is not 100% correct
+ * Quality needs a full concept and value range; also in context to costs and other factors 
+  * needs to be developed and implemented (partly is already)
+ * wer wann welchen Check macht und was dann passiert - wann sollten Exceptions geworfen werden, was wird doppelt gechecked
+  * nochmal alles von vorne bis hinten zusammen durchspielen, und versuchen alle randfälle aufzudecken
+ * PFHouse makes possible to unassign employees
+ * Review Error handling; partly with exceptions; sometimes with boolean or with null; also consider how we`d like to present this on the UI
+ * as for the sales department; also a procurement department is needed;
+ * cash hanling is pain in the ass. needs an additional class for handling credits and interests and so on
+ * extend server-client to enable one player to lose and the other to continue playing
 
 
 # Review 2015-12-07

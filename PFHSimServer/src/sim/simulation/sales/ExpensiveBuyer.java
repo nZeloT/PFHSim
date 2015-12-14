@@ -78,6 +78,8 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 				if (tmp.get(j).offer.getMaximumProducable() < num) {
 					undistributed += num - tmp.get(j).offer.getMaximumProducable();
 					num = tmp.get(j).offer.getMaximumProducable();
+				} else {
+					undistributed = 0;
 				}
 				
 				System.out.println("Enterprise: " + tmp.get(j).enterprise + ", Offer: " + tmp.get(j).offer.getWalltype() + ", no. of purchases: " + tmp.get(j).offer.getNumberOfPurchases());

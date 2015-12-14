@@ -87,9 +87,9 @@ public class CheapBuyer implements GroupOfBuyers {
 						break;
 					}
 					int num = tmp.offer.getNumberOfPurchases() + currentAmount + undistributed;
-					if (tmp.offer.getMaximumProducable() < num) {
-						undistributed += num-tmp.offer.getMaximumProducable();
-						num = tmp.offer.getMaximumProducable();
+					if ((tmp.offer.getMaximumProducable()-tmp.offer.getNumberOfPurchases()) < num) {
+						undistributed += num-tmp.offer.getMaximumProducable()-tmp.offer.getNumberOfPurchases();
+						num = tmp.offer.getMaximumProducable()-tmp.offer.getNumberOfPurchases();
 					} else {
 						undistributed = 0;
 					}

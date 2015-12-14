@@ -25,17 +25,7 @@ public class SalesSimulation {
 
 		//Get LATEST data from enterprises.
 		enterprises = new int[enterpriseoffers.size()];
-		int i = 0; 
-		for (Map.Entry<Integer, List<Offer>> entry : enterpriseoffers.entrySet()) {
-			enterprises[i] = entry.getKey();
-			
-			//reset purchase data from last simulation-round.
-			List<Offer> tmp = entry.getValue();  
-			for (int k = 0; k < tmp.size(); k++) {
-				tmp.get(k).setNumberOfPurchases(0);
-			}
-			i++;
-		}
+
 		 
 		for (GroupOfBuyers g : buyerGroups) {
 			g.sortOffers(enterpriseoffers);

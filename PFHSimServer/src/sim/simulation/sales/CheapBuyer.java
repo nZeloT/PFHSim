@@ -11,7 +11,7 @@ public class CheapBuyer implements GroupOfBuyers {
 
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedOffers = new HashMap<>();
 	private int undistributed = 0;
-	
+
 	/**
 	 * sort offers in the right Housetype category an ascending by Price for
 	 * purchase Simulation
@@ -22,29 +22,32 @@ public class CheapBuyer implements GroupOfBuyers {
 
 			List<Offer> offer = entry.getValue();
 			for (int i = 0; i < offer.size(); i++) {
-				List<EnterpriseOfferTupel> tmp = sortedOffers.get(offer.get(i).getHousetype());
-				EnterpriseOfferTupel ot = new EnterpriseOfferTupel(entry.getKey(), offer.get(i));
+				Offer o = offer.get(i);
+				if (o.getHousetype() != PFHouseType.CITY_VILLA && o.getHousetype() != PFHouseType.COMFORT_HOUSE
+						&& o.getHousetype() != PFHouseType.TRENDHOUSE) {
+					List<EnterpriseOfferTupel> tmp = sortedOffers.get(offer.get(i).getHousetype());
+					EnterpriseOfferTupel ot = new EnterpriseOfferTupel(entry.getKey(), offer.get(i));
 
-				if (tmp == null) {
-					tmp = new ArrayList<>();
-					tmp.add(ot);
-					sortedOffers.put(offer.get(i).getHousetype(), tmp);
-				} else {
-					boolean isBiggest = true;
-					for (int j = 0; j < tmp.size(); j++) {
-						if (ot.offer.getPrice() <= tmp.get(j).offer.getPrice()) {
-							isBiggest = false;
-							tmp.add(j, ot);
-							sortedOffers.put(offer.get(i).getHousetype(), tmp);
-							break;
-						}
-					}
-					if (isBiggest) {
+					if (tmp == null) {
+						tmp = new ArrayList<>();
 						tmp.add(ot);
 						sortedOffers.put(offer.get(i).getHousetype(), tmp);
+					} else {
+						boolean isBiggest = true;
+						for (int j = 0; j < tmp.size(); j++) {
+							if (ot.offer.getPrice() <= tmp.get(j).offer.getPrice()) {
+								isBiggest = false;
+								tmp.add(j, ot);
+								sortedOffers.put(offer.get(i).getHousetype(), tmp);
+								break;
+							}
+						}
+						if (isBiggest) {
+							tmp.add(ot);
+							sortedOffers.put(offer.get(i).getHousetype(), tmp);
+						}
 					}
 				}
-
 			}
 		}
 
@@ -65,7 +68,7 @@ public class CheapBuyer implements GroupOfBuyers {
 	 */
 	@Override
 	public HashMap<Integer, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, int[] e) {
-		
+
 		HashMap<Integer, List<Offer>> results = new HashMap<>();
 		PFHouseType houseteypes[] = PFHouseType.values();
 		for (int i = 0; i < e.length; i++) {
@@ -87,19 +90,19 @@ public class CheapBuyer implements GroupOfBuyers {
 						break;
 					}
 					int num = tmp.offer.getNumberOfPurchases() + currentAmount + undistributed;
-					if ((tmp.offer.getMaximumProducable()-tmp.offer.getNumberOfPurchases()) < num) {
-						undistributed += num-tmp.offer.getMaximumProducable()-tmp.offer.getNumberOfPurchases();
-						num = tmp.offer.getMaximumProducable()-tmp.offer.getNumberOfPurchases();
+					if ((tmp.offer.getMaximumProducable() - tmp.offer.getNumberOfPurchases()) < num) {
+						undistributed += num - tmp.offer.getMaximumProducable() - tmp.offer.getNumberOfPurchases();
+						num = tmp.offer.getMaximumProducable() - tmp.offer.getNumberOfPurchases();
 					} else {
 						undistributed = 0;
 					}
-					
-					
+
 					tmp.offer.setNumberOfPurchases(num);
 					List<Offer> tmp2 = results.get(tmp.enterprise);
 					tmp2.add(tmp.offer);
 					results.put(tmp.enterprise, tmp2);
-					System.out.println("Enterprise "+ tmp.enterprise + " sold " + num + " for Housetype "+ tmp.offer.getHousetype());
+					System.out.println("Enterprise " + tmp.enterprise + " sold " + num + " for Housetype "
+							+ tmp.offer.getHousetype());
 
 					currentAmount -= step;
 					c++;

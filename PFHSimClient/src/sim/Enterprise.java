@@ -153,6 +153,12 @@ public class Enterprise {
 		
 		
 		System.out.println("DOSIM -- " + cash + " -- " + saldo);
+		
+		
+		//Reset number of purchases for the next simulation step. 
+		for (int k = 0; k < offers.size(); k++) {
+			offers.get(k).setNumberOfPurchases(0);
+		}
 
 		return errorStore;
 	}

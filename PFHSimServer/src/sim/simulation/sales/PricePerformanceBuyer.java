@@ -43,15 +43,14 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 				Tupel<WallType>[] walltypes = offers.get(i).getWalltype();
 				boolean isInteresting = true;
 				for (int j = 0; j < walltypes.length; j++) {
-					if (walltypes[i].type == WallType.LIGHT_WEIGHT_CONSTRUCTION
-							|| walltypes[i].type == WallType.MASSIVE_LIGHT_CONSTRUCTION
-							|| quality < offers.get(i).getQuality()) {
+					if (walltypes[j].type == WallType.LIGHT_WEIGHT_CONSTRUCTION
+							|| walltypes[j].type == WallType.MASSIVE_LIGHT_CONSTRUCTION){
 						isInteresting = false;
 						break; // offer uses bad walls or low quality, stop
 								// check here
 
 					} else { // find out if light or massive wall
-						if (walltypes[i].type == WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS) {
+						if (walltypes[j].type == WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS) {
 							placeholder = sortedlightOffers;
 						} else {
 							placeholder = sortedmassiveOffers;
@@ -94,6 +93,10 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	 * quality houses (Plus constructions) with good isolation (low running
 	 * costs) Split the purchases for brick and wood wall (light/massive plus
 	 * constructions). Honor each the best offer and the over ones descending
+	 * @param minAmount lower threshold of all housetypes to be bought (smallest amount)
+	 * @param maxAmount highest amount of houses to be bought
+	 * @param step amount to decrease for the next best offer
+	 * @param the enterprises to split 
 	 */
 	@Override
 	public HashMap<Integer, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, int[] e) {
@@ -104,7 +107,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 		}
 		
 		for (int k = 0; k < 2; k++) {
-			int current = maxAmount / 2; // share for both types of walls;
+			int current = maxAmount;
 			if (k==1) {
 				placeholder = sortedmassiveOffers;
 			}
@@ -112,12 +115,21 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 				List<EnterpriseOfferTupel> succoff = entry.getValue();
 				for (int i = 0; i < succoff.size() && minAmount <= current; i++, current -= step) {
 					Offer actual = succoff.get(i).offer;
-					int amount = actual.getNumberOfPurchases() + current;
-					actual.setNumberOfPurchases(amount);
+					int max = actual.getMaximumProducable();
+					int amount = actual.getNumberOfPurchases();
+					if (max==amount) {
+						continue; // other buyers already bought all the houses of this offer. Continue with the next offer.
+					}
+					if (max-amount >= current) { // can build all houses
+						actual.setNumberOfPurchases(current);
+					} else {
+						actual.setNumberOfPurchases(max-amount);
+						current += current-max-amount; // add the open interests for the next player, looks strange but works right ;)
+						
+					}
 					List<Offer> tmp = results.get(succoff.get(i).enterprise);
 					tmp.add(actual);
 					results.put(succoff.get(i).enterprise, tmp);
-					System.out.println("Enterprise "+ succoff.get(i).enterprise + " sold " + amount + " for Housetype "+ actual.getHousetype());
 				}
 			}
 		}

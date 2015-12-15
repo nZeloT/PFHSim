@@ -32,5 +32,11 @@ For this procedure, an average-calculation-method in the enterprise’s warehous
 ##COMMENTS:
 
 ###Leon:
-* Why is a quality factor on PFHouse needed? We have one for Offer which results in different sale numbers. So at the time the house is build using PFHouse it´s already sold, so there is no need for an quality factor there. Is it?
-* Rest seems fine. Could you continue with outlining a concrete scale? Say for example the simplest wall has factor one or so.
+1) Why is a quality factor on PFHouse needed? We have one for Offer which results in different sale numbers. So at the time the house is build using PFHouse it´s already sold, so there is no need for an quality factor there. Is it?
+2) Rest seems fine. Could you continue with outlining a concrete scale? Say for example the simplest wall has factor one or so.
+
+###Alex (Re)
+about 1) A quality factor on PFHouse is needed because the machine can produce walls of different qualities depending on the quality-value of the machine --> so there might be walls which are produced with different machines which means there might be walls with different qualities --> PFHouses of same types can have different qualities.
+Perhaps, if the average quality of the offer is too bad in comparison with the quality provided by the PFHouse, we want to develop unsatisfied customers. ---> to be discussed in group.
+
+about 2) is already implemented (in JAVA) for the wall. I will transfer the scala into this document and add the scala for the machines here.

@@ -120,6 +120,11 @@
                   </Label>
                </children>
             </Pane>
+            <Button mnemonicParsing="false" prefHeight="56.0" prefWidth="249.0" style="-fx-background-color: GREEN;" text="GO" textFill="WHITE" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Button>
          </children>
       </VBox>
    </items>

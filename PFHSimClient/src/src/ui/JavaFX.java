@@ -26,6 +26,8 @@ public class JavaFX extends Application {
 		try {
 			SplitPane root = (SplitPane)FXMLLoader.load(getClass().getResource("/ui/fxml/Menu.fxml"));
 			primaryStage.setScene(new Scene(root));
+			VBox box = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/Procurement.fxml"));
+			primaryStage.setScene(new Scene(box));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

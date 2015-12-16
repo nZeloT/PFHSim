@@ -9,10 +9,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.ui.Procurement">
    <children>
-      <HBox prefHeight="50.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+      <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
             <Label prefHeight="18.0" prefWidth="235.0" text="Wood">
                <font>
@@ -21,12 +20,25 @@
             </Label>
             <TextField alignment="TOP_LEFT">
                <HBox.margin>
-                  <Insets top="15.0" />
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </HBox.margin>
             </TextField>
+            <Button mnemonicParsing="false" onAction="#handleBuyButton" text="Buy">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Label text="0€">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Label>
          </children>
       </HBox>
-      <Line endX="500.0" startX="-100.0" VBox.vgrow="ALWAYS" />
+      <Separator prefWidth="200.0" />
       <HBox prefHeight="32.0" prefWidth="600.0">
          <children>
             <Label prefHeight="5.0" prefWidth="235.0" text="Brick">
@@ -34,9 +46,27 @@
                   <Font name="System Bold Italic" size="40.0" />
                </font>
             </Label>
+            <TextField alignment="TOP_LEFT">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" text="Buy">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Label text="0€">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Label>
          </children>
       </HBox>
-      <Line endX="500.0" startX="-100.0" />
+      <Separator prefWidth="200.0" />
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
             <Label prefHeight="18.0" prefWidth="235.0" text="Insulation">
@@ -44,9 +74,27 @@
                   <Font name="System Bold Italic" size="40.0" />
                </font>
             </Label>
+            <TextField alignment="TOP_LEFT">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" text="Buy">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Label text="0€">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Label>
          </children>
       </HBox>
-      <Line endX="500.0" startX="-100.0" />
+      <Separator prefWidth="200.0" />
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
             <Label prefHeight="18.0" prefWidth="235.0" text="Concrete">
@@ -54,9 +102,27 @@
                   <Font name="System Bold Italic" size="40.0" />
                </font>
             </Label>
+            <TextField alignment="TOP_LEFT">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" text="Buy">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Label text="0€">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Label>
          </children>
       </HBox>
-      <Line endX="500.0" startX="-100.0" />
+      <Separator prefWidth="200.0" />
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
             <Label prefHeight="18.0" prefWidth="235.0" text="Roof tile">
@@ -64,15 +130,51 @@
                   <Font name="System Bold Italic" size="40.0" />
                </font>
             </Label>
+            <TextField alignment="TOP_LEFT">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" text="Buy">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Label text="0€">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Label>
          </children>
       </HBox>
-      <Line endX="500.0" startX="-100.0" />
+      <Separator prefWidth="200.0" />
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
             <Label prefHeight="18.0" prefWidth="235.0" text="window">
                <font>
                   <Font name="System Bold Italic" size="40.0" />
                </font>
+            </Label>
+            <TextField alignment="TOP_LEFT">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" text="Buy">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Label text="0€">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
             </Label>
          </children>
       </HBox>

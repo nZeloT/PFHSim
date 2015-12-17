@@ -14,15 +14,18 @@ Each WallType has a static quality number, which is initially determined. The pl
 A machine has a production quality which can be increased by upgrading it. 
 
 * Wall:
-Each concrete object of a wall, which has a WallType, has an individual quality-value that is influenced by the WallType’s quality factor and the machine’s quality factor. A wall’s quality will be calculated as follows: 
-WallQuality = WallTypeQuality * MachineQuality
+Each concrete object of a wall has a quality-value that is influenced by the basic WallType's quality factor and the average of all machine's quality factor being able to build the respective walltype. A wall's quality will be calculated as follows: 
+WallQuality = BasicWallTypeQuality * AverageMachineQualityOfRespectiveMachines (excluding the machines being in an upgrade)
+Consequently, two walls of the same walltype, always have the same quality factor.
+Therefore, an average-calculation-method in the enterprise's production-house is required in order to determine the average quality factor of a specific walltype.
+Furthermore, each round the average wall-quality must be calculated anew.
 
-* PFHouse:
-When the market orders a PFHouse of a given offer,  - just like the wall - each PFHouse has an individual quality, that results from the walls’ quality used to build the PFHouse:
-wall-quality = (Sum of all WallQualities used in this one pfhouse)
+* NOT PFHouse:
+The quality of a pfhouse is similar to the quality determined in the Offer.
 
 * Offer:
-For this procedure, an average-calculation-method in the enterprise’s warehouse is required in order to determine the average quality factor of a specific walltype. This average number is needed in the offer which then stores the average quality of a later created PFHouse. With this offer-quality-value the sales market classes can operate.
+The offer-quality-value is needed for the sales market calculations.
+The sum of the quality of all walls chosen for the offer (of a specific walltype) ergibt the offer-quality-value.
 
 ####Optional: 
 -	Resource
@@ -34,9 +37,3 @@ For this procedure, an average-calculation-method in the enterprise’s warehous
 ###Leon:
 1) Why is a quality factor on PFHouse needed? We have one for Offer which results in different sale numbers. So at the time the house is build using PFHouse it´s already sold, so there is no need for an quality factor there. Is it?
 2) Rest seems fine. Could you continue with outlining a concrete scale? Say for example the simplest wall has factor one or so.
-
-###Alex (Re)
-about 1) A quality factor on PFHouse is needed because the machine can produce walls of different qualities depending on the quality-value of the machine --> so there might be walls which are produced with different machines which means there might be walls with different qualities --> PFHouses of same types can have different qualities.
-Perhaps, if the average quality of the offer is too good in comparison with the quality provided by the PFHouse, we want to develop unsatisfied customers. ---> to be discussed in group.
-
-about 2) is already implemented (in JAVA) for the wall. I will transfer the scala into this document and add the scala for the machines here.

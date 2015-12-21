@@ -527,4 +527,7 @@ public class Enterprise {
 	public void addOffer(Offer offer) {
 		this.offers.add(offer);
 	}
+	public ResourceMarket getMarket(){
+		return market;
+	}
 }

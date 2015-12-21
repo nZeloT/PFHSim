@@ -33,7 +33,7 @@ public class Warehouse {
 	private @FXML Label TS_massLig;
 	private @FXML Label TS_lightWeight;
 	private @FXML Label TS_lightPlus;
-   
+  
 	// piece unit
 	private @FXML Label PU_panorama;
 	private @FXML Label PU_massPlus;

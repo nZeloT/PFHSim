@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
@@ -9,173 +10,513 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.ui.Procurement">
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
-            <Label prefHeight="18.0" prefWidth="235.0" text="Wood">
-               <font>
-                  <Font name="System Bold Italic" size="40.0" />
-               </font>
-            </Label>
-            <TextField fx:id="textWood" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label prefHeight="18.0" prefWidth="235.0" text="Resource type">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
                <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets left="15.0" />
                </HBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" onAction="#handleBuyButton" text="Buy">
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-            <Label text="0€">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Label>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="price_wood1" text="current price">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="sum_wood11" text="wanted amount">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="sum_wood1" text="sum to pay">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="AM_wood1" prefHeight="18.0" prefWidth="235.0" text="actual amount">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="Plus_wood1" prefHeight="18.0" prefWidth="235.0" text="+ 0" textFill="#309411">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </HBox>
       <Separator prefWidth="200.0" />
-      <HBox prefHeight="32.0" prefWidth="600.0">
+      <HBox prefHeight="50.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label prefHeight="5.0" prefWidth="235.0" text="Brick">
-               <font>
-                  <Font name="System Bold Italic" size="40.0" />
-               </font>
-            </Label>
-            <TextField alignment="TOP_LEFT">
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label prefHeight="18.0" prefWidth="235.0" text="wood">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../Pictures/Fallstudie/wood.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
                <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets left="15.0" />
                </HBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" text="Buy">
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-            <Label text="0€">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Label>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="price_wood">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <TextField fx:id="input_wood" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#handleInputField" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="sum_wood" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Button fx:id="btn_wood" mnemonicParsing="false" onAction="#handleBuyButton" text="Buy">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="AM_wood" prefHeight="18.0" prefWidth="235.0" text="actual amount">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="Plus_wood" prefHeight="18.0" prefWidth="235.0" text="+ 0" textFill="#309411">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </HBox>
       <Separator prefWidth="200.0" />
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
-            <Label prefHeight="18.0" prefWidth="235.0" text="Insulation">
-               <font>
-                  <Font name="System Bold Italic" size="40.0" />
-               </font>
-            </Label>
-            <TextField alignment="TOP_LEFT">
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label prefHeight="18.0" prefWidth="235.0" text="insulation">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../Pictures/Fallstudie/insulation.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
                <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets left="15.0" />
                </HBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" text="Buy">
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-            <Label text="0€">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Label>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="price_insulation" text="unit price">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <TextField fx:id="input_insulation" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="sum_insulation" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>	
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Button fx:id="btn_insulation" mnemonicParsing="false" onAction="#handleBuyButton" text="Buy">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="AM_insulation" prefHeight="18.0" prefWidth="235.0" text="actual amount">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="PLUS_insulation" prefHeight="18.0" prefWidth="235.0" text="+ 0" textFill="#309411">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </HBox>
       <Separator prefWidth="200.0" />
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
-            <Label prefHeight="18.0" prefWidth="235.0" text="Concrete">
-               <font>
-                  <Font name="System Bold Italic" size="40.0" />
-               </font>
-            </Label>
-            <TextField alignment="TOP_LEFT">
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label prefHeight="18.0" prefWidth="235.0" text="concrete">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../Pictures/Fallstudie/concrete.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
                <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets left="15.0" />
                </HBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" text="Buy">
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-            <Label text="0€">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Label>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="price_concrete" text="unit price">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <TextField fx:id="input_concrete" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="sum_concrete" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Button fx:id="btn_concrete" mnemonicParsing="false" onAction="#handleBuyButton" text="Buy">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="AM_concrete" prefHeight="18.0" prefWidth="235.0" text="actual amount">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="PLUS_concrete" prefHeight="18.0" prefWidth="235.0" text="+ 0" textFill="#309411">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </HBox>
       <Separator prefWidth="200.0" />
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
-            <Label prefHeight="18.0" prefWidth="235.0" text="Roof tile">
-               <font>
-                  <Font name="System Bold Italic" size="40.0" />
-               </font>
-            </Label>
-            <TextField alignment="TOP_LEFT">
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label prefHeight="18.0" prefWidth="235.0" text="brick">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../Pictures/Fallstudie/brick.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
                <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets left="15.0" />
                </HBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" text="Buy">
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-            <Label text="0€">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Label>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="price_brick" text="unit price">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <TextField fx:id="input_brick" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="sum_brick" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Button fx:id="btn_brick" mnemonicParsing="false" onAction="#handleBuyButton" text="Buy">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="AM_brick" prefHeight="18.0" prefWidth="235.0" text="actual amount">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="PLUS_brick" prefHeight="18.0" prefWidth="235.0" text="+ 0" textFill="#309411">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </HBox>
       <Separator prefWidth="200.0" />
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
-            <Label prefHeight="18.0" prefWidth="235.0" text="window">
-               <font>
-                  <Font name="System Bold Italic" size="40.0" />
-               </font>
-            </Label>
-            <TextField alignment="TOP_LEFT">
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label prefHeight="18.0" prefWidth="235.0" text="roof tile">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../Pictures/Fallstudie/roof.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
                <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets left="10.0" />
                </HBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" text="Buy">
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-            <Label text="0€">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </HBox.margin>
-            </Label>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="price_roof" text="unit price">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <TextField fx:id="input_roof" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="sum_roof" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Button fx:id="btn_roof" mnemonicParsing="false" onAction="#handleBuyButton" text="Buy">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="AM_roof" prefHeight="18.0" prefWidth="235.0" text="actual amount">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="PLUS_roof" prefHeight="18.0" prefWidth="235.0" text="+ 0" textFill="#309411">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </HBox>
    </children>

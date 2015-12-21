@@ -18,6 +18,7 @@ public class Controller implements Initializable{
 	
 	public Controller(){
 	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		

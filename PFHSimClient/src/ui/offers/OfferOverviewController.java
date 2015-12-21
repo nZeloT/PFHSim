@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import sim.Enterprise;
 import sim.TestUtils;
 import sim.abstraction.Tupel;
+import sim.hr.EmployeeType;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceType;
 import sim.production.PFHouseType;
@@ -185,8 +186,12 @@ public class OfferOverviewController {
 			}
 		}
 
+
 		
-		
+		// now set the required and available number of employees.
+		req_employees.setText(""+selectedOffer.getHousetype().getEmployeeCount());
+		int available_emps = e.getHR().getNumberOfUnassignedEmployees(EmployeeType.ASSEMBLER);
+		available_employees.setText(""+available_emps); 
 		
 		
 		// End of Offer Detail Screen initialization.

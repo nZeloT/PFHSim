@@ -374,7 +374,7 @@ public class Enterprise {
 			}
 		}
 
-		if (housetype.getEmployeeCount()*amount > hr.getMaxCapacity(EmployeeType.ASSEMBLER)) {
+		if (housetype.getEmployeeCount()*amount > hr.getAmount(EmployeeType.ASSEMBLER)) {
 			throw new EnterpriseException("Not enough Employees to build the houses");
 		}
 
@@ -414,7 +414,7 @@ public class Enterprise {
 		}
 
 		// check employees
-		int max = hr.getMaxCapacity(EmployeeType.ASSEMBLER) / pfhouse.getEmployeeCount();
+		int max = hr.getAmount(EmployeeType.ASSEMBLER) / pfhouse.getEmployeeCount();
 		
 		
 		maximum = Math.min(max, maximum);
@@ -526,5 +526,8 @@ public class Enterprise {
 
 	public void addOffer(Offer offer) {
 		this.offers.add(offer);
+	}
+	public ResourceMarket getMarket(){
+		return market;
 	}
 }

@@ -22,6 +22,7 @@ public class EmployeeTraining extends Upgrade<Employee> {
 	protected void setup() {
 		empWork = employee.getWork();
 		running = employee.assignWorkplace(upgradeDep);
+		employee.setOnTraining(true);
 	}
 	
 	@Override
@@ -37,6 +38,7 @@ public class EmployeeTraining extends Upgrade<Employee> {
 		running = false;
 		employee.assignWorkplace(empWork);
 		employee.visitedTraining();
+		employee.setOnTraining(false);
 	}
 	
 	@Override Employee getUpgradeObject() {

@@ -114,6 +114,24 @@ public class HR extends Department {
 
 		return null;
 	}
+	
+	/**
+	 * see return-annotation.
+	 * 
+	 * @param t the EmployeeType the unassigned employee should be of
+	 * @return return the number of unassinged Employees of a specific type
+	 */
+	public int getNumberOfUnassignedEmployees(EmployeeType t){
+		ArrayList<Employee> emps = employeeList.get(t);
+		int no = 0;
+
+		for (Employee e : emps) {
+			if(!e.isAssigned())
+				no++;
+		}
+
+		return no;
+	}
 
 	/**
 	 * Find a bunch of currently unassigned employees of the given type
@@ -196,10 +214,14 @@ public class HR extends Department {
 		return manageable;
 	}
 	
-	public int getMaxCapacity(EmployeeType type){
+	public int getAmount(EmployeeType type){
 	
 		ArrayList<Employee> list = employeeList.get(type);
 		
 		return list.size();
+	}
+	
+	public Employee[] getAllOfType(EmployeeType t){
+		return employeeList.get(t).toArray(new Employee[0]);
 	}
 }

@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import ui.offers.OfferOverviewController;
 
 public class JavaFX extends Application {
 	
@@ -26,15 +27,16 @@ public class JavaFX extends Application {
 		try {
 			SplitPane root = (SplitPane)FXMLLoader.load(getClass().getResource("/ui/fxml/Menu.fxml"));
 			primaryStage.setScene(new Scene(root));
-			VBox box = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/Procurement.fxml"));
+			VBox box = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/offers/OfferOverview.fxml"));
 			primaryStage.setScene(new Scene(box));
+			OfferOverviewController x = new OfferOverviewController();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			e.printStackTrace();  
+		} 
 		primaryStage.show();
-	}
+	} 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 		launch(args);
-	}
+	} 
 }

@@ -18,7 +18,7 @@
                   <Font name="System Bold Italic" size="40.0" />
                </font>
             </Label>
-            <TextField alignment="TOP_LEFT">
+            <TextField fx:id="textWood" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </HBox.margin>

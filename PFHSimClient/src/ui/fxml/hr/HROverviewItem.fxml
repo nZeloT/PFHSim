@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105.0" prefWidth="413.0" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.hr.HROverviewItemController">
+   <children>
+      <Label fx:id="lblEmpType" minWidth="-Infinity" text="EMPLOYEE_TYPE" />
+      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="13.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="at workplace" />
+                  <Label text="free" />
+                  <Label text="on training" />
+               </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="textAtWorkplace" disable="true" editable="false" />
+                  <TextField fx:id="textFree" disable="true" editable="false" />
+                  <TextField fx:id="textOnTraining" disable="true" editable="false" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button fx:id="btnView" minWidth="-Infinity" mnemonicParsing="false" onAction="#onViewDetails" text="View List" />
+   </children>
+   <padding>
+      <Insets left="5.0" right="5.0" />
+   </padding>
+</HBox>

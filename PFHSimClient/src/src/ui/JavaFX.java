@@ -15,22 +15,22 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import ui.hr.HRPane;
 
 public class JavaFX extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-		URL location = getClass().getResource("/ui/fxml/ui_test.fxml");
-		FXMLLoader fxmlLoader = new FXMLLoader(location);
+//		URL location = getClass().getResource("/ui/fxml/ui_test.fxml");
+//		FXMLLoader fxmlLoader = new FXMLLoader(location);
 
-		try {
-			SplitPane root = (SplitPane)FXMLLoader.load(getClass().getResource("/ui/fxml/Menu.fxml"));
-			primaryStage.setScene(new Scene(root));
-			VBox box = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/Procurement.fxml"));
-			primaryStage.setScene(new Scene(box));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			SplitPane root = (SplitPane)FXMLLoader.load(getClass().getResource("/ui/fxml/Menu.fxml"));
+//			primaryStage.setScene(new Scene(root));
+			primaryStage.setScene(new Scene(new HRPane(null)));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		primaryStage.show();
 	}
 

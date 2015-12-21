@@ -1,4 +1,4 @@
-package ui.controller.hr;
+package ui.hr;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

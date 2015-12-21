@@ -4,8 +4,8 @@ import sim.warehouse.Warehouse;
 
 public class ExtendWarehouse extends Upgrade<Warehouse> {
 	
-	private static final int UPGRADE_COSTS = 1000;
-	private static final int UPGRADE_DURATION = 2;
+	public static final int UPGRADE_COSTS = 1000;
+	public static final int UPGRADE_DURATION = 2;
 	
 	private Warehouse w;
 	

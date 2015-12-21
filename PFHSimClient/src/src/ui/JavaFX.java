@@ -31,6 +31,20 @@ public class JavaFX extends Application {
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
+		try {
+			Enterprise e = new Enterprise(null);
+			SplitPane root = (SplitPane)FXMLLoader.load(getClass().getResource("/ui/fxml/Menu.fxml"));
+			primaryStage.setScene(new Scene(root));
+			
+			VBox boxP = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/Procurement.fxml"));
+
+//			Warehouse ware = new Warehouse(e);
+//			VBox box = ware.getBox();
+		
+			primaryStage.setScene(new Scene(boxP));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		primaryStage.show();
 	}
 

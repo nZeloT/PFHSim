@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import sim.Enterprise;
 
 public class JavaFX extends Application {
 	
@@ -24,9 +25,12 @@ public class JavaFX extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(location);
 
 		try {
+			Enterprise e = new Enterprise(null);
 			SplitPane root = (SplitPane)FXMLLoader.load(getClass().getResource("/ui/fxml/Menu.fxml"));
 			primaryStage.setScene(new Scene(root));
-			VBox box = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/Procurement.fxml"));
+			Warehouse ware = new Warehouse(e);
+			VBox box = ware.getBox();
+			//			VBox box = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/Warehouse.fxml"));
 			primaryStage.setScene(new Scene(box));
 		} catch (IOException e) {
 			e.printStackTrace();

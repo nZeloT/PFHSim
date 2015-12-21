@@ -28,10 +28,13 @@ public class JavaFX extends Application {
 			Enterprise e = new Enterprise(null);
 			SplitPane root = (SplitPane)FXMLLoader.load(getClass().getResource("/ui/fxml/Menu.fxml"));
 			primaryStage.setScene(new Scene(root));
-			Warehouse ware = new Warehouse(e);
-			VBox box = ware.getBox();
-			//			VBox box = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/Warehouse.fxml"));
-			primaryStage.setScene(new Scene(box));
+			
+			VBox boxP = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/Procurement.fxml"));
+
+//			Warehouse ware = new Warehouse(e);
+//			VBox box = ware.getBox();
+		
+			primaryStage.setScene(new Scene(boxP));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

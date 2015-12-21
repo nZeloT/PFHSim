@@ -31,14 +31,7 @@
                               </ImageView>
                            </graphic>
                         </Label>
-                        <Pane prefHeight="200.0" prefWidth="100.0" HBox.hgrow="NEVER" />
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="AM_wood" />
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
+                        <Pane prefHeight="200.0" prefWidth="75.0" HBox.hgrow="NEVER" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -52,14 +45,7 @@
                               </ImageView>
                            </graphic>
                         </Label>
-                        <Pane prefHeight="140.0" prefWidth="100.0" HBox.hgrow="NEVER" />
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="AM_insulation" />
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
+                        <Pane prefHeight="140.0" prefWidth="75.0" HBox.hgrow="NEVER" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
@@ -73,14 +59,7 @@
                               </ImageView>
                            </graphic>
                         </Label>
-                        <Pane prefHeight="150.0" prefWidth="100.0" HBox.hgrow="NEVER" />
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="AM_concrete" textAlignment="RIGHT" />
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
+                        <Pane prefHeight="200.0" prefWidth="75.0" HBox.hgrow="NEVER" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
@@ -94,15 +73,7 @@
                               </ImageView>
                            </graphic>
                         </Label>
-                        <Pane prefHeight="200.0" prefWidth="100.0" />
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="AM_brick" textAlignment="RIGHT" />
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                        <Pane prefHeight="200.0" prefWidth="100.0" HBox.hgrow="NEVER" />
+                        <Pane prefHeight="200.0" prefWidth="75.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
@@ -116,14 +87,7 @@
                               </ImageView>
                            </graphic>
                         </Label>
-                        <Pane prefHeight="175.0" prefWidth="100.0" HBox.hgrow="NEVER" />
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="AM_roof" />
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
+                        <Pane prefHeight="200.0" prefWidth="75.0" HBox.hgrow="NEVER" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
@@ -137,14 +101,7 @@
                               </ImageView>
                            </graphic>
                         </Label>
-                        <Pane prefHeight="200.0" prefWidth="100.0" />
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="AM_window" />
-                              <Pane prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
+                        <Pane prefHeight="200.0" prefWidth="75.0" />
                      </children>
                   </HBox>
                </children>
@@ -152,51 +109,180 @@
                   <Insets right="50.0" />
                </HBox.margin>
             </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="AM_wood" text="Label">
+                     <VBox.margin>
+                        <Insets bottom="40.0" top="45.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="AM_insulation" text="Label">
+                     <VBox.margin>
+                        <Insets bottom="35.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="AM_concrete" text="Label">
+                     <VBox.margin>
+                        <Insets bottom="27.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="AM_brick" text="Label">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="AM_roof" text="Label">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="AM_window" text="Label" />
+               </children>
+            </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label prefHeight="21.0" prefWidth="65.0" text="Walls">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
                   </Label>
-                  <Label text="Wall type" />
-                  <Label text="light weight" />
-                  <Label text="light weight plus" />
-                  <Label text="massive plus" />
-                  <Label text="massive light" />
-                  <Label text="panorama" />
-                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label text="Wall type">
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font></Label>
+                  <Label text="light weight">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label text="light weight plus">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label text="massive plus">
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding></Label>
+                  <Label text="massive light">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label text="panorama">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="PU per piece" />
-                  <Label fx:id="PU_lightWeight" />
-                  <Label fx:id="PU_lightPlus" textAlignment="RIGHT" />
-                  <Label fx:id="PU_massLig" />
-                  <Label fx:id="PU_massPlus" />
-                  <Label fx:id="PU_panorama" textAlignment="RIGHT" />
+                  <Label>
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label>
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="PU_lightWeight">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="PU_lightPlus" textAlignment="RIGHT">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="PU_massLig">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="PU_massPlus">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="PU_panorama" textAlignment="RIGHT">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="total space" />
-                  <Label fx:id="TS_lightWeight" />
-                  <Label fx:id="TS_lightPlus" />
-                  <Label fx:id="TS_massLig" />
-                  <Label fx:id="TS_massPlus" />
-                  <Label fx:id="TS_panorama" />
+                  <Label>
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label>
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="TS_lightWeight">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="TS_lightPlus">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="TS_massLig">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="TS_massPlus">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="TS_panorama">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
                   <Pane prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="amount" />
-                  <Label fx:id="AM_lightWeight" />
-                  <Label fx:id="AM_lightPlus" />
-                  <Label fx:id="AM_massLig" />
-                  <Label fx:id="AM_massPlus" />
-                  <Label fx:id="AM_panorama" />
+                  <Label>
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label>
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="AM_lightWeight">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="AM_lightPlus">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="AM_massLig">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="AM_massPlus">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <Label fx:id="AM_panorama">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
                   <Pane prefHeight="150.0" prefWidth="200.0">
                      <VBox.margin>
                         <Insets bottom="20.0" />

@@ -25,7 +25,7 @@ public class PricePerformanceBuyerTest {
 		for (int i = 0; i < 4; i++) {
 			List<Offer> tmp = new ArrayList<Offer>();
 			for (int j = 0; j >= 0; j--) {
-				tmp.add(new Offer(500 * (int) (Math.random() * 10), 25, types[j], 10,
+				tmp.add(new Offer(500 * (int) (Math.random() * 10), 25, types[j], 8,
 						new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS, 5)));
 			}
 			testOffers.put(i, tmp);
@@ -36,24 +36,21 @@ public class PricePerformanceBuyerTest {
 	public void testPricePerformaceBuyer() {
 		PricePerformanceBuyer buyer = new PricePerformanceBuyer();
 		buyer.sortOffers(testOffers);
-		HashMap<Integer, List<Offer>> results = buyer.registerPurchases(6, 10, 2, new int []{0,1,2,3});
-		int offercount = 0; // under the defined test case, three offers should be taken.
+		HashMap<Integer, List<Offer>> results = buyer.registerPurchases(0, 10, 2, new int []{0,1,2,3});
+		assertNotNull(results);
+		boolean noPurchases = true;
 		for (Map.Entry<Integer, List<Offer>> entry : results.entrySet()) {
 			List<Offer> current = entry.getValue();
-//			System.out.println("Enterprise " + entry.getKey() +" with the following offers:");
+			System.out.println("Enterprise "+ entry.getKey()+ " with the following Offers:");
+			
 			for (Offer offer : current) {
-//				System.out.println(
-//						"Price: " + offer.getPrice() + " Housetyp: " + offer.getHousetype() + " Purchasing Amount: "
-//								+ offer.getNumberOfPurchases() + " max: " + offer.getMaximumProducable());
 				if (offer.getNumberOfPurchases() != 0) {
-					offercount++;
+					System.out.println("Offer for HT "+offer.getHousetype()+" , Purchasing Amount: "+offer.getNumberOfPurchases());
+					noPurchases = false;
 				}
 			}
 		}
-		
-		assertNotNull(results);
-		assertEquals(offercount, 3);
-		
+		assertEquals(false, noPurchases);
 	}
 
 }

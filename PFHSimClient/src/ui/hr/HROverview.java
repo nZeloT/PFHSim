@@ -51,6 +51,8 @@ public class HROverview {
 		
 		lblEmpCosts.setText("0");
 		
+		textEmpCount.setText("0");
+		
 		listOverview.setItems(FXCollections.observableArrayList(EmployeeType.values()));
 		listOverview.setCellFactory((lv)->{
 			return new HROverviewListCell(pane, hr);
@@ -60,6 +62,10 @@ public class HROverview {
 	@FXML
 	private void onHireNewEmployees(ActionEvent e){
 		System.out.println("Hire");
+		int amount = Integer.parseInt(textEmpCount.getText());
+		hr.hire(cbbEmpType.getValue(), amount);
+		
+		initialize();
 	}
 	
 	@FXML
@@ -69,21 +75,19 @@ public class HROverview {
 	
 	@FXML
 	private void onEmpCountChanged(ActionEvent e){
-		//check if only a number was entered
-		int i = 0;
-		try {
-			i = Integer.parseInt(textEmpCount.getText());
-			if(i >= 0)
-				recalcCosts();
-		} catch (Exception e2) {
-		}
-		
+		recalcCosts();
 	}
 	
 	private void recalcCosts(){
-		int i = Integer.parseInt(textEmpCount.getText());
-		int costs = cbbEmpType.getValue().getBaseCost() * i;
-		lblEmpCosts.setText("" + costs);
+		int i = 0;
+		try {
+			i = Integer.parseInt(textEmpCount.getText());
+			if(i >= 0){
+				int costs = cbbEmpType.getValue().getBaseCost() * i;
+				lblEmpCosts.setText("" + costs);
+			}
+		} catch (Exception e2) {
+		}
 	}
 	
 	VBox getContainer() {

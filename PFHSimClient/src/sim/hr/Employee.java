@@ -9,6 +9,9 @@ import sim.abstraction.CostFactor;
  * @author Leon
  */
 public class Employee implements CostFactor{
+	private static int count = 0;
+	
+	private final int id;
 	
 	private EmployeeType type;
 	
@@ -16,7 +19,10 @@ public class Employee implements CostFactor{
 	
 	private Department work;
 	
+	private boolean onTraining;
+	
 	Employee(EmployeeType type) {
+		this.id = count++;
 		this.type  = type;
 		this.upgradeCount = 0;
 	}
@@ -51,7 +57,7 @@ public class Employee implements CostFactor{
 	
 	public boolean canDoTraining(){
 		
-		if(upgradeCount < type.getPossibleUpgrades()){
+		if(upgradeCount < type.getPossibleUpgrades() && !isOnTraining()){
 			if(!isAssigned())
 				return true;
 			else{
@@ -62,6 +68,11 @@ public class Employee implements CostFactor{
 		}
 		
 		return false;
+	}
+	
+	public boolean canBeUnassigned(){
+		Department w = work;
+		return unassignWorkplace() && assignWorkplace(w);
 	}
 	
 	@Override
@@ -86,11 +97,23 @@ public class Employee implements CostFactor{
 		return work != null;
 	}
 	
+	public boolean isOnTraining(){
+		return onTraining;
+	}
+	
 	public int getSkill() {
 		return 1 + upgradeCount * type.getUpgradeSkillInc();
 	}
 	
 	public Department getWork() {
 		return work;
+	}
+	
+	public void setOnTraining(boolean training){
+		onTraining = training;
+	}
+	
+	public String getName(){
+		return type + " #" + id;
 	}
 }

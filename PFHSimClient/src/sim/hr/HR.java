@@ -196,10 +196,14 @@ public class HR extends Department {
 		return manageable;
 	}
 	
-	public int getMaxCapacity(EmployeeType type){
+	public int getAmount(EmployeeType type){
 	
 		ArrayList<Employee> list = employeeList.get(type);
 		
 		return list.size();
+	}
+	
+	public Employee[] getAllOfType(EmployeeType t){
+		return employeeList.get(t).toArray(new Employee[0]);
 	}
 }

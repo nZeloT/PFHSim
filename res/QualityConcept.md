@@ -32,8 +32,23 @@ The sum of the quality of all walls chosen for the offer (of a specific walltype
 -	Employee: ASSEMBLER
 
 
-##COMMENTS:
+#Scale:
+#####Walltypes:
+- Light weight construction = 1
+- Light weight construction plus = 2
+- Massive light weight construction = 4
+- Massive plus construction = 5
+- Panorama wall = 8 
 
-###Leon:
-1) Why is a quality factor on PFHouse needed? We have one for Offer which results in different sale numbers. So at the time the house is build using PFHouse it´s already sold, so there is no need for an quality factor there. Is it?
-2) Rest seems fine. Could you continue with outlining a concrete scale? Say for example the simplest wall has factor one or so.
+######Machines: (the values behind the '+' are for the upgrade-increases)
+- Woodwall machine = 5 + 1 + 1 + 1
+- Brickwall machine = 5 + 2 + 2 + 2
+- Panorama wall machine = 5 + 2 + 2 + 2
+
+######Examples:
+By using these values, all other quality factors can be calculated dynamically.
+For example, the minimal quality of a Bungalow is: 5 x 5 x 1 (avg. machine-quality x number of walls required x light weight construction quality) = 25 
+or the maximum quality of a City villa is: 11 x (2x8 + 6x8) = 704
+or another example: player with woodwall-machine (quality = 6) and panorama wall machine (quality = 11)
+--> quality of a city villa using panorama and light weight construction walls [as specified in an offer]:
+11 x (2 x 8) + 6 x (6 x 1) = 212

@@ -22,7 +22,7 @@ public enum WallType implements StoreableType {
 			new Tupel<ResourceType>(ResourceType.INSULATION, 1),
 			new Tupel<ResourceType>(ResourceType.WINDOW, 1),
 			new Tupel<ResourceType>(ResourceType.CONCRETE, 1)),
-	 MASSIVE_PLUS_CONSTUCTION(6, 155, 
+	 MASSIVE_PLUS_CONSTUCTION(5, 155, 
 			new Tupel<ResourceType>(ResourceType.BRICK, 5),
 			new Tupel<ResourceType>(ResourceType.INSULATION, 5),
 			new Tupel<ResourceType>(ResourceType.WINDOW, 1),

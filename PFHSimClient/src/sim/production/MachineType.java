@@ -2,9 +2,9 @@ package sim.production;
 
 public enum MachineType {
 	
-	WOODWALL_MACHINE(25, 3, 1000, 10000, 3, 3333, 1, 7, 0, 0, 0, WallType.LIGHT_WEIGHT_CONSTRUCTION, WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS),
-	BRICKWALL_MACHINE(20, 3, 1500, 15000, 3, 5000, 1, 7, 0, 0, 0, WallType.MASSIVE_LIGHT_CONSTRUCTION, WallType.MASSIVE_PLUS_CONSTUCTION),
-	PANORAMA_WALL_MACHINE(5, 3, 1000, 17500, 3, 6000, 1, 7, 0, 0, 0, WallType.PANORAMA_WALL);
+	WOODWALL_MACHINE(25, 3, 1000, 5, 10000, 3, 3333, 1, 7, 1, 0, 0, WallType.LIGHT_WEIGHT_CONSTRUCTION, WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS),
+	BRICKWALL_MACHINE(20, 3, 1500, 5, 15000, 3, 5000, 1, 7, 2, 0, 0, WallType.MASSIVE_LIGHT_CONSTRUCTION, WallType.MASSIVE_PLUS_CONSTUCTION),
+	PANORAMA_WALL_MACHINE(5, 3, 1000, 5, 17500, 3, 6000, 1, 7, 2, 0, 0, WallType.PANORAMA_WALL);
 	
 
 	private int output;
@@ -12,6 +12,7 @@ public enum MachineType {
 	private int costs;
 	private int price;
 	private WallType[] walltypesToHandle;
+	private int qualityFactor;
 	
 	private int possibleUpgrades;
 	private int upgradeCosts;
@@ -22,7 +23,7 @@ public enum MachineType {
 	private int upgradeEmpInc;
 	
 
-	private MachineType(int output, int requiredEmps, int costs, int price, 
+	private MachineType(int output, int requiredEmps, int costs, int price, int qualityFactor,
 			int possibleUpgrades, int upgradeCosts, int upgradeDuration, double upgradePerfInc,
 			double upgradeQualInc, int upgradeCostInc, int upgradeEmpInc, WallType... walltypesToHandle) {
 		this.output = output;
@@ -30,6 +31,8 @@ public enum MachineType {
 		this.costs = costs;
 		this.price = price;
 		this.walltypesToHandle = walltypesToHandle;
+		this.qualityFactor = qualityFactor;
+		
 		
 		this.possibleUpgrades = possibleUpgrades;
 		this.upgradeCosts = upgradeCosts;
@@ -40,6 +43,15 @@ public enum MachineType {
 		this.upgradeEmpInc = upgradeEmpInc;
 	}
 	
+	public int getQualityFactor() {
+		return qualityFactor;
+	}
+
+	public void setQualityFactor(int qualityFactor) {
+		if (qualityFactor>5)
+			this.qualityFactor = qualityFactor;
+	}
+
 	public int getOutput() {
 		return output;
 	}

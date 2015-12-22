@@ -12,7 +12,6 @@ public class PFHouse extends Department implements CostFactor {
 	private int price;
 	
 	private int costs;
-	private double quality;
 	
 	private PFHouseType type;
 	
@@ -23,7 +22,6 @@ public class PFHouse extends Department implements CostFactor {
 		
 		this.price = price;
 		this.costs = costs;
-		this.quality = 0;
 		this.type = type;
 		this.buildDurationLeft = type.getConstructionDuration();
 		
@@ -50,10 +48,6 @@ public class PFHouse extends Department implements CostFactor {
 	
 	public int getPrice() {
 		return price;
-	}
-	
-	public double getQuality() {
-		return quality;
 	}
 	
 	public PFHouseType getType() {

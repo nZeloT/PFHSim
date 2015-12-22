@@ -38,21 +38,31 @@ public enum WallType implements StoreableType {
 	
 	private Tupel<ResourceType>[] tupel;
 	private final int volume;
-	private final int qualityFactor;
+	private final int initialQualityFactor;
+	private int qualityFactor;
 	
 	
 	/**
 	 * Volume = Place needed for storing one wall in the warehouse.
 	 * */
 	@SafeVarargs
-	private WallType(int qualityFactor, int volume, Tupel<ResourceType>... tupel) {
+	private WallType(int initialQualityFactor, int volume, Tupel<ResourceType>... tupel) {
 		this.tupel = tupel;		
 		this.volume = volume;
-		this.qualityFactor = qualityFactor;
+		this.initialQualityFactor = initialQualityFactor;
+		this.qualityFactor = initialQualityFactor;
 	}	
+
+	public int getInitialQualityFactor() {
+		return initialQualityFactor;
+	}
 	
 	public int getQualityFactor() {
 		return qualityFactor;
+	}
+	
+	public void setQualityFactor(int qualityFactor) {
+		this.qualityFactor = qualityFactor;
 	}
 
 	/**

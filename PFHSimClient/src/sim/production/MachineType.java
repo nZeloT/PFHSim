@@ -1,6 +1,8 @@
 package sim.production;
 
-public enum MachineType {
+import sim.abstraction.GeneralType;
+
+public enum MachineType implements GeneralType {
 	
 	WOODWALL_MACHINE(25, 3, 1000, 5, 10000, 3, 3333, 1, 7, 1, 0, 0, WallType.LIGHT_WEIGHT_CONSTRUCTION, WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS),
 	BRICKWALL_MACHINE(20, 3, 1500, 5, 15000, 3, 5000, 1, 7, 2, 0, 0, WallType.MASSIVE_LIGHT_CONSTRUCTION, WallType.MASSIVE_PLUS_CONSTUCTION),
@@ -12,7 +14,7 @@ public enum MachineType {
 	private int costs;
 	private int price;
 	private WallType[] walltypesToHandle;
-	private int qualityFactor;
+	private int initialQualityFactor;
 	
 	private int possibleUpgrades;
 	private int upgradeCosts;
@@ -23,7 +25,7 @@ public enum MachineType {
 	private int upgradeEmpInc;
 	
 
-	private MachineType(int output, int requiredEmps, int costs, int price, int qualityFactor,
+	private MachineType(int output, int requiredEmps, int costs, int price, int initialQualityFactor,
 			int possibleUpgrades, int upgradeCosts, int upgradeDuration, double upgradePerfInc,
 			double upgradeQualInc, int upgradeCostInc, int upgradeEmpInc, WallType... walltypesToHandle) {
 		this.output = output;
@@ -31,7 +33,7 @@ public enum MachineType {
 		this.costs = costs;
 		this.price = price;
 		this.walltypesToHandle = walltypesToHandle;
-		this.qualityFactor = qualityFactor;
+		this.initialQualityFactor = initialQualityFactor;
 		
 		
 		this.possibleUpgrades = possibleUpgrades;
@@ -42,14 +44,9 @@ public enum MachineType {
 		this.upgradeCostInc = upgradeCostInc;
 		this.upgradeEmpInc = upgradeEmpInc;
 	}
-	
-	public int getQualityFactor() {
-		return qualityFactor;
-	}
 
-	public void setQualityFactor(int qualityFactor) {
-		if (qualityFactor>5)
-			this.qualityFactor = qualityFactor;
+	public int getInitialQualityFactor() {
+		return initialQualityFactor;
 	}
 
 	public int getOutput() {

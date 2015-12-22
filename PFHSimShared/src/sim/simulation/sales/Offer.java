@@ -29,6 +29,10 @@ public class Offer implements Serializable{
 		}
 	}
 	
+	public Tupel<WallType>[] getSpecifiedWalltypes() {
+		return walltype;
+	}
+	
 	public int getAmountofProducable(){
 		return maximumProducable;
 	}

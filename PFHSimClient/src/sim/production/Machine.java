@@ -55,9 +55,14 @@ public class Machine extends Department implements CostFactor {
 		this.performance = type.getOutput();
 		this.utilization = 0;
 		this.type = type;
+		this.quality = type.getInitialQualityFactor();
 
 		this.maxOutput = this.performance;
 		this.productionType = type.getWalltypesToHandle()[0];
+	}
+
+	public double getQuality() {
+		return quality;
 	}
 
 	@Override

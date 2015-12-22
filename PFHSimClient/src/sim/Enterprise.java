@@ -59,7 +59,7 @@ public class Enterprise {
 		cash = START_CASH;
 
 		this.market = market;
-		
+
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
 
@@ -106,9 +106,10 @@ public class Enterprise {
 			for (Offer offer : soldOffer) {
 				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getMaximumProducable(); i++) {
 					try {
-						System.out.println("DOSIM -- started house production: " + offer.getHousetype() + "; " + (i+1) + " / " + offer.getNumberOfPurchases());
-						startPFHouseProduction(offer,
-								hr.getUnassignedEmployees(EmployeeType.ASSEMBLER, offer.getHousetype().getEmployeeCount()));
+						System.out.println("DOSIM -- started house production: " + offer.getHousetype() + "; " + (i + 1)
+								+ " / " + offer.getNumberOfPurchases());
+						startPFHouseProduction(offer, hr.getUnassignedEmployees(EmployeeType.ASSEMBLER,
+								offer.getHousetype().getEmployeeCount()));
 					} catch (EnterpriseException e) {
 						e.printStackTrace();
 					}
@@ -132,11 +133,15 @@ public class Enterprise {
 		// process machine production
 		List<MachineException> productionErrors = production.processProduction(warehouse);
 		errorStore.addAll(productionErrors);
-		
+
 		for (MachineException me : productionErrors) {
 			System.out.println("DOSIM -- wall production errors: " + me.getMessage());
 		}
-
+		
+		//Set the new wall and offer qualities based on the average machine quality and walltype-qualities
+		this.setWallQuality();
+		this.setOfferQuality();
+		
 		// Handle the upgrade progress
 		upgrades.processUpgrades(this); // upgrades cost only once at the
 										// beginning
@@ -150,12 +155,10 @@ public class Enterprise {
 
 		// calculate the cash difference;
 		saldo = cash - oldCash;
-		
-		
+
 		System.out.println("DOSIM -- " + cash + " -- " + saldo);
-		
-		
-		//Reset number of purchases for the next simulation step. 
+
+		// Reset number of purchases for the next simulation step.
 		for (int k = 0; k < offers.size(); k++) {
 			offers.get(k).setNumberOfPurchases(0);
 		}
@@ -221,7 +224,6 @@ public class Enterprise {
 		if (offer == null && pEmployees != null)
 			throw new EnterpriseException("Invalid offer given!");
 
-		
 		// How much walls are needed for pfhousetype?
 		WallType[] wt = offer.getHousetype().getRequiredWallTypes();
 		int[] wc = offer.getHousetype().getWallCounts();
@@ -374,7 +376,7 @@ public class Enterprise {
 			}
 		}
 
-		if (housetype.getEmployeeCount()*amount > hr.getAmount(EmployeeType.ASSEMBLER)) {
+		if (housetype.getEmployeeCount() * amount > hr.getAmount(EmployeeType.ASSEMBLER)) {
 			throw new EnterpriseException("Not enough Employees to build the houses");
 		}
 
@@ -415,8 +417,7 @@ public class Enterprise {
 
 		// check employees
 		int max = hr.getAmount(EmployeeType.ASSEMBLER) / pfhouse.getEmployeeCount();
-		
-		
+
 		maximum = Math.min(max, maximum);
 		return maximum;
 	}
@@ -451,9 +452,9 @@ public class Enterprise {
 		}
 
 		int duration = offer.getHousetype().getConstructionDuration();
-		
+
 		costs += EmployeeType.ASSEMBLER.getBaseCost() * offer.getHousetype().getEmployeeCount() * duration;
-		
+
 		return costs;
 	}
 
@@ -492,6 +493,40 @@ public class Enterprise {
 		return costs >= 0;
 	}
 
+	public void setWallQuality() {
+		
+		List<Tupel<MachineType>> avg = this.production.getAllAvgMachineQualities();
+		
+		WallType[] t = WallType.values();
+		for (WallType wallType : t) {
+			Tupel<MachineType> cAvg = null;
+			boolean found = false;
+			for (int i=0; i<avg.size() && found == false; i++) {
+				Tupel<MachineType> tmp = avg.get(i);
+				WallType[] wtth = tmp.type.getWalltypesToHandle();
+				for (WallType wallType2 : wtth) {
+					if (wallType2 == wallType) {
+						wallType.setQualityFactor(wallType.getInitialQualityFactor()*tmp.count);
+						found = true;
+						break;
+					}
+				}
+			}
+		}
+		
+	}
+
+	public void setOfferQuality() {
+		for (Offer offer : offers) {
+			Tupel<WallType>[] tmp = offer.getWalltype();
+			int quality = 0;
+			for (Tupel<WallType> tupel : tmp) {
+				quality += tupel.count * tupel.type.getQualityFactor();
+			}
+			offer.setQuality(quality);
+		}
+	}
+
 	public Warehouse getWarehouse() {
 		return warehouse;
 	}
@@ -527,7 +562,8 @@ public class Enterprise {
 	public void addOffer(Offer offer) {
 		this.offers.add(offer);
 	}
-	public ResourceMarket getMarket(){
+
+	public ResourceMarket getMarket() {
 		return market;
 	}
 }

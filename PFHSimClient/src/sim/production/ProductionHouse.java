@@ -39,7 +39,7 @@ public class ProductionHouse implements CostFactor {
 		int avg = 0;
 		int count = 0;
 		for (Machine machine : machines) {
-			if (machine.getType() == t) {
+			if (machine.getType() == t && machine.isInOperation() == true && machine.isInUpgrade() == false) {
 				avg += machine.getQuality();
 				count++;
 			}
@@ -56,7 +56,6 @@ public class ProductionHouse implements CostFactor {
 			int cAvg = getAvgMachineQuality(t[i]);
 			if (cAvg != 0) {
 				avg.set(i, new Tupel<MachineType>(t[i], cAvg));
-			
 			}
 		}
 		return avg;

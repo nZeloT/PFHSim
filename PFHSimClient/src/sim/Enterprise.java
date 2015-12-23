@@ -99,6 +99,12 @@ public class Enterprise {
 		int oldCash = cash;
 		List<Exception> errorStore = new ArrayList<>();
 
+
+		//Set the new wall and offer qualities based on the average machine quality and walltype-qualities
+		this.setWallQuality();
+		this.setOfferQuality();
+		
+		
 		// process results from buyer's market-simulation.
 		if (soldOffer.size() != offers.size())
 			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
@@ -138,9 +144,6 @@ public class Enterprise {
 			System.out.println("DOSIM -- wall production errors: " + me.getMessage());
 		}
 		
-		//Set the new wall and offer qualities based on the average machine quality and walltype-qualities
-		this.setWallQuality();
-		this.setOfferQuality();
 		
 		// Handle the upgrade progress
 		upgrades.processUpgrades(this); // upgrades cost only once at the

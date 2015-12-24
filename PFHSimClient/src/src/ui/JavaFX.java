@@ -23,7 +23,7 @@ public class JavaFX extends Application {
 //			primaryStage.setScene(new Scene(root));
 //			primaryStage.setScene(new Scene(new HRPane(null)));
 //		} catch (IOException e) {
-//			e.printStackTrace();
+//			e.printStackTrace(); 
 //		}
 		try {
 			Enterprise e = new Enterprise(null);
@@ -32,10 +32,11 @@ public class JavaFX extends Application {
 			
 			VBox boxP = (VBox)FXMLLoader.load(getClass().getResource("/ui/fxml/offers/OfferOverview.fxml"));
  
-//			Warehouse ware = new Warehouse(e);
+//			Warehouse ware = new Warehouse(e); 
 //			VBox box = ware.getBox();
 		
-			primaryStage.setScene(new Scene(boxP));
+			primaryStage.setScene(new Scene(boxP));   
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

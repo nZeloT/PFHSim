@@ -1,5 +1,6 @@
 package ui.offers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import sim.Enterprise;
 import sim.TestUtils;
 import sim.abstraction.Tupel;
@@ -20,6 +22,7 @@ import sim.hr.EmployeeType;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceType;
 import sim.production.PFHouseType;
+import sim.production.Wall;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
 
@@ -27,13 +30,21 @@ public class OfferOverviewController {
 
 	private @FXML Label title;
 
+	private @FXML TextField selection_lightweight;
+	private @FXML TextField selection_lightweightplus;
+	private @FXML TextField selection_massive;
+	private @FXML TextField selection_massiveplus;
+	private @FXML TextField selection_panorama;
+
 	private @FXML Label label_ncwall1;
 	private @FXML Label label_ncwall2;
+	private @FXML Label label_resource1;
+	private @FXML Label label_resource2;
 	private @FXML Label req_cwall;
 	private @FXML Label req_ncwall1;
 	private @FXML Label req_ncwall2;
-	private @FXML Label req_rooftile;
-	private @FXML Label req_wood;
+	private @FXML Label req_resource1;
+	private @FXML Label req_resource2;
 	private @FXML Label req_employees;
 
 	private @FXML Label available_lightweight;
@@ -43,14 +54,14 @@ public class OfferOverviewController {
 	private @FXML Label available_panorama;
 	private @FXML Label available_ncwall1;
 	private @FXML Label available_ncwall2;
-	private @FXML Label available_rooftile;
-	private @FXML Label available_wood;
+	private @FXML Label available_resource1;
+	private @FXML Label available_resource2;
 	private @FXML Label available_employees;
 
 	private @FXML Label duration;
-	private @FXML Label varcosts;
-	private @FXML Label fixcosts;
-	private @FXML Label totalsum;
+	private @FXML Label varcost;
+	private @FXML Label fixcost;
+	private @FXML Label sum;
 	private @FXML Label quality;
 	private @FXML Label maxquality;
 	private @FXML Label maxproducable;
@@ -64,12 +75,17 @@ public class OfferOverviewController {
 	private @FXML RadioButton rb_panorama;
 	private @FXML ChoiceBox<String> choosehousetype;
 
-	private @FXML Button button_create;
+	private @FXML Button btn_save;
+	private @FXML Button btn_createnewoffer;
+	private @FXML Button btn_loadofferdetails;
+	private @FXML Button btn_deleteoffer;
 
 	private @FXML ListView<String> offerlist;
 
 	private Offer selectedOffer = null;
 	private List<Offer> offers = null;
+
+	Enterprise e = TestUtils.initializeEnterprise();
 
 	public OfferOverviewController() {
 	}
@@ -77,9 +93,9 @@ public class OfferOverviewController {
 	public void initialize() {
 
 		// General initialization for test purposes
-		Enterprise e = TestUtils.initializeEnterprise();
 		e.addOffer(new Offer(5000, 2, PFHouseType.COMFORT_HOUSE, 5,
-				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
+				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 6),
+				new Tupel<WallType>(WallType.PANORAMA_WALL, 1)));
 		e.addOffer(new Offer(5000, 2, PFHouseType.BUNGALOW, 5,
 				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
 
@@ -93,10 +109,18 @@ public class OfferOverviewController {
 
 		offerlist.setItems(offerstrings);
 
+		offerlist.getSelectionModel().select(0);
+
+		load();
+
+	}
+
+	private void load() {
 		// Initialize Offer Detail Screen:
 
+		btn_save.setDisable(true);
+
 		choosehousetype.setDisable(true);
-		offerlist.getSelectionModel().select(0);
 
 		selectedOffer = offers.get(offerlist.getSelectionModel().getSelectedIndex());
 		ObservableList<String> housetypestring = FXCollections.observableArrayList();
@@ -141,7 +165,7 @@ public class OfferOverviewController {
 			}
 		}
 
-		// the available walls for the specification of general-walls need to be
+		// the wall-values for the specification of general-walls need to be
 		// set.
 		available_lightweight.setText("" + e.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION));
 		available_lightweightplus
@@ -150,57 +174,278 @@ public class OfferOverviewController {
 		available_massiveplus.setText("" + e.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
 		available_panorama.setText("" + e.getWarehouse().getStoredAmount(WallType.PANORAMA_WALL));
 
-		
-		
-		
+		selection_lightweight.setText("");
+		selection_lightweightplus.setText("");
+		selection_massive.setText("");
+		selection_massiveplus.setText("");
+		selection_panorama.setText("");
+		Tupel<WallType>[] tmp = selectedOffer.getSpecifiedWalltypes();
+		for (Tupel<WallType> tupel : tmp) {
+			if (tupel != null) {
+				if (tupel.type == WallType.LIGHT_WEIGHT_CONSTRUCTION) {
+					int var = 0;
+					walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
+					walltypes_count = selectedOffer.getHousetype().getWallCounts();
+					for (int i = 0; i < walltypes.length; i++) {
+						if (tupel.type == walltypes[i]) {
+							var = walltypes_count[i];
+						}
+					}
+					selection_lightweight.setText("" + (tupel.count - var));
+				} else if (tupel.type == WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS) {
+					int var = 0;
+					walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
+					walltypes_count = selectedOffer.getHousetype().getWallCounts();
+					for (int i = 0; i < walltypes.length; i++) {
+						if (tupel.type == walltypes[i]) {
+							var = walltypes_count[i];
+						}
+					}
+					selection_lightweightplus.setText("" + (tupel.count - var));
+				} else if (tupel.type == WallType.MASSIVE_LIGHT_CONSTRUCTION) {
+					int var = 0;
+					walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
+					walltypes_count = selectedOffer.getHousetype().getWallCounts();
+					for (int i = 0; i < walltypes.length; i++) {
+						if (tupel.type == walltypes[i]) {
+							var = walltypes_count[i];
+						}
+					}
+					selection_massive.setText("" + (tupel.count - var));
+				} else if (tupel.type == WallType.MASSIVE_PLUS_CONSTUCTION) {
+					int var = 0;
+					walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
+					walltypes_count = selectedOffer.getHousetype().getWallCounts();
+					for (int i = 0; i < walltypes.length; i++) {
+						if (tupel.type == walltypes[i]) {
+							var = walltypes_count[i];
+						}
+					}
+					selection_massiveplus.setText("" + (tupel.count - var));
+				} else if (tupel.type == WallType.PANORAMA_WALL) {
+					int var = 0;
+					walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
+					walltypes_count = selectedOffer.getHousetype().getWallCounts();
+					for (int i = 0; i < walltypes.length; i++) {
+						if (tupel.type == walltypes[i]) {
+							var = walltypes_count[i];
+						}
+					}
+					selection_panorama.setText("" + (tupel.count - var));
+				}
+			}
+		}
+
 		// now set the required and available number of resources.
 
 		ResourceType[] resourcetypes = selectedOffer.getHousetype().getRequiredResourceTypes();
 		int[] resourcetypes_count = selectedOffer.getHousetype().getResourceCounts();
 
 		// label_ncwall1.setVisible(false);
-		req_rooftile.setVisible(false);
-		available_rooftile.setVisible(false);
+		req_resource1.setVisible(false);
+		available_resource1.setVisible(false);
 		// label_ncwall2.setVisible(false);
-		req_wood.setVisible(false);
-		available_wood.setVisible(false);
+		req_resource2.setVisible(false);
+		available_resource2.setVisible(false);
 
 		non_customizable_position = 0;
 		for (int i = 0; i < resourcetypes.length; i++) {
 			if (non_customizable_position == 0) {
-				// label_ncwall1.setVisible(true);
-				req_rooftile.setVisible(true);
-				available_rooftile.setVisible(true);
-				// label_ncwall1.setText(walltypes[i].toString());
-				req_rooftile.setText(resourcetypes_count[i] + "");
-				available_rooftile.setText("" + e.getWarehouse().getStoredAmount(resourcetypes[i]));
+				label_resource1.setVisible(true);
+				req_resource1.setVisible(true);
+				available_resource1.setVisible(true);
+				label_resource1.setText(resourcetypes[i].toString());
+				req_resource1.setText(resourcetypes_count[i] + "");
+				available_resource1.setText("" + e.getWarehouse().getStoredAmount(resourcetypes[i]));
 				non_customizable_position++;
 			} else if (non_customizable_position == 1) {
-				// label_ncwall2.setVisible(true);
-				req_wood.setVisible(true);
-				available_wood.setVisible(true);
-				// label_ncwall2.setText(walltypes[i].toString());
-				req_wood.setText(resourcetypes_count[i] + "");
-				available_wood.setText("" + e.getWarehouse().getStoredAmount(resourcetypes[i]));
+				label_resource2.setVisible(true);
+				req_resource2.setVisible(true);
+				available_resource2.setVisible(true);
+				label_resource2.setText(resourcetypes[i].toString());
+				req_resource2.setText(resourcetypes_count[i] + "");
+				available_resource2.setText("" + e.getWarehouse().getStoredAmount(resourcetypes[i]));
 				non_customizable_position++;
 			}
 		}
 
-
-		
 		// now set the required and available number of employees.
-		req_employees.setText(""+selectedOffer.getHousetype().getEmployeeCount());
+		req_employees.setText("" + selectedOffer.getHousetype().getEmployeeCount());
 		int available_emps = e.getHR().getNumberOfUnassignedEmployees(EmployeeType.ASSEMBLER);
-		available_employees.setText(""+available_emps); 
-		
-		
-		// End of Offer Detail Screen initialization.
+		available_employees.setText("" + available_emps);
 
+		// set duration
+		duration.setText("" + selectedOffer.getHousetype().getConstructionDuration());
+
+		// set cost calculation figures.
+		varcost.setText("" + selectedOffer.getVariableCost());
+		fixcost.setText("" + selectedOffer.getFixCost());
+		try {
+			sum.setText("" + (selectedOffer.getVariableCost() + selectedOffer.getFixCost()
+					+ Integer.parseInt(profit.getText())));
+		} catch (NumberFormatException e2) {
+			sum.setText("" + (selectedOffer.getVariableCost() + selectedOffer.getFixCost()));
+		}
+
+		// set quality.
+		quality.setText("" + selectedOffer.getQuality());
+		int maxqualityval = 0;
+		walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
+		walltypes_count = selectedOffer.getHousetype().getWallCounts();
+		for (int i = 0; i < walltypes.length; i++) {
+			if (walltypes[i] == WallType.GENERAL) {
+				maxqualityval += WallType.PANORAMA_WALL.getQualityFactor() * walltypes_count[i];
+			} else {
+				maxqualityval += walltypes[i].getQualityFactor() * walltypes_count[i];
+			}
+		}
+		maxquality.setText("(" + maxqualityval + ")");
+
+		maxproducable.setText("" + selectedOffer.getMaximumProducable());
+
+		// End of Offer Detail Screen initialization.
 	}
 
 	@FXML
 	private void loadofferdetails(ActionEvent e) {
-		System.out.println("loading");
+		load();
 	}
 
+	@FXML
+	private void refreshSum(KeyEvent e) {
+		try {
+			if (Integer.parseInt(profit.getText()) < 0) {
+				throw new NumberFormatException();
+			}
+			sum.setText("" + (selectedOffer.getVariableCost() + selectedOffer.getFixCost()
+					+ Integer.parseInt(profit.getText())));
+		} catch (NumberFormatException e2) {
+			sum.setText("" + (selectedOffer.getVariableCost() + selectedOffer.getFixCost()));
+			System.out.println("wrong number format");
+			/*
+			 * Alert alert = new Alert(AlertType.INFORMATION);
+			 * alert.setTitle("Warning"); alert.setHeaderText(null);
+			 * alert.setContentText("Pleasy type in a number lower between " +
+			 * Integer.MIN_VALUE + " and " + Integer.MAX_VALUE);
+			 * alert.showAndWait();
+			 */
+
+		}
+		btn_save.setDisable(false);
+	}
+
+	@FXML
+	private void wallselectionChanged(KeyEvent e) {
+		TextField src = (TextField) e.getSource();
+		try {
+			if (Integer.parseInt(src.getText()) < 0) {
+				throw new NumberFormatException();
+			}
+		} catch (NumberFormatException e2) {
+			System.out.println("wrong number format");
+			/*
+			 * Alert alert = new Alert(AlertType.INFORMATION);
+			 * alert.setTitle("Warning"); alert.setHeaderText(null);
+			 * alert.setContentText("Pleasy type in a number lower between " +
+			 * Integer.MIN_VALUE + " and " + Integer.MAX_VALUE);
+			 * alert.showAndWait();
+			 */
+
+		}
+		btn_save.setDisable(false);
+	}
+
+	@FXML
+	private void onSave(ActionEvent e) {
+		btn_save.setDisable(true);
+		try {
+
+			int noOfSpecifiedWalls = 0;
+			selectedOffer.setPrice(Integer.parseInt(sum.getText()));
+
+			List<Tupel<WallType>> walltype = new ArrayList<>();
+			if (!selection_lightweight.getText().equals("")) {
+				try {
+					walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION,
+							Integer.parseInt(selection_lightweight.getText())));
+					noOfSpecifiedWalls += Integer.parseInt(selection_lightweight.getText());
+				} catch (Exception e3) {
+				}
+			}
+			if (!selection_lightweightplus.getText().equals("")) {
+				try {
+					walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS,
+							Integer.parseInt(selection_lightweightplus.getText())));
+					noOfSpecifiedWalls += Integer.parseInt(selection_lightweightplus.getText());
+				} catch (Exception e3) {
+				}
+			}
+			if (!selection_massive.getText().equals("")) {
+				try {
+					walltype.add(new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION,
+							Integer.parseInt(selection_massive.getText())));
+					noOfSpecifiedWalls += Integer.parseInt(selection_massive.getText());
+				} catch (Exception e3) {
+				}
+			}
+			if (!selection_massiveplus.getText().equals("")) {
+				try {
+					walltype.add(new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION,
+							Integer.parseInt(selection_massiveplus.getText())));
+					noOfSpecifiedWalls += Integer.parseInt(selection_massiveplus.getText());
+				} catch (Exception e3) {
+				}
+			}
+			if (!selection_panorama.getText().equals("")) {
+				try {
+					walltype.add(new Tupel<WallType>(WallType.PANORAMA_WALL,
+							Integer.parseInt(selection_panorama.getText())));
+					noOfSpecifiedWalls += Integer.parseInt(selection_panorama.getText());
+				} catch (Exception e3) {
+				}
+			}
+			WallType[] wt = selectedOffer.getHousetype().getRequiredWallTypes();
+			int[] wc = selectedOffer.getHousetype().getWallCounts();
+			for (int i = 0; i < wc.length; i++) {
+				if (wt[i] != WallType.GENERAL) {
+					boolean found = false;
+					for (Tupel<WallType> tupel : walltype) {
+						if (tupel.type == wt[i]) {
+							tupel.count += wc[i];
+							found = true;
+						}
+					}
+					if (found == false) {
+						walltype.add(new Tupel<WallType>(wt[i], wc[i]));
+					}
+				}
+			}
+			// Just casting stuff for providing an array to the offer-method
+			// setspecifiedwalltypes(...)
+			@SuppressWarnings("unchecked")
+			Tupel<WallType>[] tupelarray = new Tupel[walltype.size()];
+			for (int i = 0; i < walltype.size(); i++) {
+				tupelarray[i] = walltype.get(i);
+			}
+
+			if (noOfSpecifiedWalls >= selectedOffer.getHousetype().getNoOfGeneralWalls()) {
+				selectedOffer.setSpecifiedWalltypes(tupelarray);
+				load();
+				System.out.println("great, offer saved.");
+			} else {
+				System.out.println("not enough walls specified");
+				/*
+				 * Alert alert = new Alert(AlertType.INFORMATION);
+				 * alert.setTitle("Warning"); alert.setHeaderText(null);
+				 * alert.setContentText(
+				 * "Please specify enough walls in your offer.");
+				 * alert.showAndWait();
+				 */
+			}
+
+		} catch (NumberFormatException e2) {
+			e2.printStackTrace();
+		}
+
+	}
 }

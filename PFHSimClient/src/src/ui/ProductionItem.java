@@ -6,10 +6,10 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-public class Production implements Initializable{
+public class ProductionItem implements Initializable{
 	
 
-	public Production() {
+	public ProductionItem() {
 		// TODO Auto-generated constructor stub
 	}
 

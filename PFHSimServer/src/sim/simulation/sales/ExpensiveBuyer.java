@@ -75,9 +75,9 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 				double ratio = (1.0*tmp.get(j).expensiveBuyerInterest)/cumulatedQualities;
 				
 				int num = (int) (ratio * demand) + undistributed;
-				if ((tmp.get(j).offer.getMaximumProducable()-tmp.get(j).offer.getNumberOfPurchases()) < num) {
-					undistributed += num - tmp.get(j).offer.getMaximumProducable() - tmp.get(j).offer.getNumberOfPurchases();
-					num = tmp.get(j).offer.getMaximumProducable() - tmp.get(j).offer.getNumberOfPurchases();
+				if ((tmp.get(j).offer.getProductionLimit()-tmp.get(j).offer.getNumberOfPurchases()) < num) {
+					undistributed += num - tmp.get(j).offer.getProductionLimit() - tmp.get(j).offer.getNumberOfPurchases();
+					num = tmp.get(j).offer.getProductionLimit() - tmp.get(j).offer.getNumberOfPurchases();
 				} else {
 					undistributed = 0;
 				}

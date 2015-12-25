@@ -15,6 +15,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.VBoxBuilder;
 import sim.Enterprise;
 import sim.TestUtils;
 import sim.abstraction.Tupel;
@@ -28,9 +30,11 @@ import sim.simulation.sales.Offer;
 
 public class OfferOverviewController {
 
+	private @FXML VBox offerdetails;
+	
 	private @FXML Label title;
 
-	private @FXML TextField selection_lightweight;
+	private @FXML TextField selection_lightweight; 
 	private @FXML TextField selection_lightweightplus;
 	private @FXML TextField selection_massive;
 	private @FXML TextField selection_massiveplus;
@@ -66,13 +70,14 @@ public class OfferOverviewController {
 	private @FXML Label maxquality;
 	private @FXML Label maxproducable;
 
-	private @FXML TextField profit;
+	private @FXML TextField productionlimit;
+	private @FXML TextField profit; 
 
-	private @FXML RadioButton rb_lightweight;
-	private @FXML RadioButton rb_lightweightplus;
-	private @FXML RadioButton rb_massive;
-	private @FXML RadioButton rb_massiveplus;
-	private @FXML RadioButton rb_panorama;
+	private @FXML Label rb_lightweight;
+	private @FXML Label rb_lightweightplus;
+	private @FXML Label rb_massive;
+	private @FXML Label rb_massiveplus;
+	private @FXML Label rb_panorama;
 	private @FXML ChoiceBox<String> choosehousetype;
 
 	private @FXML Button btn_save;
@@ -85,7 +90,7 @@ public class OfferOverviewController {
 	private Offer selectedOffer = null;
 	private List<Offer> offers = null;
 
-	Enterprise e = TestUtils.initializeEnterprise();
+	Enterprise ent = TestUtils.initializeEnterprise();
 
 	public OfferOverviewController() {
 	}
@@ -93,21 +98,22 @@ public class OfferOverviewController {
 	public void initialize() {
 
 		// General initialization for test purposes
-		e.addOffer(new Offer(5000, 2, PFHouseType.COMFORT_HOUSE, 5,
+		ent.addOffer(new Offer(5000, 2, PFHouseType.COMFORT_HOUSE, 5,
 				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 6),
 				new Tupel<WallType>(WallType.PANORAMA_WALL, 1)));
-		e.addOffer(new Offer(5000, 2, PFHouseType.BUNGALOW, 5,
+		ent.addOffer(new Offer(5000, 2, PFHouseType.BUNGALOW, 5,
 				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
 
+		
 		// Initialize the offer-viewlist.
-		offers = e.getOffers();
+		offers = ent.getOffers();
 
 		ObservableList<String> offerstrings = FXCollections.observableArrayList();
-		for (Offer offer : offers) {
+		for (Offer offer : offers) { 
 			offerstrings.add(offer.getHousetype().toString());
 		}
 
-		offerlist.setItems(offerstrings);
+		offerlist.setItems(offerstrings); 
 
 		offerlist.getSelectionModel().select(0);
 
@@ -117,6 +123,7 @@ public class OfferOverviewController {
 
 	private void load() {
 		// Initialize Offer Detail Screen:
+		title.setText("Offer details");
 
 		btn_save.setDisable(true);
 
@@ -151,7 +158,7 @@ public class OfferOverviewController {
 					available_ncwall1.setVisible(true);
 					label_ncwall1.setText(walltypes[i].toString());
 					req_ncwall1.setText(walltypes_count[i] + "");
-					available_ncwall1.setText("" + e.getWarehouse().getStoredAmount(walltypes[i]));
+					available_ncwall1.setText("" + ent.getWarehouse().getStoredAmount(walltypes[i]));
 					non_customizable_position++;
 				} else if (non_customizable_position == 1) {
 					label_ncwall2.setVisible(true);
@@ -159,7 +166,7 @@ public class OfferOverviewController {
 					available_ncwall2.setVisible(true);
 					label_ncwall2.setText(walltypes[i].toString());
 					req_ncwall2.setText(walltypes_count[i] + "");
-					available_ncwall2.setText("" + e.getWarehouse().getStoredAmount(walltypes[i]));
+					available_ncwall2.setText("" + ent.getWarehouse().getStoredAmount(walltypes[i]));
 					non_customizable_position++;
 				}
 			}
@@ -167,12 +174,12 @@ public class OfferOverviewController {
 
 		// the wall-values for the specification of general-walls need to be
 		// set.
-		available_lightweight.setText("" + e.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION));
+		available_lightweight.setText("" + ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION));
 		available_lightweightplus
-				.setText("" + e.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
-		available_massive.setText("" + e.getWarehouse().getStoredAmount(WallType.MASSIVE_LIGHT_CONSTRUCTION));
-		available_massiveplus.setText("" + e.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
-		available_panorama.setText("" + e.getWarehouse().getStoredAmount(WallType.PANORAMA_WALL));
+				.setText("" + ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
+		available_massive.setText("" + ent.getWarehouse().getStoredAmount(WallType.MASSIVE_LIGHT_CONSTRUCTION));
+		available_massiveplus.setText("" + ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
+		available_panorama.setText("" + ent.getWarehouse().getStoredAmount(WallType.PANORAMA_WALL));
 
 		selection_lightweight.setText("");
 		selection_lightweightplus.setText("");
@@ -191,7 +198,11 @@ public class OfferOverviewController {
 							var = walltypes_count[i];
 						}
 					}
-					selection_lightweight.setText("" + (tupel.count - var));
+					if ((tupel.count - var) == 0) {
+						selection_lightweight.setText("");
+					} else {
+						selection_lightweight.setText("" + (tupel.count - var));	
+					}
 				} else if (tupel.type == WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS) {
 					int var = 0;
 					walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
@@ -201,7 +212,11 @@ public class OfferOverviewController {
 							var = walltypes_count[i];
 						}
 					}
-					selection_lightweightplus.setText("" + (tupel.count - var));
+					if ((tupel.count - var) == 0) {
+						selection_lightweightplus.setText("");
+					} else {
+						selection_lightweightplus.setText("" + (tupel.count - var));	
+					}
 				} else if (tupel.type == WallType.MASSIVE_LIGHT_CONSTRUCTION) {
 					int var = 0;
 					walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
@@ -211,7 +226,11 @@ public class OfferOverviewController {
 							var = walltypes_count[i];
 						}
 					}
-					selection_massive.setText("" + (tupel.count - var));
+					if ((tupel.count - var) == 0) {
+						selection_massive.setText("");
+					} else {
+						selection_massive.setText("" + (tupel.count - var));	
+					}
 				} else if (tupel.type == WallType.MASSIVE_PLUS_CONSTUCTION) {
 					int var = 0;
 					walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
@@ -221,7 +240,11 @@ public class OfferOverviewController {
 							var = walltypes_count[i];
 						}
 					}
-					selection_massiveplus.setText("" + (tupel.count - var));
+					if ((tupel.count - var) == 0) {
+						selection_massiveplus.setText("");
+					} else {
+						selection_massiveplus.setText("" + (tupel.count - var));	
+					}
 				} else if (tupel.type == WallType.PANORAMA_WALL) {
 					int var = 0;
 					walltypes = selectedOffer.getHousetype().getRequiredWallTypes();
@@ -231,7 +254,11 @@ public class OfferOverviewController {
 							var = walltypes_count[i];
 						}
 					}
-					selection_panorama.setText("" + (tupel.count - var));
+					if ((tupel.count - var) == 0) {
+						selection_panorama.setText("");
+					} else {
+						selection_panorama.setText("" + (tupel.count - var));	
+					}
 				}
 			}
 		}
@@ -256,7 +283,7 @@ public class OfferOverviewController {
 				available_resource1.setVisible(true);
 				label_resource1.setText(resourcetypes[i].toString());
 				req_resource1.setText(resourcetypes_count[i] + "");
-				available_resource1.setText("" + e.getWarehouse().getStoredAmount(resourcetypes[i]));
+				available_resource1.setText("" + ent.getWarehouse().getStoredAmount(resourcetypes[i]));
 				non_customizable_position++;
 			} else if (non_customizable_position == 1) {
 				label_resource2.setVisible(true);
@@ -264,14 +291,14 @@ public class OfferOverviewController {
 				available_resource2.setVisible(true);
 				label_resource2.setText(resourcetypes[i].toString());
 				req_resource2.setText(resourcetypes_count[i] + "");
-				available_resource2.setText("" + e.getWarehouse().getStoredAmount(resourcetypes[i]));
+				available_resource2.setText("" + ent.getWarehouse().getStoredAmount(resourcetypes[i]));
 				non_customizable_position++;
 			}
 		}
 
 		// now set the required and available number of employees.
 		req_employees.setText("" + selectedOffer.getHousetype().getEmployeeCount());
-		int available_emps = e.getHR().getNumberOfUnassignedEmployees(EmployeeType.ASSEMBLER);
+		int available_emps = ent.getHR().getNumberOfUnassignedEmployees(EmployeeType.ASSEMBLER);
 		available_employees.setText("" + available_emps);
 
 		// set duration
@@ -298,11 +325,12 @@ public class OfferOverviewController {
 			} else {
 				maxqualityval += walltypes[i].getQualityFactor() * walltypes_count[i];
 			}
-		}
+		} 
 		maxquality.setText("(" + maxqualityval + ")");
 
-		maxproducable.setText("" + selectedOffer.getMaximumProducable());
-
+		productionlimit.setText("" + selectedOffer.getProductionLimit());
+		maxproducable.setText("(" + ent.getMaxProducibleHouses(selectedOffer) + ")");
+		
 		// End of Offer Detail Screen initialization.
 	}
 
@@ -370,6 +398,7 @@ public class OfferOverviewController {
 							Integer.parseInt(selection_lightweight.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_lightweight.getText());
 				} catch (Exception e3) {
+					e3.printStackTrace();
 				}
 			}
 			if (!selection_lightweightplus.getText().equals("")) {
@@ -378,6 +407,7 @@ public class OfferOverviewController {
 							Integer.parseInt(selection_lightweightplus.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_lightweightplus.getText());
 				} catch (Exception e3) {
+					e3.printStackTrace();
 				}
 			}
 			if (!selection_massive.getText().equals("")) {
@@ -386,6 +416,7 @@ public class OfferOverviewController {
 							Integer.parseInt(selection_massive.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_massive.getText());
 				} catch (Exception e3) {
+					e3.printStackTrace();
 				}
 			}
 			if (!selection_massiveplus.getText().equals("")) {
@@ -394,6 +425,7 @@ public class OfferOverviewController {
 							Integer.parseInt(selection_massiveplus.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_massiveplus.getText());
 				} catch (Exception e3) {
+					e3.printStackTrace();
 				}
 			}
 			if (!selection_panorama.getText().equals("")) {
@@ -402,6 +434,7 @@ public class OfferOverviewController {
 							Integer.parseInt(selection_panorama.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_panorama.getText());
 				} catch (Exception e3) {
+					e3.printStackTrace();
 				}
 			}
 			WallType[] wt = selectedOffer.getHousetype().getRequiredWallTypes();
@@ -428,10 +461,13 @@ public class OfferOverviewController {
 				tupelarray[i] = walltype.get(i);
 			}
 
-			if (noOfSpecifiedWalls >= selectedOffer.getHousetype().getNoOfGeneralWalls()) {
+			if (noOfSpecifiedWalls >= selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
+				
 				selectedOffer.setSpecifiedWalltypes(tupelarray);
+				selectedOffer.setProductionLimit(Integer.parseInt(productionlimit.getText()));
 				load();
 				System.out.println("great, offer saved.");
+				
 			} else {
 				System.out.println("not enough walls specified");
 				/*
@@ -443,9 +479,34 @@ public class OfferOverviewController {
 				 */
 			}
 
+
 		} catch (NumberFormatException e2) {
 			e2.printStackTrace();
-		}
+		} 
 
+	}
+	
+	@FXML
+	private void productionLimitChanged(KeyEvent e) {
+		btn_save.setDisable(false);
+	}
+	
+	@FXML 
+	private void onCreate(ActionEvent e) {
+		title.setText("New offer");
+		btn_save.setDisable(false);
+
+		choosehousetype.setDisable(false);
+
+		
+		ObservableList<String> housetypestring = FXCollections.observableArrayList();
+
+		PFHouseType[] types = PFHouseType.values();
+		for (PFHouseType pfHouseType : types) {
+			housetypestring.add(pfHouseType.toString());
+		}
+		choosehousetype.setItems(housetypestring);
+		
+		offerdetails.setVisible(false);
 	}
 }

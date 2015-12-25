@@ -31,7 +31,7 @@
                      <children>
                         <Button fx:id="btn_loadofferdetails" maxHeight="80.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadofferdetails" text="Load offer details" HBox.hgrow="ALWAYS" />
                         <Button fx:id="btn_deleteoffer" maxHeight="80.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Delete offer" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btn_createnewoffer" maxHeight="80.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Create new offer" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btn_createnewoffer" maxHeight="80.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCreate" text="Create new offer" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>
@@ -64,7 +64,7 @@
                   </HBox>
                   <HBox VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox HBox.hgrow="ALWAYS">
+                        <VBox fx:id="offerdetails" HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Customizable walls:" VBox.vgrow="ALWAYS">
                                  <font>
@@ -74,18 +74,15 @@
                                     <Insets top="20.0" />
                                  </VBox.margin>
                               </Label>
-                              <RadioButton fx:id="rb_lightweight" mnemonicParsing="false" selected="true" text="Light weight" VBox.vgrow="ALWAYS">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="togglegroup1" />
-                                 </toggleGroup>
+                              <Label fx:id="rb_lightweight" text="Lightweight">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
-                              </RadioButton>
-                              <RadioButton fx:id="rb_lightweightplus" mnemonicParsing="false" text="Light weight plus" toggleGroup="$togglegroup1" VBox.vgrow="ALWAYS" />
-                              <RadioButton fx:id="rb_massive" mnemonicParsing="false" text="Massive" toggleGroup="$togglegroup1" VBox.vgrow="ALWAYS" />
-                              <RadioButton fx:id="rb_massiveplus" mnemonicParsing="false" text="Massive Plus" toggleGroup="$togglegroup1" VBox.vgrow="ALWAYS" />
-                              <RadioButton fx:id="rb_panorama" mnemonicParsing="false" text="Panorama" toggleGroup="$togglegroup1" VBox.vgrow="ALWAYS" />
+                              </Label>
+                              <Label fx:id="rb_lightweightplus" text="Lightweight Plus" />
+                              <Label fx:id="rb_massive" text="Massive" />
+                              <Label fx:id="rb_massiveplus" text="Massive Plus" />
+                              <Label fx:id="rb_panorama" text="Panorama" />
                               <Label text="Non-customizable walls:" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
@@ -272,7 +269,7 @@
                                  </VBox.margin>
                               </Line>
                               <Label text="Total sum" VBox.vgrow="ALWAYS" />
-                              <Label text="Quality provided" VBox.vgrow="ALWAYS">
+                              <Label text="Quality provided:" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -285,12 +282,21 @@
                                     <Font size="12.0" />
                                  </font>
                               </Label>
-                              <Label text="Maximum producable:" VBox.vgrow="ALWAYS">
+                              <Label text="Production limit:" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                                  <VBox.margin>
                                     <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label text="(Maximum producable)" />
+                              <Label text="(save to refresh value)">
+                                 <font>
+                                    <Font name="System Italic" size="9.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="20.0" top="-5.0" />
                                  </VBox.margin>
                               </Label>
                            </children>
@@ -324,7 +330,7 @@
                               <Label fx:id="sum" text="3000" VBox.vgrow="ALWAYS" />
                               <Label fx:id="quality" text="35" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="23.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="maxquality" text="(50)" VBox.vgrow="ALWAYS">
@@ -332,9 +338,14 @@
                                     <Font size="12.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="maxproducable" text="35" VBox.vgrow="ALWAYS">
+                              <TextField fx:id="productionlimit" maxWidth="75.0" onInputMethodTextChanged="#productionLimitChanged" onKeyPressed="#productionLimitChanged" onKeyReleased="#productionLimitChanged" onKeyTyped="#productionLimitChanged" promptText="35" text="35">
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="17.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label fx:id="maxproducable" text="(35)" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets />
                                  </VBox.margin>
                               </Label>
                               <Pane VBox.vgrow="ALWAYS">

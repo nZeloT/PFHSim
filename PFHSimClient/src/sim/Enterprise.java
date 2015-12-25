@@ -110,7 +110,7 @@ public class Enterprise {
 			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
 		else {
 			for (Offer offer : soldOffer) {
-				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getMaximumProducable(); i++) {
+				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getProductionLimit(); i++) {
 					try {
 						System.out.println("DOSIM -- started house production: " + offer.getHousetype() + "; " + (i + 1)
 								+ " / " + offer.getNumberOfPurchases());
@@ -392,6 +392,39 @@ public class Enterprise {
 		}
 	}
 
+
+	public int getMaxProducibleHouses(Offer o) {
+		int maximum = 0;
+
+		// check walls
+		Tupel<WallType>[] walltypes = o.getWalltype();
+
+		boolean first = true;
+		for (int i = 0; i < walltypes.length; i++) {
+			int max = warehouse.getStoredAmount(walltypes[i].type) / walltypes[i].count;
+			if (first) {
+				maximum = max;
+				first = false;
+			}
+			maximum = Math.min(max, maximum);
+		}
+
+		// check resources
+		ResourceType[] resourcetypes = o.getHousetype().getRequiredResourceTypes();
+		int[] resourcecount = o.getHousetype().getResourceCounts();
+
+		for (int i = 0; i < resourcetypes.length; i++) {
+			int max = warehouse.getStoredAmount(resourcetypes[i]) / resourcecount[i];
+			maximum = Math.min(max, maximum);
+		}
+
+		// check employees
+		int max = hr.getAmount(EmployeeType.ASSEMBLER) / o.getHousetype().getEmployeeCount();
+
+		maximum = Math.min(max, maximum);
+		return maximum;
+	}
+	
 	public int getMaxProducibleHouses(PFHouseType pfhouse) {
 		int maximum = 0;
 

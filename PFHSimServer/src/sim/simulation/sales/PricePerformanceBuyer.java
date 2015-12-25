@@ -62,7 +62,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 					continue; // continue with the next offer
 				}
 				// count the interesting offers
-				numberofOffers += offers.get(i).getMaximumProducable();
+				numberofOffers += offers.get(i).getProductionLimit();
 				List<EnterpriseOfferTupel> tmp = placeholder.get(type);
 				EnterpriseOfferTupel ot = new EnterpriseOfferTupel(entry.getKey(), offers.get(i));
 
@@ -123,7 +123,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 				List<EnterpriseOfferTupel> succoff = entry.getValue();
 				for (int i = 0; i < succoff.size(); i++, current -= step) {
 					Offer actual = succoff.get(i).offer;
-					int max = actual.getMaximumProducable();
+					int max = actual.getProductionLimit();
 					int amount = actual.getNumberOfPurchases();
 					if (max == amount) {
 						continue; // other buyers already bought all the houses

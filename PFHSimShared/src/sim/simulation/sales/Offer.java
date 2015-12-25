@@ -16,7 +16,7 @@ public class Offer implements Serializable {
 	private PFHouseType housetype;
 	private Tupel<WallType>[] walltype;
 	private int numberOfPurchases;
-	private int maximumProducable;
+	private int productionLimit;
 
 	@SafeVarargs
 	public Offer(int price, int qualityCoefficient, PFHouseType housetype, int max, Tupel<WallType>... walltype) {
@@ -24,10 +24,10 @@ public class Offer implements Serializable {
 		this.housetype = housetype;
 		this.walltype = walltype;
 		numberOfPurchases = 0;
-		maximumProducable = max;
+		productionLimit = max;
 		quality = 0;
 		for (int i = 0; i < walltype.length; i++) {
-			quality += qualityCoefficient * walltype[i].type.getQualityFactor() * walltype[i].count;
+			quality += walltype[i].type.getQualityFactor() * walltype[i].count;
 		}
 	}
 
@@ -49,7 +49,7 @@ public class Offer implements Serializable {
 	}
 
 	public int getAmountofProducable() {
-		return maximumProducable;
+		return productionLimit;
 	}
 
 	public int getQuality() {
@@ -88,8 +88,12 @@ public class Offer implements Serializable {
 		return numberOfPurchases;
 	}
 
-	public int getMaximumProducable() {
-		return maximumProducable;
+	public int getProductionLimit() {
+		return productionLimit;
+	}
+	
+	public void setProductionLimit(int productionLimit) {
+		this.productionLimit = productionLimit;
 	}
 
 }

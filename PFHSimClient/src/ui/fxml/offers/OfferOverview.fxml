@@ -30,7 +30,7 @@
                   <HBox alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                      <children>
                         <Button fx:id="btn_loadofferdetails" maxHeight="80.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadofferdetails" text="Load offer details" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btn_deleteoffer" maxHeight="80.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Delete offer" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btn_deleteoffer" maxHeight="80.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteoffer" text="Delete offer" HBox.hgrow="ALWAYS" />
                         <Button fx:id="btn_createnewoffer" maxHeight="80.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCreate" text="Create new offer" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
@@ -62,9 +62,9 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox VBox.vgrow="ALWAYS">
+                  <HBox fx:id="offerdetails" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox fx:id="offerdetails" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="col1" HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Customizable walls:" VBox.vgrow="ALWAYS">
                                  <font>
@@ -128,7 +128,7 @@
                               </Label>
                            </children>
                         </VBox>
-                        <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="col2" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="req." VBox.vgrow="ALWAYS">
                                  <VBox.margin>
@@ -170,7 +170,7 @@
                               </TextField>
                               <Label fx:id="req_ncwall1" text="15" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="40.0" />
+                                    <Insets top="53.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="req_ncwall2" text="5" VBox.vgrow="ALWAYS" />
@@ -181,12 +181,12 @@
                               </Label>
                               <Label fx:id="req_resource2" text="15" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="25.0" />
+                                    <Insets top="18.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="req_employees" text="5" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="18.0" />
                                  </VBox.margin>
                               </Label>
                            </children>
@@ -205,23 +205,23 @@
                               <Label fx:id="available_panorama" text="14" VBox.vgrow="ALWAYS" />
                               <Label fx:id="available_ncwall1" text="88" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="43.0" />
+                                    <Insets top="40.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="available_ncwall2" text="63" VBox.vgrow="ALWAYS" />
                               <Label fx:id="available_resource1" text="1546" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="21.0" />
+                                    <Insets top="20.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="available_resource2" text="846" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="25.0" />
+                                    <Insets top="20.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="available_employees" text="30" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="18.0" />
                                  </VBox.margin>
                               </Label>
                            </children>
@@ -291,14 +291,6 @@
                                  </VBox.margin>
                               </Label>
                               <Label text="(Maximum producable)" />
-                              <Label text="(save to refresh value)">
-                                 <font>
-                                    <Font name="System Italic" size="9.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="20.0" top="-5.0" />
-                                 </VBox.margin>
-                              </Label>
                            </children>
                         </VBox>
                         <VBox HBox.hgrow="ALWAYS">
@@ -314,7 +306,7 @@
                               </HBox>
                               <Label fx:id="varcost" text="1500" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="40.0" />
+                                    <Insets top="35.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="fixcost" text="500" VBox.vgrow="ALWAYS" />
@@ -351,6 +343,11 @@
                               <Pane VBox.vgrow="ALWAYS">
                                  <children>
                                     <Button fx:id="btn_save" layoutY="31.0" minHeight="35.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSave" text="Save" />
+                                    <Label layoutX="3.0" layoutY="19.0" text="(Save to refresh values!)">
+                                       <font>
+                                          <Font name="System Italic" size="9.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </Pane>
                            </children>

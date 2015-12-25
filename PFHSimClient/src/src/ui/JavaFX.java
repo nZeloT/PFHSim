@@ -11,9 +11,10 @@ import javafx.stage.Stage;
 import sim.Enterprise;
 import ui.hr.HRPane;
 
-public class JavaFX extends Application {
+public class JavaFX extends Application {  
 	
 	@Override
+	
 	public void start(Stage primaryStage) {
 //		URL location = getClass().getResource("/ui/fxml/ui_test.fxml");
 //		FXMLLoader fxmlLoader = new FXMLLoader(location);
@@ -22,7 +23,7 @@ public class JavaFX extends Application {
 //			SplitPane root = (SplitPane)FXMLLoader.load(getClass().getResource("/ui/fxml/Menu.fxml"));
 //			primaryStage.setScene(new Scene(root));
 //			primaryStage.setScene(new Scene(new HRPane(null)));
-//		} catch (IOException e) {
+//		} catch (IOException e) { 
 //			e.printStackTrace(); 
 //		}
 		try {

@@ -5,7 +5,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
@@ -16,15 +15,15 @@
             <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" spacing="5.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                  <TextField maxWidth="1.7976931348623157E308" prefWidth="250.0" promptText="Username" VBox.vgrow="ALWAYS" />
-                  <PasswordField maxWidth="1.7976931348623157E308" prefWidth="250.0" promptText="Passowrd" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="textUser" maxWidth="1.7976931348623157E308" prefWidth="250.0" promptText="Username" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="textIP" promptText="Server IP" />
                   <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" text="Sign In" VBox.vgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#joinServer" text="Join" VBox.vgrow="ALWAYS" />
                   <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>

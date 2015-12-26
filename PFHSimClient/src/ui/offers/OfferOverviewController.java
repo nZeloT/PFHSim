@@ -10,23 +10,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import sim.Enterprise;
-import sim.TestUtils;
 import sim.abstraction.Tupel;
 import sim.hr.EmployeeType;
-import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceType;
 import sim.production.PFHouseType;
-import sim.production.Wall;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
+import ui.abstraction.Container;
 
-public class OfferOverviewController {
+public class OfferOverviewController extends Container<VBox>{
 
 	private @FXML Label title;
 
@@ -85,9 +83,11 @@ public class OfferOverviewController {
 	private Offer selectedOffer = null;
 	private List<Offer> offers = null;
 
-	Enterprise e = TestUtils.initializeEnterprise();
+	private Enterprise e;
 
-	public OfferOverviewController() {
+	public OfferOverviewController(Enterprise e) {
+		this.e = e;
+		load("/ui/fxml/offers/OfferOverview.fxml");
 	}
 
 	public void initialize() {

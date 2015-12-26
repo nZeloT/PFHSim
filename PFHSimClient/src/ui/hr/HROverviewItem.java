@@ -1,10 +1,7 @@
 package ui.hr;
 
-import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,11 +9,10 @@ import javafx.scene.layout.HBox;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
+import ui.abstraction.Container;
 
-public class HROverviewItem {
+public class HROverviewItem extends Container<HBox>{
 	
-	private @FXML HBox hboxContainer;
-
 	private @FXML Label lblEmpType;
 	
 	private @FXML TextField textOnTraining;
@@ -30,18 +26,10 @@ public class HROverviewItem {
 	private HRPane pane;
 	
 	public HROverviewItem(HRPane pane, HR hr, EmployeeType t) {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ui/fxml/hr/HROverviewItem.fxml"));
-        fxmlLoader.setController(this);
-        
-        try{
         	this.hr = hr;
             this.type = t;
             this.pane = pane;
-            fxmlLoader.load();
-        }
-        catch (IOException e){
-            throw new RuntimeException(e);
-        }
+            load("/ui/fxml/hr/HROverviewItem.fxml");
 	}
 	
 	public void initialize(){
@@ -70,10 +58,6 @@ public class HROverviewItem {
 	private void onViewDetails(ActionEvent e){
 		System.out.println("Details");
 		pane.showDetails(type);
-	}
-	
-	HBox getContainer() {
-		return hboxContainer;
 	}
 	
 	void setType(EmployeeType type) {

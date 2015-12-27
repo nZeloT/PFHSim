@@ -10,6 +10,7 @@ public class HRPane extends StackPane {
 	private HRDetails details;	
 	
 	public HRPane(HR hr) {
+		System.out.println("Constructor HRPane");
 		overview = new HROverview(this, hr);
 		details = new HRDetails(this, hr);
 		

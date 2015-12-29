@@ -12,7 +12,8 @@
 	import sim.Enterprise;
 	import sim.procurement.ResourceMarket;
 	import sim.procurement.ResourceType;
-	import ui.hr.HRPane;
+import ui.sections.Procurement;
+import ui.sections.hr.HRPane;
 
 
 public class CarmensTestAppl extends Application {
@@ -44,7 +45,7 @@ public class CarmensTestAppl extends Application {
 				//primaryStage.setScene(new Scene(root));
 
 				Procurement proc = new Procurement(e);
-				VBox boxP = proc.getBox();
+				VBox boxP = proc.getContainer();
 				// VBox boxP = (VBox)
 				// FXMLLoader.load(getClass().getResource("/ui/fxml/Procurement.fxml"));
 

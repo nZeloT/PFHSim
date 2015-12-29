@@ -1,4 +1,4 @@
-package ui.offers;
+package ui.sections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +95,7 @@ public class OfferOverviewController extends Container<VBox>{
 
 	public OfferOverviewController(Enterprise e) {
 		this.ent = e;
-		load("/ui/fxml/offers/OfferOverview.fxml");
+		load("/ui/fxml/OfferOverview.fxml");
 	}
 
 	public void initialize() {

@@ -1,4 +1,4 @@
-package ui.hr;
+package ui.sections.hr;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

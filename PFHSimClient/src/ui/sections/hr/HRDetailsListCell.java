@@ -1,4 +1,4 @@
-package ui.hr;
+package ui.sections.hr;
 
 import javafx.scene.control.ListCell;
 import sim.hr.Employee;

@@ -13,13 +13,13 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import sim.Enterprise;
-import src.ui.Procurement;
-import src.ui.RnD;
-import src.ui.Warehouse;
 import ui.abstraction.Container;
 import ui.abstraction.ImageViewEx;
-import ui.hr.HRPane;
-import ui.offers.OfferOverviewController;
+import ui.sections.OfferOverviewController;
+import ui.sections.Procurement;
+import ui.sections.RnD;
+import ui.sections.Warehouse;
+import ui.sections.hr.HRPane;
 
 public class MainWindow extends Container<SplitPane>{
 	
@@ -55,12 +55,12 @@ public class MainWindow extends Container<SplitPane>{
 		ImageViewEx welcome = new ImageViewEx(stack);
 		welcome.setImage(new Image(getClass().getResourceAsStream("/ui/res/logopfh.JPG")));
 		
-		stack.getChildren().add(welcome); //TODO: make Welcome screen
-		stack.getChildren().add(new Procurement(ent).getBox()); //TODO make procurement extend Container
+		stack.getChildren().add(welcome);
+		stack.getChildren().add(new Procurement(ent).getContainer());
 		stack.getChildren().add(new Rectangle(150, 150)); //TODO: make production screen
 		stack.getChildren().add(new HRPane(ent.getHR()));
-		stack.getChildren().add(new Warehouse(ent).getBox()); //TODO make warehouse extend Container
-		stack.getChildren().add(new RnD(ent).getVBox()); //TODO make RnD extend Container
+		stack.getChildren().add(new Warehouse(ent).getContainer());
+		stack.getChildren().add(new RnD(ent).getContainer()); //TODO make RnD extend Container
 		stack.getChildren().add(new OfferOverviewController(ent).getContainer());
 		
 		for (Node n : stack.getChildren()) {

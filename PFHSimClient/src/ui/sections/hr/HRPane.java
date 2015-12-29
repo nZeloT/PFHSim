@@ -1,4 +1,4 @@
-package ui.hr;
+package ui.sections.hr;
 
 import javafx.scene.layout.StackPane;
 import sim.hr.EmployeeType;

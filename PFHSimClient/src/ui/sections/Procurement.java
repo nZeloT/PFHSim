@@ -1,11 +1,7 @@
-package src.ui;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+package ui.sections;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -17,8 +13,9 @@ import sim.EnterpriseException;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
+import ui.abstraction.Container;
 
-public class Procurement {
+public class Procurement extends Container<VBox>{
 
 	private @FXML Button btn_wood;
 	private @FXML Button btn_concrete;
@@ -67,16 +64,9 @@ public class Procurement {
 	private int int_amount_window;
 
 	public Procurement(Enterprise enterprise) {
-
-		FXMLLoader fxml = new FXMLLoader(getClass().getResource("/ui/fxml/Procurement.fxml"));
-		fxml.setController(this);
-		try {
-			this.ent = enterprise;
-			market = ent.getMarket();
-			fxml.load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.ent = enterprise;
+		market = ent.getMarket();
+		load("/ui/fxml/Procurement.fxml");
 	}
 
 	public void initialize() {
@@ -215,10 +205,6 @@ public class Procurement {
 		ent.buyResources(type, amount);
 
 		fullAmount.setText("" + (ent.getWarehouse().getStoredAmount(type)) + (amount));
-	}
-
-	public VBox getBox() {
-		return root;
 	}
 
 }

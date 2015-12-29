@@ -1,11 +1,9 @@
-package src.ui;
+package ui.sections;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -17,8 +15,9 @@ import sim.Enterprise;
 import sim.procurement.ResourceType;
 import sim.production.WallType;
 import sim.research.dev.ExtendWarehouse;
+import ui.abstraction.Container;
 
-public class Warehouse {
+public class Warehouse extends Container<VBox>{
 
 	// amount
 	private @FXML Label AM_panorama;
@@ -33,7 +32,7 @@ public class Warehouse {
 	private @FXML Label TS_massLig;
 	private @FXML Label TS_lightWeight;
 	private @FXML Label TS_lightPlus;
-  
+
 	// piece unit
 	private @FXML Label PU_panorama;
 	private @FXML Label PU_massPlus;
@@ -50,7 +49,6 @@ public class Warehouse {
 
 	private @FXML ProgressIndicator ProgressBar_extendWarehouse;
 	private @FXML Button btn_extendWarehouse;
-	private @FXML VBox root;
 
 	private Enterprise ent;
 
@@ -59,20 +57,12 @@ public class Warehouse {
 	private int TS_massLig_int;
 	private int TS_lightWeight_int;
 	private int TS_lightPlus_int;
-	
+
 	private int upgrade_duration = 2;
 
 	public Warehouse(Enterprise enterprise) {
-
-		FXMLLoader fxml = new FXMLLoader(getClass().getResource("/ui/fxml/Warehouse.fxml"));
-		fxml.setController(this);
-		try {
-			this.ent = enterprise;
-			fxml.load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		this.ent = enterprise;
+		load("/ui/fxml/Warehouse.fxml");
 	}
 
 	public void initialize() {
@@ -128,17 +118,17 @@ public class Warehouse {
 		TS_massLig.setText("" + TS_massLig_int);
 		TS_lightWeight.setText("" + TS_lightWeight_int);
 		TS_lightPlus.setText("" + TS_lightPlus_int);
-		
+
 		upgrade_duration--;
-		
+
 		if(upgrade_duration == 1){
 			ProgressBar_extendWarehouse.setProgress(0.5);
 		}
-		
+
 		if (upgrade_duration == 0) {
 			btn_extendWarehouse.setDisable(false);
 		}
-		
+
 	}
 
 	@FXML
@@ -176,8 +166,8 @@ public class Warehouse {
 
 	}
 
-	public VBox getBox() {
-		return root;
+	@Override
+	public VBox getContainer() {
+		return super.getContainer();
 	}
-
 }

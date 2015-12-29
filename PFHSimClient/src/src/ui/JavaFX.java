@@ -9,7 +9,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sim.Enterprise;
-import ui.hr.HRPane;
+import ui.sections.hr.HRPane;
 
 public class JavaFX extends Application {  
 	

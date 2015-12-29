@@ -9,16 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import sim.Enterprise;
 import ui.abstraction.Container;
-import ui.abstraction.ImageViewEx;
 import ui.sections.OfferOverviewController;
 import ui.sections.Procurement;
 import ui.sections.RnD;
 import ui.sections.Warehouse;
+import ui.sections.Welcome;
 import ui.sections.hr.HRPane;
 
 public class MainWindow extends Container<SplitPane>{
@@ -52,10 +51,7 @@ public class MainWindow extends Container<SplitPane>{
 	}
 	
 	public void initialize() {
-		ImageViewEx welcome = new ImageViewEx(stack);
-		welcome.setImage(new Image(getClass().getResourceAsStream("/ui/res/logopfh.JPG")));
-		
-		stack.getChildren().add(new Rectangle(50, 50));
+		stack.getChildren().add(new Welcome().getContainer());
 		stack.getChildren().add(new Procurement(ent).getContainer());
 		stack.getChildren().add(new Rectangle(150, 150)); //TODO: make production screen
 		stack.getChildren().add(new HRPane(ent.getHR()));

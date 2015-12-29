@@ -26,6 +26,11 @@ public class UIClient extends Application {
 		ResourceMarket market = new ResourceMarket(costs);
 		MainWindow w = new MainWindow(new Enterprise(market));
 		stg.setScene(new Scene(w.getContainer()));
+		stg.setTitle("PFHSim Client");
+		
+		stg.setMinHeight(650);
+		stg.setMinWidth(900);
+		
 		stg.show();
 	}
 

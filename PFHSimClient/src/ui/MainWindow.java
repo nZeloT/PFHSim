@@ -55,12 +55,12 @@ public class MainWindow extends Container<SplitPane>{
 		ImageViewEx welcome = new ImageViewEx(stack);
 		welcome.setImage(new Image(getClass().getResourceAsStream("/ui/res/logopfh.JPG")));
 		
-		stack.getChildren().add(welcome);
+		stack.getChildren().add(new Rectangle(50, 50));
 		stack.getChildren().add(new Procurement(ent).getContainer());
 		stack.getChildren().add(new Rectangle(150, 150)); //TODO: make production screen
 		stack.getChildren().add(new HRPane(ent.getHR()));
 		stack.getChildren().add(new Warehouse(ent).getContainer());
-		stack.getChildren().add(new RnD(ent).getContainer()); //TODO make RnD extend Container
+		stack.getChildren().add(new RnD(ent).getContainer());
 		stack.getChildren().add(new OfferOverviewController(ent).getContainer());
 		
 		for (Node n : stack.getChildren()) {

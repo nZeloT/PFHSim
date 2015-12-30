@@ -3,8 +3,9 @@ package ui.sections.hr;
 import javafx.scene.layout.StackPane;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
+import ui.abstraction.UISection;
 
-public class HRPane extends StackPane {
+public class HRPane extends StackPane implements UISection {
 	
 	private HROverview overview;
 	private HRDetails details;	
@@ -27,6 +28,13 @@ public class HRPane extends StackPane {
 		details.setType(t);
 		getChildren().get(0).setVisible(false);
 		getChildren().get(1).setVisible(true);
+	}
+	
+	@Override
+	public void update() {
+		overview.initialize();
+		details.initialize();
+		showOverview();
 	}
 	
 }

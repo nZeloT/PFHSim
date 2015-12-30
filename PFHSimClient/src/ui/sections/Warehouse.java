@@ -16,8 +16,9 @@ import sim.procurement.ResourceType;
 import sim.production.WallType;
 import sim.research.dev.ExtendWarehouse;
 import ui.abstraction.Container;
+import ui.abstraction.UISection;
 
-public class Warehouse extends Container<VBox>{
+public class Warehouse extends Container<VBox> implements UISection{
 
 	// amount
 	private @FXML Label AM_panorama;
@@ -165,9 +166,7 @@ public class Warehouse extends Container<VBox>{
 				* ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS);
 
 	}
+	
+	
 
-	@Override
-	public VBox getContainer() {
-		return super.getContainer();
-	}
 }

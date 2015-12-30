@@ -25,9 +25,10 @@ import sim.production.PFHouseType;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
 import ui.abstraction.Container;
+import ui.abstraction.UISection;
 
 	
-public class OfferOverviewController extends Container<VBox>{
+public class OfferOverviewController extends Container<VBox> implements UISection{
 	
 	private @FXML HBox offerdetails;
 
@@ -704,6 +705,11 @@ public class OfferOverviewController extends Container<VBox>{
 		} catch (NullPointerException e2) {
 			System.out.println("no offer selected.");
 		}
+	}
+	
+	@Override
+	public void update() {
+		// TODO implement
 	}
 
 }

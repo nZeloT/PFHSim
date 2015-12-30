@@ -1,7 +1,9 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -14,9 +16,9 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Callback;
 import sim.Enterprise;
 import ui.abstraction.Container;
+import ui.abstraction.UISection;
 import ui.sections.OfferOverviewController;
 import ui.sections.Procurement;
 import ui.sections.RnD;
@@ -51,6 +53,8 @@ public class MainWindow extends Container<SplitPane>{
 
 	private Enterprise ent;
 	private int currentPage;
+	
+	private List<UISection> sections;
 
 	private Runnable roundTripProcessor;
 
@@ -61,13 +65,26 @@ public class MainWindow extends Container<SplitPane>{
 	}
 
 	public void initialize() {
+		Procurement p = new Procurement(ent);
+		HRPane hrp = new HRPane(ent.getHR());
+		Warehouse w = new Warehouse(ent);
+		RnD r = new RnD(ent);
+		OfferOverviewController o = new OfferOverviewController(ent);
+		
+		sections = new ArrayList<>();
+		sections.add(p);
+		sections.add(hrp);
+		sections.add(w);
+		sections.add(r);
+		sections.add(o);
+		
 		stack.getChildren().add(new Welcome().getContainer());
-		stack.getChildren().add(new Procurement(ent).getContainer());
+		stack.getChildren().add(p.getContainer());
 		stack.getChildren().add(new Rectangle(150, 150)); //TODO: make production screen
-		stack.getChildren().add(new HRPane(ent.getHR()));
-		stack.getChildren().add(new Warehouse(ent).getContainer());
-		stack.getChildren().add(new RnD(ent).getContainer());
-		stack.getChildren().add(new OfferOverviewController(ent).getContainer());
+		stack.getChildren().add(hrp);
+		stack.getChildren().add(w.getContainer());
+		stack.getChildren().add(r.getContainer());
+		stack.getChildren().add(o.getContainer());
 
 		for (Node n : stack.getChildren()) {
 			n.setVisible(false);
@@ -130,8 +147,9 @@ public class MainWindow extends Container<SplitPane>{
 	}
 
 	private void prepareNextRound(){
-		root.getChildren().get(1).setVisible(false);
 		switchStackPage(STACK_WELCOME);
+		sections.forEach(s -> s.update());
+		root.getChildren().get(1).setVisible(false);
 	}
 
 }

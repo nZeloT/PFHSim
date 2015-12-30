@@ -14,8 +14,9 @@ import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import ui.abstraction.Container;
+import ui.abstraction.UISection;
 
-public class Procurement extends Container<VBox>{
+public class Procurement extends Container<VBox> implements UISection{
 
 	private @FXML Button btn_wood;
 	private @FXML Button btn_concrete;

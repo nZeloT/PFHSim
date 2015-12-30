@@ -13,8 +13,9 @@ import javafx.scene.layout.VBox;
 import sim.Enterprise;
 import sim.production.PFHouseType;
 import ui.abstraction.Container;
+import ui.abstraction.UISection;
 
-public class RnD extends Container<VBox>{
+public class RnD extends Container<VBox> implements UISection{
 	
 	private@FXML VBox root;
 	private@FXML ProgressBar barbung;
@@ -131,5 +132,10 @@ public class RnD extends Container<VBox>{
 		double adjust = 1.0 / type.getResearchDuration();
 		ProgressBar bar = map.get(type);
 		bar.setProgress(bar.getProgress() + adjust);
+	}
+	
+	@Override
+	public void update() {
+		// TODO implement
 	}
 }

@@ -214,6 +214,10 @@ public class HR extends Department {
 		return manageable;
 	}
 	
+	public int getRemainingHRCapacity(){
+		return getHRCapacity() - getOverallEmployeeCount();
+	}
+	
 	public int getAmount(EmployeeType type){
 	
 		ArrayList<Employee> list = employeeList.get(type);

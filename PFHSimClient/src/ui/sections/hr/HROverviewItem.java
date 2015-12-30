@@ -14,6 +14,7 @@ import ui.abstraction.Container;
 public class HROverviewItem extends Container<HBox>{
 	
 	private @FXML Label lblEmpType;
+	private @FXML Label lblCosts;
 	
 	private @FXML TextField textOnTraining;
 	private @FXML TextField textAtWorkplace;
@@ -52,6 +53,8 @@ public class HROverviewItem extends Container<HBox>{
 		textAtWorkplace.setText("" + working);
 		textOnTraining.setText("" + training);
 		textFree.setText("" + free);
+		
+		lblCosts.setText("" + hr.getOverallEmployeeCosts(type));
 	}
 	
 	@FXML

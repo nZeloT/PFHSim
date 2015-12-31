@@ -11,6 +11,8 @@ import sim.procurement.ResourceType;
 import sim.warehouse.Warehouse;
 
 public class Machine extends Department implements CostFactor {
+	
+	private static int count = 0;
 
 	/**
 	 * Costs for a machine per period.
@@ -41,6 +43,8 @@ public class Machine extends Department implements CostFactor {
 
 	private WallType productionType;
 	private int maxOutput;
+	
+	private int no;
 
 	/**
 	 * Warehouse: A machine needs to access the warehouse to extract and store
@@ -59,6 +63,8 @@ public class Machine extends Department implements CostFactor {
 
 		this.maxOutput = this.performance;
 		this.productionType = type.getWalltypesToHandle()[0];
+		
+		this.no = count ++;
 	}
 
 	public double getQuality() {
@@ -266,6 +272,10 @@ public class Machine extends Department implements CostFactor {
 
 	public WallType getProductionType() {
 		return productionType;
+	}
+	
+	public String getId(){
+		return type + " #" + no;
 	}
 
 }

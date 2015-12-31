@@ -9,8 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
+import sim.Enterprise;
+import sim.hr.Employee;
 import sim.hr.EmployeeType;
-import sim.hr.HR;
 import ui.abstraction.Container;
 
 public class HROverview extends Container<VBox>{
@@ -18,38 +19,33 @@ public class HROverview extends Container<VBox>{
 	private @FXML ListView<EmployeeType> listOverview;
 
 	private @FXML Button btnHire;
-
+	
 	private HRPane pane;
 
-	private HR hr;
+	private Enterprise ent;
 
-	public HROverview(HRPane pane, HR hr) {
-		System.out.println("Constructor HROverview");
+	public HROverview(HRPane pane, Enterprise ent) {
 		this.pane = pane;
-		this.hr = hr;
+		this.ent = ent;
 		load("/ui/fxml/hr/HROverview.fxml");
 	}
 
 	public void initialize(){
-		System.out.println("Initialize HROverview");
-
 		listOverview.setItems(FXCollections.observableArrayList(EmployeeType.values()));
 		listOverview.setCellFactory((lv)->{
-			return new HROverviewListCell(pane, hr);
+			return new HROverviewListCell(pane, ent.getHR());
 		});
 	}
-
+	
 	@FXML
 	private void onHireNewEmployees(ActionEvent e){
-		System.out.println("Hire");
-
-		HRHireDialog diag = new HRHireDialog(hr.getRemainingHRCapacity());
+		HRHireDialog diag = new HRHireDialog(ent.getHR().getRemainingHRCapacity());
 		Optional<Pair<EmployeeType, Integer>> res = diag.showAndWait();
 
 		if(res.isPresent()){
 			Pair<EmployeeType, Integer> p = res.get();
-			//TODO: add auto assignment
-			hr.hire(p.getKey(), p.getValue());
+			Employee[] emps = ent.getHR().hire(p.getKey(), p.getValue());
+			ent.autoAssignEmployees(emps); //try to auto assign them
 			initialize();
 		}
 	}

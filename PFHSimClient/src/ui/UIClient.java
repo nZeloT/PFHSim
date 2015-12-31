@@ -18,6 +18,7 @@ import net.shared.ServerMessage;
 import sim.Enterprise;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceType;
+import sim.production.MachineType;
 import ui.abstraction.ProgressDialog;
 
 public class UIClient extends Application {
@@ -40,7 +41,7 @@ public class UIClient extends Application {
 	public void start(Stage stg) throws Exception {
 //		if(initialise()){
 
-			//TODO fix
+			//TODO this is only for testing without server stuff :D
 			ResourceType[] resources = ResourceType.values();
 			HashMap<ResourceType, Integer> costs = new HashMap<>();
 			for (int i = 0; i < resources.length; i++) {
@@ -48,6 +49,10 @@ public class UIClient extends Application {
 			}
 			ResourceMarket market = new ResourceMarket(costs);
 			ent = new Enterprise(market);
+			ent.buyMachine(MachineType.WOODWALL_MACHINE);
+			ent.buyMachine(MachineType.BRICKWALL_MACHINE);
+			ent.buyMachine(MachineType.BRICKWALL_MACHINE);
+			ent.buyMachine(MachineType.WOODWALL_MACHINE);
 			
 			MainWindow w = new MainWindow(ent, this::doRoundTrip);
 			stg.setScene(new Scene(w.getContainer()));
@@ -114,7 +119,7 @@ public class UIClient extends Application {
 	@Override
 	public void stop() throws Exception {
 		super.stop();
-		server.close();
+//		server.close();
 	}
 	
 	public void doRoundTrip(){

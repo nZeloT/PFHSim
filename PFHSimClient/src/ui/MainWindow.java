@@ -66,13 +66,14 @@ public class MainWindow extends Container<SplitPane>{
 
 	public void initialize() {
 		Procurement p = new Procurement(ent);
-		HRPane hrp = new HRPane(ent.getHR());
+		HRPane hrp = new HRPane(ent);
 		Warehouse w = new Warehouse(ent);
 		RnD r = new RnD(ent);
 		OfferOverviewController o = new OfferOverviewController(ent);
 		
 		sections = new ArrayList<>();
 		sections.add(p);
+//		sections.add(pro); TODO: add the production screen
 		sections.add(hrp);
 		sections.add(w);
 		sections.add(r);
@@ -125,7 +126,7 @@ public class MainWindow extends Container<SplitPane>{
 			switchStackPage(STACK_HOUSECATALOG);
 			break;
 		default:
-			System.out.println("Error - did not recognize Stack Page");
+			System.err.println("Error - did not recognize Stack Page");
 			break;
 		}
 	}

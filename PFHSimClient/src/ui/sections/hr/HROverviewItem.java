@@ -59,7 +59,6 @@ public class HROverviewItem extends Container<HBox>{
 	
 	@FXML
 	private void onViewDetails(ActionEvent e){
-		System.out.println("Details");
 		pane.showDetails(type);
 	}
 	

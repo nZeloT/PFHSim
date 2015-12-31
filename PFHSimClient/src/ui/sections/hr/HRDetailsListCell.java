@@ -1,30 +1,28 @@
 package ui.sections.hr;
 
 import javafx.scene.control.ListCell;
+import sim.Enterprise;
 import sim.hr.Employee;
-import sim.hr.HR;
 
 public class HRDetailsListCell extends ListCell<Employee> {
 
-	private HR hr;
-	private HRDetailsViewItem data;
-	
-	public HRDetailsListCell(HR hr) {
-		this.hr = hr;
+	private Enterprise ent;
+	private HRDetails parent;
+
+	public HRDetailsListCell(Enterprise ent, HRDetails pa) {
+		this.ent = ent;
+		this.parent = pa;
 	}
-	
+
 	@Override
 	protected void updateItem(Employee item, boolean empty) {
 		super.updateItem(item, empty);
-		
+
 		if(item != null){
-			if(data == null){
-				data = new HRDetailsViewItem(hr);
-				data.setEmployee(item);
-			}else
-				data.setEmployee(item);
+			HRDetailsViewItem data = new HRDetailsViewItem(ent, parent);
+			data.setEmployee(item);
 			setGraphic(data.getContainer());
 		}
 	}
-	
+
 }

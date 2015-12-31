@@ -34,7 +34,7 @@ public class Enterprise {
 	private int cash;
 	private int saldo;
 
-	ResourceMarket market;
+	private ResourceMarket market;
 	private Warehouse warehouse;
 	private ProductionHouse production;
 
@@ -53,7 +53,6 @@ public class Enterprise {
 	private Department sales;
 	private Department procurement;
 	private Department marketResearch;
-	// private ResearchProject designthinking; //architect
 
 	public Enterprise(ResourceMarket market) {
 		cash = START_CASH;
@@ -103,8 +102,8 @@ public class Enterprise {
 		//Set the new wall and offer qualities based on the average machine quality and walltype-qualities
 		this.setWallQuality();
 		this.setOfferQuality();
-		
-		
+
+
 		// process results from buyer's market-simulation.
 		if (soldOffer.size() != offers.size())
 			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
@@ -118,6 +117,7 @@ public class Enterprise {
 								offer.getHousetype().getEmployeeCount()));
 					} catch (EnterpriseException e) {
 						e.printStackTrace();
+						errorStore.add(e);
 					}
 				}
 			}
@@ -132,7 +132,7 @@ public class Enterprise {
 				housesInConstruction.remove(i--);
 
 				cash += h.getPrice(); // employee costs are handled through hr;
-										// resources and walls did already cost
+				// resources and walls did already cost
 			}
 		}
 
@@ -143,15 +143,15 @@ public class Enterprise {
 		for (MachineException me : productionErrors) {
 			System.out.println("DOSIM -- wall production errors: " + me.getMessage());
 		}
-		
-		
+
+
 		// Handle the upgrade progress
 		upgrades.processUpgrades(this); // upgrades cost only once at the
-										// beginning
+		// beginning
 
 		// handle more cash flow things
 		cash -= hr.getOverallEmployeeCosts(); // this makes sure we also pay for
-												// unassigned employees ;)
+		// unassigned employees ;)
 		cash -= production.getCosts();
 		cash -= production.getMachineCosts();
 		cash -= warehouse.getCosts();
@@ -354,6 +354,7 @@ public class Enterprise {
 	 * @returns the actual FixedCosts
 	 * 
 	 */
+	//TODO: this is only used in one test case? can be removed?
 	public int calculateFixedCosts() {
 		int sum = 0;
 		sum += warehouse.getOverallCosts();
@@ -365,8 +366,8 @@ public class Enterprise {
 		return sum;
 	}
 
-	public void checkRequirementsforOffer(PFHouseType housetype, int amount, Tupel<WallType>... selectedWalltype)
-			throws EnterpriseException {
+	public void checkRequirementsforOffer(PFHouseType housetype, int amount, 
+			@SuppressWarnings("unchecked") Tupel<WallType>... selectedWalltype)	throws EnterpriseException {
 
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
@@ -424,7 +425,7 @@ public class Enterprise {
 		maximum = Math.min(max, maximum);
 		return maximum;
 	}
-	
+
 	public int getMaxProducibleHouses(PFHouseType pfhouse) {
 		int maximum = 0;
 
@@ -530,9 +531,9 @@ public class Enterprise {
 	}
 
 	public void setWallQuality() {
-		
+
 		List<Tupel<MachineType>> avg = this.production.getAllAvgMachineQualities();
-		
+
 		WallType[] t = WallType.values();
 		for (WallType wallType : t) {
 			Tupel<MachineType> cAvg = null;
@@ -549,7 +550,7 @@ public class Enterprise {
 				}
 			}
 		}
-		
+
 	}
 
 	public void setOfferQuality() {
@@ -561,6 +562,48 @@ public class Enterprise {
 			}
 			offer.setQuality(quality);
 		}
+	}
+	
+	
+	public List<Employee> autoAssignEmployees(Employee... emps){
+		for (Employee e : emps) {
+			switch (e.getType()) {
+			case ARCHITECT:
+				//no auto assign possible; needs to be assigned to a research project
+				break;
+			case ASSEMBLER:
+				//no auto assign possible; auto assigned during production as required
+				break;
+			case HR:
+				hr.assignEmployee(e);
+				break;
+			case MARKET_RESEARCH:
+				marketResearch.assignEmployee(e);
+				break;
+			case PROCUREMENT:
+				procurement.assignEmployee(e);
+				break;
+			case PRODUCTION:
+				//no auto assign possible; user needs to decide which machine to assign them to
+				break;
+			case SALES:
+				sales.assignEmployee(e);
+				break;
+			case STORE_KEEPER:
+				warehouse.assignEmployee(e);
+				break;
+
+			default:
+				break;
+			}
+		}
+		
+		List<Employee> unassigned = new ArrayList<>();
+		for (Employee e : emps) {
+			if(!e.isAssigned())
+				unassigned.add(e);
+		}
+		return unassigned;
 	}
 
 	public Warehouse getWarehouse() {

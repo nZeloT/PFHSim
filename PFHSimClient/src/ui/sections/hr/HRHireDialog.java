@@ -18,8 +18,12 @@ public class HRHireDialog extends Dialog<Pair<EmployeeType, Integer>> {
 	private ComboBox<EmployeeType> cbbTypes;
 	private Spinner<Integer> spinAmount;
 	private Label lblCosts;
+	
+	public HRHireDialog(int maxTohire){
+		this(maxTohire, EmployeeType.ARCHITECT);
+	}
 
-	public HRHireDialog(int maxToHire) {
+	public HRHireDialog(int maxToHire, EmployeeType type) {
 
 		setTitle("Hire new Employees");
 		setHeaderText("Hire some new and happy worker :)");
@@ -34,7 +38,7 @@ public class HRHireDialog extends Dialog<Pair<EmployeeType, Integer>> {
 
 		cbbTypes = new ComboBox<>();
 		cbbTypes.setItems(FXCollections.observableArrayList(EmployeeType.values()));
-		cbbTypes.getSelectionModel().select(EmployeeType.ARCHITECT);
+		cbbTypes.getSelectionModel().select(type);
 
 		spinAmount = new Spinner<>(1, maxToHire, 1);
 
@@ -78,6 +82,10 @@ public class HRHireDialog extends Dialog<Pair<EmployeeType, Integer>> {
 			int costs = cbbTypes.getValue().getBaseCost() * i;
 			lblCosts.setText("" + costs);
 		}
+	}
+	
+	public void disableTypeChooser(boolean disable){
+		cbbTypes.setDisable(disable);
 	}
 
 }

@@ -1,8 +1,8 @@
 package ui.sections.hr;
 
 import javafx.scene.layout.StackPane;
+import sim.Enterprise;
 import sim.hr.EmployeeType;
-import sim.hr.HR;
 import ui.abstraction.UISection;
 
 public class HRPane extends StackPane implements UISection {
@@ -10,16 +10,16 @@ public class HRPane extends StackPane implements UISection {
 	private HROverview overview;
 	private HRDetails details;	
 	
-	public HRPane(HR hr) {
-		System.out.println("Constructor HRPane");
-		overview = new HROverview(this, hr);
-		details = new HRDetails(this, hr);
+	public HRPane(Enterprise ent) {
+		overview = new HROverview(this, ent);
+		details = new HRDetails(this, ent);
 		
 		getChildren().addAll(overview.getContainer(), details.getContainer());
 		showOverview();
 	}
 	
 	void showOverview(){
+		overview.initialize(); //because we can hire from detils pane and need to update the overview when going back
 		getChildren().get(1).setVisible(false);
 		getChildren().get(0).setVisible(true);
 	}

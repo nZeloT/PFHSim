@@ -10,6 +10,7 @@ import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
 import sim.hr.WrongEmployeeTypeException;
+import sim.procurement.Procurement;
 import sim.procurement.Resource;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
@@ -23,6 +24,7 @@ import sim.production.ProductionHouse;
 import sim.production.Wall;
 import sim.production.WallType;
 import sim.research.dev.UpgradeProcessor;
+import sim.sales.Sales;
 import sim.simulation.sales.Offer;
 import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
@@ -43,15 +45,15 @@ public class Enterprise {
 
 	// This list represents a catalogue of pfhouse-offers, which
 	// specify the walls for a house-type as well as the price.
-	private List<Offer> offers;
+//	private List<Offer> offers;
 
 	private UpgradeProcessor upgrades;
 
 	// Employee management for warehouse and production goes in the distinct
 	// classes
 	private HR hr;
-	private Department sales;
-	private Department procurement;
+	private Sales sales;
+	private Procurement procurement;
 	private Department marketResearch;
 
 	public Enterprise(ResourceMarket market) {
@@ -64,11 +66,11 @@ public class Enterprise {
 
 		upgrades = new UpgradeProcessor();
 
-		offers = new ArrayList<>();
+//		offers = new ArrayList<>();
 
 		production = new ProductionHouse();
-		sales = new Department(EmployeeType.SALES);
-		procurement = new Department(EmployeeType.PROCUREMENT);
+		sales = new Sales();
+		procurement = new Procurement();
 		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
 		hr = new HR();
 
@@ -101,11 +103,11 @@ public class Enterprise {
 
 		//Set the new wall and offer qualities based on the average machine quality and walltype-qualities
 		this.setWallQuality();
-		this.setOfferQuality();
+		sales.setOfferQuality();
 
 
 		// process results from buyer's market-simulation.
-		if (soldOffer.size() != offers.size())
+		if (soldOffer.size() != sales.getOfferCount())
 			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
 		else {
 			for (Offer offer : soldOffer) {
@@ -162,9 +164,7 @@ public class Enterprise {
 		System.out.println("DOSIM -- " + cash + " -- " + saldo);
 
 		// Reset number of purchases for the next simulation step.
-		for (int k = 0; k < offers.size(); k++) {
-			offers.get(k).setNumberOfPurchases(0);
-		}
+		sales.resetOffers();
 
 		return errorStore;
 	}
@@ -184,6 +184,9 @@ public class Enterprise {
 	 *             Not enough space in the warehouse or not enough Money
 	 */
 	public void buyResources(ResourceType type, int amount) throws EnterpriseException, ResourceMarketException {
+		if(procurement.getEmployeeCount() == 0) // this should never happen; just for safety
+			return;
+		
 		int price = amount * market.getPrice(type);
 		if (price > cash) {
 			throw new EnterpriseException("Not enough Money to buy " + amount + " Resources!");
@@ -553,18 +556,6 @@ public class Enterprise {
 
 	}
 
-	public void setOfferQuality() {
-		for (Offer offer : offers) {
-			Tupel<WallType>[] tmp = offer.getWalltype();
-			int quality = 0;
-			for (Tupel<WallType> tupel : tmp) {
-				quality += tupel.count * tupel.type.getQualityFactor();
-			}
-			offer.setQuality(quality);
-		}
-	}
-	
-	
 	public List<Employee> autoAssignEmployees(Employee... emps){
 		for (Employee e : emps) {
 			switch (e.getType()) {
@@ -634,18 +625,22 @@ public class Enterprise {
 		return saldo;
 	}
 
-	public List<Offer> getOffers() {
-		return offers;
-	}
-
-	public void addOffer(Offer offer) {
-		this.offers.add(offer);
-	}
-	public void removeOffer(int i) {
-		this.offers.remove(i);
-	}
+//	public List<Offer> getOffers() {
+//		return offers;
+//	}
+//
+//	public void addOffer(Offer offer) {
+//		this.offers.add(offer);
+//	}
+//	public void removeOffer(int i) {
+//		this.offers.remove(i);
+//	}
 
 	public ResourceMarket getMarket() {
 		return market;
+	}
+	
+	public Sales getSales() {
+		return sales;
 	}
 }

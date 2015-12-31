@@ -102,10 +102,10 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	public void initialize() {
 
 		// General initialization for test purposes
-		ent.addOffer(new Offer(5000, 2, PFHouseType.COMFORT_HOUSE, 5,
+		ent.getSales().addOffer(new Offer(5000, 2, PFHouseType.COMFORT_HOUSE, 5,
 				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 6),
 				new Tupel<WallType>(WallType.PANORAMA_WALL, 1)));
-		ent.addOffer(new Offer(5000, 2, PFHouseType.BUNGALOW, 5,
+		ent.getSales().addOffer(new Offer(5000, 2, PFHouseType.BUNGALOW, 5,
 				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
 
 		// Initialize the offer-viewlist.
@@ -482,7 +482,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	}
 
 	private void refreshOfferList() {
-		offers = ent.getOffers();
+		offers = ent.getSales().getOffers();
 
 		ObservableList<String> offerstrings = FXCollections.observableArrayList();
 		for (Offer offer : offers) {
@@ -648,7 +648,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				if (noOfSpecifiedWalls >= selectedType.getNoOfWalls(WallType.GENERAL)) {
 					Offer o = new Offer(Integer.parseInt(sum.getText()), 1, selectedType,
 							Integer.parseInt(productionlimit.getText()), tupelarray);
-					ent.addOffer(o);
+					ent.getSales().addOffer(o);
 					refreshOfferList();
 					load();
 					System.out.println("great, offer saved.");
@@ -698,7 +698,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	@FXML
 	private void deleteoffer(ActionEvent e) {
 		try {
-			ent.removeOffer(offerlist.getSelectionModel().getSelectedIndex());
+			ent.getSales().removeOffer(offerlist.getSelectionModel().getSelectedIndex());
 			refreshOfferList();
 			load();
 			System.out.println("Great, offer deleted.");

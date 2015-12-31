@@ -128,7 +128,7 @@ public class UIClient extends Application {
 		//1. user input is finished; prepare the message
 		ClientMessage clnt = new ClientMessage(
 				new HashMap<>(market.getSoldResources()),
-				new ArrayList<>(ent.getOffers())
+				new ArrayList<>(ent.getSales().getOffers())
 		);
 		server.placeMessasge(clnt);
 		

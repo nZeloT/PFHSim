@@ -226,7 +226,7 @@ public class Warehouse extends Department implements CostFactor{
 	}
 
 	public int getRequiredEmployees() {
-		return (int) (BASE_REQ_EMP * Math.pow(UpgradeFactors.WAREHOUSE_EMP_INC, lvl));
+		return BASE_REQ_EMP +  UpgradeFactors.WAREHOUSE_EMP_INC * lvl;
 	}
 	
 	public void upgrade(){

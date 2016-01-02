@@ -1,5 +1,6 @@
 package sim.production;
 
+import sim.ExceptionCategorie;
 import sim.abstraction.CostFactor;
 import sim.warehouse.StorageObject;
 
@@ -14,7 +15,7 @@ public class Wall implements CostFactor, StorageObject<WallType> {
 	
 	protected Wall(WallType type, int costs) throws MachineException {
 		if (type == WallType.GENERAL)
-			throw new MachineException(null, "Cannot instantiate a wall of type 'GENERAL'!");
+			throw new MachineException(null, "Cannot instantiate a wall of type 'GENERAL'!", ExceptionCategorie.PROGRAMMING_ERROR);
 			
 		this.type = type;
 		volume = type.getVolume();

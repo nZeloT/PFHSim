@@ -4,22 +4,22 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import net.ServerConnection;
 import net.shared.ClientMessage;
 import net.shared.ServerMessage;
 import sim.Enterprise;
+import sim.EnterpriseException;
 import sim.procurement.ResourceMarket;
-import sim.procurement.ResourceType;
 import sim.production.MachineType;
 import ui.abstraction.ProgressDialog;
+import ui.abstraction.Utils;
 
 public class UIClient extends Application {
 
@@ -39,16 +39,16 @@ public class UIClient extends Application {
 
 	@Override
 	public void start(Stage stg) throws Exception {
-//		if(initialise()){
+		if(initialise()){
 
 			//TODO this is only for testing without server stuff :D
-			ResourceType[] resources = ResourceType.values();
-			HashMap<ResourceType, Integer> costs = new HashMap<>();
-			for (int i = 0; i < resources.length; i++) {
-				costs.put(resources[i], resources[i].getBasePrice());
-			}
-			ResourceMarket market = new ResourceMarket(costs);
-			ent = new Enterprise(market);
+//			ResourceType[] resources = ResourceType.values();
+//			HashMap<ResourceType, Integer> costs = new HashMap<>();
+//			for (int i = 0; i < resources.length; i++) {
+//				costs.put(resources[i], resources[i].getBasePrice());
+//			}
+//			ResourceMarket market = new ResourceMarket(costs);
+//			ent = new Enterprise(market);
 			ent.buyMachine(MachineType.WOODWALL_MACHINE);
 			ent.buyMachine(MachineType.BRICKWALL_MACHINE);
 			ent.buyMachine(MachineType.BRICKWALL_MACHINE);
@@ -63,7 +63,7 @@ public class UIClient extends Application {
 
 			stg.show();
 			
-//		}
+		}
 
 	}
 
@@ -83,7 +83,7 @@ public class UIClient extends Application {
 				server.start();
 			}catch(IOException io){
 				prog.hide();
-				showError("Couldn't connect to server.");
+				Utils.showError("Couldn't connect to server.");
 				io.printStackTrace();
 				return false;
 			}
@@ -109,7 +109,7 @@ public class UIClient extends Application {
 			prog.hide();
 
 		}else{
-			showError("No data provided to join a server. See you later.");
+			Utils.showError("No data provided to join a server. See you later.");
 			return false;
 		}
 
@@ -119,10 +119,10 @@ public class UIClient extends Application {
 	@Override
 	public void stop() throws Exception {
 		super.stop();
-//		server.close();
+		server.close();
 	}
 	
-	public void doRoundTrip(){
+	public List<EnterpriseException> doRoundTrip(){
 		//TODO: what to do when game ends
 		
 		//1. user input is finished; prepare the message
@@ -144,16 +144,7 @@ public class UIClient extends Application {
 		
 		//3. process the answer and do a simulation step on the enterprise
 		market.setNewResourcePrices(msg.getNewResourcePrices());
-		ent.doSimulationStep(msg.getSoldOfferAmounts());
-		
-	}
-
-	private void showError(String text){
-		Alert a = new Alert(AlertType.ERROR);
-		a.setContentText(text);
-		a.setHeaderText("Ouch :(");
-		a.setTitle("Something went wrong ...");
-		a.showAndWait();
+		return ent.doSimulationStep(msg.getSoldOfferAmounts());
 	}
 
 }

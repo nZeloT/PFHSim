@@ -126,7 +126,7 @@
                               </LineChart>
                               <HBox>
                                  <children>
-                                    <Label fx:id="lblMoney1" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="235.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="41.0" prefWidth="181.0" text="0" textAlignment="RIGHT" HBox.hgrow="ALWAYS">
+                                    <Label fx:id="lblCosts" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="235.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="41.0" prefWidth="181.0" text="0" textAlignment="RIGHT" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font size="24.0" />
                                        </font>

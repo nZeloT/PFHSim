@@ -24,7 +24,7 @@ public abstract class Upgrade<T> implements CostFactor{
 	
 	protected abstract void setup();
 	
-	public void simRound(){
+	void simRound(){
 		if(finished)
 			return;
 		

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sim.Enterprise;
+import sim.ExceptionCategorie;
 import sim.hr.Employee;
 import sim.hr.HR;
 import sim.production.Machine;
@@ -28,8 +29,6 @@ public class UpgradeProcessor {
 			else{
 				upgradesInProg.remove(i--); //do not forget to reduce the index when removing an item ;)
 				
-				
-
 				if(u instanceof ResearchProject){
 					//not nice but easy
 					e.getResearchedHouseTypes().add( ((ResearchProject)u).getReasearchType() );
@@ -38,49 +37,59 @@ public class UpgradeProcessor {
 		}
 	}
 
-	public int startEmployeeTraining(Employee e){
-		if(!check(e))
-			return -1;
+	public EmployeeTraining startEmployeeTraining(Employee e) throws UpgradeException{
+		if(e.isOnTraining() || !check(e))
+			throw new UpgradeException(this, "Employee already on Training!", ExceptionCategorie.PROGRAMMING_ERROR);
+		
+		if(!e.canDoTraining())
+			throw new UpgradeException(this, "Employee can not do Training!", ExceptionCategorie.PROGRAMMING_ERROR);
 		
 		EmployeeTraining t = new EmployeeTraining(e);
 		t.setup();
 		upgradesInProg.add(t);
-		return t.getCosts();
+		
+		return t;
 	}
-
-	public int startMachineUpgrade(Machine m, HR hr){
-		if(!check(m))
-			return -1;
+	
+	public MachineUpgrade startMachineUpgrade(Machine m, HR hr) throws UpgradeException{
+		if(m.isInUpgrade() || !check(m))
+			throw new UpgradeException(this, "Machine already in Upgrade!", ExceptionCategorie.PROGRAMMING_ERROR);
+		
+		if(!m.canDoUpgrade())
+			throw new UpgradeException(this, "Machine can not do Upgrade!", ExceptionCategorie.PROGRAMMING_ERROR);
 		
 		MachineUpgrade up = new MachineUpgrade(m, hr);
 		up.setup();
 		upgradesInProg.add(up);
-		return up.getCosts();
+		
+		return up;
 	}
 
-	public int startWarehouseExtension(Warehouse w){
+	public ExtendWarehouse startWarehouseExtension(Warehouse w) throws UpgradeException{
 		if(!check(w))
-			return -1;
+			throw new UpgradeException(this, "Warehouse is already in Extension!", ExceptionCategorie.PROGRAMMING_ERROR);
 		
 		ExtendWarehouse ex = new ExtendWarehouse(w);
 		ex.setup();
 		upgradesInProg.add(ex);
-		return ex.getCosts();
+		
+		return ex;
 	}
 
 	@SuppressWarnings("rawtypes")
-	public int startResearchProject(PFHouseType type, Employee arch){
+	public ResearchProject startResearchProject(PFHouseType type, Employee arch) throws UpgradeException{
 		
 		for (Upgrade u : upgradesInProg) {
 			if(u instanceof ResearchProject)
 				if(arch.equals(u.getUpgradeObject()) || type == ((ResearchProject)u).getReasearchType())
-					return -1;
+					throw new UpgradeException(this, "House Type already in Research!", ExceptionCategorie.PROGRAMMING_ERROR);
 		}
 		
 		ResearchProject res = new ResearchProject(type, arch);
 		res.setup();
 		upgradesInProg.add(res);
-		return res.getCosts();
+		
+		return res;
 	}
 	
 	@SuppressWarnings("rawtypes")

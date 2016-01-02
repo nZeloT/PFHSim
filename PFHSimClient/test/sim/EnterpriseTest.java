@@ -1,11 +1,9 @@
 package sim;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -65,7 +63,7 @@ public class EnterpriseTest {
 			m.produceWall(e.getWarehouse());
 			m.produceWall(e.getWarehouse());
 			m.produceWall(e.getWarehouse());
-		} catch (MachineException e2) {
+		} catch (EnterpriseException e2) {
 			e2.printStackTrace();
 			fail();
 		}

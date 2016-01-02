@@ -11,10 +11,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import sim.Enterprise;
+import sim.EnterpriseException;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.production.Machine;
 import ui.abstraction.Container;
+import ui.abstraction.Utils;
 
 public class HRDetailsViewItem extends Container<HBox> {
 
@@ -55,7 +57,7 @@ public class HRDetailsViewItem extends Container<HBox> {
 				status = "Free";
 			lblEmpStatus.setText(status);
 
-			btnUpgrade.setDisable(!emp.canDoTraining());
+			btnUpgrade.setDisable(!emp.canDoTraining() || !ent.getBankAccount().canBeCharged(emp.getType().getUpgradeCosts()));
 			btnFire.setDisable(!emp.canBeUnassigned());
 			
 			if(emp.getType() == EmployeeType.PRODUCTION){
@@ -89,8 +91,16 @@ public class HRDetailsViewItem extends Container<HBox> {
 
 	@FXML
 	private void onUpgrade(ActionEvent e){
-		ent.startEmployeeTraining(emp);
-		initialize();
+		
+		try {
+			ent.startEmployeeTraining(emp);
+		} catch (EnterpriseException e1) {
+			//this should not happen
+			e1.printStackTrace();
+			Utils.showError(e1.getMessage());
+		}
+		
+		parent.initialize(); //eventually fire buttons of other employees need to be disabled
 	}
 
 	@FXML

@@ -1,9 +1,13 @@
 package sim.procurement;
 
-public class ResourceMarketException extends Exception {
+import sim.EnterpriseException;
+import sim.ExceptionCategorie;
 
-	public ResourceMarketException(String string) {
-		super(string);
+public class ResourceMarketException extends EnterpriseException {
+	private static final long serialVersionUID = -3095493539602165712L;
+
+	public ResourceMarketException(Object src, String string, ExceptionCategorie cat) {
+		super(src, string, cat);
 	}
 
 }

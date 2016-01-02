@@ -1,8 +1,6 @@
 package sim.simulation.sales;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import sim.abstraction.Tupel;
 import sim.production.PFHouseType;

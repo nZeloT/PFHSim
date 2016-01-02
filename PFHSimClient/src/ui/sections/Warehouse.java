@@ -12,11 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
 import sim.Enterprise;
+import sim.EnterpriseException;
 import sim.procurement.ResourceType;
 import sim.production.WallType;
 import sim.research.dev.ExtendWarehouse;
 import ui.abstraction.Container;
 import ui.abstraction.UISection;
+import ui.abstraction.Utils;
 
 public class Warehouse extends Container<VBox> implements UISection{
 
@@ -144,10 +146,16 @@ public class Warehouse extends Container<VBox> implements UISection{
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
-			ent.startWarehouseExtension(ent.getWarehouse());
-			btn_extendWarehouse.setDisable(true);
-			upgrade_duration = ExtendWarehouse.UPGRADE_DURATION;
-			ProgressBar_extendWarehouse.setProgress(0.0);
+			try{
+				ent.startWarehouseExtension();
+				
+				btn_extendWarehouse.setDisable(true);
+				upgrade_duration = ExtendWarehouse.UPGRADE_DURATION;
+				ProgressBar_extendWarehouse.setProgress(0.0);
+			}catch(EnterpriseException e){
+				e.printStackTrace();
+				Utils.showError(e.getMessage());
+			}
 		}     
 
 	}

@@ -93,7 +93,7 @@ public class CLIClient {
 
 				//4. collect info to send to server
 				System.out.println("Sending Client Info ...");
-				ClientMessage clnt = new ClientMessage(new HashMap<>(market.getSoldResources()), new ArrayList<>(e.getOffers()));
+				ClientMessage clnt = new ClientMessage(new HashMap<>(market.getSoldResources()), new ArrayList<>(e.getSales().getOffers()));
 				server.placeMessasge(clnt);
 			}
 		}while(!finish);

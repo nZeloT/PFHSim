@@ -3,46 +3,32 @@ package sim.production;
 import java.util.ArrayList;
 import java.util.List;
 
+import sim.ExceptionCategorie;
 import sim.abstraction.CostFactor;
 import sim.hr.Department;
 import sim.hr.EmployeeType;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
 import sim.warehouse.Warehouse;
+import sim.warehouse.WarehouseException;
 
 public class Machine extends Department implements CostFactor {
 	
 	private static int count = 0;
 
 	/**
-	 * Costs for a machine per period.
-	 */
-	private int costs;
-
-	/**
-	 * Maximum performance points of this machine per period. Performance -
-	 * Utilization = Available performance points
-	 */
-	private int performance;
-
-	/**
 	 * Performance - Utilization = Available performance points
 	 */
 	private int utilization;
 
-	/**
-	 * This machine's production quality.
-	 */
-	private double quality;
-
 	private boolean inUpgrade;
-
-	private int requiredEmps;
+	private int upgradeCount;
 
 	private MachineType type;
 
 	private WallType productionType;
-	private int maxOutput;
+	
+	private int maxPerformanceOutput;
 	
 	private int no;
 
@@ -53,31 +39,26 @@ public class Machine extends Department implements CostFactor {
 	 */
 	public Machine(MachineType type){
 		super(EmployeeType.PRODUCTION);
-		this.requiredEmps = type.getRequiredEmps();
 
-		this.costs = type.getCosts();
-		this.performance = type.getOutput();
 		this.utilization = 0;
 		this.type = type;
-		this.quality = type.getInitialQualityFactor();
 
-		this.maxOutput = this.performance;
+		this.maxPerformanceOutput = getPerformance();
 		this.productionType = type.getWalltypesToHandle()[0];
 		
 		this.no = count ++;
 	}
 
-	public double getQuality() {
-		return quality;
+	public int getQuality() {
+		return type.getBaseQualityFactor() + upgradeCount * type.getUpgradeQualInc();
 	}
 
+	/**
+	 * Costs for a machine per period.
+	 */
 	@Override
 	public int getCosts() {
-		return costs;
-	}
-
-	public void setCosts(int costs) {
-		this.costs = costs;
+		return type.getBaseCosts() + upgradeCount * type.getUpgradeCostInc();
 	}
 
 	/**
@@ -85,7 +66,7 @@ public class Machine extends Department implements CostFactor {
 	 * Performance - Utilization
 	 */
 	public int getAvailablePerformance() {
-		return ((int) (performance - utilization));
+		return ((int) (getPerformance() - utilization));
 	}
 
 	/**
@@ -108,7 +89,7 @@ public class Machine extends Department implements CostFactor {
 		if (!ableToHandle)
 			return false;
 
-		if ((performance - utilization) < 1 || !isInOperation())
+		if ((getPerformance() - utilization) < 1 || !isInOperation())
 			return false;
 
 		ResourceType[] rt = walltype.getRequiredResourceTypes();
@@ -127,9 +108,9 @@ public class Machine extends Department implements CostFactor {
 	/**
 	 * Produce as many walls as requested or until an error occurs; this is for simulation and therefore not public
 	 */
-	void runProductionStep(Warehouse w) throws MachineException{
+	void runProductionStep(Warehouse w) throws MachineException, WarehouseException{
 		utilization = 0;
-		while(utilization < maxOutput){
+		while(utilization < maxPerformanceOutput){
 			produceWall(w);
 		}
 	}
@@ -142,10 +123,13 @@ public class Machine extends Department implements CostFactor {
 	 * the end. The respective production-costs are calculated, too.
 	 * 
 	 */
-	public void produceWall(Warehouse warehouse) throws MachineException  {
+	public void produceWall(Warehouse warehouse) throws MachineException, WarehouseException  {
+		
+		if(isInUpgrade())
+			throw new MachineException(this, "This machine is currently in Upgrade.", ExceptionCategorie.INFO);
 
-		if ((performance - utilization) < 1 || !isInOperation() || utilization+1 > maxOutput)
-			throw new MachineException(this, "This machine is too busy or within an upgrade and thus it cannot be used currently!");
+		if ((getPerformance() - utilization) < 1 || !isInOperation() || utilization+1 > maxPerformanceOutput)
+			throw new MachineException(this, "This machine is currently too busy!", ExceptionCategorie.INFO);
 
 		ResourceType[] rt = productionType.getRequiredResourceTypes();
 		int[] rc = productionType.getResourceCounts();
@@ -160,7 +144,7 @@ public class Machine extends Department implements CostFactor {
 			if (warehouse.isInStorage(rt[i], rc[i])) 
 				removed_resources.add(warehouse.removeResource(rt[i], rc[i]));
 			else
-				throw new MachineException(this, "Not enough resources available in the warehouse!");
+				throw new WarehouseException(this, "Not enough resources available!", ExceptionCategorie.ERROR);
 			
 		}
 
@@ -172,8 +156,8 @@ public class Machine extends Department implements CostFactor {
 			wallcost += avg_costs[i]*rc[i];
 		}
 		// calculation at highest utilization possible.
-		wallcost += (int) (1.0 / performance * this.costs);
-		wallcost += (int) (1.0 / performance * getEmployeeCosts());
+		wallcost += (int) (1.0 / getPerformance() * getCosts());
+		wallcost += (int) (1.0 / getPerformance() * getEmployeeCosts());
 
 		// Creation of a new wall.
 		Wall wall = new Wall(productionType, wallcost);
@@ -191,7 +175,7 @@ public class Machine extends Department implements CostFactor {
 					warehouse.storeResource(removed_resources.get(j)[k]);
 				}
 			}
-			throw new MachineException(this, "Warehouse has not enough capacity to store the wall!");
+			throw new WarehouseException(this, "Can not store wall!", ExceptionCategorie.ERROR);
 		}
 
 	}
@@ -210,19 +194,23 @@ public class Machine extends Department implements CostFactor {
 				ableToHandle = true;
 		}
 		if (!ableToHandle)
-			throw new MachineException(this, "This machine is not able to produce the given WallType!");
+			throw new MachineException(this, "This machine is not able to produce the given WallType!", ExceptionCategorie.PROGRAMMING_ERROR);
 
 		this.productionType = productionType;
 	}
 
 	public boolean setMaxOutput(int maxOutput) {
-		if(maxOutput <= performance)
-			this.maxOutput = maxOutput;
-		return maxOutput <= performance;
+		if(maxOutput <= getPerformance())
+			this.maxPerformanceOutput = maxOutput;
+		return maxOutput <= getPerformance();
+	}
+	
+	public boolean canDoUpgrade(){
+		return upgradeCount < type.getPossibleUpgrades() && !isInUpgrade();
 	}
 
 	public int getRequiredEmps() {
-		return requiredEmps;
+		return type.getBaseRequiredEmps() + upgradeCount * type.getUpgradeEmpInc();
 	}
 
 	/**
@@ -231,7 +219,7 @@ public class Machine extends Department implements CostFactor {
 	 * this machine.
 	 */
 	public boolean isInOperation() {
-		return getEmployeeCount() >= requiredEmps && !inUpgrade;
+		return getEmployeeCount() >= getRequiredEmps() && !inUpgrade;
 	}
 
 	public void setInUpgrade(boolean inUpgrade) {
@@ -242,32 +230,20 @@ public class Machine extends Department implements CostFactor {
 		return inUpgrade;
 	}
 
-	public void deltaPerformance(double factor) {
-		performance += factor;
-	}
-
-	public void deltaCosts(double factor) {
-		costs += factor;
-	}
-
-	public void deltaQuality(double factor) {
-		quality += factor;
-	}
-
-	public void deltaRequiredEmps(int amount) {
-		requiredEmps += amount;
-	}
-
 	public MachineType getType() {
 		return type;
 	}
 
+	/**
+	 * Maximum performance points of this machine per period. Performance -
+	 * Utilization = Available performance points
+	 */
 	public int getPerformance() {
-		return performance;
+		return type.getBasePerformance() + type.getUpgradePerfInc() * upgradeCount;
 	}
 
 	public int getMaxOutput() {
-		return maxOutput;
+		return maxPerformanceOutput;
 	}
 
 	public WallType getProductionType() {
@@ -276,6 +252,10 @@ public class Machine extends Department implements CostFactor {
 	
 	public String getId(){
 		return type + " #" + no;
+	}
+	
+	public void upgrade(){
+		upgradeCount++;
 	}
 
 }

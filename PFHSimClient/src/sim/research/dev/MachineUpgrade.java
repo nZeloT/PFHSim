@@ -4,7 +4,6 @@ import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
 import sim.production.Machine;
-import sim.production.MachineType;
 
 public class MachineUpgrade extends Upgrade<Machine> {
 
@@ -30,7 +29,7 @@ public class MachineUpgrade extends Upgrade<Machine> {
 	}
 	
 	@Override
-	public void simRound() {
+	void simRound() {
 		if(unassignedAll)
 			super.simRound();
 		else
@@ -40,11 +39,7 @@ public class MachineUpgrade extends Upgrade<Machine> {
 	@Override
 	protected void finish() {
 		//1. set machine to not in upgrade
-		MachineType t = machine.getType();
-		machine.deltaCosts(t.getUpgradeCostInc());
-		machine.deltaPerformance(t.getUpgradePerfInc());
-		machine.deltaQuality(t.getUpgradeQualInc());
-		machine.deltaRequiredEmps(t.getUpgradeEmpInc());
+		machine.upgrade();
 		machine.setInUpgrade(false);
 
 		//2. try to reassign employees

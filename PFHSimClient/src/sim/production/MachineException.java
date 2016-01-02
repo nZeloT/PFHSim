@@ -1,17 +1,13 @@
 package sim.production;
 
-public class MachineException extends Exception {
+import sim.EnterpriseException;
+import sim.ExceptionCategorie;
+
+public class MachineException extends EnterpriseException {
 	private static final long serialVersionUID = 5694862651123857879L;
 	
-	private Machine source;
-	
-	public MachineException(Machine src, String msg) {
-		super(msg);
-		this.source = src;
-	}
-	
-	public Machine getSourceMachine() {
-		return source;
+	public MachineException(Machine src, String msg, ExceptionCategorie cat) {
+		super(src, msg, cat);
 	}
 	
 }

@@ -6,7 +6,6 @@ import sim.abstraction.Tupel;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.procurement.ResourceMarket;
-import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import sim.production.Machine;
 import sim.production.MachineType;
@@ -30,8 +29,6 @@ public class CLIUtils {
 				e.assignWorkplace(m1);
 		} catch (EnterpriseException e) {
 			e.printStackTrace();
-		} catch (ResourceMarketException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -47,12 +44,12 @@ public class CLIUtils {
 				e.assignWorkplace(machine);
 			}
 			ent.getHR().hire(EmployeeType.ASSEMBLER, 20);
-		} catch (EnterpriseException | ResourceMarketException e) {
+		} catch (EnterpriseException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public static void createOffer(Enterprise ent, int price, int quality, int amount){
-		ent.addOffer(new Offer(price, quality, PFHouseType.BUNGALOW, amount, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
+		ent.getSales().addOffer(new Offer(price, quality, PFHouseType.BUNGALOW, amount, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
 	}
 }

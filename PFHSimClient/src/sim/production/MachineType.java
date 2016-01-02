@@ -4,36 +4,36 @@ import sim.abstraction.GeneralType;
 
 public enum MachineType implements GeneralType {
 	
-	WOODWALL_MACHINE(25, 3, 1000, 5, 10000, 3, 3333, 1, 7, 1, 0, 0, WallType.LIGHT_WEIGHT_CONSTRUCTION, WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS),
-	BRICKWALL_MACHINE(20, 3, 1500, 5, 15000, 3, 5000, 1, 7, 2, 0, 0, WallType.MASSIVE_LIGHT_CONSTRUCTION, WallType.MASSIVE_PLUS_CONSTUCTION),
-	PANORAMA_WALL_MACHINE(5, 3, 1000, 5, 17500, 3, 6000, 1, 7, 2, 0, 0, WallType.PANORAMA_WALL);
+	WOODWALL_MACHINE     (25, 3, 1000, 10000, 5, 3, 3333, 1, 7, 1, 0, 0, WallType.LIGHT_WEIGHT_CONSTRUCTION, WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS),
+	BRICKWALL_MACHINE    (20, 3, 1500, 15000, 5, 3, 5000, 1, 7, 2, 0, 0, WallType.MASSIVE_LIGHT_CONSTRUCTION, WallType.MASSIVE_PLUS_CONSTUCTION),
+	PANORAMA_WALL_MACHINE(5,  3, 1000, 17500, 5, 3, 6000, 1, 7, 2, 0, 0, WallType.PANORAMA_WALL);
 	
 
-	private int output;
-	private int requiredEmps;
-	private int costs;
+	private int basePerformance;
+	private int baseRequiredEmps;
+	private int baseCosts;
 	private int price;
 	private WallType[] walltypesToHandle;
-	private int initialQualityFactor;
+	private int baseQualityFactor;
 	
 	private int possibleUpgrades;
 	private int upgradeCosts;
 	private int upgradeDuration;
-	private double upgradePerfInc;
-	private double upgradeQualInc;
+	private int upgradePerfInc;
+	private int upgradeQualInc;
 	private int upgradeCostInc;
 	private int upgradeEmpInc;
 	
 
-	private MachineType(int output, int requiredEmps, int costs, int price, int initialQualityFactor,
-			int possibleUpgrades, int upgradeCosts, int upgradeDuration, double upgradePerfInc,
-			double upgradeQualInc, int upgradeCostInc, int upgradeEmpInc, WallType... walltypesToHandle) {
-		this.output = output;
-		this.requiredEmps = requiredEmps;
-		this.costs = costs;
+	private MachineType(int basePerformance, int baseRequiredEmps, int baseCosts, int price, int baseQualityFactor,
+			int possibleUpgrades, int upgradeCosts, int upgradeDuration, int upgradePerfInc,
+			int upgradeQualInc, int upgradeCostInc, int upgradeEmpInc, WallType... walltypesToHandle) {
+		this.basePerformance = basePerformance;
+		this.baseRequiredEmps = baseRequiredEmps;
+		this.baseCosts = baseCosts;
 		this.price = price;
 		this.walltypesToHandle = walltypesToHandle;
-		this.initialQualityFactor = initialQualityFactor;
+		this.baseQualityFactor = baseQualityFactor;
 		
 		
 		this.possibleUpgrades = possibleUpgrades;
@@ -45,19 +45,19 @@ public enum MachineType implements GeneralType {
 		this.upgradeEmpInc = upgradeEmpInc;
 	}
 
-	public int getInitialQualityFactor() {
-		return initialQualityFactor;
+	public int getBaseQualityFactor() {
+		return baseQualityFactor;
 	}
 
-	public int getOutput() {
-		return output;
+	public int getBasePerformance() {
+		return basePerformance;
 	}
-	public int getRequiredEmps() {
-		return requiredEmps;
+	public int getBaseRequiredEmps() {
+		return baseRequiredEmps;
 	}
 
-	public int getCosts() {
-		return costs;
+	public int getBaseCosts() {
+		return baseCosts;
 	}
 
 	public int getPrice() {
@@ -76,11 +76,11 @@ public enum MachineType implements GeneralType {
 		return upgradeDuration;
 	}
 
-	public double getUpgradePerfInc() {
+	public int getUpgradePerfInc() {
 		return upgradePerfInc;
 	}
 
-	public double getUpgradeQualInc() {
+	public int getUpgradeQualInc() {
 		return upgradeQualInc;
 	}
 

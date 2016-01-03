@@ -2,6 +2,9 @@ package ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -16,9 +19,9 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 import sim.Enterprise;
 import sim.EnterpriseException;
-import ui.abstraction.Callable;
 import ui.abstraction.Container;
 import ui.abstraction.UISection;
 import ui.sections.OfferOverviewController;
@@ -55,16 +58,19 @@ public class MainWindow extends Container<SplitPane>{
 
 	private Enterprise ent;
 	private int currentPage;
-	
+
 	private List<UISection> sections;
 
-	private Callable<List<EnterpriseException>> roundTripProcessor;
+	private Callback<List<EnterpriseException>, Boolean> roundTripProcessor;
 	private Welcome welcomePage;
+	
+	private Timer timer;
 
-	public MainWindow(Enterprise e, Callable<List<EnterpriseException>> roundTripProcessor){
+	public MainWindow(Enterprise e, Callback<List<EnterpriseException>, Boolean> roundTripProcessor){
 		this.ent = e;
 		this.ent.getBankAccount().setCashChanged(this::onMoneyChanged);
 		this.roundTripProcessor = roundTripProcessor;
+		this.timer = new Timer("Timer");
 		load("/ui/fxml/MainWindow.fxml");
 	}
 
@@ -74,17 +80,17 @@ public class MainWindow extends Container<SplitPane>{
 		Warehouse w = new Warehouse(ent);
 		RnD r = new RnD(ent);
 		OfferOverviewController o = new OfferOverviewController(ent);
-		
+
 		welcomePage = new Welcome();
-		
+
 		sections = new ArrayList<>();
 		sections.add(p);
-//		sections.add(pro); TODO: add the production screen
+		//		sections.add(pro); TODO: add the production screen
 		sections.add(hrp);
 		sections.add(w);
 		sections.add(r);
 		sections.add(o);
-		
+
 		stack.getChildren().add(welcomePage.getContainer());
 		stack.getChildren().add(p.getContainer());
 		stack.getChildren().add(new Rectangle(150, 150)); //TODO: make production screen
@@ -100,9 +106,11 @@ public class MainWindow extends Container<SplitPane>{
 		currentPage = STACK_WELCOME;
 
 		root.getChildren().get(1).setVisible(false);
+		root.getChildren().get(2).setVisible(false);
 		roundTripProgress.setProgress(-1);
-		
+
 		onMoneyChanged(0, ent.getBankAccount().getCash());
+		sheduleTimer();
 	}
 
 	private void switchStackPage(int newPage){
@@ -142,28 +150,66 @@ public class MainWindow extends Container<SplitPane>{
 	@FXML
 	private void nextRound(ActionEvent event){
 		root.getChildren().get(1).setVisible(true);
+		timer.cancel();
+		timer = new Timer("Timer");
 
 		//to prevent UI freezes utilise a new thread :D
 		new Thread(
 				() -> {
-					List<EnterpriseException> msgs = roundTripProcessor.call();
-					
+					List<EnterpriseException> msgStore = new ArrayList<>();
+					boolean gameEnded = roundTripProcessor.call(msgStore);
+
 					//make sure all the UI stuff is then done on the javafx application thread
-					Platform.runLater(() -> prepareNextRound(msgs));
+					Platform.runLater(() -> prepareNextRound(new ArrayList<>(msgStore), gameEnded));
 				}
 		).start();
-
+		
 	}
-	
+
 	private void onMoneyChanged(int oldValue, int newValue){
 		Platform.runLater(() -> lblMoney.setText("" + newValue));
 	}
 
-	private void prepareNextRound(List<EnterpriseException> msg){
-		welcomePage.setMessages(msg);
-		switchStackPage(STACK_WELCOME);
-		sections.forEach(s -> s.update());
-		root.getChildren().get(1).setVisible(false);
+	private void prepareNextRound(List<EnterpriseException> msg, boolean gameEnded){
+		if(!gameEnded){
+			welcomePage.setMessages(msg);
+			switchStackPage(STACK_WELCOME);
+			sections.forEach(s -> s.update());
+			root.getChildren().get(1).setVisible(false);
+			
+			//start a timer which forces a end of the round after 2 minutes
+			sheduleTimer();
+		}else{
+			root.getChildren().get(0).setVisible(false);
+			root.getChildren().get(1).setVisible(false);
+			root.getChildren().get(2).setVisible(true);
+		}
+	}
+	
+	private void sheduleTimer(){
+		timer.scheduleAtFixedRate(new TimerTask() {
+			private long time = TimeUnit.MINUTES.toMillis(2);
+			@Override
+			public void run() {
+				time -= TimeUnit.SECONDS.toMillis(1);
+				long second = (time / 1000) % 60;
+				long minute = (time / (1000 * 60)) % 60;
+
+				String format = String.format("%02d:%02d", minute, second);
+				Platform.runLater(() -> btnGo.setText(format));
+			}
+		}, 0, TimeUnit.SECONDS.toMillis(1));
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				nextRound(null);
+			}
+		}, TimeUnit.MINUTES.toMillis(2));
+	}
+	
+	public void cancleTimer(){
+		timer.cancel();
+		timer = null;
 	}
 
 }

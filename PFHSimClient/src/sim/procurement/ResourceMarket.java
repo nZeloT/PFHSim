@@ -40,7 +40,8 @@ public class ResourceMarket {
 		return costs.get(t);
 	}
 	
-	public void setNewResourcePrices(HashMap<ResourceType, Integer> prices){
+	public void doSimStep(HashMap<ResourceType, Integer> prices){
+		resetAmounts();
 		this.costs = prices;
 	}
 	

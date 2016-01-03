@@ -68,6 +68,7 @@ public class BankAccount {
 		}
 		
 		oldSaldo = saldo;
+		saldo = 0;
 	}
 	
 	public int getSaldo() {

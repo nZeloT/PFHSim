@@ -33,9 +33,11 @@ public class ClientConnection extends Connection<ServerMessage, ClientMessage>{
 
 						//wait for the client to answer
 						clnt = (ClientMessage)in.readObject();
-					} catch (Exception e) {
+					}catch (Exception e) {
+						closed = true;
 						e.printStackTrace();
 					}
+					
 					synchronized (ansLock) {
 						ans = clnt;
 					}
@@ -44,8 +46,10 @@ public class ClientConnection extends Connection<ServerMessage, ClientMessage>{
 				//wait for the simulation to continue and place a new message
 				Thread.sleep(500);
 			}
-		}catch(Exception e){
+		}catch(InterruptedException e){
 			e.printStackTrace();
+		}finally{
+			closed = true;
 		}
 	}
 

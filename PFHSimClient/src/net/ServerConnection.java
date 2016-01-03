@@ -1,12 +1,13 @@
 package net;
 
+import java.io.EOFException;
+import java.io.IOException;
 import java.net.Socket;
 
 import net.shared.ClientMessage;
 import net.shared.Connection;
 import net.shared.ServerMessage;
 
-//------------------for no having the UI freeze
 public class ServerConnection extends Connection<ClientMessage, ServerMessage>{
 
 	public ServerConnection(Socket s) {
@@ -39,8 +40,14 @@ public class ServerConnection extends Connection<ClientMessage, ServerMessage>{
 					out.flush();
 				}
 			}
-		}catch(Exception e){
+		}catch(EOFException e){
+			//the connection was closed
+		}catch(IOException e){
 			e.printStackTrace();
+		}catch(ClassNotFoundException | InterruptedException e){
+			//intentionally left empty
+		}finally{
+			closed = true;
 		}
 	}
 

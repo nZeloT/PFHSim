@@ -15,7 +15,7 @@ import sim.simulation.sales.SalesSimulation;
 
 public class SimulationTest {
 
-	HashMap<Integer, List<Offer>> enterpriseoffer = new HashMap<>();
+	HashMap<String, List<Offer>> enterpriseoffer = new HashMap<>();
 
 	@Before
 	public void setUp() throws Exception {
@@ -36,9 +36,9 @@ public class SimulationTest {
 		
 		//expensive buyer test 
 		List<Offer> tmp = Arrays.asList((new Offer(1500000, 1, PFHouseType.CITY_VILLA, 100, new Tupel<WallType>(WallType.PANORAMA_WALL, 8))));
-		enterpriseoffer.put(0, tmp);
+		enterpriseoffer.put("A", tmp);
 		tmp = Arrays.asList((new Offer(500000, 1, PFHouseType.CITY_VILLA, 100, new Tupel<WallType>(WallType.PANORAMA_WALL, 3), new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))));
-		enterpriseoffer.put(1, tmp);
+		enterpriseoffer.put("B", tmp);
 	}
  
 	@Test

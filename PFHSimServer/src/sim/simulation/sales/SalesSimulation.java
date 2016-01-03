@@ -8,8 +8,7 @@ import java.util.List;
 public class SalesSimulation {
 
 
-	private int[] enterprises = null;
-	private HashMap<Integer, List<Offer>> in = new HashMap<>();
+	private HashMap<String, List<Offer>> in = new HashMap<>();
 	
 	private List<GroupOfBuyers> buyerGroups;
 	
@@ -20,20 +19,20 @@ public class SalesSimulation {
 		buyerGroups.add(new ExpensiveBuyer());
 	}
 	
-	public void simulateSalesMarket(HashMap<Integer, List<Offer>> enterpriseoffers) {
+	public void simulateSalesMarket(HashMap<String, List<Offer>> enterpriseoffers) {
 
 		//Get LATEST data from enterprises.
-		enterprises = new int[enterpriseoffers.size()];
+		String[] names = enterpriseoffers.keySet().toArray(new String[0]);
 
 		 
 		for (GroupOfBuyers g : buyerGroups) {
 			g.sortOffers(enterpriseoffers);
-			in = g.registerPurchases(50, 10, 5, enterprises);
+			in = g.registerPurchases(50, 10, 5, names);
 		}
 		
 	}
 	
-	public HashMap<Integer, List<Offer>> getSalesData() {
+	public HashMap<String, List<Offer>> getSalesData() {
 		return in;
 	}
 

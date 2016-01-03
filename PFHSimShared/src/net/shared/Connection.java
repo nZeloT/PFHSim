@@ -66,4 +66,8 @@ public abstract class Connection<M extends Message, A extends Message> extends T
 	public final boolean hasAnswered(){
 		return ans != null;
 	}
+	
+	public boolean isClosed() {
+		return closed;
+	}
 }

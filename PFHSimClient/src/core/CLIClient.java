@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import bsh.Interpreter;
 import bsh.NameSpace;
@@ -32,10 +33,13 @@ public class CLIClient {
 	private Enterprise e;
 	
 	private Interpreter inter;
+	
+	private String name;
 
 	public CLIClient() {
 		userIn = new BufferedReader(new InputStreamReader(System.in));
 		inter = new Interpreter();
+		name = UUID.randomUUID().toString();
 		NameSpace space = inter.getNameSpace();
 		space.importPackage("sim");
 		space.importPackage("sim.hr");
@@ -72,7 +76,7 @@ public class CLIClient {
 				System.out.println("Processing Input ...");
 				finish = msg.hasGameEnded();
 				if(!finish){
-					market.setNewResourcePrices(msg.getNewResourcePrices());
+					market.doSimStep(msg.getNewResourcePrices());
 					e.doSimulationStep(msg.getSoldOfferAmounts());
 				}
 			}
@@ -93,7 +97,7 @@ public class CLIClient {
 
 				//4. collect info to send to server
 				System.out.println("Sending Client Info ...");
-				ClientMessage clnt = new ClientMessage(new HashMap<>(market.getSoldResources()), new ArrayList<>(e.getSales().getOffers()));
+				ClientMessage clnt = new ClientMessage(name, new HashMap<>(market.getSoldResources()), new ArrayList<>(e.getSales().getOffers()), e.getBankAccount().isOnLimit());
 				server.placeMessasge(clnt);
 			}
 		}while(!finish);

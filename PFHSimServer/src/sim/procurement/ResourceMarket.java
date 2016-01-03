@@ -37,6 +37,12 @@ public class ResourceMarket {
 			if (amount > 200) {
 				costs *= 1.15;
 			}
+			
+			if(costs < 0.8 * t.getBasePrice())
+				costs = (int) (0.8 * t.getBasePrice());
+			if(costs < 1)
+				costs = 1;
+			
 			this.costs.put(t, costs);
 		}
 	}

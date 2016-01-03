@@ -66,7 +66,7 @@ public class Procurement extends Container<VBox> implements UISection{
 
 	public Procurement(Enterprise enterprise) {
 		this.ent = enterprise;
-		market = ent.getMarket();
+		this.market = ent.getMarket();
 		load("/ui/fxml/Procurement.fxml");
 	}
 
@@ -120,21 +120,21 @@ public class Procurement extends Container<VBox> implements UISection{
 			buy(AM_wood, int_amount_wood, ResourceType.WOOD);
 		}
 
-		if (btn.getId().equals("btn_insulation")) {
+		else if (btn.getId().equals("btn_insulation")) {
 			buy(AM_insulation, int_amount_insulation, ResourceType.INSULATION);
 		}
 
-		if (btn.getId().equals("btn_concrete")) {
+		else if (btn.getId().equals("btn_concrete")) {
 			buy(AM_concrete, int_amount_concrete, ResourceType.CONCRETE);
 		}
-		if (btn.getId().equals("btn_roof")) {
+		else if (btn.getId().equals("btn_roof")) {
 			buy(AM_roof, int_amount_roof, ResourceType.ROOF_TILE);
 		}
-		if (btn.getId().equals("btn_brick")) {
+		else if (btn.getId().equals("btn_brick")) {
 			buy(AM_brick, int_amount_brick, ResourceType.BRICK);
 		}
 
-		if (btn.getId().equals("btn_window")) {
+		else if (btn.getId().equals("btn_window")) {
 			buy(AM_window, int_amount_window, ResourceType.WINDOW);
 		}
 
@@ -205,7 +205,7 @@ public class Procurement extends Container<VBox> implements UISection{
 
 		ent.buyResources(type, amount);
 
-		fullAmount.setText("" + (ent.getWarehouse().getStoredAmount(type)) + (amount));
+		fullAmount.setText("" + ent.getWarehouse().getStoredAmount(type));
 	}
 
 }

@@ -36,6 +36,7 @@ public class UIClient extends Application {
 	private ResourceMarket market;
 	
 	private String name;
+	private MainWindow w;
 
 	@Override
 	public void start(Stage stg) throws Exception {
@@ -54,7 +55,7 @@ public class UIClient extends Application {
 			ent.buyMachine(MachineType.BRICKWALL_MACHINE);
 			ent.buyMachine(MachineType.WOODWALL_MACHINE);
 			
-			MainWindow w = new MainWindow(ent, this::doRoundTrip);
+			w = new MainWindow(ent, this::doRoundTrip);
 			stg.setScene(new Scene(w.getContainer()));
 			stg.setTitle("PFHSim Client - " + name);
 
@@ -120,20 +121,32 @@ public class UIClient extends Application {
 	public void stop() throws Exception {
 		super.stop();
 		server.close();
+		server.join();
+		server = null;
+		
+		w.cancleTimer();
 	}
 	
-	public List<EnterpriseException> doRoundTrip(){
-		//TODO: what to do when game ends
+	public boolean doRoundTrip(List<EnterpriseException> msgStore){
+		if(server.isClosed()){
+			//the server connection was closed already
+			try {server.join();	} catch (InterruptedException e) 
+			{e.printStackTrace(); /* do we care? */ }
+			server = null;
+			return true;
+		}//otherwise we hope that it will life for the whole round trip
 		
 		//1. user input is finished; prepare the message
 		ClientMessage clnt = new ClientMessage(
+				name,
 				new HashMap<>(market.getSoldResources()),
-				new ArrayList<>(ent.getSales().getOffers())
+				new ArrayList<>(ent.getSales().getOffers()),
+				ent.getBankAccount().isOnLimit()
 		);
 		server.placeMessasge(clnt);
 		
 		//2. wait for the server to answer
-		while(!server.hasAnswered()){
+		while(!server.hasAnswered() && !server.isClosed()){
 			try {TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
 				//this is intentionally not thrown ;)
@@ -141,10 +154,53 @@ public class UIClient extends Application {
 		}
 		
 		ServerMessage msg = server.retrieveAnswer();
+		if(msg == null)
+			return true;
 		
 		//3. process the answer and do a simulation step on the enterprise
-		market.setNewResourcePrices(msg.getNewResourcePrices());
-		return ent.doSimulationStep(msg.getSoldOfferAmounts());
+		market.doSimStep(msg.getNewResourcePrices());
+		msgStore.addAll(ent.doSimulationStep(msg.getSoldOfferAmounts()));
+		
+		//4. has the game ended?
+		//a few different things can happen which shall result in the end game screen being presented:
+		// -> the server connection was closed; was already checked
+		// -> the user reached the bank limit
+		// -> the server has send the end game flag
+		
+		if(msg.hasGameEnded()){
+			//the server send the end game flag.
+			if(!server.isClosed()){
+				server.close();
+				try {server.join();	} catch (InterruptedException e) 
+				{e.printStackTrace(); /* do we care? */ }
+				server = null;
+			}
+			
+			return true;
+		}
+		
+		if(ent.getBankAccount().isOnLimit()){
+			//the user reached the bank limit
+			//send info to the server and terminate the connection
+			clnt = new ClientMessage(name, null, null, true);
+			server.placeMessasge(clnt);
+			//give the network and the server some time to receive the message not really necessary though
+			try {TimeUnit.MILLISECONDS.sleep(750);
+			} catch (InterruptedException e) {
+				//intentionally empty
+			}
+			//terminate the connection
+			server.close();
+			try {server.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			server = null;
+			
+			return true;
+		}
+		
+		return false;
 	}
 
 }

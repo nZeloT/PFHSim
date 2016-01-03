@@ -16,9 +16,9 @@ public class CheapBuyer implements GroupOfBuyers {
 	 * sort offers in the right Housetype category an ascending by Price for
 	 * purchase Simulation
 	 */
-	public void sortOffers(HashMap<Integer, List<Offer>> in) {
+	public void sortOffers(HashMap<String, List<Offer>> in) {
 
-		for (Map.Entry<Integer, List<Offer>> entry : in.entrySet()) {
+		for (Map.Entry<String, List<Offer>> entry : in.entrySet()) {
 
 			List<Offer> offer = entry.getValue();
 			for (int i = 0; i < offer.size(); i++) {
@@ -67,9 +67,9 @@ public class CheapBuyer implements GroupOfBuyers {
 	 *            purchases
 	 */
 	@Override
-	public HashMap<Integer, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, int[] e) {
+	public HashMap<String, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, String[] e) {
 
-		HashMap<Integer, List<Offer>> results = new HashMap<>();
+		HashMap<String, List<Offer>> results = new HashMap<>();
 		PFHouseType houseteypes[] = PFHouseType.values();
 		for (int i = 0; i < e.length; i++) {
 			results.put(e[i], new ArrayList<Offer>());

@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label text="Offer overview" VBox.vgrow="ALWAYS">
          <font>
@@ -170,7 +170,7 @@
                               </TextField>
                               <Label fx:id="req_ncwall1" text="15" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="53.0" />
+                                    <Insets top="40.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="req_ncwall2" text="5" VBox.vgrow="ALWAYS" />
@@ -181,12 +181,12 @@
                               </Label>
                               <Label fx:id="req_resource2" text="15" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="18.0" />
+                                    <Insets top="23.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="req_employees" text="5" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="18.0" />
+                                    <Insets top="22.0" />
                                  </VBox.margin>
                               </Label>
                            </children>
@@ -196,16 +196,28 @@
                               <Label text="available" VBox.vgrow="ALWAYS" />
                               <Label fx:id="available_lightweight" text="88" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="25.0" />
+                                    <Insets top="22.0" />
                                  </VBox.margin>
                               </Label>
-                              <Label fx:id="available_lightweightplus" text="60" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="available_massive" text="75" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="available_massiveplus" text="93" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="available_panorama" text="14" VBox.vgrow="ALWAYS" />
+                              <Label fx:id="available_lightweightplus" text="60" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets top="2.0" />
+                                 </VBox.margin></Label>
+                              <Label fx:id="available_massive" text="75" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets top="2.0" />
+                                 </VBox.margin></Label>
+                              <Label fx:id="available_massiveplus" text="93" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets top="2.0" />
+                                 </VBox.margin></Label>
+                              <Label fx:id="available_panorama" text="14" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets top="2.0" />
+                                 </VBox.margin></Label>
                               <Label fx:id="available_ncwall1" text="88" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="40.0" />
+                                    <Insets top="38.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="available_ncwall2" text="63" VBox.vgrow="ALWAYS" />
@@ -216,12 +228,12 @@
                               </Label>
                               <Label fx:id="available_resource2" text="846" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="23.0" />
                                  </VBox.margin>
                               </Label>
                               <Label fx:id="available_employees" text="30" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="18.0" />
+                                    <Insets top="22.0" />
                                  </VBox.margin>
                               </Label>
                            </children>

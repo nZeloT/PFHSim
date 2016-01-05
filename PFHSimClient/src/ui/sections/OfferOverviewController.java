@@ -111,7 +111,9 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		// Initialize the offer-viewlist.
 		refreshOfferList();
 
-		load();
+		offerlist.getSelectionModel().select(0);
+		
+		load(); 
 
 		choosehousetype.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
@@ -260,7 +262,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 		// Initialize Offer Detail Screen:
 		try {
-			offerlist.getSelectionModel().select(0);
+			selectedOffer = offers.get(offerlist.getSelectionModel().getSelectedIndex());
 
 			showingExistingOffer = true;
 
@@ -270,7 +272,6 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 			choosehousetype.setDisable(true);
 
-			selectedOffer = offers.get(offerlist.getSelectionModel().getSelectedIndex());
 			ObservableList<String> housetypestring = FXCollections.observableArrayList();
 
 			housetypestring.add(selectedOffer.getHousetype().toString());

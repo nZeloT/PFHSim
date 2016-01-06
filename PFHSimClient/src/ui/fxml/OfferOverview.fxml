@@ -7,13 +7,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="500.0" minWidth="660.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER">
+      <HBox>
          <children>
             <Button fx:id="btn_createnewoffer" maxHeight="40.0" maxWidth="150.0" mnemonicParsing="false" onAction="#onCreate" text="Create new offer">
                <HBox.margin>
-                  <Insets bottom="5.0" left="-73.0" right="5.0" top="5.0" />
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
             <Button fx:id="btn_deleteoffer" maxHeight="40.0" maxWidth="150.0" mnemonicParsing="false" onAction="#deleteoffer" text="Delete offer">
@@ -28,239 +28,29 @@
             </Button>
          </children>
       </HBox>
-      <SplitPane dividerPositions="0.44722222222222224" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+      <SplitPane dividerPositions="0.44722222222222224" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="660.0" VBox.vgrow="ALWAYS">
         <items>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="200.0" style="-fx-border-style: solid;">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0">
                <children>
                   <Label text="Your offers" underline="true" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <ListView fx:id="offerlist" maxHeight="1.7976931348623157E308" minHeight="200.0" minWidth="300.0" VBox.vgrow="ALWAYS" />
+                  <ListView fx:id="offerlist" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
-            <VBox style="-fx-border-style: solid;">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
-                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                     <children>
-                        <Label fx:id="title" text="Offer details" underline="true">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="2.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox VBox.vgrow="ALWAYS">
-                     <children>
-                        <Label text="Choose your housetype:" HBox.hgrow="ALWAYS">
-                           <padding>
-                              <Insets right="30.0" />
-                           </padding>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <ChoiceBox fx:id="choosehousetype" HBox.hgrow="ALWAYS" />
-                     </children>
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox fx:id="offerdetails" VBox.vgrow="ALWAYS">
-                     <children>
-                        <VBox fx:id="col1" HBox.hgrow="ALWAYS">
+                  <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="450.0">
+                    <content>
+                      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="450.0">
                            <children>
-                              <Label text="Customizable walls:" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="rb_lightweight" text="Lightweight">
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="rb_lightweightplus" text="Lightweight Plus" />
-                              <Label fx:id="rb_massive" text="Massive" />
-                              <Label fx:id="rb_massiveplus" text="Massive Plus" />
-                              <Label fx:id="rb_panorama" text="Panorama" />
-                              <Label text="Non-customizable walls:" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="label_ncwall1" text="Light weight construction" VBox.vgrow="ALWAYS">
-                                 <padding>
-                                    <Insets right="20.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="label_ncwall2" text="Panorama wall" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="label_resource1" text="Roof tiles:" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="label_resource2" text="Wood (for roof):" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label text="Employees:" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label text="(Assembler)" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                        <VBox fx:id="col2" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="req." VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="req_cwall" text="0" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <TextField fx:id="selection_lightweight" alignment="CENTER" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
-                                 <font>
-                                    <Font size="8.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="7.0" />
-                                 </VBox.margin>
-                              </TextField>
-                              <TextField fx:id="selection_lightweightplus" alignment="CENTER" maxHeight="50.0" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
-                                 <font>
-                                    <Font size="8.0" />
-                                 </font>
-                              </TextField>
-                              <TextField fx:id="selection_massive" alignment="CENTER" maxHeight="50.0" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
-                                 <font>
-                                    <Font size="8.0" />
-                                 </font>
-                              </TextField>
-                              <TextField fx:id="selection_massiveplus" alignment="CENTER" maxHeight="50.0" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
-                                 <font>
-                                    <Font size="8.0" />
-                                 </font>
-                              </TextField>
-                              <TextField fx:id="selection_panorama" alignment="CENTER" maxHeight="50.0" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
-                                 <font>
-                                    <Font size="8.0" />
-                                 </font>
-                              </TextField>
-                              <Label fx:id="req_ncwall1" text="15" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="40.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="req_ncwall2" text="5" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="req_resource1" text="100" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="req_resource2" text="15" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="23.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="req_employees" text="5" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="22.0" />
-                                 </VBox.margin>
-                              </Label>
-                           </children>
-                        </VBox>
-                        <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="available" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="available_lightweight" text="88" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="22.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="available_lightweightplus" text="60" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="2.0" />
-                                 </VBox.margin></Label>
-                              <Label fx:id="available_massive" text="75" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="2.0" />
-                                 </VBox.margin></Label>
-                              <Label fx:id="available_massiveplus" text="93" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="2.0" />
-                                 </VBox.margin></Label>
-                              <Label fx:id="available_panorama" text="14" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="2.0" />
-                                 </VBox.margin></Label>
-                              <Label fx:id="available_ncwall1" text="88" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="38.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="available_ncwall2" text="63" VBox.vgrow="ALWAYS" />
-                              <Label fx:id="available_resource1" text="1546" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="available_resource2" text="846" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="23.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label fx:id="available_employees" text="30" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="22.0" />
-                                 </VBox.margin>
-                              </Label>
-                           </children>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </VBox>
-                        <Line endY="340.0">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </Line>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
+                              <HBox fx:id="offerdetails" AnchorPane.topAnchor="90.0">
                                  <children>
-                                    <VBox HBox.hgrow="ALWAYS">
+                                    <VBox fx:id="col1" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Label text="Duration:" VBox.vgrow="ALWAYS">
+                                          <Label text="Customizable walls:" VBox.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
@@ -268,7 +58,16 @@
                                                 <Insets top="20.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label text="Price Calculation:" VBox.vgrow="ALWAYS">
+                                          <Label fx:id="rb_lightweight" text="Lightweight">
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="rb_lightweightplus" text="Lightweight Plus" />
+                                          <Label fx:id="rb_massive" text="Massive" />
+                                          <Label fx:id="rb_massiveplus" text="Massive Plus" />
+                                          <Label fx:id="rb_panorama" text="Panorama" />
+                                          <Label text="Non-customizable walls:" VBox.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
@@ -276,129 +75,335 @@
                                                 <Insets top="20.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label text="Variable costs (Material, Salary)" VBox.vgrow="ALWAYS" />
-                                          <Label text="+ Min. Fixed costs (operating costs)" VBox.vgrow="ALWAYS">
+                                          <Label fx:id="label_ncwall1" text="Light weight construction" VBox.vgrow="ALWAYS">
                                              <padding>
                                                 <Insets right="20.0" />
                                              </padding>
                                           </Label>
-                                          <Label text="+ Profit" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Line endX="100.0" startX="-100.0" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                          </Line>
-                                          <Label text="Total sum" VBox.vgrow="ALWAYS" />
-                                          <Label text="Quality provided:" VBox.vgrow="ALWAYS">
+                                          <Label fx:id="label_ncwall2" text="Panorama wall" VBox.vgrow="ALWAYS" />
+                                          <Label fx:id="label_resource1" text="Roof tiles:" VBox.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
-                                             <padding>
+                                             <VBox.margin>
                                                 <Insets top="20.0" />
-                                             </padding>
+                                             </VBox.margin>
                                           </Label>
-                                          <Label text="(Maximum possible quality)" VBox.vgrow="ALWAYS">
+                                          <Label fx:id="label_resource2" text="Wood (for roof):" VBox.vgrow="ALWAYS">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="Employees:" VBox.vgrow="ALWAYS">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="(Assembler)" VBox.vgrow="ALWAYS">
                                              <font>
                                                 <Font size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label text="Production limit:" VBox.vgrow="ALWAYS">
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets top="20.0" />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Label text="(Maximum producable)" />
                                        </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
                                     </VBox>
-                                    <VBox HBox.hgrow="ALWAYS">
+                                    <VBox fx:id="col2" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <HBox fillHeight="false">
-                                             <children>
-                                                <Label fx:id="duration" text="2" />
-                                                <Label disable="true" text=" periods" />
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="20.0" />
-                                             </VBox.margin>
-                                          </HBox>
-                                          <Label fx:id="varcost" text="1500" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets top="40.0" />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Label fx:id="fixcost" text="500" VBox.vgrow="ALWAYS" />
-                                          <TextField fx:id="profit" maxWidth="75.0" onInputMethodTextChanged="#refreshSum" onKeyPressed="#refreshSum" onKeyReleased="#refreshSum" onKeyTyped="#refreshSum" promptText="0" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets top="2.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <Line endX="-30.0" startX="-100.0" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets top="3.0" />
-                                             </VBox.margin>
-                                          </Line>
-                                          <Label fx:id="sum" text="3000" VBox.vgrow="ALWAYS" />
-                                          <Label fx:id="quality" text="35" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets top="23.0" />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Label fx:id="maxquality" text="(50)" VBox.vgrow="ALWAYS">
-                                             <font>
-                                                <Font size="12.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="productionlimit" maxWidth="75.0" onInputMethodTextChanged="#productionLimitChanged" onKeyPressed="#productionLimitChanged" onKeyReleased="#productionLimitChanged" onKeyTyped="#productionLimitChanged" promptText="35" text="35">
-                                             <VBox.margin>
-                                                <Insets top="17.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <Label fx:id="maxproducable" text="(35)" VBox.vgrow="ALWAYS">
+                                          <Label text="req." VBox.vgrow="ALWAYS">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Label>
+                                          <Label fx:id="req_cwall" text="0" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </Label>
+                                          <TextField fx:id="selection_lightweight" alignment="CENTER" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
+                                             <font>
+                                                <Font size="8.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="7.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="selection_lightweightplus" alignment="CENTER" maxHeight="50.0" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
+                                             <font>
+                                                <Font size="8.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField fx:id="selection_massive" alignment="CENTER" maxHeight="50.0" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
+                                             <font>
+                                                <Font size="8.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField fx:id="selection_massiveplus" alignment="CENTER" maxHeight="50.0" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
+                                             <font>
+                                                <Font size="8.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField fx:id="selection_panorama" alignment="CENTER" maxHeight="50.0" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
+                                             <font>
+                                                <Font size="8.0" />
+                                             </font>
+                                          </TextField>
+                                          <Label fx:id="req_ncwall1" text="15" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="req_ncwall2" text="5" VBox.vgrow="ALWAYS" />
+                                          <Label fx:id="req_resource1" text="100" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="req_resource2" text="15" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="23.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="req_employees" text="5" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="22.0" />
+                                             </VBox.margin>
+                                          </Label>
                                        </children>
                                     </VBox>
-                                    <VBox HBox.hgrow="ALWAYS">
+                                    <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Label disable="true" text="€" VBox.vgrow="ALWAYS">
+                                          <Label text="available" VBox.vgrow="ALWAYS" />
+                                          <Label fx:id="available_lightweight" text="88" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
-                                                <Insets top="75.0" />
+                                                <Insets top="22.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label disable="true" text="€" VBox.vgrow="ALWAYS" />
-                                          <Label disable="true" text="€" VBox.vgrow="ALWAYS">
+                                          <Label fx:id="available_lightweightplus" text="60" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
-                                                <Insets top="5.0" />
+                                                <Insets top="2.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label disable="true" text="€" VBox.vgrow="ALWAYS">
+                                          <Label fx:id="available_massive" text="75" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
-                                                <Insets top="10.0" />
+                                                <Insets top="2.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="available_massiveplus" text="93" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="2.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="available_panorama" text="14" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="2.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="available_ncwall1" text="88" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="38.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="available_ncwall2" text="63" VBox.vgrow="ALWAYS" />
+                                          <Label fx:id="available_resource1" text="1546" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="available_resource2" text="846" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="23.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label fx:id="available_employees" text="30" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets top="22.0" />
                                              </VBox.margin>
                                           </Label>
                                        </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
                                     </VBox>
                                  </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" />
+                                 </padding>
                               </HBox>
+                              <HBox AnchorPane.topAnchor="40.0">
+                                 <children>
+                                    <Label text="Choose your housetype:" HBox.hgrow="ALWAYS">
+                                       <padding>
+                                          <Insets right="30.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <ChoiceBox fx:id="choosehousetype" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                 <children>
+                                    <Label fx:id="title" text="Offer details" underline="true">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="2.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Line endX="310.0" stroke="#cdc3c3" strokeWidth="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="440.0" />
+                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.topAnchor="450.0">
+                                 <children>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Duration:" VBox.vgrow="ALWAYS">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="20.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Price Calculation:" VBox.vgrow="ALWAYS">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="20.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Variable costs (Material, Salary)" VBox.vgrow="ALWAYS" />
+                                                <Label text="+ Min. Fixed costs (operating costs)" VBox.vgrow="ALWAYS">
+                                                   <padding>
+                                                      <Insets right="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label text="+ Profit" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Line endX="100.0" startX="-100.0" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </Line>
+                                                <Label text="Total sum" VBox.vgrow="ALWAYS" />
+                                                <Label text="Quality provided:" VBox.vgrow="ALWAYS">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets top="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label text="(Maximum possible quality)" VBox.vgrow="ALWAYS">
+                                                   <font>
+                                                      <Font size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Production limit:" VBox.vgrow="ALWAYS">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="20.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="(Maximum producable)" />
+                                             </children>
+                                          </VBox>
+                                          <VBox HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <HBox fillHeight="false">
+                                                   <children>
+                                                      <Label fx:id="duration" text="2" />
+                                                      <Label disable="true" text=" periods" />
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets top="20.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <Label fx:id="varcost" text="1500" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="40.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="fixcost" text="500" VBox.vgrow="ALWAYS" />
+                                                <TextField fx:id="profit" maxWidth="75.0" onInputMethodTextChanged="#refreshSum" onKeyPressed="#refreshSum" onKeyReleased="#refreshSum" onKeyTyped="#refreshSum" promptText="0" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="2.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <Line endX="-30.0" startX="-100.0" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="3.0" />
+                                                   </VBox.margin>
+                                                </Line>
+                                                <Label fx:id="sum" text="3000" VBox.vgrow="ALWAYS" />
+                                                <Label fx:id="quality" text="35" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="23.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="maxquality" text="(50)" VBox.vgrow="ALWAYS">
+                                                   <font>
+                                                      <Font size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="productionlimit" maxWidth="75.0" onInputMethodTextChanged="#productionLimitChanged" onKeyPressed="#productionLimitChanged" onKeyReleased="#productionLimitChanged" onKeyTyped="#productionLimitChanged" promptText="35" text="35">
+                                                   <VBox.margin>
+                                                      <Insets top="17.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <Label fx:id="maxproducable" text="(35)" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label disable="true" text="€" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="75.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label disable="true" text="€" VBox.vgrow="ALWAYS" />
+                                                <Label disable="true" text="€" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label disable="true" text="€" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </HBox>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
                </children>
             </VBox>
         </items>

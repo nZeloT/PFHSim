@@ -490,7 +490,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		}
 
 		// End of Offer Detail Screen initialization.
-	}
+	} 
 
 	private void refreshOfferList() {
 		offers = ent.getSales().getOffers();

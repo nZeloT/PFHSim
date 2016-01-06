@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -27,9 +29,8 @@ import sim.simulation.sales.Offer;
 import ui.abstraction.Container;
 import ui.abstraction.UISection;
 
-	
-public class OfferOverviewController extends Container<VBox> implements UISection{
-	
+public class OfferOverviewController extends Container<VBox> implements UISection {
+
 	private @FXML HBox offerdetails;
 
 	private @FXML Label title;
@@ -94,17 +95,25 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	private boolean showingExistingOffer = false;
 	private Enterprise ent;
 
-	public OfferOverviewController(Enterprise e) {
+	public OfferOverviewController(Enterprise e) { 
 		this.ent = e;
 		load("/ui/fxml/OfferOverview.fxml");
 	}
 
 	public void initialize() {
 
+		offerlist.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				load();
+			}
+		});
+		
 		// General initialization for test purposes
-		ent.getSales().addOffer(new Offer(5000, 2, PFHouseType.COMFORT_HOUSE, 5,
-				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 6),
-				new Tupel<WallType>(WallType.PANORAMA_WALL, 1)));
+		ent.getSales()
+				.addOffer(new Offer(5000, 2, PFHouseType.COMFORT_HOUSE, 5,
+						new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 6),
+						new Tupel<WallType>(WallType.PANORAMA_WALL, 1)));
 		ent.getSales().addOffer(new Offer(5000, 2, PFHouseType.BUNGALOW, 5,
 				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
 
@@ -112,8 +121,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		refreshOfferList();
 
 		offerlist.getSelectionModel().select(0);
-		
-		load(); 
+
+		load();
 
 		choosehousetype.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
@@ -262,8 +271,9 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 		// Initialize Offer Detail Screen:
 		try {
-			selectedOffer = offers.get(offerlist.getSelectionModel().getSelectedIndex());
-
+			
+				selectedOffer = offers.get(offerlist.getSelectionModel().getSelectedIndex());
+				
 			showingExistingOffer = true;
 
 			title.setText("Offer details");
@@ -486,18 +496,14 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		offers = ent.getSales().getOffers();
 
 		ObservableList<String> offerstrings = FXCollections.observableArrayList();
-		for (Offer offer : offers) {
-			offerstrings.add(offer.getHousetype().toString());
+		for (int i = 1; i <= offers.size(); i++) {
+			offerstrings.add(i + ") " + offers.get(i-1).getHousetype().toString());
 		}
 
-		offerlist.setItems(offerstrings);
+		offerlist.setItems(offerstrings); 
 
 	}
 
-	@FXML
-	private void loadofferdetails(ActionEvent e) {
-		load();
-	}
 
 	@FXML
 	private void refreshSum(KeyEvent e) {
@@ -510,13 +516,13 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		} catch (NumberFormatException e2) {
 			sum.setText("" + (selectedOffer.getVariableCost() + selectedOffer.getFixCost()));
 			System.out.println("wrong number format");
-			/*
-			 * Alert alert = new Alert(AlertType.INFORMATION);
-			 * alert.setTitle("Warning"); alert.setHeaderText(null);
-			 * alert.setContentText("Pleasy type in a number lower between " +
-			 * Integer.MIN_VALUE + " and " + Integer.MAX_VALUE);
-			 * alert.showAndWait();
-			 */
+
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Warning");
+			alert.setHeaderText(null);
+			alert.setContentText(
+					"Pleasy type in a number lower between " + Integer.MIN_VALUE + " and " + Integer.MAX_VALUE);
+			alert.showAndWait();
 
 		}
 		btn_save.setDisable(false);
@@ -531,13 +537,6 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			}
 		} catch (NumberFormatException e2) {
 			System.out.println("wrong number format");
-			/*
-			 * Alert alert = new Alert(AlertType.INFORMATION);
-			 * alert.setTitle("Warning"); alert.setHeaderText(null);
-			 * alert.setContentText("Pleasy type in a number lower between " +
-			 * Integer.MIN_VALUE + " and " + Integer.MAX_VALUE);
-			 * alert.showAndWait();
-			 */
 
 		}
 		btn_save.setDisable(false);
@@ -627,41 +626,55 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				tupelarray[i] = walltype.get(i);
 			}
 			if (showingExistingOffer) {
-				if (noOfSpecifiedWalls >= selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
+				if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
 
 					selectedOffer.setPrice(Integer.parseInt(sum.getText()));
 					selectedOffer.setSpecifiedWalltypes(tupelarray);
-					selectedOffer.setProductionLimit(Integer.parseInt(productionlimit.getText()));
-					load();
+			  		selectedOffer.setProductionLimit(Integer.parseInt(productionlimit.getText()));
+					load();  
 					System.out.println("great, offer saved.");
 
+				} else if (noOfSpecifiedWalls < selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
+
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Warning");
+					alert.setHeaderText(null);
+					alert.setContentText("Please specify enough walls in your offer.");
+					alert.showAndWait();
+
 				} else {
-					System.out.println("not enough walls specified");
-					/*
-					 * Alert alert = new Alert(AlertType.INFORMATION);
-					 * alert.setTitle("Warning"); alert.setHeaderText(null);
-					 * alert.setContentText(
-					 * "Please specify enough walls in your offer.");
-					 * alert.showAndWait();
-					 */
+
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Warning");
+					alert.setHeaderText(null);
+					alert.setContentText("You cannot specify more walls than actually needed for this house type.");
+					alert.showAndWait();
+
 				}
 			} else {
-				if (noOfSpecifiedWalls >= selectedType.getNoOfWalls(WallType.GENERAL)) {
+				if (noOfSpecifiedWalls == selectedType.getNoOfWalls(WallType.GENERAL)) {
 					Offer o = new Offer(Integer.parseInt(sum.getText()), 1, selectedType,
 							Integer.parseInt(productionlimit.getText()), tupelarray);
 					ent.getSales().addOffer(o);
 					refreshOfferList();
 					load();
 					System.out.println("great, offer saved.");
+				}else if (noOfSpecifiedWalls < selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
+
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Warning");
+					alert.setHeaderText(null);
+					alert.setContentText("Please specify enough walls in your offer.");
+					alert.showAndWait();
+
 				} else {
-					System.out.println("not enough walls specified");
-					/*
-					 * Alert alert = new Alert(AlertType.INFORMATION);
-					 * alert.setTitle("Warning"); alert.setHeaderText(null);
-					 * alert.setContentText(
-					 * "Please specify enough walls in your offer.");
-					 * alert.showAndWait();
-					 */
+
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Warning");
+					alert.setHeaderText(null);
+					alert.setContentText("You cannot specify more walls than actually needed for this house type.");
+					alert.showAndWait();
+
 				}
 			}
 
@@ -678,22 +691,34 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 	@FXML
 	private void onCreate(ActionEvent e) {
-		title.setText("New offer");
-		btn_save.setDisable(false);
 
-		choosehousetype.setDisable(false);
+		if ((ent.getSales().getNumberOfAllowedOffers() - ent.getSales().getOfferCount()) > 0) {
 
-		ObservableList<String> housetypestring = FXCollections.observableArrayList();
+			title.setText("New offer");
+			btn_save.setDisable(false);
 
-		PFHouseType[] types = PFHouseType.values();
-		for (PFHouseType pfHouseType : types) {
-			housetypestring.add(pfHouseType.toString());
+			choosehousetype.setDisable(false);
+
+			ObservableList<String> housetypestring = FXCollections.observableArrayList();
+
+			PFHouseType[] types = PFHouseType.values();
+			for (PFHouseType pfHouseType : types) {
+				housetypestring.add(pfHouseType.toString());
+			}
+			choosehousetype.setItems(housetypestring);
+
+			offerdetails.setVisible(false);
+
+			showingExistingOffer = false;
+
+		} else {
+
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Warning");
+			alert.setHeaderText(null);
+			alert.setContentText("You are not permitted to create further offers. Hire more sales-employees!");
+			alert.showAndWait();
 		}
-		choosehousetype.setItems(housetypestring);
-
-		offerdetails.setVisible(false);
-
-		showingExistingOffer = false;
 	}
 
 	@FXML
@@ -707,7 +732,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			System.out.println("no offer selected.");
 		}
 	}
-	
+
 	@Override
 	public void update() {
 		// TODO implement

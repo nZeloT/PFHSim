@@ -27,7 +27,7 @@ public class UIClient extends Application {
 	//---------------------------------------------------
 	public static void main(String[] args) {
 		launch(args);
-	}
+	} 
 	//---------------------------------------------------
 
 	private static final int SERVER_PORT = 44444;
@@ -118,7 +118,7 @@ public class UIClient extends Application {
 		return true;
 	}
 	
-	@Override
+	@Override 
 	public void stop() throws Exception {
 		super.stop();
 		server.close();

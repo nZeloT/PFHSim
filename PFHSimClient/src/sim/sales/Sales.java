@@ -22,7 +22,7 @@ public class Sales extends Department {
 	}
 	
 	public boolean addOffer(Offer o){
-		if(getNumberOfAllowedOffers() - offers.size() > 1){
+		if(getNumberOfAllowedOffers() - offers.size() > 0){
 			offers.add(o);
 			return true;
 		}

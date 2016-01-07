@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-
-<ListView prefHeight="456.0" prefWidth="533.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+<VBox spacing="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="10.0" prefWidth="200.0" spacing="5.0">
+         <children>
+            <Button fx:id="btnBuy" mnemonicParsing="false" onAction="#onBuy" text="Buy" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <Button fx:id="btnProduction" mnemonicParsing="false" onAction="#onChangeProduction" text="Change Production" />
+            <Button fx:id="btnUpgrade" mnemonicParsing="false" onAction="#onUpgrade" text="Upgrade" />
+            <Button fx:id="btnSell" mnemonicParsing="false" onAction="#onSell" text="Sell" />
+         </children>
+      </HBox>
+      <TableView fx:id="tableMachines" VBox.vgrow="ALWAYS">
+        <columns>
+          <TableColumn fx:id="colName" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="colState" prefWidth="75.0" text="State" />
+            <TableColumn fx:id="colCosts" prefWidth="75.0" text="Costs" />
+            <TableColumn fx:id="colUseage" prefWidth="75.0" text="Useage" />
+            <TableColumn fx:id="colMaxUseage" prefWidth="75.0" text="Max Useage" />
+            <TableColumn fx:id="colProduction" prefWidth="75.0" text="Current Production" />
+            <TableColumn fx:id="colUpgrades" prefWidth="75.0" text="Installed Upgrades" />
+        </columns>
+      </TableView>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

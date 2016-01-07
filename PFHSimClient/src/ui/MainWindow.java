@@ -32,6 +32,7 @@ import ui.sections.RnD;
 import ui.sections.Warehouse;
 import ui.sections.Welcome;
 import ui.sections.hr.HRPane;
+import ui.sections.production.Production;
 
 public class MainWindow extends Container<SplitPane>{
 
@@ -82,6 +83,7 @@ public class MainWindow extends Container<SplitPane>{
 	}
 
 	public void initialize() {
+		Production pro = new Production(ent);
 		Procurement p = new Procurement(ent);
 		HRPane hrp = new HRPane(ent);
 		Warehouse w = new Warehouse(ent);
@@ -92,7 +94,7 @@ public class MainWindow extends Container<SplitPane>{
 
 		sections = new ArrayList<>();
 		sections.add(p);
-		sections.add(() -> {});
+		sections.add(pro);
 		sections.add(hrp);
 		sections.add(w);
 		sections.add(r);
@@ -100,7 +102,7 @@ public class MainWindow extends Container<SplitPane>{
 
 		stack.getChildren().add(welcomePage.getContainer());
 		stack.getChildren().add(p.getContainer());
-		stack.getChildren().add(new Rectangle(150, 150)); //TODO: make production screen
+		stack.getChildren().add(pro.getContainer());
 		stack.getChildren().add(hrp);
 		stack.getChildren().add(w.getContainer());
 		stack.getChildren().add(r.getContainer());

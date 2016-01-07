@@ -458,7 +458,7 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                   <ImageView fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/ui/res/roof_tile.png" />
+                        <Image url="@/ui/res/roof.png" />
                      </image>
                   </ImageView>
                   <Pane prefHeight="200.0" prefWidth="200.0" />

@@ -49,7 +49,8 @@ public class Warehouse extends Container<VBox> implements UISection{
 	private @FXML Label AM_roof;
 	private @FXML Label AM_brick;
 	private @FXML Label AM_concrete;
-
+	
+	private @FXML Label Label_ProgressExtension;
 	private @FXML ProgressIndicator ProgressBar_extendWarehouse;
 	private @FXML Button btn_extendWarehouse;
 
@@ -147,9 +148,13 @@ public class Warehouse extends Container<VBox> implements UISection{
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
 			try{
+				ProgressBar_extendWarehouse.setVisible(true);
+				btn_extendWarehouse.setVisible(false);
+				Label_ProgressExtension.setVisible(true);
+				
 				ent.startWarehouseExtension();
 				
-				btn_extendWarehouse.setDisable(true);
+//				btn_extendWarehouse.setDisable(true);
 				upgrade_duration = ExtendWarehouse.UPGRADE_DURATION;
 				ProgressBar_extendWarehouse.setProgress(0.0);
 			}catch(EnterpriseException e){

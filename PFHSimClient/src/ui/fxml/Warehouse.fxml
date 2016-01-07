@@ -22,11 +22,11 @@
                   </Label>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="wood">
+                        <Label minWidth="150.0" text="wood">
                            <graphic>
                               <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../Pictures/Fallstudie/wood.png" />
+                                    <Image url="@/ui/res/wood.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -36,11 +36,11 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="insulation">
+                        <Label minWidth="150.0" text="insulation">
                            <graphic>
                               <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../Pictures/Fallstudie/insulation.png" />
+                                    <Image url="@/ui/res/insulation.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -50,11 +50,11 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label prefHeight="54.0" prefWidth="177.0" text="concrete">
+                        <Label minWidth="150.0" prefHeight="54.0" prefWidth="177.0" text="concrete">
                            <graphic>
                               <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../Pictures/Fallstudie/concrete.png" />
+                                    <Image url="@/ui/res/concrete.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -64,11 +64,11 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="brick">
+                        <Label minWidth="150.0" text="brick">
                            <graphic>
                               <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../Pictures/Fallstudie/brick.png" />
+                                    <Image url="@/ui/res/brick.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -78,11 +78,11 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="roof tiles">
+                        <Label minWidth="150.0" text="roof tiles">
                            <graphic>
                               <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../Pictures/Fallstudie/roof.png" />
+                                    <Image url="@/ui/res/roof.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -92,11 +92,11 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="window">
+                        <Label minWidth="150.0" text="window">
                            <graphic>
                               <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../Pictures/Fallstudie/window.png" />
+                                    <Image url="@/ui/res/window.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -300,12 +300,12 @@
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Label fx:id="Label_ProgressExtension" alignment="BOTTOM_CENTER" text="Progress of Extension:">
+            <Label fx:id="Label_ProgressExtension" alignment="BOTTOM_CENTER" text="Progress of Extension:" visible="false">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
             </Label>
-            <ProgressIndicator fx:id="ProgressBar_extendWarehouse" progress="0.0">
+            <ProgressIndicator fx:id="ProgressBar_extendWarehouse" progress="0.0" visible="false">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>

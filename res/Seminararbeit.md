@@ -1,4 +1,4 @@
-Betriebswirtschaftliche Grundlagen
+###Betriebswirtschaftliche Grundlagen
 *	Ablaufplan des Spiels
 **	Beschreibung Spielidee
 *	Ereignisse während einer Geschäftsperiode

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="76.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.ui.ProductionItem">
+   <children>
+      <Label text="Name">
+         <HBox.margin>
+            <Insets bottom="20.0" left="20.0" right="60.0" top="20.0" />
+         </HBox.margin>
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label text="in %">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </HBox.margin>
+      </Label>
+      <Button mnemonicParsing="false" text="Upgrade">
+         <HBox.margin>
+            <Insets left="20.0" top="25.0" />
+         </HBox.margin>
+      </Button>
+      <Label text="Operating costs">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <HBox.margin>
+            <Insets left="70.0" top="20.0" />
+         </HBox.margin>
+      </Label>
+   </children>
+</HBox>

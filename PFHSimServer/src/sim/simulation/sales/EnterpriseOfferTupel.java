@@ -2,10 +2,10 @@ package sim.simulation.sales;
 
 class EnterpriseOfferTupel {
 	public Offer offer;
-	public int enterprise;
+	public String enterprise;
 	public double expensiveBuyerInterest;
 
-	public EnterpriseOfferTupel(int enterprise, Offer offer) {
+	public EnterpriseOfferTupel(String enterprise, Offer offer) {
 		this.offer = offer;
 		this.enterprise = enterprise;
 		this.expensiveBuyerInterest = 0.0;

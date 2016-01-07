@@ -27,9 +27,9 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	 * constructions Ignore offers with bad isolation (--> high running costs,
 	 * nothing for PricePerformanceBuyers) Ignore offers with low quality
 	 */
-	public void sortOffers(HashMap<Integer, List<Offer>> in) {
+	public void sortOffers(HashMap<String, List<Offer>> in) {
 
-		for (Map.Entry<Integer, List<Offer>> entry : in.entrySet()) {
+		for (Map.Entry<String, List<Offer>> entry : in.entrySet()) {
 
 			List<Offer> offers = entry.getValue();
 			HashMap<PFHouseType, List<EnterpriseOfferTupel>> placeholder = null;
@@ -62,7 +62,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 					continue; // continue with the next offer
 				}
 				// count the interesting offers
-				numberofOffers += offers.get(i).getMaximumProducable();
+				numberofOffers += offers.get(i).getProductionLimit();
 				List<EnterpriseOfferTupel> tmp = placeholder.get(type);
 				EnterpriseOfferTupel ot = new EnterpriseOfferTupel(entry.getKey(), offers.get(i));
 
@@ -107,9 +107,9 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	 *            enterprises to split
 	 */
 	@Override
-	public HashMap<Integer, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, int[] e) {
+	public HashMap<String, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, String[] e) {
 		numberofOffers = (int) (numberofOffers * (Math.random() * 0.2 + 0.7));
-		HashMap<Integer, List<Offer>> results = new HashMap<>();
+		HashMap<String, List<Offer>> results = new HashMap<>();
 		HashMap<PFHouseType, List<EnterpriseOfferTupel>> placeholder = sortedlightOffers;
 		for (int i = 0; i < e.length; i++) {
 			results.put(e[i], new ArrayList<Offer>());
@@ -123,7 +123,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 				List<EnterpriseOfferTupel> succoff = entry.getValue();
 				for (int i = 0; i < succoff.size(); i++, current -= step) {
 					Offer actual = succoff.get(i).offer;
-					int max = actual.getMaximumProducable();
+					int max = actual.getProductionLimit();
 					int amount = actual.getNumberOfPurchases();
 					if (max == amount) {
 						continue; // other buyers already bought all the houses

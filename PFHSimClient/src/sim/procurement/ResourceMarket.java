@@ -2,6 +2,8 @@ package sim.procurement;
 
 import java.util.HashMap;
 
+import sim.ExceptionCategorie;
+
 /**
  * this is the CLIENT only part of the resource market
  */
@@ -20,7 +22,7 @@ public class ResourceMarket {
 	
 	public Resource[] buyResources(ResourceType t, int amount) throws ResourceMarketException{
 		if (amount < 1) {
-			throw new ResourceMarketException("Please specify a positiv amount!");
+			throw new ResourceMarketException(this, "A positive amount is required!", ExceptionCategorie.PROGRAMMING_ERROR);
 		}
 		
 		int alreadySold = soldResources.get(t);
@@ -38,7 +40,8 @@ public class ResourceMarket {
 		return costs.get(t);
 	}
 	
-	public void setNewResourcePrices(HashMap<ResourceType, Integer> prices){
+	public void doSimStep(HashMap<ResourceType, Integer> prices){
+		resetAmounts();
 		this.costs = prices;
 	}
 	

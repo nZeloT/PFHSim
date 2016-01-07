@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: FFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <ImageView fitHeight="339.0" fitWidth="576.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
+               <image>
+                  <Image url="@/ui/res/logopfh.JPG" />
+               </image>
+            </ImageView>
+            <Pane prefHeight="10.0" prefWidth="10.0" VBox.vgrow="ALWAYS" />
+            <TableView fx:id="tableMessages" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="colType" editable="false" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" sortable="false" text="Type" />
+                <TableColumn fx:id="colText" editable="false" minWidth="300.0" prefWidth="-1.0" sortable="false" text="Text" />
+                  <TableColumn fx:id="colOrigin" editable="false" prefWidth="75.0" sortable="false" text="Origin" />
+              </columns>
+            </TableView>
+            <Pane prefHeight="10.0" prefWidth="10.0" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+      <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+   </children>
+</HBox>

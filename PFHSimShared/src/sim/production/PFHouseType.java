@@ -93,6 +93,14 @@ public enum PFHouseType implements GeneralType {
 		this.researchDuration = researchDuration;
 	}
 	
+	public int getNoOfWalls(WallType t) {
+		for (Tupel<WallType> tupel : walltupel) {
+			if (tupel.type == t) 
+				return tupel.count; 
+		}
+		return 0;
+	}
+	
 	public WallType[] getRequiredWallTypes() {
 		WallType[] wt = new WallType[walltupel.length];
 		for (int i = 0; i < walltupel.length; i++) {

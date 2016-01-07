@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import sim.ExceptionCategorie;
 import sim.abstraction.CostFactor;
 import sim.abstraction.StoreableType;
 import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
+import sim.hr.HRException;
 import sim.hr.WrongEmployeeTypeException;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
@@ -52,7 +54,7 @@ public class Warehouse extends Department implements CostFactor{
 	 * 
 	 * @throws WarehouseException when the costs or capacity are below or equal to zero or the employees are not of type STORE_KEEPER
 	 */
-	public Warehouse(Employee... emps) throws WarehouseException, WrongEmployeeTypeException{
+	public Warehouse(Employee... emps) throws HRException, WrongEmployeeTypeException{
 		super(EmployeeType.STORE_KEEPER);
 		
 		this.lvl = 0;
@@ -61,11 +63,11 @@ public class Warehouse extends Department implements CostFactor{
 		this.resStore = new Storage<>(Resource.class);
 		
 		if(emps == null || emps.length < 3)
-			throw new WarehouseException("Not enough Employees passed. At least 3 are required!");
+			throw new HRException(this, "Not enough Employees passed. At least 3 are required!", ExceptionCategorie.PROGRAMMING_ERROR);
 		
 		for (Employee e : emps) {
 			if(e.getType() != EmployeeType.STORE_KEEPER)
-				throw new WrongEmployeeTypeException();
+				throw new WrongEmployeeTypeException(this);
 		}
 		
 		for (int i = 0; i < emps.length; i++) {
@@ -226,7 +228,7 @@ public class Warehouse extends Department implements CostFactor{
 	}
 
 	public int getRequiredEmployees() {
-		return (int) (BASE_REQ_EMP * Math.pow(UpgradeFactors.WAREHOUSE_EMP_INC, lvl));
+		return BASE_REQ_EMP +  UpgradeFactors.WAREHOUSE_EMP_INC * lvl;
 	}
 	
 	public void upgrade(){

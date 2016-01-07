@@ -5,24 +5,30 @@ import java.util.Arrays;
 import java.util.List;
 
 import sim.abstraction.Tupel;
+import sim.bank.BankAccount;
+import sim.bank.BankException;
 import sim.hr.Department;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
+import sim.hr.HRException;
 import sim.hr.WrongEmployeeTypeException;
+import sim.procurement.Procurement;
 import sim.procurement.Resource;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import sim.production.Machine;
-import sim.production.MachineException;
 import sim.production.MachineType;
 import sim.production.PFHouse;
 import sim.production.PFHouseType;
 import sim.production.ProductionHouse;
 import sim.production.Wall;
 import sim.production.WallType;
+import sim.research.dev.ExtendWarehouse;
+import sim.research.dev.UpgradeException;
 import sim.research.dev.UpgradeProcessor;
+import sim.sales.Sales;
 import sim.simulation.sales.Offer;
 import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
@@ -31,32 +37,24 @@ public class Enterprise {
 
 	private static final int START_CASH = 1000000;
 
-	private int cash;
-	private int saldo;
+	private BankAccount bank;
 
-	ResourceMarket market;
-	private Warehouse warehouse;
-	private ProductionHouse production;
+	private ResourceMarket market;
 
 	private List<PFHouse> housesInConstruction;
 	private List<PFHouseType> researchedHouseTypes;
 
-	// This list represents a catalogue of pfhouse-offers, which
-	// specify the walls for a house-type as well as the price.
-	private List<Offer> offers;
-
 	private UpgradeProcessor upgrades;
 
-	// Employee management for warehouse and production goes in the distinct
-	// classes
 	private HR hr;
-	private Department sales;
-	private Department procurement;
+	private Sales sales;
+	private Procurement procurement;
 	private Department marketResearch;
-	// private ResearchProject designthinking; //architect
+	private Warehouse warehouse;
+	private ProductionHouse production;
 
 	public Enterprise(ResourceMarket market) {
-		cash = START_CASH;
+		bank = new BankAccount(START_CASH);
 
 		this.market = market;
 
@@ -65,11 +63,9 @@ public class Enterprise {
 
 		upgrades = new UpgradeProcessor();
 
-		offers = new ArrayList<>();
-
 		production = new ProductionHouse();
-		sales = new Department(EmployeeType.SALES);
-		procurement = new Department(EmployeeType.PROCUREMENT);
+		sales = new Sales();
+		procurement = new Procurement();
 		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
 		hr = new HR();
 
@@ -85,7 +81,7 @@ public class Enterprise {
 
 		try {
 			warehouse = new Warehouse(storeKeeper);
-		} catch (WarehouseException e) {
+		} catch (HRException e) {
 			e.printStackTrace();
 		} catch (WrongEmployeeTypeException e) {
 			e.printStackTrace();
@@ -95,29 +91,30 @@ public class Enterprise {
 	/**
 	 * Method to simulate one time-step for the enterprise
 	 */
-	public List<Exception> doSimulationStep(List<Offer> soldOffer) {
-		int oldCash = cash;
-		List<Exception> errorStore = new ArrayList<>();
+	public List<EnterpriseException> doSimulationStep(List<Offer> soldOffer) {
+		List<EnterpriseException> msgStore = new ArrayList<>();
 
-
-		//Set the new wall and offer qualities based on the average machine quality and walltype-qualities
+		// Set the new wall and offer qualities based on the average machine
+		// quality and walltype-qualities
 		this.setWallQuality();
-		this.setOfferQuality();
-		
-		
+		sales.setOfferQuality();
+
 		// process results from buyer's market-simulation.
-		if (soldOffer.size() != offers.size())
-			errorStore.add(new EnterpriseException("Size of sold amount items and number of offers differs"));
+		if (soldOffer.size() != sales.getOfferCount()) // this is for safety
+														// only
+			msgStore.add(new EnterpriseException(this, "Size of sold amount items and number of offers differs",
+					ExceptionCategorie.PROGRAMMING_ERROR));
 		else {
 			for (Offer offer : soldOffer) {
-				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getMaximumProducable(); i++) {
+				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getProductionLimit(); i++) {
 					try {
-						System.out.println("DOSIM -- started house production: " + offer.getHousetype() + "; " + (i + 1)
-								+ " / " + offer.getNumberOfPurchases());
 						startPFHouseProduction(offer, hr.getUnassignedEmployees(EmployeeType.ASSEMBLER,
 								offer.getHousetype().getEmployeeCount()));
+						msgStore.add(new EnterpriseException(this, "A new house production was started!",
+								ExceptionCategorie.INFO));
 					} catch (EnterpriseException e) {
 						e.printStackTrace();
+						msgStore.add(e);
 					}
 				}
 			}
@@ -128,45 +125,63 @@ public class Enterprise {
 			h.processConstruction();
 
 			if (h.isFinished()) {
-				System.out.println("DOSIM -- house poduction finished: " + h.getType());
+
+				msgStore.add(new EnterpriseException(this, "A new house was built!", ExceptionCategorie.INFO));
 				housesInConstruction.remove(i--);
 
-				cash += h.getPrice(); // employee costs are handled through hr;
-										// resources and walls did already cost
+				try {
+					bank.deposit(h.getPrice());
+				} catch (BankException e) {
+					msgStore.add(e);
+				}
+				// employee costs are handled through hr;
+				// resources and walls did already cost
 			}
 		}
 
 		// process machine production
-		List<MachineException> productionErrors = production.processProduction(warehouse);
-		errorStore.addAll(productionErrors);
+		List<EnterpriseException> productionErrors = production.processProduction(warehouse);
+		msgStore.addAll(productionErrors);
 
-		for (MachineException me : productionErrors) {
-			System.out.println("DOSIM -- wall production errors: " + me.getMessage());
-		}
-		
-		
 		// Handle the upgrade progress
 		upgrades.processUpgrades(this); // upgrades cost only once at the
-										// beginning
+		// beginning
 
 		// handle more cash flow things
-		cash -= hr.getOverallEmployeeCosts(); // this makes sure we also pay for
-												// unassigned employees ;)
-		cash -= production.getCosts();
-		cash -= production.getMachineCosts();
-		cash -= warehouse.getCosts();
-
-		// calculate the cash difference;
-		saldo = cash - oldCash;
-
-		System.out.println("DOSIM -- " + cash + " -- " + saldo);
-
-		// Reset number of purchases for the next simulation step.
-		for (int k = 0; k < offers.size(); k++) {
-			offers.get(k).setNumberOfPurchases(0);
+		try {
+			bank.charge(hr.getOverallEmployeeCosts());
+		} catch (BankException e) {
+			msgStore.add(e);
+		} // this makes sure we also pay for unassigned employees ;)
+		try {
+			bank.charge(production.getCosts());
+		} catch (BankException e) {
+			msgStore.add(e);
+		}
+		try {
+			bank.charge(production.getMachineCosts());
+		} catch (BankException e) {
+			msgStore.add(e);
+		}
+		try {
+			bank.charge(warehouse.getCosts());
+		} catch (BankException e) {
+			msgStore.add(e);
 		}
 
-		return errorStore;
+		try {
+			bank.simStep();
+		} catch (BankException e) {
+			msgStore.add(e);
+		}
+
+		msgStore.add(new EnterpriseException(this, "The saldo for this round is: " + bank.getSaldo(),
+				ExceptionCategorie.INFO));
+
+		// Reset number of purchases for the next simulation step.
+		sales.resetOffers();
+
+		return msgStore;
 	}
 
 	/**
@@ -183,21 +198,28 @@ public class Enterprise {
 	 * @throws EnterpriseException
 	 *             Not enough space in the warehouse or not enough Money
 	 */
-	public void buyResources(ResourceType type, int amount) throws EnterpriseException, ResourceMarketException {
-		int price = amount * market.getPrice(type);
-		if (price > cash) {
-			throw new EnterpriseException("Not enough Money to buy " + amount + " Resources!");
-		}
+	public void buyResources(ResourceType type, int amount)
+			throws BankException, ResourceMarketException, HRException, WarehouseException {
+		if (procurement.getEmployeeCount() == 0) // this should never happen;
+													// just for safety
+			throw new HRException(this, "Procurement has no employees assigned; cannot buy on market.",
+					ExceptionCategorie.PROGRAMMING_ERROR);
 
-		if (warehouse.isStoreable(type, amount)) {
-			Resource[] resources = market.buyResources(type, amount);
-			cash -= price;
-			if (resources != null) {
-				if (!warehouse.storeResource(resources)) {
-					throw new EnterpriseException("Not enough space in your warehouse!");
-				}
-			}
-		}
+		int price = amount * market.getPrice(type);
+
+		if (!warehouse.isStoreable(type, amount))
+			throw new WarehouseException(this, "Could not store the requested amount of resources in the Warehouse!",
+					ExceptionCategorie.ERROR);
+
+		if (!bank.canBeCharged(price))
+			throw new BankException(this, "Could not charge the bank for " + price, ExceptionCategorie.ERROR);
+
+		// the following should now work without exception
+		bank.charge(price); // we already checked whether we can charge the bank
+							// for it
+		Resource[] resources = market.buyResources(type, amount);
+		warehouse.storeResource(resources); // we already checked that we can
+											// store the required amount
 	}
 
 	/**
@@ -221,11 +243,12 @@ public class Enterprise {
 	 *         warehouse.
 	 * 
 	 */
-	public void startPFHouseProduction(Offer offer, Employee[] pEmployees) throws EnterpriseException {
+	public void startPFHouseProduction(Offer offer, Employee[] pEmployees)
+			throws EnterpriseException, WarehouseException, HRException {
 
 		// ------------------------------------------------------------------------------------------CONDITIONS-CHECK:START
 		if (offer == null && pEmployees != null)
-			throw new EnterpriseException("Invalid offer given!");
+			throw new EnterpriseException(this, "Invalid paramteres passed!", ExceptionCategorie.PROGRAMMING_ERROR);
 
 		// How much walls are needed for pfhousetype?
 		WallType[] wt = offer.getHousetype().getRequiredWallTypes();
@@ -253,7 +276,8 @@ public class Enterprise {
 
 				if (tmp < wc[i]) {
 					// ...otherwise terminate the method.
-					throw new EnterpriseException("The given walls are not valid for creating a PFHouse!");
+					throw new EnterpriseException(this, "The given walls are not valid for creating a PFHouse!",
+							ExceptionCategorie.ERROR);
 				}
 			} else {
 				generalWallRequired = true;
@@ -270,13 +294,13 @@ public class Enterprise {
 			}
 		}
 		if (remainingWallCounts < wc[generalWallIndex]) {
-			throw new EnterpriseException("Not enough walls of type 'GENERAL'!");
+			throw new EnterpriseException(this, "Not enough walls of type 'GENERAL'!", ExceptionCategorie.ERROR);
 		}
 
 		// needed walls are in the warehouse.
 		for (int i = 0; i < tupel.length; i++) {
 			if (!warehouse.isInStorage(tupel[i].type, taken[i])) {
-				throw new EnterpriseException("Not enough walls in your warehouse!");
+				throw new WarehouseException(this, "Not enough walls in your warehouse!", ExceptionCategorie.ERROR);
 			}
 		}
 
@@ -287,7 +311,7 @@ public class Enterprise {
 		// Check whether the needed resources are in the warehouse.
 		for (int i = 0; i < rt.length; i++) {
 			if (!warehouse.isInStorage(rt[i], rc[i])) {
-				throw new EnterpriseException("Not enough resources in your warehouse!");
+				throw new WarehouseException(this, "Not enough resources in your warehouse!", ExceptionCategorie.ERROR);
 			}
 		}
 		// enough resources in warehouse
@@ -303,7 +327,7 @@ public class Enterprise {
 			}
 		}
 		if (employees.size() < offer.getHousetype().getEmployeeCount()) {
-			throw new EnterpriseException("Not enough employees to build this house!");
+			throw new HRException(this, "Not enough employees to build this house!", ExceptionCategorie.ERROR);
 		}
 		// enough employees
 
@@ -354,6 +378,7 @@ public class Enterprise {
 	 * @returns the actual FixedCosts
 	 * 
 	 */
+	// TODO: this is only used in one test case? can be removed?
 	public int calculateFixedCosts() {
 		int sum = 0;
 		sum += warehouse.getOverallCosts();
@@ -365,8 +390,9 @@ public class Enterprise {
 		return sum;
 	}
 
-	public void checkRequirementsforOffer(PFHouseType housetype, int amount, Tupel<WallType>... selectedWalltype)
-			throws EnterpriseException {
+	// TODO: this method is only used in one test case. should be removed?
+	public void checkRequirementsforOffer(PFHouseType housetype, int amount,
+			@SuppressWarnings("unchecked") Tupel<WallType>... selectedWalltype) throws EnterpriseException {
 
 		WallType[] walltypes = housetype.getRequiredWallTypes();
 		int[] wallcount = housetype.getWallCounts();
@@ -374,22 +400,57 @@ public class Enterprise {
 		for (int i = 0; i < wallcount.length; i++) {
 			if (selectedWalltype[0].type == walltypes[i] || walltypes[i] == WallType.PANORAMA_WALL) {
 				if (!warehouse.isInStorage(walltypes[i], wallcount[i] * amount)) {
-					throw new EnterpriseException("Not Enough Walls to create a Offer for this Type!");
+					throw new WarehouseException(this, "Not Enough Walls to create a Offer for this Type!",
+							ExceptionCategorie.ERROR);
 				}
 			}
 		}
 
 		if (housetype.getEmployeeCount() * amount > hr.getAmount(EmployeeType.ASSEMBLER)) {
-			throw new EnterpriseException("Not enough Employees to build the houses");
+			throw new HRException(this, "Not enough Employees to build the houses", ExceptionCategorie.ERROR);
 		}
 
 		ResourceType[] resourcetypes = housetype.getRequiredResourceTypes();
 		int[] resourcecount = housetype.getResourceCounts();
 		for (int i = 0; i < wallcount.length; i++) {
 			if (!warehouse.isInStorage(resourcetypes[i], resourcecount[i] * amount)) {
-				throw new EnterpriseException("Not enough Resources to build an offer!");
+				throw new WarehouseException(this, "Not enough Resources to build an offer!", ExceptionCategorie.ERROR);
 			}
 		}
+	}
+
+	public int getMaxProducibleHouses(Offer o) {
+		int maximum = 0;
+
+		// check walls
+		Tupel<WallType>[] walltypes = o.getWalltype();
+
+		boolean first = true;
+		for (int i = 0; i < walltypes.length; i++) {
+			if (walltypes[i].count > 0) {
+				int max = warehouse.getStoredAmount(walltypes[i].type) / walltypes[i].count;
+				if (first) {
+					maximum = max;
+					first = false;
+				}
+				maximum = Math.min(max, maximum);
+			}
+		}
+
+		// check resources
+		ResourceType[] resourcetypes = o.getHousetype().getRequiredResourceTypes();
+		int[] resourcecount = o.getHousetype().getResourceCounts();
+
+		for (int i = 0; i < resourcetypes.length; i++) {
+			int max = warehouse.getStoredAmount(resourcetypes[i]) / resourcecount[i];
+			maximum = Math.min(max, maximum);
+		}
+
+		// check employees
+		int max = hr.getAmount(EmployeeType.ASSEMBLER) / o.getHousetype().getEmployeeCount();
+
+		maximum = Math.min(max, maximum);
+		return maximum;
 	}
 
 	public int getMaxProducibleHouses(PFHouseType pfhouse) {
@@ -461,73 +522,111 @@ public class Enterprise {
 		return costs;
 	}
 
-	public void buyMachine(MachineType type) throws EnterpriseException {
-		if (cash < type.getPrice()) {
-			throw new EnterpriseException("Not enough Money!");
+	public void buyMachine(MachineType type) throws BankException {
+		bank.charge(type.getPrice()); // method terminates when there was an
+										// error charching the bank
+		production.buyMachine(type);
+	}
+
+	public void startEmployeeTraining(Employee e) throws UpgradeException, BankException {
+		if (bank.canBeCharged(e.getType().getUpgradeCosts())) {
+
+			upgrades.startEmployeeTraining(e); // method terminates when there
+												// was an error starting the emp
+												// training
+			bank.charge(e.getType().getUpgradeCosts()); // before charching the
+														// bank; the check at
+														// the beginning made
+			// sure the bank charge won't throw an error.
 		}
-		cash -= production.buyMachine(type);
 	}
 
-	public boolean startEmployeeTraining(Employee e) {
-		int costs = upgrades.startEmployeeTraining(e);
-		if (costs > 0)
-			cash -= costs;
-		return costs >= 0;
+	public void startMachineUpgrade(Machine m) throws UpgradeException, BankException {
+		if (bank.canBeCharged(m.getType().getUpgradeCosts())) {
+			upgrades.startMachineUpgrade(m, hr);
+			bank.charge(m.getType().getUpgradeCosts());
+		}
 	}
 
-	public boolean startMachineUpgrade(Machine m, HR hr) {
-		int costs = upgrades.startMachineUpgrade(m, hr);
-		if (costs > 0)
-			cash -= costs;
-		return costs >= 0;
+	public void startWarehouseExtension() throws UpgradeException, BankException {
+		if (bank.canBeCharged(ExtendWarehouse.UPGRADE_COSTS)) {
+			upgrades.startWarehouseExtension(warehouse);
+			bank.charge(ExtendWarehouse.UPGRADE_COSTS);
+		}
 	}
 
-	public boolean startWarehouseExtension(Warehouse w) {
-		int costs = upgrades.startWarehouseExtension(w);
-		if (costs > 0)
-			cash -= 0;
-		return costs >= 0;
-	}
-
-	public boolean startResearchProject(PFHouseType type, Employee arch) {
-		int costs = upgrades.startResearchProject(type, arch);
-		if (costs > 0)
-			cash -= costs;
-		return costs >= 0;
+	public void startResearchProject(PFHouseType type, Employee arch) throws UpgradeException, BankException {
+		if (bank.canBeCharged(type.getResearchCosts())) {
+			upgrades.startResearchProject(type, arch);
+			bank.charge(type.getResearchCosts());
+		}
 	}
 
 	public void setWallQuality() {
-		
+
 		List<Tupel<MachineType>> avg = this.production.getAllAvgMachineQualities();
-		
+
 		WallType[] t = WallType.values();
 		for (WallType wallType : t) {
 			Tupel<MachineType> cAvg = null;
 			boolean found = false;
-			for (int i=0; i<avg.size() && found == false; i++) {
+			for (int i = 0; i < avg.size() && found == false; i++) {
 				Tupel<MachineType> tmp = avg.get(i);
 				WallType[] wtth = tmp.type.getWalltypesToHandle();
 				for (WallType wallType2 : wtth) {
 					if (wallType2 == wallType) {
-						wallType.setQualityFactor(wallType.getInitialQualityFactor()*tmp.count);
+						wallType.setQualityFactor(wallType.getInitialQualityFactor() * tmp.count);
 						found = true;
 						break;
 					}
 				}
 			}
 		}
-		
+
 	}
 
-	public void setOfferQuality() {
-		for (Offer offer : offers) {
-			Tupel<WallType>[] tmp = offer.getWalltype();
-			int quality = 0;
-			for (Tupel<WallType> tupel : tmp) {
-				quality += tupel.count * tupel.type.getQualityFactor();
+	public List<Employee> autoAssignEmployees(Employee... emps) {
+		for (Employee e : emps) {
+			switch (e.getType()) {
+			case ARCHITECT:
+				// no auto assign possible; needs to be assigned to a research
+				// project
+				break;
+			case ASSEMBLER:
+				// no auto assign possible; auto assigned during production as
+				// required
+				break;
+			case HR:
+				hr.assignEmployee(e);
+				break;
+			case MARKET_RESEARCH:
+				marketResearch.assignEmployee(e);
+				break;
+			case PROCUREMENT:
+				procurement.assignEmployee(e);
+				break;
+			case PRODUCTION:
+				// no auto assign possible; user needs to decide which machine
+				// to assign them to
+				break;
+			case SALES:
+				sales.assignEmployee(e);
+				break;
+			case STORE_KEEPER:
+				warehouse.assignEmployee(e);
+				break;
+
+			default:
+				break;
 			}
-			offer.setQuality(quality);
 		}
+
+		List<Employee> unassigned = new ArrayList<>();
+		for (Employee e : emps) {
+			if (!e.isAssigned())
+				unassigned.add(e);
+		}
+		return unassigned;
 	}
 
 	public Warehouse getWarehouse() {
@@ -550,23 +649,15 @@ public class Enterprise {
 		return hr;
 	}
 
-	public int getCash() {
-		return cash;
-	}
-
-	public int getSaldo() {
-		return saldo;
-	}
-
-	public List<Offer> getOffers() {
-		return offers;
-	}
-
-	public void addOffer(Offer offer) {
-		this.offers.add(offer);
-	}
-
 	public ResourceMarket getMarket() {
 		return market;
+	}
+
+	public Sales getSales() {
+		return sales;
+	}
+
+	public BankAccount getBankAccount() {
+		return bank;
 	}
 }

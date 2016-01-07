@@ -22,6 +22,7 @@ public abstract class Connection<M extends Message, A extends Message> extends T
 	
 	public Connection(Socket s) {
 		try {
+			this.s = s;
 			out = new ObjectOutputStream(s.getOutputStream());
 			out.flush(); // omg
 			in = new ObjectInputStream(s.getInputStream());
@@ -64,5 +65,9 @@ public abstract class Connection<M extends Message, A extends Message> extends T
 	
 	public final boolean hasAnswered(){
 		return ans != null;
+	}
+	
+	public boolean isClosed() {
+		return closed;
 	}
 }

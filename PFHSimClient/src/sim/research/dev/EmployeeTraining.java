@@ -26,7 +26,7 @@ public class EmployeeTraining extends Upgrade<Employee> {
 	}
 	
 	@Override
-	public void simRound() {
+	void simRound() {
 		if(running)
 			super.simRound();
 		else

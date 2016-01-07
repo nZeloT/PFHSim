@@ -1,11 +1,12 @@
 package sim.simulation.sales;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import sim.production.WallType;
 
 public class PricePerformanceBuyerTest {
 
-	HashMap<Integer, List<Offer>> testOffers = new HashMap<>();
+	HashMap<String, List<Offer>> testOffers = new HashMap<>();
 	PFHouseType[] types = PFHouseType.values();
 	WallType[] walltypes = WallType.values();
 
@@ -28,7 +29,7 @@ public class PricePerformanceBuyerTest {
 				tmp.add(new Offer(500 * (int) (Math.random() * 10), 25, types[j], 8,
 						new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS, 5)));
 			}
-			testOffers.put(i, tmp);
+			testOffers.put("" + i, tmp);
 		}
 	}
 
@@ -36,10 +37,10 @@ public class PricePerformanceBuyerTest {
 	public void testPricePerformaceBuyer() {
 		PricePerformanceBuyer buyer = new PricePerformanceBuyer();
 		buyer.sortOffers(testOffers);
-		HashMap<Integer, List<Offer>> results = buyer.registerPurchases(0, 10, 2, new int []{0,1,2,3});
+		HashMap<String, List<Offer>> results = buyer.registerPurchases(0, 10, 2, new String []{"0","1","2","3"});
 		assertNotNull(results);
 		boolean noPurchases = true;
-		for (Map.Entry<Integer, List<Offer>> entry : results.entrySet()) {
+		for (Entry<String, List<Offer>> entry : results.entrySet()) {
 			List<Offer> current = entry.getValue();
 			System.out.println("Enterprise "+ entry.getKey()+ " with the following Offers:");
 			

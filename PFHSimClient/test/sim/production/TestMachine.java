@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
+import sim.EnterpriseException;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
@@ -156,7 +157,7 @@ public class TestMachine {
 		try {
 			masch.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
 			masch.produceWall(w);
-		} catch (MachineException e) {
+		} catch (EnterpriseException e) {
 			assertEquals(w.isInStorage(WallType.LIGHT_WEIGHT_CONSTRUCTION), false);
 		}
 
@@ -187,7 +188,7 @@ public class TestMachine {
 		try {
 			masch.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
 			masch.produceWall(w);
-		} catch (MachineException e) {
+		} catch (EnterpriseException e) {
 			e.printStackTrace();
 		}
 		assertEquals(w.isInStorage(WallType.LIGHT_WEIGHT_CONSTRUCTION),true);	
@@ -220,7 +221,7 @@ public class TestMachine {
 		try {
 			masch.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
 			masch.produceWall(w);
-		} catch (MachineException e) {
+		} catch (EnterpriseException e) {
 			fail();
 		}
 

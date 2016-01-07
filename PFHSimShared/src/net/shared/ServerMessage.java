@@ -12,10 +12,10 @@ public class ServerMessage implements Message{
 	private final HashMap<ResourceType, Integer> newResourcePrices;
 	private final List<Offer> soldOfferAmounts;
 	private final boolean gameEnded;
-	private final List<Offer> marketResearch;
+	private final HashMap<String, List<Offer>> marketResearch;
 	
 	public ServerMessage(HashMap<ResourceType, Integer> newResourcePrices, List<Offer> soldOfferAmounts, boolean gameEnded,
-			List<Offer> marketResearch) {
+			HashMap<String, List<Offer>> marketResearch) {
 		super();
 		this.newResourcePrices = newResourcePrices;
 		this.soldOfferAmounts = soldOfferAmounts;
@@ -35,7 +35,7 @@ public class ServerMessage implements Message{
 		return gameEnded;
 	}
 
-	public List<Offer> getMarketResearch() {
+	public HashMap<String, List<Offer>> getMarketResearch() {
 		return marketResearch;
 	}
 	

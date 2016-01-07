@@ -45,13 +45,9 @@ public class ServerSimulation {
 		market.adjustPrices(soldResources);
 		
 		//3. aggregate all the received data for the sales simulation
-		HashMap<Integer, List<Offer>> offers = new HashMap<>();
-		List<Offer> marketResearch = new ArrayList<>();
-		for (int i = 0; i < clntMsgs.length; i++) {
-			offers.put(i, clntMsgs[i].getNewCatalog());
-			
-			//TODO: is this correct? collect the data of ALL enterprises? or just the ones who are not the player?
-			marketResearch.addAll(clntMsgs[i].getNewCatalog());
+		HashMap<String, List<Offer>> offers = new HashMap<>();
+		for (ClientMessage msg : clntMsgs) {
+			offers.put(msg.getName(), msg.getNewCatalog());
 		}
 		
 		//4. pass those values to the sales simulation
@@ -70,9 +66,10 @@ public class ServerSimulation {
 		System.out.println("<-------------------------------->");
 		System.out.println();
 		
-		//6. build the response objects
+		//7. build the response objects
 		for (int i = 0; i < servMsgs.length; i++) {
-			servMsgs[i] = new ServerMessage(new HashMap<>(market.getCosts()), new ArrayList<>(offers.get(i)), isFinished, marketResearch);
+			String name = clntMsgs[i].getName();
+			servMsgs[i] = new ServerMessage(new HashMap<>(market.getCosts()), new ArrayList<>(offers.get(name)), isFinished, new HashMap<>(offers));
 		}
 		
 		return servMsgs;
@@ -84,6 +81,6 @@ public class ServerSimulation {
 	}
 	
 	public ServerMessage getSetupMessage(){
-		return new ServerMessage(market.getCosts(), new ArrayList<Offer>(), false, new ArrayList<Offer>());
+		return new ServerMessage(market.getCosts(), new ArrayList<Offer>(), false, new HashMap<String, List<Offer>>());
 	}
 }

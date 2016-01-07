@@ -6,24 +6,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="vboxContainer" prefHeight="300.0" prefWidth="531.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ListView fx:id="listOverview" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-      </ListView>
       <HBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
-            <ComboBox fx:id="cbbEmpType" onAction="#onEmpTypeChanged" prefWidth="150.0" />
-            <TextField fx:id="textEmpCount" onAction="#onEmpCountChanged" promptText="How many?" />
-            <Label fx:id="lblEmpCosts" text="EMPLOYEE_COSTS" />
-            <Pane prefHeight="10.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
             <Button fx:id="btnHire" mnemonicParsing="false" onAction="#onHireNewEmployees" text="Hire" />
+            <Pane prefHeight="10.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
       </HBox>
+      <ListView fx:id="listOverview" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </ListView>
    </children>
 </VBox>

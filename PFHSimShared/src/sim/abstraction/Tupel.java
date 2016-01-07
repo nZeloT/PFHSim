@@ -15,7 +15,7 @@ public class Tupel<T extends GeneralType> implements Serializable{
 	private static final long serialVersionUID = -8910736050619929803L;
 	
 	final public T type;
-	final public int count;
+	public int count;
 	
 	public Tupel(T type, int count) {
 		this.type = type;

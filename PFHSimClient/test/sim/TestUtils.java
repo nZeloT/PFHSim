@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import sim.hr.EmployeeType;
 import sim.procurement.ResourceMarket;
-import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import sim.production.MachineType;
 
@@ -36,8 +35,6 @@ public class TestUtils {
 			e.buyResources(ResourceType.ROOF_TILE, 150);
 			e.buyResources(ResourceType.WINDOW, 25);
 		} catch (EnterpriseException e1) {
-			e1.printStackTrace();
-		} catch (ResourceMarketException e1) {
 			e1.printStackTrace();
 		}
 

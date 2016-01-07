@@ -13,10 +13,10 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 	private int undistributed = 0;
 
 	@Override
-	public void sortOffers(HashMap<Integer, List<Offer>> in) {
+	public void sortOffers(HashMap<String, List<Offer>> in) {
 
 		numberOfOffers = 0;
-		for (Map.Entry<Integer, List<Offer>> entry : in.entrySet()) {
+		for (Map.Entry<String, List<Offer>> entry : in.entrySet()) {
 			
 			List<Offer> offer = entry.getValue();
 			for (int i = 0; i < offer.size(); i++) {
@@ -53,9 +53,9 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 
 
 	@Override
-	public HashMap<Integer, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, int[] e) {
+	public HashMap<String, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, String[] e) {
 				
-		HashMap<Integer, List<Offer>> results = new HashMap<>();
+		HashMap<String, List<Offer>> results = new HashMap<>();
 //		PFHouseType houseteypes[] = PFHouseType.values();
 		for (int i = 0; i < e.length; i++) {
 			results.put(e[i], new ArrayList<Offer>());
@@ -75,9 +75,9 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 				double ratio = (1.0*tmp.get(j).expensiveBuyerInterest)/cumulatedQualities;
 				
 				int num = (int) (ratio * demand) + undistributed;
-				if ((tmp.get(j).offer.getMaximumProducable()-tmp.get(j).offer.getNumberOfPurchases()) < num) {
-					undistributed += num - tmp.get(j).offer.getMaximumProducable() - tmp.get(j).offer.getNumberOfPurchases();
-					num = tmp.get(j).offer.getMaximumProducable() - tmp.get(j).offer.getNumberOfPurchases();
+				if ((tmp.get(j).offer.getProductionLimit()-tmp.get(j).offer.getNumberOfPurchases()) < num) {
+					undistributed += num - tmp.get(j).offer.getProductionLimit() - tmp.get(j).offer.getNumberOfPurchases();
+					num = tmp.get(j).offer.getProductionLimit() - tmp.get(j).offer.getNumberOfPurchases();
 				} else {
 					undistributed = 0;
 				}

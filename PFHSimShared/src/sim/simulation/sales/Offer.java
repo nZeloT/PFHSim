@@ -6,35 +6,48 @@ import sim.abstraction.Tupel;
 import sim.production.PFHouseType;
 import sim.production.WallType;
 
-public class Offer implements Serializable{
+public class Offer implements Serializable {
 	private static final long serialVersionUID = 1718456673834939980L;
-	
+
 	private int price;
-	private int quality;
+	private int quality; 
 	private PFHouseType housetype;
 	private Tupel<WallType>[] walltype;
 	private int numberOfPurchases;
-	private int maximumProducable;
+	private int productionLimit;
 
 	@SafeVarargs
-	public Offer(int price, int qualityCoefficient, PFHouseType housetype,int max, Tupel<WallType>... walltype) {
+	public Offer(int price, int qualityCoefficient, PFHouseType housetype, int max, Tupel<WallType>... walltype) {
 		this.price = price;
 		this.housetype = housetype;
 		this.walltype = walltype;
 		numberOfPurchases = 0;
-		maximumProducable = max;
+		productionLimit = max;
 		quality = 0;
 		for (int i = 0; i < walltype.length; i++) {
-			quality += qualityCoefficient * walltype[i].type.getQualityFactor() * walltype[i].count;
+			quality += walltype[i].type.getQualityFactor() * walltype[i].count;
 		}
 	}
-	
+
+	public void setSpecifiedWalltypes(Tupel<WallType>[] walltype) {
+
+				this.walltype = walltype;
+	}
+
+	public int getVariableCost() {
+		return 0;
+	}
+
+	public int getFixCost() {
+		return 0;
+	}
+
 	public Tupel<WallType>[] getSpecifiedWalltypes() {
 		return walltype;
 	}
-	
-	public int getAmountofProducable(){
-		return maximumProducable;
+
+	public int getAmountofProducable() {
+		return productionLimit;
 	}
 
 	public int getQuality() {
@@ -72,9 +85,13 @@ public class Offer implements Serializable{
 	public int getNumberOfPurchases() {
 		return numberOfPurchases;
 	}
+
+	public int getProductionLimit() {
+		return productionLimit;
+	}
 	
-	public int getMaximumProducable() {
-		return maximumProducable;
+	public void setProductionLimit(int productionLimit) {
+		this.productionLimit = productionLimit;
 	}
 
 }

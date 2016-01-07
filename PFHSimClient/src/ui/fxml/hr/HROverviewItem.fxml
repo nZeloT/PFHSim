@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="hboxContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105.0" prefWidth="586.0" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105.0" prefWidth="586.0" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="lblEmpType" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="150.0" text="EMPLOYEE_TYPE" HBox.hgrow="SOMETIMES" />
       <Pane prefHeight="200.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
@@ -31,6 +31,18 @@
             </VBox>
          </children>
       </HBox>
+      <Pane prefHeight="200.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label text="Costs">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="lblCosts" text="COSTS" />
+         </children>
+      </VBox>
+      <Pane prefHeight="200.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
       <Button fx:id="btnView" minWidth="-Infinity" mnemonicParsing="false" onAction="#onViewDetails" text="View List" />
    </children>
    <padding>

@@ -6,12 +6,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="hboxContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="787.0" spacing="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="lblEmpName" maxWidth="1.7976931348623157E308" text="EMPLOYEE_NAME" HBox.hgrow="ALWAYS" />
+      <Label fx:id="lblEmpName" maxWidth="150.0" prefWidth="150.0" text="EMPLOYEE_NAME" HBox.hgrow="ALWAYS" />
       <Label fx:id="lblEmpCosts" text="EMPLOYEE_COSTS" />
       <Pane prefHeight="200.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
       <Label fx:id="lblEmpStatus" text="STATUS" />
+      <ComboBox fx:id="cbbAssignedWorkplace" onAction="#onNewMachineSelected" prefWidth="150.0" visible="false" />
       <Pane prefHeight="10.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
       <Label fx:id="lblUpgradeLevel" text="UPGRADE_LEVEL" />
       <Button fx:id="btnUpgrade" mnemonicParsing="false" onAction="#onUpgrade" text="Upgrade" />

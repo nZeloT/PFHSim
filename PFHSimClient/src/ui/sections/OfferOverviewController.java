@@ -28,6 +28,7 @@ import sim.production.WallType;
 import sim.simulation.sales.Offer;
 import ui.abstraction.Container;
 import ui.abstraction.UISection;
+import ui.abstraction.Utils;
 
 public class OfferOverviewController extends Container<VBox> implements UISection {
 
@@ -143,7 +144,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 					}
 				}
 
-				btn_save.setDisable(false);
+				//System.out.println("button enabledx");
+				//btn_save.setDisable(false);
 
 				WallType[] walltypes = selectedType.getRequiredWallTypes();
 				int[] walltypes_count = selectedType.getWallCounts();
@@ -459,14 +461,10 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			duration.setText("" + selectedOffer.getHousetype().getConstructionDuration());
 
 			// set cost calculation figures.
-			varcost.setText("" + selectedOffer.getVariableCost());
-			fixcost.setText("" + selectedOffer.getFixCost());
-			try {
-				sum.setText("" + (selectedOffer.getVariableCost() + selectedOffer.getFixCost()
-						+ Integer.parseInt(profit.getText())));
-			} catch (NumberFormatException e2) {
-				sum.setText("" + (selectedOffer.getVariableCost() + selectedOffer.getFixCost()));
-			}
+			varcost.setText("" + ent.calculateVariableCosts(selectedOffer));
+			fixcost.setText("" + ent.calculateFixedCosts());
+			sum.setText("" + selectedOffer.getPrice());
+			profit.setText("" + (selectedOffer.getPrice() - ent.calculateVariableCosts(selectedOffer)));
 
 			// set quality.
 			quality.setText("" + selectedOffer.getQuality());
@@ -511,20 +509,12 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			if (Integer.parseInt(profit.getText()) < 0) {
 				throw new NumberFormatException();
 			}
-			sum.setText("" + (selectedOffer.getVariableCost() + selectedOffer.getFixCost()
+			sum.setText("" + (ent.calculateVariableCosts(selectedOffer) 
 					+ Integer.parseInt(profit.getText())));
 		} catch (NumberFormatException e2) {
-			sum.setText("" + (selectedOffer.getVariableCost() + selectedOffer.getFixCost()));
-			System.out.println("wrong number format");
-
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Warning");
-			alert.setHeaderText(null);
-			alert.setContentText(
-					"Pleasy type in a number lower between " + Integer.MIN_VALUE + " and " + Integer.MAX_VALUE);
-			alert.showAndWait();
 
 		}
+		System.out.println("button enabdled");
 		btn_save.setDisable(false);
 	}
 
@@ -539,6 +529,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			System.out.println("wrong number format");
 
 		}
+		System.out.println("button enablessd");
 		btn_save.setDisable(false);
 	}
 
@@ -546,54 +537,40 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	private void onSave(ActionEvent e) {
 		btn_save.setDisable(true);
 		try {
-
+			
 			int noOfSpecifiedWalls = 0;
 
 			List<Tupel<WallType>> walltype = new ArrayList<>();
 			if (!selection_lightweight.getText().equals("")) {
-				try {
+			
 					walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION,
 							Integer.parseInt(selection_lightweight.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_lightweight.getText());
-				} catch (Exception e3) {
-					e3.printStackTrace();
-				}
+				
 			}
 			if (!selection_lightweightplus.getText().equals("")) {
-				try {
+				
 					walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS,
 							Integer.parseInt(selection_lightweightplus.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_lightweightplus.getText());
-				} catch (Exception e3) {
-					e3.printStackTrace();
-				}
+				
 			}
 			if (!selection_massive.getText().equals("")) {
-				try {
 					walltype.add(new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION,
 							Integer.parseInt(selection_massive.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_massive.getText());
-				} catch (Exception e3) {
-					e3.printStackTrace();
-				}
 			}
 			if (!selection_massiveplus.getText().equals("")) {
-				try {
+			
 					walltype.add(new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION,
 							Integer.parseInt(selection_massiveplus.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_massiveplus.getText());
-				} catch (Exception e3) {
-					e3.printStackTrace();
-				}
+				
 			}
 			if (!selection_panorama.getText().equals("")) {
-				try {
 					walltype.add(new Tupel<WallType>(WallType.PANORAMA_WALL,
 							Integer.parseInt(selection_panorama.getText())));
 					noOfSpecifiedWalls += Integer.parseInt(selection_panorama.getText());
-				} catch (Exception e3) {
-					e3.printStackTrace();
-				}
 			}
 			WallType[] wt = null;
 			int[] wc = null;
@@ -627,8 +604,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			}
 			if (showingExistingOffer) {
 				if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
-
-					selectedOffer.setPrice(Integer.parseInt(sum.getText()));
+					
+					selectedOffer.setPrice((Integer.parseInt(varcost.getText())+Integer.parseInt(profit.getText())));
 					selectedOffer.setSpecifiedWalltypes(tupelarray);
 			  		selectedOffer.setProductionLimit(Integer.parseInt(productionlimit.getText()));
 					load();  
@@ -636,11 +613,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 				} else if (noOfSpecifiedWalls < selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
 
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Warning");
-					alert.setHeaderText(null);
-					alert.setContentText("Please specify enough walls in your offer.");
-					alert.showAndWait();
+					Utils.showError("Please specify enough walls in your offer.");
 
 				} else {
 
@@ -679,13 +652,15 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			}
 
 		} catch (NumberFormatException e2) {
-			e2.printStackTrace();
+			System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaa");
+			Utils.showError("Please type in numbers!");
 		}
 
 	}
 
 	@FXML
 	private void productionLimitChanged(KeyEvent e) {
+		System.out.println("button eaaaanabled");
 		btn_save.setDisable(false);
 	}
 
@@ -695,6 +670,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		if ((ent.getSales().getNumberOfAllowedOffers() - ent.getSales().getOfferCount()) > 0) {
 
 			title.setText("New offer");
+			System.out.println("button enabled");
 			btn_save.setDisable(false);
 
 			choosehousetype.setDisable(false);

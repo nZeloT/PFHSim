@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -60,6 +62,9 @@ public class MainWindow extends Container<SplitPane>{
 	private int currentPage;
 
 	private List<UISection> sections;
+	
+	private XYChart.Series<Integer, Integer> series;
+	private List<Integer> cashBuffer;
 
 	private Callback<List<EnterpriseException>, Boolean> roundTripProcessor;
 	private Welcome welcomePage;
@@ -71,6 +76,8 @@ public class MainWindow extends Container<SplitPane>{
 		this.ent.getBankAccount().setCashChanged(this::onMoneyChanged);
 		this.roundTripProcessor = roundTripProcessor;
 		this.timer = new Timer("Timer");
+		this.series = new XYChart.Series<Integer, Integer>();
+		this.cashBuffer = new ArrayList<Integer>();
 		load("/ui/fxml/MainWindow.fxml");
 	}
 
@@ -85,7 +92,7 @@ public class MainWindow extends Container<SplitPane>{
 
 		sections = new ArrayList<>();
 		sections.add(p);
-		//		sections.add(pro); TODO: add the production screen
+		sections.add(() -> {});
 		sections.add(hrp);
 		sections.add(w);
 		sections.add(r);
@@ -108,12 +115,16 @@ public class MainWindow extends Container<SplitPane>{
 		root.getChildren().get(1).setVisible(false);
 		root.getChildren().get(2).setVisible(false);
 		roundTripProgress.setProgress(-1);
+		
+		moneyChart.getData().add(series);
 
 		onMoneyChanged(0, ent.getBankAccount().getCash());
 		sheduleTimer();
 	}
 
 	private void switchStackPage(int newPage){
+		if(newPage > STACK_WELCOME)
+			sections.get(newPage-1).update();
 		stack.getChildren().get(currentPage).setVisible(false);
 		stack.getChildren().get(newPage).setVisible(true);
 		currentPage = newPage;
@@ -172,9 +183,18 @@ public class MainWindow extends Container<SplitPane>{
 
 	private void prepareNextRound(List<EnterpriseException> msg, boolean gameEnded){
 		if(!gameEnded){
+			cashBuffer.add(ent.getBankAccount().getCash());
+			if(cashBuffer.size() == 11)
+				cashBuffer.remove(0);
+			
+			series.getData().clear();
+			for (int i = 0; i < cashBuffer.size(); i++) {
+				series.getData().add(new XYChart.Data<Integer, Integer>(i, cashBuffer.get(i)));
+			}
+			
 			welcomePage.setMessages(msg);
-			switchStackPage(STACK_WELCOME);
 			sections.forEach(s -> s.update());
+			switchStackPage(STACK_WELCOME);
 			root.getChildren().get(1).setVisible(false);
 			
 			//start a timer which forces a end of the round after 2 minutes

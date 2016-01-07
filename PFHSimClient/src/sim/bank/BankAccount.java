@@ -63,7 +63,7 @@ public class BankAccount {
 				charge((int) (cash * DEBT_INTEREST_RATE));
 			}catch(BankException e){
 				onLimit = true;
-				throw new BankException(this, "Can no pay interests!!", ExceptionCategorie.ERROR);
+				throw new BankException(this, "Can not pay interests!!", ExceptionCategorie.ERROR);
 			}
 		}
 		

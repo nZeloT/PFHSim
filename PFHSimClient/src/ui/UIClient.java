@@ -41,16 +41,16 @@ public class UIClient extends Application {
 
 	@Override
 	public void start(Stage stg) throws Exception {
-		//if(initialise()){
+		if(initialise()){
 
 			//TODO this is only for testing without server stuff :D
-			ResourceType[] resources = ResourceType.values();
-			HashMap<ResourceType, Integer> costs = new HashMap<>();
-			for (int i = 0; i < resources.length; i++) {
-				costs.put(resources[i], resources[i].getBasePrice());
-			}
-			ResourceMarket market = new ResourceMarket(costs);
-			ent = new Enterprise(market);
+//			ResourceType[] resources = ResourceType.values();
+//			HashMap<ResourceType, Integer> costs = new HashMap<>();
+//			for (int i = 0; i < resources.length; i++) {
+//				costs.put(resources[i], resources[i].getBasePrice());
+//			}
+//			ResourceMarket market = new ResourceMarket(costs);
+//			ent = new Enterprise(market);
 			ent.buyMachine(MachineType.WOODWALL_MACHINE);
 			ent.buyMachine(MachineType.BRICKWALL_MACHINE);
 			ent.buyMachine(MachineType.BRICKWALL_MACHINE);
@@ -65,7 +65,7 @@ public class UIClient extends Application {
 
 			stg.show();
 			
-	//	}
+		}
 
 	}
 

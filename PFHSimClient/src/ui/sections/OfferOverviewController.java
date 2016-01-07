@@ -32,8 +32,9 @@ import ui.abstraction.Utils;
 
 public class OfferOverviewController extends Container<VBox> implements UISection {
 
-	private @FXML HBox offerdetails;
-
+	private @FXML HBox offerdetails1;
+	private @FXML VBox offerdetails2;
+	
 	private @FXML Label title;
 
 	private @FXML TextField selection_lightweight;
@@ -45,7 +46,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	private @FXML Label label_ncwall1;
 	private @FXML Label label_ncwall2;
 	private @FXML Label label_resource1;
-	private @FXML Label label_resource2;
+	private @FXML Label label_resource2; 
 	private @FXML Label req_cwall;
 	private @FXML Label req_ncwall1;
 	private @FXML Label req_ncwall2;
@@ -134,7 +135,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				if (newValue.equals(""))
 					return;
 
-				offerdetails.setVisible(true);
+				offerdetails1.setVisible(true);				
+				offerdetails2.setVisible(true);
 
 				PFHouseType[] types = PFHouseType.values();
 				for (PFHouseType tmp : types) {
@@ -670,20 +672,21 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		if ((ent.getSales().getNumberOfAllowedOffers() - ent.getSales().getOfferCount()) > 0) {
 
 			title.setText("New offer");
-			System.out.println("button enabled");
-			btn_save.setDisable(false);
+			btn_save.setDisable(true);
 
 			choosehousetype.setDisable(false);
 
 			ObservableList<String> housetypestring = FXCollections.observableArrayList();
-
-			PFHouseType[] types = PFHouseType.values();
-			for (PFHouseType pfHouseType : types) {
-				housetypestring.add(pfHouseType.toString());
+			
+			List<PFHouseType> researchedHousetypes = ent.getResearchedHouseTypes();
+			
+			for (PFHouseType pfHouseType : researchedHousetypes) {
+				housetypestring.add(pfHouseType.toString()); 
 			}
 			choosehousetype.setItems(housetypestring);
 
-			offerdetails.setVisible(false);
+			offerdetails1.setVisible(false);
+			offerdetails2.setVisible(false);
 
 			showingExistingOffer = false;
 

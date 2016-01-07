@@ -60,7 +60,8 @@ public class Enterprise {
 
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
-
+		researchedHouseTypes.add(PFHouseType.BUNGALOW);
+		
 		upgrades = new UpgradeProcessor();
 
 		production = new ProductionHouse();

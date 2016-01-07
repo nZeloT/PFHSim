@@ -24,6 +24,7 @@ import sim.abstraction.Tupel;
 import sim.hr.EmployeeType;
 import sim.procurement.ResourceType;
 import sim.production.PFHouseType;
+import sim.production.Wall;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
 import ui.abstraction.Container;
@@ -32,7 +33,8 @@ import ui.abstraction.Utils;
 
 public class OfferOverviewController extends Container<VBox> implements UISection {
 
-	private @FXML HBox offerdetails;
+	private @FXML HBox offerdetails1;
+	private @FXML VBox offerdetails2;
 
 	private @FXML Label title;
 
@@ -67,13 +69,13 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	private @FXML Label duration;
 	private @FXML Label varcost;
 	private @FXML Label fixcost;
-	private @FXML Label sum;
+	private @FXML Label contributionmargin;
 	private @FXML Label quality;
 	private @FXML Label maxquality;
 	private @FXML Label maxproducable;
 
 	private @FXML TextField productionlimit;
-	private @FXML TextField profit;
+	private @FXML TextField sum;
 
 	private @FXML Label rb_lightweight;
 	private @FXML Label rb_lightweightplus;
@@ -95,8 +97,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 	private boolean showingExistingOffer = false;
 	private Enterprise ent;
-
-	public OfferOverviewController(Enterprise e) { 
+ 
+	public OfferOverviewController(Enterprise e) {
 		this.ent = e;
 		load("/ui/fxml/OfferOverview.fxml");
 	}
@@ -109,7 +111,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				load();
 			}
 		});
-		
+
 		// General initialization for test purposes
 		ent.getSales()
 				.addOffer(new Offer(5000, 2, PFHouseType.COMFORT_HOUSE, 5,
@@ -134,7 +136,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				if (newValue.equals(""))
 					return;
 
-				offerdetails.setVisible(true);
+				offerdetails1.setVisible(true);
+				offerdetails2.setVisible(true);
 
 				PFHouseType[] types = PFHouseType.values();
 				for (PFHouseType tmp : types) {
@@ -144,11 +147,11 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 					}
 				}
 
-				//System.out.println("button enabledx");
-				//btn_save.setDisable(false);
+				// System.out.println("button enabledx");
+				// btn_save.setDisable(false);
 
 				WallType[] walltypes = selectedType.getRequiredWallTypes();
-				int[] walltypes_count = selectedType.getWallCounts();
+				int[] walltypes_count = selectedType.getWallCounts(); 
 
 				label_ncwall1.setVisible(false);
 				req_ncwall1.setVisible(false);
@@ -243,9 +246,9 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 				// set cost calculation figures.
 				varcost.setText("0");
-				fixcost.setText("0");
-				profit.setText("0");
+				fixcost.setText("" + ent.calculateFixedCosts());
 				sum.setText("0");
+				contributionmargin.setText("0");
 
 				// set quality.
 				quality.setText("0");
@@ -264,6 +267,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				productionlimit.setText("" + ent.getMaxProducibleHouses(selectedType));
 				maxproducable.setText("(" + ent.getMaxProducibleHouses(selectedType) + ")");
 
+				
 				// End of Offer Detail Screen initialization.
 			}
 		});
@@ -273,9 +277,10 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 		// Initialize Offer Detail Screen:
 		try {
-			
-				selectedOffer = offers.get(offerlist.getSelectionModel().getSelectedIndex());
-				
+
+			selectedOffer = offers.get(offerlist.getSelectionModel().getSelectedIndex());
+
+			System.out.println("" + showingExistingOffer);
 			showingExistingOffer = true;
 
 			title.setText("Offer details");
@@ -464,7 +469,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			varcost.setText("" + ent.calculateVariableCosts(selectedOffer));
 			fixcost.setText("" + ent.calculateFixedCosts());
 			sum.setText("" + selectedOffer.getPrice());
-			profit.setText("" + (selectedOffer.getPrice() - ent.calculateVariableCosts(selectedOffer)));
+			contributionmargin.setText("" + (selectedOffer.getPrice() - ent.calculateVariableCosts(selectedOffer)));
 
 			// set quality.
 			quality.setText("" + selectedOffer.getQuality());
@@ -488,33 +493,74 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		}
 
 		// End of Offer Detail Screen initialization.
-	} 
+	}
 
 	private void refreshOfferList() {
 		offers = ent.getSales().getOffers();
 
 		ObservableList<String> offerstrings = FXCollections.observableArrayList();
 		for (int i = 1; i <= offers.size(); i++) {
-			offerstrings.add(i + ") " + offers.get(i-1).getHousetype().toString());
+			offerstrings.add(i + ") " + offers.get(i - 1).getHousetype().toString());
 		}
 
-		offerlist.setItems(offerstrings); 
+		offerlist.setItems(offerstrings);
 
 	}
 
-
 	@FXML
 	private void refreshSum(KeyEvent e) {
+		refreshSum();
+	}
+	private void refreshSum() {
 		try {
-			if (Integer.parseInt(profit.getText()) < 0) {
+			if (Integer.parseInt(sum.getText()) < 0) {
 				throw new NumberFormatException();
 			}
-			sum.setText("" + (ent.calculateVariableCosts(selectedOffer) 
-					+ Integer.parseInt(profit.getText())));
+
+			if (!showingExistingOffer) {
+				List<Tupel<WallType>> walltype = new ArrayList<>();
+				if (!selection_lightweight.getText().equals("")) {
+
+					walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION,
+							Integer.parseInt(selection_lightweight.getText())));
+
+				}
+				if (!selection_lightweightplus.getText().equals("")) {
+
+					walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS,
+							Integer.parseInt(selection_lightweightplus.getText())));
+
+				}
+				if (!selection_massive.getText().equals("")) {
+					walltype.add(new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION,
+							Integer.parseInt(selection_massive.getText())));
+				}
+				if (!selection_massiveplus.getText().equals("")) {
+
+					walltype.add(new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION,
+							Integer.parseInt(selection_massiveplus.getText())));
+
+				}
+				if (!selection_panorama.getText().equals("")) {
+					walltype.add(
+							new Tupel<WallType>(WallType.PANORAMA_WALL, Integer.parseInt(selection_panorama.getText())));
+				}
+				
+				@SuppressWarnings("unchecked")
+				Tupel<WallType>[] tupelarray = new Tupel[walltype.size()];
+				for (int i = 0; i < walltype.size(); i++) { 
+					tupelarray[i] = walltype.get(i);
+				}
+				
+
+				System.out.println("new offer selection"
+						+ "");	
+				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, tupelarray);
+			}
+			contributionmargin.setText("" + (Integer.parseInt(sum.getText()) - ent.calculateVariableCosts(selectedOffer)));
 		} catch (NumberFormatException e2) {
 
 		}
-		System.out.println("button enabdled");
 		btn_save.setDisable(false);
 	}
 
@@ -525,52 +571,89 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			if (Integer.parseInt(src.getText()) < 0) {
 				throw new NumberFormatException();
 			}
-		} catch (NumberFormatException e2) {
+		} catch (NumberFormatException e2) { 
 			System.out.println("wrong number format");
-
 		}
-		System.out.println("button enablessd");
 		btn_save.setDisable(false);
+
+
+		varcost.setText("" + calculateVariableCost());
+		this.refreshSum();
+	} 
+	private int calculateVariableCost() {
+		List<Tupel<WallType>> walltype = new ArrayList<>();
+		if (!selection_lightweight.getText().equals("")) {
+
+			walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION,
+					Integer.parseInt(selection_lightweight.getText())));
+			
+		}
+		if (!selection_lightweightplus.getText().equals("")) {
+
+			walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS,
+					Integer.parseInt(selection_lightweightplus.getText())));
+			
+		}
+		if (!selection_massive.getText().equals("")) {
+			walltype.add(new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION,
+					Integer.parseInt(selection_massive.getText())));
+			}
+		if (!selection_massiveplus.getText().equals("")) {
+
+			walltype.add(new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION,
+					Integer.parseInt(selection_massiveplus.getText())));
+			
+		}
+		if (!selection_panorama.getText().equals("")) {
+			walltype.add(new Tupel<WallType>(WallType.PANORAMA_WALL, Integer.parseInt(selection_panorama.getText())));
+			}
+		@SuppressWarnings("unchecked")
+		Tupel<WallType>[] walltypearray = new Tupel[walltype.size()];
+		for (int i = 0; i < walltype.size(); i++) {
+			walltypearray[i] = walltype.get(i);
+		}
+		Offer pseudo_offer = new Offer(0, 1, selectedOffer.getHousetype(), 0, walltypearray); 
+		return ent.calculateVariableCosts(pseudo_offer);
 	}
 
 	@FXML
 	private void onSave(ActionEvent e) {
 		btn_save.setDisable(true);
 		try {
-			
+
 			int noOfSpecifiedWalls = 0;
 
 			List<Tupel<WallType>> walltype = new ArrayList<>();
 			if (!selection_lightweight.getText().equals("")) {
-			
-					walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION,
-							Integer.parseInt(selection_lightweight.getText())));
-					noOfSpecifiedWalls += Integer.parseInt(selection_lightweight.getText());
-				
+
+				walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION,
+						Integer.parseInt(selection_lightweight.getText())));
+				noOfSpecifiedWalls += Integer.parseInt(selection_lightweight.getText());
+
 			}
 			if (!selection_lightweightplus.getText().equals("")) {
-				
-					walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS,
-							Integer.parseInt(selection_lightweightplus.getText())));
-					noOfSpecifiedWalls += Integer.parseInt(selection_lightweightplus.getText());
-				
+
+				walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS,
+						Integer.parseInt(selection_lightweightplus.getText())));
+				noOfSpecifiedWalls += Integer.parseInt(selection_lightweightplus.getText());
+
 			}
 			if (!selection_massive.getText().equals("")) {
-					walltype.add(new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION,
-							Integer.parseInt(selection_massive.getText())));
-					noOfSpecifiedWalls += Integer.parseInt(selection_massive.getText());
+				walltype.add(new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION,
+						Integer.parseInt(selection_massive.getText())));
+				noOfSpecifiedWalls += Integer.parseInt(selection_massive.getText());
 			}
 			if (!selection_massiveplus.getText().equals("")) {
-			
-					walltype.add(new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION,
-							Integer.parseInt(selection_massiveplus.getText())));
-					noOfSpecifiedWalls += Integer.parseInt(selection_massiveplus.getText());
-				
+
+				walltype.add(new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION,
+						Integer.parseInt(selection_massiveplus.getText())));
+				noOfSpecifiedWalls += Integer.parseInt(selection_massiveplus.getText());
+
 			}
 			if (!selection_panorama.getText().equals("")) {
-					walltype.add(new Tupel<WallType>(WallType.PANORAMA_WALL,
-							Integer.parseInt(selection_panorama.getText())));
-					noOfSpecifiedWalls += Integer.parseInt(selection_panorama.getText());
+				walltype.add(
+						new Tupel<WallType>(WallType.PANORAMA_WALL, Integer.parseInt(selection_panorama.getText())));
+				noOfSpecifiedWalls += Integer.parseInt(selection_panorama.getText());
 			}
 			WallType[] wt = null;
 			int[] wc = null;
@@ -604,11 +687,11 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			}
 			if (showingExistingOffer) {
 				if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
-					
-					selectedOffer.setPrice((Integer.parseInt(varcost.getText())+Integer.parseInt(profit.getText())));
-					selectedOffer.setSpecifiedWalltypes(tupelarray);
-			  		selectedOffer.setProductionLimit(Integer.parseInt(productionlimit.getText()));
-					load();  
+
+					selectedOffer.setPrice(Integer.parseInt(sum.getText()));
+					selectedOffer.setSpecifiedWalltypes(tupelarray); 
+					selectedOffer.setProductionLimit(Integer.parseInt(productionlimit.getText()));
+					load();
 					System.out.println("great, offer saved.");
 
 				} else if (noOfSpecifiedWalls < selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
@@ -632,7 +715,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 					refreshOfferList();
 					load();
 					System.out.println("great, offer saved.");
-				}else if (noOfSpecifiedWalls < selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
+				} else if (noOfSpecifiedWalls < selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
 
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Warning");
@@ -670,20 +753,21 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		if ((ent.getSales().getNumberOfAllowedOffers() - ent.getSales().getOfferCount()) > 0) {
 
 			title.setText("New offer");
-			System.out.println("button enabled");
-			btn_save.setDisable(false);
+			btn_save.setDisable(true);
 
 			choosehousetype.setDisable(false);
 
 			ObservableList<String> housetypestring = FXCollections.observableArrayList();
 
-			PFHouseType[] types = PFHouseType.values();
-			for (PFHouseType pfHouseType : types) {
+			List<PFHouseType> researchedHousetypes = ent.getResearchedHouseTypes();
+
+			for (PFHouseType pfHouseType : researchedHousetypes) {
 				housetypestring.add(pfHouseType.toString());
 			}
 			choosehousetype.setItems(housetypestring);
 
-			offerdetails.setVisible(false);
+			offerdetails1.setVisible(false);
+			offerdetails2.setVisible(false);
 
 			showingExistingOffer = false;
 
@@ -707,11 +791,14 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		} catch (NullPointerException e2) {
 			System.out.println("no offer selected.");
 		}
-	}
-
+	} 
+ 
 	@Override
 	public void update() {
-		// TODO implement
+		System.out.println("i am called");
+		offerlist.getSelectionModel().select(0);
+
+		load();
 	}
 
 }

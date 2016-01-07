@@ -60,6 +60,7 @@ public class Enterprise {
 
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
+		researchedHouseTypes.add(PFHouseType.BUNGALOW);
 
 		upgrades = new UpgradeProcessor();
 
@@ -319,14 +320,19 @@ public class Enterprise {
 		// Check whether the needed employees are provided.
 		// If a not required employee is provided, he/she will be removed
 		// from the list of employees needed for the house-building-job.
-		List<Employee> employees = Arrays.asList(pEmployees);
-		for (int i = 0; i < employees.size(); i++) {
-			if (employees.get(i).getType() != EmployeeType.ASSEMBLER) {
-				employees.remove(i);
-				i--;
+		List<Employee> employees = null;
+		if (pEmployees != null) {
+			employees = Arrays.asList(pEmployees);
+			for (int i = 0; i < employees.size(); i++) {
+				if (employees.get(i).getType() != EmployeeType.ASSEMBLER) {
+					employees.remove(i);
+					i--;
+				}
 			}
-		}
-		if (employees.size() < offer.getHousetype().getEmployeeCount()) {
+			if (employees.size() < offer.getHousetype().getEmployeeCount()) {
+				throw new HRException(this, "Not enough employees to build this house!", ExceptionCategorie.ERROR);
+			}
+		} else {
 			throw new HRException(this, "Not enough employees to build this house!", ExceptionCategorie.ERROR);
 		}
 		// enough employees

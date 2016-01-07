@@ -46,7 +46,7 @@
                     <content>
                       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="450.0">
                            <children>
-                              <HBox fx:id="offerdetails" AnchorPane.topAnchor="90.0">
+                              <HBox fx:id="offerdetails1" AnchorPane.topAnchor="90.0">
                                  <children>
                                     <VBox fx:id="col1" HBox.hgrow="ALWAYS">
                                        <children>
@@ -208,7 +208,7 @@
                                           </Label>
                                           <Label fx:id="available_ncwall1" text="88" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
-                                                <Insets top="38.0" />
+                                                <Insets top="39.0" />
                                              </VBox.margin>
                                           </Label>
                                           <Label fx:id="available_ncwall2" text="63" VBox.vgrow="ALWAYS" />
@@ -263,7 +263,7 @@
                                  </children>
                               </HBox>
                               <Line endX="310.0" stroke="#cdc3c3" strokeWidth="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="440.0" />
-                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.topAnchor="450.0">
+                              <VBox fx:id="offerdetails2" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.topAnchor="450.0">
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
@@ -285,13 +285,13 @@
                                                       <Insets top="20.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label text="Variable costs (Material, Salary)" VBox.vgrow="ALWAYS" />
-                                                <Label text="+ Min. Fixed costs (operating costs)" VBox.vgrow="ALWAYS">
-                                                   <padding>
-                                                      <Insets right="20.0" />
-                                                   </padding>
+                                                <Label text="Variable Costs (Material, Salary)" textFill="#6b0000" VBox.vgrow="ALWAYS" />
+                                                <Label text="Overall Fixed Costs">
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
                                                 </Label>
-                                                <Label text="+ Profit" VBox.vgrow="ALWAYS">
+                                                <Label text="+ Contribution margin" textFill="#6b0000" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets top="5.0" />
                                                    </VBox.margin>
@@ -301,7 +301,7 @@
                                                       <Insets top="5.0" />
                                                    </VBox.margin>
                                                 </Line>
-                                                <Label text="Total sum" VBox.vgrow="ALWAYS" />
+                                                <Label text="Total sum" textFill="#6b0000" VBox.vgrow="ALWAYS" />
                                                 <Label text="Quality provided:" VBox.vgrow="ALWAYS">
                                                    <font>
                                                       <Font name="System Bold" size="14.0" />
@@ -339,21 +339,29 @@
                                                 </HBox>
                                                 <Label fx:id="varcost" text="1500" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
-                                                      <Insets top="40.0" />
+                                                      <Insets top="45.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label fx:id="fixcost" text="500" VBox.vgrow="ALWAYS" />
-                                                <TextField fx:id="profit" maxWidth="75.0" onInputMethodTextChanged="#refreshSum" onKeyPressed="#refreshSum" onKeyReleased="#refreshSum" onKeyTyped="#refreshSum" promptText="0" VBox.vgrow="ALWAYS">
+                                                <Label fx:id="fixcost" text="500" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
-                                                      <Insets top="2.0" />
+                                                      <Insets top="5.0" />
                                                    </VBox.margin>
-                                                </TextField>
+                                                </Label>
+                                                <Label fx:id="contributionmargin" text="3000" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <Line endX="-30.0" startX="-100.0" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets top="3.0" />
                                                    </VBox.margin>
                                                 </Line>
-                                                <Label fx:id="sum" text="3000" VBox.vgrow="ALWAYS" />
+                                                <TextField fx:id="sum" maxWidth="75.0" onInputMethodTextChanged="#refreshSum" onKeyPressed="#refreshSum" onKeyReleased="#refreshSum" onKeyTyped="#refreshSum" promptText="0" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="2.0" />
+                                                   </VBox.margin>
+                                                </TextField>
                                                 <Label fx:id="quality" text="35" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets top="23.0" />
@@ -383,13 +391,22 @@
                                                       <Insets top="75.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label disable="true" text="€" VBox.vgrow="ALWAYS" />
                                                 <Label disable="true" text="€" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets top="5.0" />
                                                    </VBox.margin>
                                                 </Label>
                                                 <Label disable="true" text="€" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label disable="true" text="€" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label disable="true" text="€">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>

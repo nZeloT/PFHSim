@@ -90,7 +90,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	private @FXML Button btn_deleteoffer;
 
 	private @FXML ListView<String> offerlist;
-
+ 
+	  
 	private Offer selectedOffer = null;
 	private List<Offer> offers = null;
 	PFHouseType selectedType = null;
@@ -98,7 +99,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	private boolean showingExistingOffer = false;
 	private Enterprise ent;
  
-	public OfferOverviewController(Enterprise e) {
+	public OfferOverviewController(Enterprise e) {  
 		this.ent = e;
 		load("/ui/fxml/OfferOverview.fxml");
 	}

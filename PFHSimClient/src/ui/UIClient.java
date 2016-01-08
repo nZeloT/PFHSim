@@ -27,7 +27,7 @@ public class UIClient extends Application {
 	//---------------------------------------------------
 	public static void main(String[] args) {
 		launch(args);
-	} 
+	}   
 	//---------------------------------------------------
 
 	private static final int SERVER_PORT = 44444;   

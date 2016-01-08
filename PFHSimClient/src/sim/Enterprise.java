@@ -60,7 +60,9 @@ public class Enterprise {
 
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
-		researchedHouseTypes.add(PFHouseType.BUNGALOW);
+//		researchedHouseTypes.add(PFHouseType.BUNGALOW);
+		//TODO only for testing :D
+		researchedHouseTypes.addAll(Arrays.asList(PFHouseType.values()));
 
 		upgrades = new UpgradeProcessor();
 

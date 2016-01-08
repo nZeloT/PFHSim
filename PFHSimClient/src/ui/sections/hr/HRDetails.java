@@ -19,6 +19,7 @@ public class HRDetails extends Container<VBox>{
 
 	private @FXML ListView<Employee> listDetails;
 	private @FXML Button btnAssignFree;
+	private @FXML Button btnHire;
 
 	private HRPane pane;
 
@@ -45,6 +46,8 @@ public class HRDetails extends Container<VBox>{
 			btnAssignFree.setDisable(!(ent.getHR().getCountOfFreeOfType(type) > 0));
 		}else
 			btnAssignFree.setVisible(false);
+		
+		btnHire.setDisable(!ent.getHR().canHireNewEmployees(1));
 		
 	}
 

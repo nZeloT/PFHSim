@@ -11,6 +11,12 @@
       <HBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
             <Button fx:id="btnHire" mnemonicParsing="false" onAction="#onHireNewEmployees" text="Hire" />
+            <Separator orientation="VERTICAL" />
+            <Label text="HR Capacity: " />
+            <Label fx:id="lblCapa" text="CAPA" />
+            <Separator orientation="VERTICAL" />
+            <Label text="Used: " />
+            <Label fx:id="lblUsed" text="USED" />
             <Pane prefHeight="10.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
          </children>
          <VBox.margin>

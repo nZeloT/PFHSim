@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
@@ -19,6 +20,8 @@ public class HROverview extends Container<VBox>{
 	private @FXML ListView<EmployeeType> listOverview;
 
 	private @FXML Button btnHire;
+	private @FXML Label lblCapa;
+	private @FXML Label lblUsed;
 	
 	private HRPane pane;
 
@@ -35,6 +38,9 @@ public class HROverview extends Container<VBox>{
 		listOverview.setCellFactory((lv)->{
 			return new HROverviewListCell(pane, ent.getHR());
 		});
+		btnHire.setDisable(!ent.getHR().canHireNewEmployees(1));
+		lblCapa.setText("" + ent.getHR().getHRCapacity());
+		lblUsed.setText("" + ent.getHR().getOverallEmployeeCount());
 	}
 	
 	@FXML

@@ -12,7 +12,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#onBackButton" text="Back" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button mnemonicParsing="false" onAction="#onHire" text="Hire" />
+            <Button fx:id="btnHire" mnemonicParsing="false" onAction="#onHire" text="Hire" />
             <Button fx:id="btnAssignFree" mnemonicParsing="false" onAction="#onAssignFreeEmployees" text="Assign Free" visible="false" />
          </children>
          <VBox.margin>

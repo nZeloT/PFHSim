@@ -207,7 +207,7 @@ public class HR extends Department {
 	/**
 	 * @return the maximum amount of hireable employees according to the HR guys skill factor
 	 */
-	private int getHRCapacity(){
+	public int getHRCapacity(){
 		int manageable = 0;
 		for (Employee hrEmp : getEmployees())
 			manageable += (hrEmp.getSkill() * UpgradeFactors.HR_MANAGE_AMOUNT_FACTOR);
@@ -238,5 +238,9 @@ public class HR extends Department {
 				free++;
 		}
 		return free;
+	}
+	
+	public boolean canHireNewEmployees(int amount){
+		return getRemainingHRCapacity() - amount >= 0;
 	}
 }

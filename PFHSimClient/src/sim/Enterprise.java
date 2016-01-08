@@ -102,7 +102,7 @@ public class Enterprise {
 
 		// process results from buyer's market-simulation.
 		if (soldOffer.size() != sales.getOfferCount()) // this is for safety
-														// only
+			// only
 			msgStore.add(new EnterpriseException(this, "Size of sold amount items and number of offers differs",
 					ExceptionCategorie.PROGRAMMING_ERROR));
 		else {
@@ -202,7 +202,7 @@ public class Enterprise {
 	public void buyResources(ResourceType type, int amount)
 			throws BankException, ResourceMarketException, HRException, WarehouseException {
 		if (procurement.getEmployeeCount() == 0) // this should never happen;
-													// just for safety
+			// just for safety
 			throw new HRException(this, "Procurement has no employees assigned; cannot buy on market.",
 					ExceptionCategorie.PROGRAMMING_ERROR);
 
@@ -217,10 +217,10 @@ public class Enterprise {
 
 		// the following should now work without exception
 		bank.charge(price); // we already checked whether we can charge the bank
-							// for it
+		// for it
 		Resource[] resources = market.buyResources(type, amount);
 		warehouse.storeResource(resources); // we already checked that we can
-											// store the required amount
+		// store the required amount
 	}
 
 	/**
@@ -530,19 +530,30 @@ public class Enterprise {
 
 	public void buyMachine(MachineType type) throws BankException {
 		bank.charge(type.getPrice()); // method terminates when there was an
-										// error charching the bank
+		// error charching the bank
 		production.buyMachine(type);
+	}
+
+	public void sellMachine(Machine m) throws BankException, EnterpriseException{
+		int sell = m.getType().getBaseCosts() + m.getType().getUpgradeCosts() * m.getUpgradeCount();
+		sell *= 0.66d;
+
+		if(production.sellMachine(m))
+			bank.deposit(sell);
+		else
+			throw new EnterpriseException(this, "Could not sell machine!", ExceptionCategorie.PROGRAMMING_ERROR);
+
 	}
 
 	public void startEmployeeTraining(Employee e) throws UpgradeException, BankException {
 		if (bank.canBeCharged(e.getType().getUpgradeCosts())) {
 
 			upgrades.startEmployeeTraining(e); // method terminates when there
-												// was an error starting the emp
-												// training
+			// was an error starting the emp
+			// training
 			bank.charge(e.getType().getUpgradeCosts()); // before charching the
-														// bank; the check at
-														// the beginning made
+			// bank; the check at
+			// the beginning made
 			// sure the bank charge won't throw an error.
 		}
 	}

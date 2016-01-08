@@ -8,13 +8,21 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import sim.Enterprise;
+import sim.EnterpriseException;
 import sim.bank.BankException;
 import sim.production.Machine;
+import sim.production.MachineException;
+import sim.production.MachineType;
+import sim.production.WallType;
 import sim.research.dev.UpgradeException;
 import ui.abstraction.Container;
 import ui.abstraction.Triple;
@@ -47,7 +55,6 @@ public class Production extends Container<VBox> implements UISection{
 	}
 
 	public void initialize() {
-		btnBuy.setDisable(true);
 		btnUpgrade.setDisable(true);
 		btnSell.setDisable(true);
 		btnProduction.setDisable(true);
@@ -56,8 +63,8 @@ public class Production extends Container<VBox> implements UISection{
 		tableMachines.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
 			if(newValue != null){
 				btnUpgrade.setDisable(!newValue.canDoUpgrade());
-				btnProduction.setDisable(false);
-				btnSell.setDisable(false);
+				btnProduction.setDisable(newValue.isInUpgrade());
+				btnSell.setDisable(newValue.isInUpgrade());
 			}else{
 				btnSell.setDisable(true);
 				btnProduction.setDisable(true);
@@ -70,12 +77,37 @@ public class Production extends Container<VBox> implements UISection{
 
 	@FXML
 	private void onBuy(ActionEvent evt){
+		BuyDialog dia = new BuyDialog(ent);
+		Optional<MachineType> res = dia.showAndWait();
+		if(res.isPresent()){
+			try {
+				ent.buyMachine(res.get());
+			} catch (BankException e) {
+				Utils.showError(e.getMessage());
+				e.printStackTrace();
+			}
+		}
 		
+		update();
 	}
 
 	@FXML
 	private void onChangeProduction(ActionEvent evt){
-
+		Machine m = tableMachines.getSelectionModel().getSelectedItem();
+		ChangeProductionDialog dia = new ChangeProductionDialog(m, ent.getWarehouse());
+		Optional<Pair<WallType, Integer>> res = dia.showAndWait();
+		if(res.isPresent()){
+			Pair<WallType, Integer> p = res.get();
+			try {
+				m.setProductionType(p.getKey());
+				m.setMaxOutput(p.getValue());
+			} catch (MachineException e) {
+				Utils.showError(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		
+		update();
 	}
 
 	@FXML
@@ -119,7 +151,25 @@ public class Production extends Container<VBox> implements UISection{
 
 	@FXML
 	private void onSell(ActionEvent evt){
-
+		Machine m = tableMachines.getSelectionModel().getSelectedItem();
+		int sell = m.getType().getBaseCosts() + m.getType().getUpgradeCosts() * m.getUpgradeCount();
+		sell *= 0.66d;
+		Alert a = new Alert(AlertType.CONFIRMATION);
+		a.setTitle("Sell Machine");
+		a.setHeaderText("Do you want to sell " + m.getId() + " ?");
+		a.setContentText("You will get a refund of: " + sell + " €");
+		Optional<ButtonType> res = a.showAndWait();
+		if(res.isPresent()){
+			if(res.get() == ButtonType.OK){
+				try {
+					ent.sellMachine(m);
+				} catch (EnterpriseException e) {
+					Utils.showError(e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
+		update();
 	}
 
 	@Override

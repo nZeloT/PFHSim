@@ -83,5 +83,9 @@ public class ProductionHouse implements CostFactor {
 	public void buyMachine(MachineType type) {
 		machines.add(new Machine(type));
 	}
+	
+	public boolean sellMachine(Machine m){
+		return !m.isInUpgrade() && m.unassignAllEmployees() && machines.remove(m);
+	}
 
 }

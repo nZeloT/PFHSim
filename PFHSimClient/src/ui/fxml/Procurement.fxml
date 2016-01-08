@@ -98,7 +98,7 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                   <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Pictures/Fallstudie/wood.png" />
+                        <Image url="@/ui/res/wood.png" />
                      </image>
                   </ImageView>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -188,7 +188,7 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                   <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Pictures/Fallstudie/insulation.png" />
+                        <Image url="@/ui/res/insulation.png" />
                      </image>
                   </ImageView>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -278,7 +278,7 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                   <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Pictures/Fallstudie/concrete.png" />
+                        <Image url="@/ui/res/concrete.png" />
                      </image>
                   </ImageView>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -368,7 +368,7 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                   <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Pictures/Fallstudie/brick.png" />
+                        <Image url="@/ui/res/brick.png" />
                      </image>
                   </ImageView>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -458,7 +458,7 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                   <ImageView fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Pictures/Fallstudie/roof.png" />
+                        <Image url="@/ui/res/roof.png" />
                      </image>
                   </ImageView>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -548,7 +548,7 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                   <ImageView fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Pictures/Fallstudie/window.png" />
+                        <Image url="@/ui/res/window.png" />
                      </image>
                   </ImageView>
                   <Pane prefHeight="200.0" prefWidth="200.0" />

@@ -257,5 +257,13 @@ public class Machine extends Department implements CostFactor {
 	public void upgrade(){
 		upgradeCount++;
 	}
+	
+	public int getUpgradeCount() {
+		return upgradeCount;
+	}
+	
+	public int getUtilization() {
+		return utilization;
+	}
 
 }

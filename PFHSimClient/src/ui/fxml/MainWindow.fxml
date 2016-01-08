@@ -78,7 +78,7 @@
                               </HBox>
                               <LineChart fx:id="moneyChart" layoutX="5.0" layoutY="85.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="149.0" prefWidth="70.0" VBox.vgrow="ALWAYS">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <NumberAxis side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis side="LEFT" />
@@ -118,7 +118,7 @@
                               </HBox>
                               <LineChart fx:id="moneyChart1" layoutX="5.0" layoutY="85.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="149.0" prefWidth="70.0" VBox.vgrow="ALWAYS">
                                  <xAxis>
-                                    <CategoryAxis side="BOTTOM" />
+                                    <NumberAxis side="BOTTOM" />
                                  </xAxis>
                                  <yAxis>
                                     <NumberAxis side="LEFT" />

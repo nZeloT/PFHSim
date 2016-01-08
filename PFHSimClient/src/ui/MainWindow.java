@@ -121,7 +121,7 @@ public class MainWindow extends Container<SplitPane>{
 		moneyChart.getData().add(series);
 
 		onMoneyChanged(0, ent.getBankAccount().getCash());
-		sheduleTimer();
+		sheduleTimer(true);
 	}
 
 	private void switchStackPage(int newPage){
@@ -200,7 +200,7 @@ public class MainWindow extends Container<SplitPane>{
 			root.getChildren().get(1).setVisible(false);
 			
 			//start a timer which forces a end of the round after 2 minutes
-			sheduleTimer();
+			sheduleTimer(false);
 		}else{
 			root.getChildren().get(0).setVisible(false);
 			root.getChildren().get(1).setVisible(false);
@@ -208,9 +208,9 @@ public class MainWindow extends Container<SplitPane>{
 		}
 	}
 	
-	private void sheduleTimer(){
+	private void sheduleTimer(boolean first){
 		timer.scheduleAtFixedRate(new TimerTask() {
-			private long time = TimeUnit.MINUTES.toMillis(2);
+			private long time = TimeUnit.MINUTES.toMillis( first ? 4 : 2);
 			@Override
 			public void run() {
 				time -= TimeUnit.SECONDS.toMillis(1);

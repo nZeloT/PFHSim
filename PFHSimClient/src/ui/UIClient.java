@@ -137,13 +137,13 @@ public class UIClient extends Application {
 		
 		//1. user input is finished; prepare the message
 		ClientMessage clnt = new ClientMessage(
-				name,
-				new HashMap<>(market.getSoldResources()),
+				name,    
+				new HashMap<>(market.getSoldResources()), 
 				new ArrayList<>(ent.getSales().getOffers()),
-				ent.getBankAccount().isOnLimit()
+				ent.getBankAccount().isOnLimit() 
 		);
-		server.placeMessasge(clnt);
-		
+		server.placeMessasge(clnt); 
+		 
 		//2. wait for the server to answer
 		while(!server.hasAnswered() && !server.isClosed()){
 			try {TimeUnit.MILLISECONDS.sleep(500);

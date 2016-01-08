@@ -127,7 +127,7 @@
                                                 <Insets />
                                              </VBox.margin>
                                           </Label>
-                                          <TextField fx:id="selection_lightweight" alignment="CENTER" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" promptText="0">
+                                          <TextField fx:id="selection_lightweight" alignment="CENTER" maxWidth="50.0" onInputMethodTextChanged="#wallselectionChanged" onKeyPressed="#wallselectionChanged" onKeyReleased="#wallselectionChanged" onKeyTyped="#wallselectionChanged" promptText="0">
                                              <font>
                                                 <Font size="8.0" />
                                              </font>

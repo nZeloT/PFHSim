@@ -91,16 +91,15 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	private @FXML Button btn_deleteoffer;
 
 	private @FXML ListView<String> offerlist;
- 
-	  
+
 	private Offer selectedOffer = null;
 	private List<Offer> offers = null;
 	PFHouseType selectedType = null;
 
 	private boolean showingExistingOffer = false;
 	private Enterprise ent;
- 
-	public OfferOverviewController(Enterprise e) {  
+
+	public OfferOverviewController(Enterprise e) {
 		this.ent = e;
 		load("/ui/fxml/OfferOverview.fxml");
 	}
@@ -153,7 +152,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				// btn_save.setDisable(false);
 
 				WallType[] walltypes = selectedType.getRequiredWallTypes();
-				int[] walltypes_count = selectedType.getWallCounts(); 
+				int[] walltypes_count = selectedType.getWallCounts();
 
 				label_ncwall1.setVisible(false);
 				req_ncwall1.setVisible(false);
@@ -269,7 +268,6 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				productionlimit.setText("" + ent.getMaxProducibleHouses(selectedType));
 				maxproducable.setText("(" + ent.getMaxProducibleHouses(selectedType) + ")");
 
-				
 				// End of Offer Detail Screen initialization.
 			}
 		});
@@ -513,6 +511,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	private void refreshSum(KeyEvent e) {
 		refreshSum();
 	}
+
 	private void refreshSum() {
 		try {
 			if (Integer.parseInt(sum.getText()) < 0) {
@@ -544,26 +543,24 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 				}
 				if (!selection_panorama.getText().equals("")) {
-					walltype.add(
-							new Tupel<WallType>(WallType.PANORAMA_WALL, Integer.parseInt(selection_panorama.getText())));
+					walltype.add(new Tupel<WallType>(WallType.PANORAMA_WALL,
+							Integer.parseInt(selection_panorama.getText())));
 				}
-				
+
 				@SuppressWarnings("unchecked")
 				Tupel<WallType>[] tupelarray = new Tupel[walltype.size()];
-				for (int i = 0; i < walltype.size(); i++) { 
+				for (int i = 0; i < walltype.size(); i++) {
 					tupelarray[i] = walltype.get(i);
 				}
-				
 
-				System.out.println("new offer selection"
-						+ "");	
+				System.out.println("new offer selection" + "");
 				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, tupelarray);
 			}
-			contributionmargin.setText("" + (Integer.parseInt(sum.getText()) - ent.calculateVariableCosts(selectedOffer)));
+			contributionmargin
+					.setText("" + (Integer.parseInt(sum.getText()) - ent.calculateVariableCosts(selectedOffer)));
 		} catch (NumberFormatException e2) {
 
 		}
-		btn_save.setDisable(false);
 	}
 
 	@FXML
@@ -573,16 +570,17 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			if (Integer.parseInt(src.getText()) < 0) {
 				throw new NumberFormatException();
 			}
-		} catch (NumberFormatException e2) { 
+		} catch (NumberFormatException e2) {
 			System.out.println("wrong number format");
 		}
 		btn_save.setDisable(false);
 
-
 		varcost.setText("" + calculateVariableCost());
 		this.refreshSum();
-	} 
+	}
+
 	private int calculateVariableCost() {
+		try {
 		List<Tupel<WallType>> walltype = new ArrayList<>();
 		if (!selection_lightweight.getText().equals("")) {
 
@@ -616,7 +614,11 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		}
 		Offer pseudo_offer = new Offer(0, 1, selectedOffer.getHousetype(), 0, walltypearray); 
 		return ent.calculateVariableCosts(pseudo_offer);
-	}
+		} catch (NumberFormatException e) {
+			this.btn_save.setDisable(true);
+			return 0; 
+		}
+		}
 
 	@FXML
 	private void onSave(ActionEvent e) {
@@ -691,7 +693,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
 
 					selectedOffer.setPrice(Integer.parseInt(sum.getText()));
-					selectedOffer.setSpecifiedWalltypes(tupelarray); 
+					selectedOffer.setSpecifiedWalltypes(tupelarray);
 					selectedOffer.setProductionLimit(Integer.parseInt(productionlimit.getText()));
 					load();
 					System.out.println("great, offer saved.");
@@ -793,8 +795,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		} catch (NullPointerException e2) {
 			System.out.println("no offer selected.");
 		}
-	} 
- 
+	}
+
 	@Override
 	public void update() {
 		System.out.println("i am called");

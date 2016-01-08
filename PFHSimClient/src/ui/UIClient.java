@@ -141,8 +141,8 @@ public class UIClient extends Application {
 				new HashMap<>(market.getSoldResources()), 
 				new ArrayList<>(ent.getSales().getOffers()),
 				ent.getBankAccount().isOnLimit() 
-		);
-		server.placeMessasge(clnt); 
+		);   
+		server.placeMessasge(clnt);  
 		 
 		//2. wait for the server to answer
 		while(!server.hasAnswered() && !server.isClosed()){

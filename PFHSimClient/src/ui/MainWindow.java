@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,7 +19,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
 import sim.Enterprise;
 import sim.EnterpriseException;
@@ -165,10 +163,14 @@ public class MainWindow extends Container<SplitPane>{
 		root.getChildren().get(1).setVisible(true);
 		timer.cancel();
 		timer = new Timer("Timer");
+		
+		Button btnGo = (Button) event.getSource();
 
 		//to prevent UI freezes utilise a new thread :D
 		new Thread(
 				() -> {
+					Platform.runLater(() -> btnGo.setText("Waiting"));
+					
 					List<EnterpriseException> msgStore = new ArrayList<>();
 					boolean gameEnded = roundTripProcessor.call(msgStore);
 
@@ -226,7 +228,7 @@ public class MainWindow extends Container<SplitPane>{
 			public void run() {
 				nextRound(null);
 			}
-		}, TimeUnit.MINUTES.toMillis(2));
+		}, TimeUnit.MINUTES.toMillis(first ? 4 : 2));
 	}
 	
 	public void cancleTimer(){

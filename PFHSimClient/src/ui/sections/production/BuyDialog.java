@@ -21,18 +21,20 @@ public class BuyDialog extends Dialog<MachineType> {
 
 		Node yesBtn = getDialogPane().lookupButton(ButtonType.YES);
 
-		Label lblCosts = new Label("");
+		Label lblPrice = new Label("");
+		Label lblRunning = new Label("");
 
 		ComboBox<MachineType> cbbType = new ComboBox<>(FXCollections.observableArrayList(MachineType.values()));
 		cbbType.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-			lblCosts.setText("Costs: " + newValue.getBaseCosts() + " €");
+			lblPrice.setText("Price: " + newValue.getPrice() + " €");
+			lblRunning.setText("Costs: " + newValue.getBaseCosts() + " €");
 			yesBtn.setDisable(!ent.getBankAccount().canBeCharged(newValue.getBaseCosts()));
 		});
 		cbbType.getSelectionModel().select(0);
 		
 		VBox box = new VBox(10);
 		box.setPadding(new Insets(20, 150, 10, 10));
-		box.getChildren().addAll(cbbType, lblCosts);
+		box.getChildren().addAll(cbbType, lblPrice, lblRunning);
 		
 		getDialogPane().setContent(box);
 

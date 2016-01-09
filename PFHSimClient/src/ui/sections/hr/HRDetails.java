@@ -22,12 +22,14 @@ public class HRDetails extends Container<VBox>{
 	private @FXML Button btnHire;
 
 	private HRPane pane;
+	private Runnable updateSidebar;
 
 	private Enterprise ent;
 	private EmployeeType type;
 
-	public HRDetails(HRPane pane, Enterprise ent) {
+	public HRDetails(HRPane pane, Enterprise ent, Runnable updateSidebar) {
 		this.pane = pane;
+		this.updateSidebar = updateSidebar;
 		this.ent = ent;
 		this.type = EmployeeType.ARCHITECT;
 		load("/ui/fxml/hr/HRDetails.fxml");
@@ -94,6 +96,7 @@ public class HRDetails extends Container<VBox>{
 			Pair<EmployeeType, Integer> p = res.get();
 			Employee[] emps = ent.getHR().hire(p.getKey(), p.getValue());
 			ent.autoAssignEmployees(emps); //try to auto assign them
+			updateSidebar.run();
 			initialize();
 		}
 	}

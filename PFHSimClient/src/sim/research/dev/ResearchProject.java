@@ -11,7 +11,8 @@ public class ResearchProject extends Upgrade<Employee>{
 	private UpgradeDep dep;
 	
 	ResearchProject(PFHouseType type, Employee architect) {
-		super(type.getResearchDuration(), type.getResearchCosts());
+		super(type.getResearchDuration() + architect.getSkill()*UpgradeFactors.ARCHITECT_THINK_TIME_REDUCTION_FACTOR, 
+				type.getResearchCosts());
 		this.reasearchType = type;
 		this.arch = architect;
 		this.dep = new UpgradeDep(EmployeeType.ARCHITECT);

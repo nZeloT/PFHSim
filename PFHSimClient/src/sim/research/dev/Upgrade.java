@@ -7,10 +7,12 @@ public abstract class Upgrade<T> implements CostFactor{
 	private int costs;
 	
 	private int duration;
+	private int progress;
 	private boolean finished;	
 	
 	Upgrade(int duration, int costs) {
 		this.duration = duration;
+		this.progress = duration;
 		this.costs = costs;
 		this.finished = false;
 	}
@@ -28,8 +30,8 @@ public abstract class Upgrade<T> implements CostFactor{
 		if(finished)
 			return;
 		
-		duration--;
-		if(duration == 0)
+		progress--;
+		if(progress == 0)
 			shutdown();
 	}
 	
@@ -49,6 +51,10 @@ public abstract class Upgrade<T> implements CostFactor{
 	@Override
 	public int getCosts() {
 		return costs;
+	}
+	
+	public double getProgress(){
+		return  (duration - progress)/(duration+0.0d);
 	}
 
 }

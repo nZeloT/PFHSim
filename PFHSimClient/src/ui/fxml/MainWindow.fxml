@@ -17,46 +17,9 @@
    <children>
       <VBox>
          <children>
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
-               <items>
-                  <ToggleButton mnemonicParsing="false" onAction="#switchTab" text="Procurement">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="menuGroup" />
-                     </toggleGroup>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#switchTab" text="Production" toggleGroup="$menuGroup">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#switchTab" text="HR" toggleGroup="$menuGroup">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#switchTab" text="Warehouse" toggleGroup="$menuGroup">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#switchTab" text="P&amp;D" toggleGroup="$menuGroup">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#switchTab" text="House Catalog" toggleGroup="$menuGroup">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </ToggleButton>
-               </items>
-            </ToolBar>
             <HBox VBox.vgrow="ALWAYS">
                <children>
-                  <StackPane fx:id="stack" alignment="TOP_LEFT" prefHeight="500.0" prefWidth="400.0" HBox.hgrow="ALWAYS" />
+                  <TabPane fx:id="stack" prefHeight="400.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
                   <VBox maxWidth="250.0" minWidth="250.0" prefWidth="250.0">
                      <opaqueInsets>
@@ -76,7 +39,7 @@
                                     <Pane maxHeight="-Infinity" prefHeight="10.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <LineChart fx:id="moneyChart" layoutX="5.0" layoutY="85.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="149.0" prefWidth="70.0" VBox.vgrow="ALWAYS">
+                              <LineChart fx:id="moneyChart" layoutX="5.0" layoutY="85.0" legendVisible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="300.0" prefWidth="70.0" verticalGridLinesVisible="false" verticalZeroLineVisible="false" VBox.vgrow="ALWAYS">
                                 <xAxis>
                                   <NumberAxis side="BOTTOM" />
                                 </xAxis>
@@ -103,47 +66,35 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </VBox>
-                        <VBox style="-fx-background-color: EEE;">
+                        <GridPane style="-fx-background-color: EEE;">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
-                              <HBox prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <Pane maxHeight="-Infinity" prefHeight="10.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
-                                    <Label alignment="TOP_CENTER" text="Account" underline="true">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <Pane maxHeight="-Infinity" prefHeight="10.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                              <LineChart fx:id="moneyChart1" layoutX="5.0" layoutY="85.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="149.0" prefWidth="70.0" VBox.vgrow="ALWAYS">
-                                 <xAxis>
-                                    <NumberAxis side="BOTTOM" />
-                                 </xAxis>
-                                 <yAxis>
-                                    <NumberAxis side="LEFT" />
-                                 </yAxis>
-                              </LineChart>
-                              <HBox>
-                                 <children>
-                                    <Label fx:id="lblCosts" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="235.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="41.0" prefWidth="181.0" text="0" textAlignment="RIGHT" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="30.0" text=" €" HBox.hgrow="NEVER">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
+                              <Label text="Production" />
+                              <Label fx:id="lblProduction" text="PRODUCTION" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                              <Label text="HR" GridPane.rowIndex="1" />
+                              <Label text="Warehouse" GridPane.rowIndex="2" />
+                              <Label fx:id="lblHR" text="HR" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                              <Label fx:id="lblWarehouse" text="WAREHOUSE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                              <Label text="Interests" GridPane.rowIndex="3" />
+                              <Label fx:id="lblInterests" text="INTERESTS" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                            </children>
                            <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="10.0" left="10.0" right="10.0" />
                            </VBox.margin>
-                        </VBox>
-                        <Pane maxWidth="1.7976931348623157E308" prefHeight="10.0" prefWidth="10.0" VBox.vgrow="ALWAYS" />
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </GridPane>
+                        <Pane prefHeight="10.0" VBox.vgrow="ALWAYS" />
                         <Button fx:id="btnGo" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#nextRound" style="-fx-background-color: GREEN;" text="GO" textFill="WHITE" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="36.0" />

@@ -1,5 +1,8 @@
 package ui.sections.hr;
 
+import java.util.HashMap;
+import java.util.Optional;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,8 +18,11 @@ import sim.EnterpriseException;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.production.Machine;
+import sim.research.dev.UpgradeFactors;
 import ui.abstraction.Container;
+import ui.abstraction.Triple;
 import ui.abstraction.Utils;
+import ui.sections.UpgradeDialog;
 
 public class HRDetailsViewItem extends Container<HBox> {
 
@@ -27,12 +33,12 @@ public class HRDetailsViewItem extends Container<HBox> {
 
 	private @FXML Button btnUpgrade;
 	private @FXML Button btnFire;
-	
+
 	private @FXML ComboBox<Machine> cbbAssignedWorkplace;
 
 	private Enterprise ent;
 	private Employee emp;
-	
+
 	private HRDetails parent;
 
 	public HRDetailsViewItem(Enterprise ent, HRDetails pa) {
@@ -59,7 +65,7 @@ public class HRDetailsViewItem extends Container<HBox> {
 
 			btnUpgrade.setDisable(!emp.canDoTraining() || !ent.getBankAccount().canBeCharged(emp.getType().getUpgradeCosts()));
 			btnFire.setDisable(!emp.canBeUnassigned());
-			
+
 			if(emp.getType() == EmployeeType.PRODUCTION){
 				cbbAssignedWorkplace.setVisible(true);
 				cbbAssignedWorkplace.setItems(FXCollections.observableArrayList(ent.getProductionHouse().getMachines()));
@@ -80,7 +86,7 @@ public class HRDetailsViewItem extends Container<HBox> {
 					cbbAssignedWorkplace.getSelectionModel().select((Machine)emp.getWork());
 				else
 					cbbAssignedWorkplace.getSelectionModel().select(-1);
-				
+
 				cbbAssignedWorkplace.setDisable(emp.isOnTraining());
 			}
 
@@ -91,15 +97,57 @@ public class HRDetailsViewItem extends Container<HBox> {
 
 	@FXML
 	private void onUpgrade(ActionEvent e){
+		HashMap<String, Triple<Integer, Integer, Integer>> factors = new HashMap<>();
 		
-		try {
-			ent.startEmployeeTraining(emp);
-		} catch (EnterpriseException e1) {
-			//this should not happen
-			e1.printStackTrace();
-			Utils.showError(e1.getMessage());
+		factors.put("Costs: ", new Triple<>(
+				emp.getCosts(),
+				emp.getType().getUpgradeCostInc(),
+				emp.getCosts() + emp.getType().getUpgradeCostInc()
+				));
+		
+		String text = "";
+		int before = 0;
+		int delta = 0;
+		int after = 0;
+		
+		switch (emp.getType()) {
+		case HR:
+			text = "HR Capacity: ";
+			before = emp.getSkill() * UpgradeFactors.HR_MANAGE_AMOUNT_FACTOR;
+			delta = UpgradeFactors.HR_MANAGE_AMOUNT_FACTOR;
+			after = (emp.getSkill()+1) * UpgradeFactors.HR_MANAGE_AMOUNT_FACTOR;
+			break;
+			
+		case ARCHITECT:
+			text = "Research time reduction: ";
+			before = emp.getSkill() * UpgradeFactors.ARCHITECT_THINK_TIME_REDUCTION_FACTOR;
+			delta = UpgradeFactors.ARCHITECT_THINK_TIME_REDUCTION_FACTOR;
+			after = (emp.getSkill()+1) * UpgradeFactors.HR_MANAGE_AMOUNT_FACTOR;
+			break;
+
+		default:
+			break;
 		}
 		
+		factors.put(text, new Triple<>(before, delta, after));
+		
+		
+		UpgradeDialog dia = new UpgradeDialog(emp.getName(), emp.getType().getUpgradeCosts(), 
+				emp.getType().getUpgradeDuration(), factors);
+
+		Optional<Boolean> res = dia.showAndWait();
+
+		if(res.isPresent() && res.get()){
+			
+			try {
+				ent.startEmployeeTraining(emp);
+			} catch (EnterpriseException e1) {
+				//this should not happen
+				e1.printStackTrace();
+				Utils.showError(e1.getMessage());
+			}
+		}
+
 		parent.initialize(); //eventually fire buttons of other employees need to be disabled
 	}
 
@@ -108,7 +156,7 @@ public class HRDetailsViewItem extends Container<HBox> {
 		ent.getHR().fire(emp);
 		parent.initialize();
 	}
-	
+
 	@FXML
 	private void onNewMachineSelected(ActionEvent e){
 		if(cbbAssignedWorkplace.getValue() != emp.getWork()){

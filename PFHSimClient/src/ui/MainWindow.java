@@ -7,17 +7,17 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 import sim.Enterprise;
@@ -34,31 +34,22 @@ import ui.sections.production.Production;
 
 public class MainWindow extends Container<SplitPane>{
 
-	private static final int STACK_WELCOME = 0;
-	private static final int STACK_PROCUREMENT = 1;
-	private static final int STACK_PRODUCTION = 2;
-	private static final int STACK_HR = 3;
-	private static final int STACK_WAREHOUSE = 4;
-	private static final int STACK_PND = 5;
-	private static final int STACK_HOUSECATALOG = 6;
-
-	private @FXML ToggleGroup menuGroup;
-
 	private @FXML LineChart<Integer, Integer> moneyChart;
-	private @FXML LineChart<Integer, Integer> costChart;
-
-	private @FXML Label lblCosts;
 	private @FXML Label lblMoney;
+	
+	private @FXML Label lblProduction;
+	private @FXML Label lblHR;
+	private @FXML Label lblWarehouse;
+	private @FXML Label lblInterests;
 
 	private @FXML Button btnGo;
 
-	private @FXML StackPane stack;
+	private @FXML TabPane stack;
 	private @FXML StackPane root;
 
 	private @FXML ProgressIndicator roundTripProgress;
 
 	private Enterprise ent;
-	private int currentPage;
 
 	private List<UISection> sections;
 	
@@ -81,9 +72,9 @@ public class MainWindow extends Container<SplitPane>{
 	}
 
 	public void initialize() {
-		Production pro = new Production(ent);
+		Production pro = new Production(ent, this::updateMoneyLabels);
 		Procurement p = new Procurement(ent);
-		HRPane hrp = new HRPane(ent);
+		HRPane hrp = new HRPane(ent, this::updateMoneyLabels);
 		Warehouse w = new Warehouse(ent);
 		RnD r = new RnD(ent);
 		OfferOverviewController o = new OfferOverviewController(ent);
@@ -98,19 +89,16 @@ public class MainWindow extends Container<SplitPane>{
 		sections.add(r);
 		sections.add(o);
 
-		stack.getChildren().add(welcomePage.getContainer());
-		stack.getChildren().add(p.getContainer());
-		stack.getChildren().add(pro.getContainer());
-		stack.getChildren().add(hrp);
-		stack.getChildren().add(w.getContainer());
-		stack.getChildren().add(r.getContainer());
-		stack.getChildren().add(o.getContainer());
+		stack.getTabs().add(new Tab("Welcome", welcomePage.getContainer()));
+		stack.getTabs().add(new Tab("Procurement", p.getContainer()));
+		stack.getTabs().add(new Tab("Production", pro.getContainer()));
+		stack.getTabs().add(new Tab("HR", hrp));
+		stack.getTabs().add(new Tab("Warehouse", w.getContainer()));
+		stack.getTabs().add(new Tab("Research", r.getContainer()));
+		stack.getTabs().add(new Tab("Offer Catalog", o.getContainer()));
 
-		for (Node n : stack.getChildren()) {
-			n.setVisible(false);
-		}
-		stack.getChildren().get(0).setVisible(true);
-		currentPage = STACK_WELCOME;
+		stack.getSelectionModel().select(0);
+		stack.getSelectionModel().selectedIndexProperty().addListener(this::switchStackPage);
 
 		root.getChildren().get(1).setVisible(false);
 		root.getChildren().get(2).setVisible(false);
@@ -122,40 +110,10 @@ public class MainWindow extends Container<SplitPane>{
 		sheduleTimer(true);
 	}
 
-	private void switchStackPage(int newPage){
-		if(newPage > STACK_WELCOME)
-			sections.get(newPage-1).update();
-		stack.getChildren().get(currentPage).setVisible(false);
-		stack.getChildren().get(newPage).setVisible(true);
-		currentPage = newPage;
-	}
-
-	@FXML
-	private void switchTab(ActionEvent event) {
-		ToggleButton src = (ToggleButton) event.getSource();
-		switch (src.getText()) {
-		case "Procurement":
-			switchStackPage(STACK_PROCUREMENT);
-			break;
-		case "Production":
-			switchStackPage(STACK_PRODUCTION);
-			break;
-		case "HR":
-			switchStackPage(STACK_HR);
-			break;
-		case "Warehouse":
-			switchStackPage(STACK_WAREHOUSE);
-			break;
-		case "P&D":
-			switchStackPage(STACK_PND);
-			break;
-		case "House Catalog":
-			switchStackPage(STACK_HOUSECATALOG);
-			break;
-		default:
-			System.err.println("Error - did not recognize Stack Page");
-			break;
-		}
+	private void switchStackPage(ObservableValue<? extends Number> obs, Number oldValue, Number newValue){
+		int newInt = newValue.intValue();
+		if(newInt > 0) // not the welcome page
+			sections.get(newInt - 1).update();
 	}
 
 	@FXML
@@ -182,7 +140,16 @@ public class MainWindow extends Container<SplitPane>{
 	}
 
 	private void onMoneyChanged(int oldValue, int newValue){
-		Platform.runLater(() -> lblMoney.setText("" + newValue));
+		Platform.runLater(this::updateMoneyLabels);
+	}
+	
+	private void updateMoneyLabels(){
+		lblMoney.setText("" + ent.getBankAccount().getCash());
+		
+		lblHR.setText("-" + ent.getHR().getOverallEmployeeCosts() + " €");
+		lblProduction.setText("-" + (ent.getProductionHouse().getCosts() + ent.getProductionHouse().getMachineCosts()) + " €");
+		lblWarehouse.setText("-" + ent.getWarehouse().getCosts() + " €");
+		lblInterests.setText("" + ent.getBankAccount().getExpectedInterests() + " €");
 	}
 
 	private void prepareNextRound(List<EnterpriseException> msg, boolean gameEnded){
@@ -198,7 +165,7 @@ public class MainWindow extends Container<SplitPane>{
 			
 			welcomePage.setMessages(msg);
 			sections.forEach(s -> s.update());
-			switchStackPage(STACK_WELCOME);
+			stack.getSelectionModel().select(0);
 			root.getChildren().get(1).setVisible(false);
 			
 			//start a timer which forces a end of the round after 2 minutes

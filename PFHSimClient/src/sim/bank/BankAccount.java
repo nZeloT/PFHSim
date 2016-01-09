@@ -5,7 +5,7 @@ import sim.ExceptionCategorie;
 
 public class BankAccount {
 	
-	private static final double DEBT_INTEREST_RATE = 0.05d; // 5%
+	private static final double DEBT_INTEREST_RATE = 0.15d; // 15%
 	private static final int    DEBT_LIMIT = - 300000;
 	
 	private int cash;
@@ -77,6 +77,10 @@ public class BankAccount {
 	
 	public int getCash() {
 		return cash;
+	}
+	
+	public int getExpectedInterests(){
+		return cash < 0 ? (int) (cash * DEBT_INTEREST_RATE) : 0;
 	}
 	
 	public boolean isOnLimit() {

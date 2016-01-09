@@ -24,12 +24,14 @@ public class HROverview extends Container<VBox>{
 	private @FXML Label lblUsed;
 	
 	private HRPane pane;
+	private Runnable updateSidebar;
 
 	private Enterprise ent;
 
-	public HROverview(HRPane pane, Enterprise ent) {
+	public HROverview(HRPane pane, Enterprise ent, Runnable updateSidebar) {
 		this.pane = pane;
 		this.ent = ent;
+		this.updateSidebar = updateSidebar;
 		load("/ui/fxml/hr/HROverview.fxml");
 	}
 
@@ -52,6 +54,7 @@ public class HROverview extends Container<VBox>{
 			Pair<EmployeeType, Integer> p = res.get();
 			Employee[] emps = ent.getHR().hire(p.getKey(), p.getValue());
 			ent.autoAssignEmployees(emps); //try to auto assign them
+			updateSidebar.run();
 			initialize();
 		}
 	}

@@ -48,9 +48,11 @@ public class Production extends Container<VBox> implements UISection{
 	private @FXML Button btnBuy;
 
 	private Enterprise ent;
+	private Runnable sidebarUpdate;
 
-	public Production(Enterprise ent) {
+	public Production(Enterprise ent, Runnable sidebarUpdate) {
 		this.ent = ent;
+		this.sidebarUpdate = sidebarUpdate;
 		load("/ui/fxml/Production.fxml");
 	}
 
@@ -210,6 +212,8 @@ public class Production extends Container<VBox> implements UISection{
 
 		tableMachines.setItems(FXCollections.observableArrayList(ent.getProductionHouse().getMachines()));
 		tableMachines.refresh();
+		
+		sidebarUpdate.run();
 	}
 
 }

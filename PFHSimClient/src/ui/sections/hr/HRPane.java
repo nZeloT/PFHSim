@@ -10,9 +10,9 @@ public class HRPane extends StackPane implements UISection {
 	private HROverview overview;
 	private HRDetails details;	
 	
-	public HRPane(Enterprise ent) {
-		overview = new HROverview(this, ent);
-		details = new HRDetails(this, ent);
+	public HRPane(Enterprise ent, Runnable updateSidebar) {
+		overview = new HROverview(this, ent, updateSidebar);
+		details = new HRDetails(this, ent, updateSidebar);
 		
 		getChildren().addAll(overview.getContainer(), details.getContainer());
 		showOverview();

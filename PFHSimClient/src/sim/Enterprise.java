@@ -574,8 +574,12 @@ public class Enterprise {
 		}
 	}
 
-	public void startResearchProject(PFHouseType type, Employee arch) throws UpgradeException, BankException {
+	public void startResearchProject(PFHouseType type) throws UpgradeException, BankException, EnterpriseException {
 		if (bank.canBeCharged(type.getResearchCosts())) {
+			Employee arch = hr.getUnassignedEmployee(EmployeeType.ARCHITECT);
+			if (arch == null) {
+				throw new EnterpriseException(this, "No Architect available in HR Deparment", ExceptionCategorie.ERROR);
+			}
 			upgrades.startResearchProject(type, arch);
 			bank.charge(type.getResearchCosts());
 		}

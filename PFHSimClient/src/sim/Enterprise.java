@@ -60,9 +60,7 @@ public class Enterprise {
 
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
-//		researchedHouseTypes.add(PFHouseType.BUNGALOW);
-		//TODO only for testing :D
-		researchedHouseTypes.addAll(Arrays.asList(PFHouseType.values()));
+		researchedHouseTypes.add(PFHouseType.BUNGALOW);
 
 		upgrades = new UpgradeProcessor();
 
@@ -81,6 +79,7 @@ public class Enterprise {
 		hr.hire(EmployeeType.SALES).assignWorkplace(sales);
 		hr.hire(EmployeeType.PROCUREMENT).assignWorkplace(procurement);
 		hr.hire(EmployeeType.MARKET_RESEARCH).assignWorkplace(marketResearch);
+		hr.hire(EmployeeType.ARCHITECT);
 
 		try {
 			warehouse = new Warehouse(storeKeeper);

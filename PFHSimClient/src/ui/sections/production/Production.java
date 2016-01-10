@@ -216,4 +216,9 @@ public class Production extends Container<VBox> implements UISection{
 		sidebarUpdate.run();
 	}
 
+	@Override
+	public void changeTab() {
+		update();
+	}
+
 }

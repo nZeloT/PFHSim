@@ -36,5 +36,10 @@ public class HRPane extends StackPane implements UISection {
 		details.initialize();
 		showOverview();
 	}
+
+	@Override
+	public void changeTab() {
+		update();
+	}
 	
 }

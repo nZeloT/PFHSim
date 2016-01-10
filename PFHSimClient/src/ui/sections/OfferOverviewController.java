@@ -815,4 +815,9 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		load();
 	}
 
+	@Override
+	public void changeTab() {
+		update();
+	}
+
 }

@@ -208,4 +208,9 @@ public class RnD extends Container<VBox> implements UISection {
 		adjustbar(typeInResearch);
 		adjustbuttons();
 	}
+
+	@Override
+	public void changeTab() {
+		update();
+	}
 }

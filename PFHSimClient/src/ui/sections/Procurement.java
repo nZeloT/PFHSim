@@ -94,6 +94,13 @@ public class Procurement extends Container<VBox> implements UISection{
 		price_roof.setText("" + market.getPrice(ResourceType.ROOF_TILE));
 		price_brick.setText("" + market.getPrice(ResourceType.BRICK));
 		price_window.setText(" " + market.getPrice(ResourceType.WINDOW));
+		
+		AM_wood.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.WOOD));
+		AM_concrete.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.CONCRETE));
+		AM_insulation.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.INSULATION));
+		AM_roof.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.ROOF_TILE));
+		AM_brick.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.BRICK));
+		AM_window.setText("" + ent.getWarehouse().getStoredAmount(ResourceType.WINDOW));
 	}
 
 	public boolean checkIfNumberInput(TextField input) {
@@ -198,6 +205,11 @@ public class Procurement extends Container<VBox> implements UISection{
 
 		}
 
+	}
+	
+	@FXML
+	public void handleInput(ActionEvent e){
+		System.out.println("works");
 	}
 
 	public void buy(Label fullAmount, int amount, ResourceType type)

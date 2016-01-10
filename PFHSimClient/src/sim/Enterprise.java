@@ -108,27 +108,34 @@ public class Enterprise {
 					ExceptionCategorie.PROGRAMMING_ERROR));
 		else {
 			for (Offer offer : soldOffer) {
+				int soldAmount = 0;
+				int failedAmount = 0;
 				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getProductionLimit(); i++) {
 					try {
 						startPFHouseProduction(offer, hr.getUnassignedEmployees(EmployeeType.ASSEMBLER,
 								offer.getHousetype().getEmployeeCount()));
-						msgStore.add(new EnterpriseException(this, "A new house production was started!",
-								ExceptionCategorie.INFO));
+						soldAmount++;
 					} catch (EnterpriseException e) {
 						e.printStackTrace();
 						msgStore.add(e);
+						failedAmount++;
 					}
 				}
+				if(failedAmount > 0)
+					msgStore.add(new EnterpriseException(this, "The production of " + failedAmount + " " + offer.getHousetype() + " could not be started!", ExceptionCategorie.WARNING));
+				if(soldAmount > 0)
+					msgStore.add(new EnterpriseException(this, "The production of " + soldAmount + " " + offer.getHousetype() + " was started!",
+						ExceptionCategorie.INFO));
 			}
 		}
 
+		int finished = 0;
 		for (int i = 0; i < housesInConstruction.size(); i++) {
 			PFHouse h = housesInConstruction.get(i);
 			h.processConstruction();
 
 			if (h.isFinished()) {
-
-				msgStore.add(new EnterpriseException(this, "A new house was built!", ExceptionCategorie.INFO));
+				finished ++;
 				housesInConstruction.remove(i--);
 
 				try {
@@ -140,6 +147,10 @@ public class Enterprise {
 				// resources and walls did already cost
 			}
 		}
+		
+		if(finished > 0)
+			msgStore.add(new EnterpriseException(this, finished + " have been build!", ExceptionCategorie.INFO));
+
 
 		// process machine production
 		List<EnterpriseException> productionErrors = production.processProduction(warehouse);

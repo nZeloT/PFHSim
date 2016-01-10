@@ -40,13 +40,15 @@ public class Server {
 			//1. Receive the round details from the clients
 			for (int i = 0; i < clients.size(); i++) {
 				//wait for every client to send the answer
-				while(!clients.get(i).hasAnswered() && !clients.get(i).isClosed()){
+				while(!clients.get(i).isClosed() && !clients.get(i).hasAnswered()){
 					try {
 						Thread.sleep(750);
 					} catch (InterruptedException e) {
 						//wouldn't be nice but ok
 						e.printStackTrace();
 					}
+					
+					System.out.println("Waiting for: " + clients.get(i).getNameUser() + " - " + clients.get(i).isClosed() + " - " + clients.get(i).hasAnswered());
 
 				}
 
@@ -59,10 +61,12 @@ public class Server {
 			for (int i = 0; i < clntMsg.size(); i++) {
 				if(clntMsg.get(i) == null || clntMsg.get(i).isCashOnLimit() || clients.get(i).isClosed()){
 					clntMsg.remove(i);
+					System.out.println("Terminating: " + clients.get(i).getNameUser());
 					try{ clients.get(i).join(); }catch(Exception e){e.printStackTrace();}
 					clients.remove(i--);
 					System.out.println("Client disconnected.");
-				}
+				}else
+					System.out.println("Client: " + clients.get(i).getNameUser() + " remained connected.");
 			}
 
 			if(clntMsg.size() > 0){

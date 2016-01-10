@@ -186,7 +186,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 						.setText("" + ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
 				available_massive.setText("" + ent.getWarehouse().getStoredAmount(WallType.MASSIVE_LIGHT_CONSTRUCTION));
 				available_massiveplus
-						.setText("" + ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
+						.setText("" + ent.getWarehouse().getStoredAmount(WallType.MASSIVE_PLUS_CONSTUCTION));
 				available_panorama.setText("" + ent.getWarehouse().getStoredAmount(WallType.PANORAMA_WALL));
 
 				selection_lightweight.setText("");
@@ -510,60 +510,65 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				throw new NumberFormatException();
 			}
 			int noOfSpecifiedWalls = 0;
+			int tmp_quality = 0;
 
 			List<Tupel<WallType>> walltype = new ArrayList<>();
 			if (!selection_lightweight.getText().equals("")) {
-
-				walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION,
-						Integer.parseInt(selection_lightweight.getText())));
-				noOfSpecifiedWalls += Integer.parseInt(selection_lightweight.getText());
-
+				int tmp = Integer.parseInt(selection_lightweight.getText());
+				walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, tmp));
+				noOfSpecifiedWalls += tmp;
+				tmp_quality += tmp * WallType.LIGHT_WEIGHT_CONSTRUCTION.getQualityFactor();
 			}
 			if (!selection_lightweightplus.getText().equals("")) {
-
-				walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS,
-						Integer.parseInt(selection_lightweightplus.getText())));
-				noOfSpecifiedWalls += Integer.parseInt(selection_lightweightplus.getText());
+				int tmp = Integer.parseInt(selection_lightweightplus.getText());
+				walltype.add(new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS, tmp));
+				noOfSpecifiedWalls += tmp;
+				tmp_quality += tmp * WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS.getQualityFactor();
 
 			}
 			if (!selection_massive.getText().equals("")) {
-				walltype.add(new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION,
-						Integer.parseInt(selection_massive.getText())));
-				noOfSpecifiedWalls += Integer.parseInt(selection_massive.getText());
+				int tmp = Integer.parseInt(selection_massive.getText());
+				walltype.add(new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION, tmp));
+				noOfSpecifiedWalls += tmp;
+				tmp_quality += tmp * WallType.MASSIVE_LIGHT_CONSTRUCTION.getQualityFactor();
 			}
 			if (!selection_massiveplus.getText().equals("")) {
-
-				walltype.add(new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION,
-						Integer.parseInt(selection_massiveplus.getText())));
-				noOfSpecifiedWalls += Integer.parseInt(selection_massiveplus.getText());
+				int tmp = Integer.parseInt(selection_massiveplus.getText());
+				walltype.add(new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION, tmp));
+				noOfSpecifiedWalls += tmp;
+				tmp_quality += tmp * WallType.MASSIVE_PLUS_CONSTUCTION.getQualityFactor();
 
 			}
 			if (!selection_panorama.getText().equals("")) {
-				walltype.add(
-						new Tupel<WallType>(WallType.PANORAMA_WALL, Integer.parseInt(selection_panorama.getText())));
-				noOfSpecifiedWalls += Integer.parseInt(selection_panorama.getText());
+				int tmp = Integer.parseInt(selection_panorama.getText());
+				walltype.add(new Tupel<WallType>(WallType.PANORAMA_WALL, tmp));
+				noOfSpecifiedWalls += tmp;
+				tmp_quality += tmp * WallType.PANORAMA_WALL.getQualityFactor();
 			}
 
-				@SuppressWarnings("unchecked")
-				Tupel<WallType>[] tupelarray = new Tupel[walltype.size()];
-				for (int i = 0; i < walltype.size(); i++) {
-					tupelarray[i] = walltype.get(i);
-				}
+			@SuppressWarnings("unchecked")
+			Tupel<WallType>[] tupelarray = new Tupel[walltype.size()];
+			for (int i = 0; i < walltype.size(); i++) {
+				tupelarray[i] = walltype.get(i);
+			}
 
-				if (!showingExistingOffer) { 
+			if (!showingExistingOffer) {
 				System.out.println("new offer selection" + "");
 				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, tupelarray);
 
-				}
+			}
 
-				if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
-					btn_save.setDisable(false);
-				} else {
-					btn_save.setDisable(true);
-				}
-				
+			if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
+				btn_save.setDisable(false);
+			} else {
+				btn_save.setDisable(true);
+			}
+
 			contributionmargin
 					.setText("" + (Integer.parseInt(sum.getText()) - ent.calculateVariableCosts(selectedOffer)));
+
+			quality.setText("" + tmp_quality);
+
 		} catch (
 
 		NumberFormatException e2)
@@ -624,10 +629,10 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			for (int i = 0; i < walltype.size(); i++) {
 				walltypearray[i] = walltype.get(i);
 			}
-			if (!showingExistingOffer) { 
+			if (!showingExistingOffer) {
 				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, walltypearray);
- 
-				}
+
+			}
 			Offer pseudo_offer = new Offer(0, 1, selectedOffer.getHousetype(), 0, walltypearray);
 			return ent.calculateVariableCosts(pseudo_offer);
 		} catch (NumberFormatException e) {
@@ -691,7 +696,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 						Tupel<WallType> tupel = walltype.get(k);
 						if (tupel.type == wt[i]) {
 							tupel.count += wc[i];
-							found = true; 
+							found = true;
 							walltype.set(k, tupel);
 						}
 					}
@@ -713,7 +718,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 					selectedOffer.setPrice(Integer.parseInt(sum.getText()));
 					selectedOffer.setSpecifiedWalltypes(tupelarray);
 					selectedOffer.setProductionLimit(Integer.parseInt(productionlimit.getText()));
-			 		load();
+					load();
 					System.out.println("great, offer saved.");
 
 				} else if (noOfSpecifiedWalls < selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {

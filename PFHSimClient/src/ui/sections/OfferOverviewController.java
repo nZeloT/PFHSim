@@ -480,6 +480,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 		} catch (ArrayIndexOutOfBoundsException e4) {
 			System.out.println("nothing selected.");
+			offerdetails1.setVisible(false);
+			offerdetails2.setVisible(false);
 		}
 
 		// End of Offer Detail Screen initialization.
@@ -548,7 +550,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 					tupelarray[i] = walltype.get(i);
 				}
 
-				if (!showingExistingOffer) {
+				if (!showingExistingOffer) { 
 				System.out.println("new offer selection" + "");
 				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, tupelarray);
 
@@ -622,6 +624,10 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			for (int i = 0; i < walltype.size(); i++) {
 				walltypearray[i] = walltype.get(i);
 			}
+			if (!showingExistingOffer) { 
+				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, walltypearray);
+ 
+				}
 			Offer pseudo_offer = new Offer(0, 1, selectedOffer.getHousetype(), 0, walltypearray);
 			return ent.calculateVariableCosts(pseudo_offer);
 		} catch (NumberFormatException e) {

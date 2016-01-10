@@ -362,7 +362,7 @@
                                                       <Insets top="3.0" />
                                                    </VBox.margin>
                                                 </Line>
-                                                <TextField fx:id="sum" maxWidth="75.0" onInputMethodTextChanged="#refreshSum" onKeyPressed="#refreshSum" onKeyReleased="#refreshSum" onKeyTyped="#refreshSum" promptText="0" VBox.vgrow="ALWAYS">
+                                                <TextField fx:id="sum" maxWidth="75.0" onInputMethodTextChanged="#refreshSum" onKeyPressed="#refreshSum" onKeyReleased="#refreshSum" onKeyTyped="#refreshSum" promptText="0" text="0" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets top="2.0" />
                                                    </VBox.margin>

@@ -1,6 +1,8 @@
 package ui.sections.hr;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
@@ -68,7 +70,13 @@ public class HRDetailsViewItem extends Container<HBox> {
 
 			if(emp.getType() == EmployeeType.PRODUCTION){
 				cbbAssignedWorkplace.setVisible(true);
-				cbbAssignedWorkplace.setItems(FXCollections.observableArrayList(ent.getProductionHouse().getMachines()));
+				List<Machine> machines = new ArrayList<>();
+				machines.addAll(ent.getProductionHouse().getMachines());
+				for (int i = 0; i < machines.size(); i++) {
+					if(machines.get(i).isInUpgrade())
+						machines.remove(i--);
+				}
+				cbbAssignedWorkplace.setItems(FXCollections.observableArrayList(machines));
 				Callback<ListView<Machine>, ListCell<Machine>> factory = lv -> {
 					return new ListCell<Machine>(){
 						@Override

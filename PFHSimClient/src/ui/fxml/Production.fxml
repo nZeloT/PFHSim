@@ -24,7 +24,7 @@
             <TableColumn fx:id="colCosts" prefWidth="75.0" text="Costs" />
             <TableColumn fx:id="colUseage" prefWidth="75.0" text="Useage" />
             <TableColumn fx:id="colMaxUseage" prefWidth="75.0" text="Max Useage" />
-            <TableColumn fx:id="colProduction" minWidth="150.0" prefWidth="150.0" text="Current Production" />
+            <TableColumn fx:id="colProduction" minWidth="200.0" prefWidth="200.0" text="Current Production" />
             <TableColumn fx:id="colUpgrades" prefWidth="75.0" text="Installed Upgrades" />
         </columns>
       </TableView>

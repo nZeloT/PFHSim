@@ -16,8 +16,8 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedlightOffers = new HashMap<>();
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedmassiveOffers = new HashMap<>();
 	private final int numberofHTs = (int) (Math.random() * 2) + 3;
-	private final int quality = 1;
-	// TODO add quality scala
+//	private int quality = 0;
+//	private int offercount = 0;
 	private final List<PFHouseType> types = Arrays.asList(Arrays.copyOf(PFHouseType.values(), numberofHTs));
 	private int numberofOffers = 0;
 
@@ -47,7 +47,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 					if (walltypes[j].type == WallType.LIGHT_WEIGHT_CONSTRUCTION
 							|| walltypes[j].type == WallType.MASSIVE_LIGHT_CONSTRUCTION) {
 						isInteresting = false;
-						break; // offer uses bad walls or low quality, stop
+						break; // offer uses bad walls, stop
 								// check here
 
 					} else { // find out if light or massive wall
@@ -94,7 +94,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	 * Go over each category. Price Performance Buyers are looking for higher
 	 * quality houses (Plus constructions) with good isolation (low running
 	 * costs) Split the purchases for brick and wood wall (light/massive plus
-	 * constructions). Honor each the best offer and the over ones descending
+	 * constructions). Honor each best offer and the following ones descending until a minimum amount is reached
 	 * 
 	 * @param minAmount
 	 *            lower threshold of all housetypes to be bought (smallest
@@ -103,7 +103,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	 *            highest amount of houses to be bought
 	 * @param step
 	 *            amount to decrease for the next best offer
-	 * @param the
+	 * @param e the
 	 *            enterprises to split
 	 */
 	@Override
@@ -130,9 +130,9 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 									// of this offer. Continue with the next
 									// offer.
 					}
-					if (max - amount >= current) { // can build all houses
+					if (max - amount >= current) { // the player is able to build all houses
 						actual.setNumberOfPurchases(current);
-					} else {
+					} else { //the player is able to build some of the houses
 						actual.setNumberOfPurchases(max - amount);
 						current += current - (max - amount); // add the open
 															// interests for the

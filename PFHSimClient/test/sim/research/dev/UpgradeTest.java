@@ -56,11 +56,11 @@ public class UpgradeTest {
 		Employee arch = e.getHR().hire(EmployeeType.ARCHITECT);
 		Department d2 = new Department(EmployeeType.ARCHITECT);
 
-		try{ e.startResearchProject(PFHouseType.BLOCK_HOUSE, arch); }catch(EnterpriseException e){ fail(); }
+		try{ e.startResearchProject(PFHouseType.BLOCK_HOUSE); }catch(EnterpriseException e){ fail(); }
 		assertEquals(false, arch.assignWorkplace(d2));
 
 		thrown = false;
-		try{ e.startResearchProject(PFHouseType.CITY_VILLA, arch); }catch(EnterpriseException e){ thrown = true; }
+		try{ e.startResearchProject(PFHouseType.CITY_VILLA); }catch(EnterpriseException e){ thrown = true; }
 		assertEquals(true, thrown);
 	}
 
@@ -81,7 +81,7 @@ public class UpgradeTest {
 			e.startWarehouseExtension();
 
 			//4. try to start a research project
-			e.startResearchProject(PFHouseType.BLOCK_HOUSE, arch);
+			e.startResearchProject(PFHouseType.BLOCK_HOUSE);
 
 		}catch(EnterpriseException e){
 			fail();

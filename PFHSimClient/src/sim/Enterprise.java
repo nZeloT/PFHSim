@@ -612,7 +612,7 @@ public class Enterprise {
 				WallType[] wtth = tmp.type.getWalltypesToHandle();
 				for (WallType wallType2 : wtth) {
 					if (wallType2 == wallType) {
-						wallType.setQualityFactor(wallType.getInitialQualityFactor() * tmp.count);
+						wallType.setQualityFactor(wallType.getQualityFactor() * tmp.count);
 						found = true;
 						break;
 					}

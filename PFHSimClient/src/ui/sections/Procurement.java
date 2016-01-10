@@ -199,6 +199,11 @@ public class Procurement extends Container<VBox> implements UISection{
 		}
 
 	}
+	
+	@FXML
+	public void handleInput(ActionEvent e){
+		System.out.println("works");
+	}
 
 	public void buy(Label fullAmount, int amount, ResourceType type)
 			throws EnterpriseException, ResourceMarketException {

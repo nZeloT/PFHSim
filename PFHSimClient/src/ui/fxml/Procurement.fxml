@@ -45,7 +45,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label text="wanted amount">
+                  <Label minWidth="100.0" text="wanted amount">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -134,7 +134,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <TextField fx:id="input_wood" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <TextField fx:id="input_wood" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" onInputMethodTextChanged="#handleInput" />
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>

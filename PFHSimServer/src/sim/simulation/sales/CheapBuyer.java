@@ -17,6 +17,7 @@ public class CheapBuyer implements GroupOfBuyers {
 	 * purchase Simulation
 	 */
 	public void sortOffers(HashMap<String, List<Offer>> in) {
+		sortedOffers = new HashMap<>();
 
 		for (Map.Entry<String, List<Offer>> entry : in.entrySet()) {
 

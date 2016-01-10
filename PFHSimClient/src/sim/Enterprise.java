@@ -551,7 +551,7 @@ public class Enterprise {
 	}
 
 	public void sellMachine(Machine m) throws BankException, EnterpriseException{
-		int sell = m.getType().getBaseCosts() + m.getType().getUpgradeCosts() * m.getUpgradeCount();
+		int sell = m.getType().getPrice() + m.getUpgradeCount() * m.getType().getUpgradeCosts();
 		sell *= 0.66d;
 
 		if(production.sellMachine(m))

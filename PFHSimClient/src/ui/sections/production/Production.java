@@ -154,7 +154,7 @@ public class Production extends Container<VBox> implements UISection{
 	@FXML
 	private void onSell(ActionEvent evt){
 		Machine m = tableMachines.getSelectionModel().getSelectedItem();
-		int sell = m.getType().getBaseCosts() + m.getType().getUpgradeCosts() * m.getUpgradeCount();
+		int sell = m.getType().getPrice() + m.getUpgradeCount() * m.getType().getUpgradeCosts();
 		sell *= 0.66d;
 		Alert a = new Alert(AlertType.CONFIRMATION);
 		a.setTitle("Sell Machine");

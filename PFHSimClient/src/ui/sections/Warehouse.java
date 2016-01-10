@@ -131,6 +131,7 @@ public class Warehouse extends Container<VBox> implements UISection{
 
 		if (upgrade_duration == 0) {
 			btn_extendWarehouse.setDisable(false);
+			btn_extendWarehouse.setVisible(true);
 		}
 
 	}

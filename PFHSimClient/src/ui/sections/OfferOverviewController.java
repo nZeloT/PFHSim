@@ -15,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -25,7 +24,6 @@ import sim.abstraction.Tupel;
 import sim.hr.EmployeeType;
 import sim.procurement.ResourceType;
 import sim.production.PFHouseType;
-import sim.production.Wall;
 import sim.production.WallType;
 import sim.simulation.sales.Offer;
 import ui.abstraction.Container;
@@ -112,14 +110,6 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				load();
 			}
 		});
-
-		// General initialization for test purposes
-		ent.getSales()
-				.addOffer(new Offer(5000, 2, PFHouseType.COMFORT_HOUSE, 5,
-						new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 6),
-						new Tupel<WallType>(WallType.PANORAMA_WALL, 1)));
-		ent.getSales().addOffer(new Offer(5000, 2, PFHouseType.BUNGALOW, 5,
-				new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
 
 		// Initialize the offer-viewlist.
 		refreshOfferList();

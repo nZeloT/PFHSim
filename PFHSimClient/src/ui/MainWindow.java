@@ -122,8 +122,6 @@ public class MainWindow extends Container<SplitPane>{
 		timer.cancel();
 		timer = new Timer("Timer");
 		
-		Button btnGo = (Button) event.getSource();
-
 		//to prevent UI freezes utilise a new thread :D
 		new Thread(
 				() -> {

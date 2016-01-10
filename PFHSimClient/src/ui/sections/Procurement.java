@@ -208,4 +208,9 @@ public class Procurement extends Container<VBox> implements UISection{
 		fullAmount.setText("" + ent.getWarehouse().getStoredAmount(type));
 	}
 
+	@Override
+	public void changeTab() {
+		update();
+	}
+
 }

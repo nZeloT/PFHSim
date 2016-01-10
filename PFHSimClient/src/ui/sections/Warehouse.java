@@ -179,6 +179,11 @@ public class Warehouse extends Container<VBox> implements UISection{
 				* ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS);
 
 	}
+
+	@Override
+	public void changeTab() {
+		update();
+	}
 	
 	
 

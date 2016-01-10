@@ -7,11 +7,14 @@ import net.shared.Connection;
 import net.shared.ServerMessage;
 
 public class ClientConnection extends Connection<ServerMessage, ClientMessage>{
+	
+	private String name;
 
 	public ClientConnection(Socket s, ServerMessage setup) {
 		super(s);
 		msg = setup;
 		ans = null;
+		name = "Unset";
 	}
 
 	@Override
@@ -33,7 +36,9 @@ public class ClientConnection extends Connection<ServerMessage, ClientMessage>{
 
 						//wait for the client to answer
 						clnt = (ClientMessage)in.readObject();
+						name = clnt.getName();
 					}catch (Exception e) {
+						System.err.println(name);
 						closed = true;
 						e.printStackTrace();
 					}
@@ -47,10 +52,13 @@ public class ClientConnection extends Connection<ServerMessage, ClientMessage>{
 				Thread.sleep(500);
 			}
 		}catch(InterruptedException e){
+			System.err.println(name);
 			e.printStackTrace();
 		}finally{
 			closed = true;
 		}
+		
+		System.err.println("Thread " + name + " ist Tod");
 	}
 
 }

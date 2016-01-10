@@ -113,7 +113,7 @@ public class MainWindow extends Container<SplitPane>{
 	private void switchStackPage(ObservableValue<? extends Number> obs, Number oldValue, Number newValue){
 		int newInt = newValue.intValue();
 		if(newInt > 0) // not the welcome page
-			sections.get(newInt - 1).update();
+			sections.get(newInt - 1).changeTab();
 	}
 
 	@FXML

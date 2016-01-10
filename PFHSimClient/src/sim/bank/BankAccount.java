@@ -60,7 +60,7 @@ public class BankAccount {
 	public void simStep() throws BankException {
 		if(cash < 0){
 			try{
-				charge((int) (cash * DEBT_INTEREST_RATE));
+				charge((int) (-1 * cash * DEBT_INTEREST_RATE));
 			}catch(BankException e){
 				onLimit = true;
 				throw new BankException(this, "Can not pay interests!!", ExceptionCategorie.ERROR);

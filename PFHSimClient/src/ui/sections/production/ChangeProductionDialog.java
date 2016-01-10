@@ -29,7 +29,7 @@ public class ChangeProductionDialog extends Dialog<Pair<WallType, Integer>> {
 		setTitle("Change Production");
 		setHeaderText("Change Production for " + m.getId());
 		
-		getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
+		getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 		
 		ComboBox<WallType> cbbType = new ComboBox<>(FXCollections.observableArrayList(m.getType().getWalltypesToHandle()));
 		cbbType.getSelectionModel().selectedItemProperty().addListener(this::changeWallType);
@@ -58,7 +58,7 @@ public class ChangeProductionDialog extends Dialog<Pair<WallType, Integer>> {
 		getDialogPane().setContent(box);
 		
 		setResultConverter(dialogButotn -> {
-			if(dialogButotn == ButtonType.APPLY){
+			if(dialogButotn == ButtonType.OK){
 				return new Pair<>(cbbType.getValue(), spinAmount.getValue());
 			}
 			

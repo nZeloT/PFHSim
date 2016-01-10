@@ -292,7 +292,11 @@ public class Enterprise {
 		int remainingWallCounts = 0;
 		if (generalWallRequired) {
 			for (int i = 0; i < tupel.length; i++) {
-				remainingWallCounts += tupel[i].count - taken[i];
+				if (i<taken.length) {
+					remainingWallCounts += tupel[i].count - taken[i];
+				} else {
+					remainingWallCounts += tupel[i].count;
+				}
 			}
 		}
 		if (remainingWallCounts < wc[generalWallIndex]) {
@@ -301,7 +305,7 @@ public class Enterprise {
 
 		// needed walls are in the warehouse.
 		for (int i = 0; i < tupel.length; i++) {
-			if (!warehouse.isInStorage(tupel[i].type, taken[i])) {
+			if (!warehouse.isInStorage(tupel[i].type, tupel[i].count)) {
 				throw new WarehouseException(this, "Not enough walls in your warehouse!", ExceptionCategorie.ERROR);
 			}
 		}
@@ -348,7 +352,7 @@ public class Enterprise {
 		int costs = 0;
 		Wall[] tmp_wall = null;
 		for (int i = 0; i < wt.length; i++) {
-			tmp_wall = warehouse.removeWalls(tupel[i].type, taken[i]);
+			tmp_wall = warehouse.removeWalls(tupel[i].type, tupel[i].count);
 			for (int j = 0; j < tmp_wall.length; j++) {
 				costs += tmp_wall[j].getCosts();
 			}

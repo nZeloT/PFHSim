@@ -681,10 +681,12 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			for (int i = 0; i < wc.length; i++) {
 				if (wt[i] != WallType.GENERAL) {
 					boolean found = false;
-					for (Tupel<WallType> tupel : walltype) {
+					for (int k = 0; k < walltype.size(); k++) {
+						Tupel<WallType> tupel = walltype.get(k);
 						if (tupel.type == wt[i]) {
 							tupel.count += wc[i];
-							found = true;
+							found = true; 
+							walltype.set(k, tupel);
 						}
 					}
 					if (found == false) {

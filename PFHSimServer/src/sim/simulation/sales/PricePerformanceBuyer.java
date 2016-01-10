@@ -28,6 +28,8 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	 * nothing for PricePerformanceBuyers) Ignore offers with low quality
 	 */
 	public void sortOffers(HashMap<String, List<Offer>> in) {
+		sortedlightOffers = new HashMap<>();
+		sortedmassiveOffers = new HashMap<>();
 
 		for (Map.Entry<String, List<Offer>> entry : in.entrySet()) {
 

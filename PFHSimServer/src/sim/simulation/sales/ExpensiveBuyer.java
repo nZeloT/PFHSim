@@ -14,6 +14,7 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 
 	@Override
 	public void sortOffers(HashMap<String, List<Offer>> in) {
+		sortedOffers = new HashMap<>();
 
 		numberOfOffers = 0;
 		for (Map.Entry<String, List<Offer>> entry : in.entrySet()) {

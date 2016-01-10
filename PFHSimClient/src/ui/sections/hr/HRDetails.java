@@ -51,6 +51,9 @@ public class HRDetails extends Container<VBox>{
 		
 		btnHire.setDisable(!ent.getHR().canHireNewEmployees(1));
 		
+		if(type == EmployeeType.ARCHITECT)
+			btnHire.setDisable(true);
+		
 	}
 
 	public void setType(EmployeeType type) {

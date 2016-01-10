@@ -2,6 +2,7 @@ package ui.sections.hr;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -20,7 +21,7 @@ public class HRHireDialog extends Dialog<Pair<EmployeeType, Integer>> {
 	private Label lblCosts;
 	
 	public HRHireDialog(int maxTohire){
-		this(maxTohire, EmployeeType.ARCHITECT);
+		this(maxTohire, EmployeeType.ASSEMBLER);
 	}
 
 	public HRHireDialog(int maxToHire, EmployeeType type) {
@@ -37,7 +38,9 @@ public class HRHireDialog extends Dialog<Pair<EmployeeType, Integer>> {
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
 		cbbTypes = new ComboBox<>();
-		cbbTypes.setItems(FXCollections.observableArrayList(EmployeeType.values()));
+		ObservableList<EmployeeType> guys = FXCollections.observableArrayList(EmployeeType.values());
+		guys.remove(EmployeeType.ARCHITECT);
+		cbbTypes.setItems(guys);
 		cbbTypes.getSelectionModel().select(type);
 
 		spinAmount = new Spinner<>(1, maxToHire, 1);

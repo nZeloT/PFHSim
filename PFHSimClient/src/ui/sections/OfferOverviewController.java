@@ -568,6 +568,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 					.setText("" + (Integer.parseInt(sum.getText()) - ent.calculateVariableCosts(selectedOffer)));
 
 			quality.setText("" + tmp_quality);
+			
+			maxproducable.setText("(" +ent.getMaxProducibleHouses(selectedOffer) + ")");
 
 		} catch (
 

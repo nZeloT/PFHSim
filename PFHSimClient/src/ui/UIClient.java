@@ -20,7 +20,7 @@ import sim.procurement.ResourceMarket;
 import ui.abstraction.ProgressDialog;
 import ui.abstraction.Utils;
 
-public class UIClient extends Application {
+public class UIClient extends Application { 
 
 	//---------------------------------------------------
 	public static void main(String[] args) {
@@ -30,7 +30,7 @@ public class UIClient extends Application {
 
 	private static final int SERVER_PORT = 44444;   
 
-	private ServerConnection server;
+	private ServerConnection server;  
 	private Enterprise ent;
 	private ResourceMarket market;
 	

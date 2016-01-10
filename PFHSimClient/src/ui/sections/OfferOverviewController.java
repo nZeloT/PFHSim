@@ -552,22 +552,24 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				noOfSpecifiedWalls += Integer.parseInt(selection_panorama.getText());
 			}
 
-			if (!showingExistingOffer) {
 				@SuppressWarnings("unchecked")
 				Tupel<WallType>[] tupelarray = new Tupel[walltype.size()];
 				for (int i = 0; i < walltype.size(); i++) {
 					tupelarray[i] = walltype.get(i);
 				}
 
+				if (!showingExistingOffer) {
 				System.out.println("new offer selection" + "");
 				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, tupelarray);
 
-			}
-			if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
-				btn_save.setDisable(false);
-			} else {
-				btn_save.setDisable(true);
-			}
+				}
+
+				if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
+					btn_save.setDisable(false);
+				} else {
+					btn_save.setDisable(true);
+				}
+				
 			contributionmargin
 					.setText("" + (Integer.parseInt(sum.getText()) - ent.calculateVariableCosts(selectedOffer)));
 		} catch (

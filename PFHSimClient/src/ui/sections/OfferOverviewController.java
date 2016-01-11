@@ -567,6 +567,12 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			contributionmargin
 					.setText("" + (Integer.parseInt(sum.getText()) - ent.calculateVariableCosts(selectedOffer)));
 
+			WallType[] wt = selectedOffer.getHousetype().getRequiredWallTypes();
+			int[] wc = selectedOffer.getHousetype().getWallCounts();
+			for (int i = 0; i < wt.length; i++) {
+				if (wt[i]!=WallType.GENERAL)
+					tmp_quality += wt[i].getQualityFactor() * wc[i];
+			}
 			quality.setText("" + tmp_quality);
 			
 			maxproducable.setText("(" +ent.getMaxProducibleHouses(selectedOffer) + ")");

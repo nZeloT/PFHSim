@@ -601,23 +601,28 @@ public class Enterprise {
 
 	public void setWallQuality() {
 
-		List<Tupel<MachineType>> avg = this.production.getAllAvgMachineQualities();
+		List<Machine> machines = this.production.getMachines();
 
 		WallType[] t = WallType.values();
+		
 		for (WallType wallType : t) {
-			Tupel<MachineType> cAvg = null;
-			boolean found = false;
-			for (int i = 0; i < avg.size() && found == false; i++) {
-				Tupel<MachineType> tmp = avg.get(i);
-				WallType[] wtth = tmp.type.getWalltypesToHandle();
-				for (WallType wallType2 : wtth) {
-					if (wallType2 == wallType) {
-						wallType.setQualityFactor(wallType.getQualityFactor() * tmp.count);
-						found = true;
-						break;
-					}
+			
+			wallType.setQualityFactor(wallType.getInitialQualityFactor());
+			
+			for (int i = 0; i < machines.size(); i++) {
+				int ctr = 0;
+				int qual = 0;
+				if(machines.get(i).getProductionType() == wallType) {
+					qual += machines.get(i).getQuality();
+					ctr++;
 				}
+				if (ctr>0) {
+					qual /= ctr;
+					wallType.setQualityFactor(qual);
+				}
+				
 			}
+			
 		}
 
 	}

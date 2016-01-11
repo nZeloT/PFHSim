@@ -1,27 +1,27 @@
-Einleitung(warum?, eingehen auf die Aufgabenstellung, Rechercheergebnisse, Spielidee)
-
-BWL/VWL Teil (Fertighäuser, Preise, vllt. kurz: Angebot/Nachfrage)
+Einleitung(warum Fertighäuser?, eingehen auf die Aufgabenstellung, Rechercheergebnisse, Spielidee) (Carmen)
+BWL/VWL Teil (Preise) (Marcel) 
 
 Analysephase:
-* Use Cases
-* Fachkonzept
+* Use Cases (Flo)
+* Zustandsautomat (Alex)
+
+* Fachkonzept(Absatzmarkt, Einkaufsmarkt) (Alex,Flo)
 * Abteilungen (hier auch auf Interaktion mit anderen Spielern über Angebotspreise eingehen)
-* UI Mockup
-* statische dynamische modelle
+(HR,Production Alex||Warehouse,RnD Flo)
+* UI Mockup (was haben wir uns dabei gedacht?)(Marcel)
 * Szenariotest (so viele wie notwendig, beweise das die BWL/VWL Erkenntnisse eigesetzt wurden)
-		anhand dessen Spielstrategien
+	* anhand dessen Spielstrategien (Alex,Flo)
 		
 Entwurfsphase:
-* statische dynamische Modelle
-* Server/Client, UI Technik
-* UI Umsetzung, Abweichungen vom MockUp)
+* Klassendiagramm/Sequenzdiagramm(e)(Methodisches Beschreiben der Produktionsabläufe)(Leon)
+* Server/Client, UI Technik (Leon)
+* UI Umsetzung, Abweichungen vom MockUp (Leon)
 * (Activity Diagramm)
-* Command Line Interface(Weg dazu, Nutzen, etc., später GUI)
-* JUnit Tests beschreiben
-* Projektablauf(Milestones, Entscheidungen die getroffen wurden, Fehler (methodisch),Ideen, die Anfangs aufkamen)
+* Command Line Interface(Weg dazu, Nutzen, etc., später GUI) (Leon)
+* JUnit Tests beschreiben (Marcel)
+* Projektablauf(Milestones, Entscheidungen die getroffen wurden, Fehler (methodisch),Ideen, die Anfangs aufkamen)(Carmen)
 	
-Fazit
-
-Ausblick
+Fazit (Carmen)
+Ausblick (Carmen)
 
 Ehrenwörtliche Erklärung

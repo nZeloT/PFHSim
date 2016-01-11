@@ -1,12 +1,10 @@
 ###Betriebswirtschaftliche Grundlagen
 *	Ablaufplan des Spiels
-  *Beschreibung Spielidee
+  * Beschreibung Spielidee
 *	Ereignisse während einer Geschäftsperiode
   *	Strategische Aktionen
   *	Involvierte Fachbereiche / Entscheidungsbereich
-    * Rechnungswesen
-    * Marketing
-    * Finanzen
+    * Rechnungswesen & Finanzen
   * Erzielte Ergebnisse
 *	Wo entstehen wann im UN Kosten?
 *	Wer reagiert wie auf wen?
@@ -19,6 +17,7 @@
 * Personalbestand
  * Mitarbeitertypen 
  * Vorteile einer Weiterbildung gegenüber mehr Angestellten
+ * Szenariotests (2,3 unters. Tests)
  
 ###Technische Grundlagen
 *	Klassendiagramm

@@ -11,7 +11,13 @@ Analysephase:
 * UI Mockup (was haben wir uns dabei gedacht?)(Marcel)
 * Szenariotest (so viele wie notwendig, beweise das die BWL/VWL Erkenntnisse eigesetzt wurden)
 	* anhand dessen Spielstrategien (Alex,Flo)
-		
+	* jeweils mit 2 Spielern
+	* 1 Test(Florian):
+		* Preis-Mengen-Strategie (Viele maschinen, Resourcen, bilige Häuser)
+		* Diversifikation(Viele Häuser, anbieten)
+	* 2 Test(Alex):
+		* Hochwertigskäufer (schaltet teure Häuser frei, fokussiert seine Angebote)
+		* Billige Häuser(gute Qualität)
 Entwurfsphase:
 * Klassendiagramm/Sequenzdiagramm(e)(Methodisches Beschreiben der Produktionsabläufe)(Leon)
 * Server/Client, UI Technik (Leon)

@@ -1,6 +1,8 @@
 ###Betriebswirtschaftliche Grundlagen
 *	Ablaufplan des Spiels
   * Beschreibung Spielidee
+  * Sequenzdiagramm
+  * Use Cases
 *	Ereignisse während einer Geschäftsperiode
   *	Strategische Aktionen
   *	Involvierte Fachbereiche / Entscheidungsbereich

@@ -1,9 +1,11 @@
 Einleitung(warum?, eingehen auf die Aufgabenstellung, Rechercheergebnisse, Spielidee)
 
-BWL/VWL Teil
+BWL/VWL Teil (Fertighäuser, Preise, vllt. kurz: Angebot/Nachfrage)
 
 Analysephase:
-* Use Cases, Fachkonzept
+* Use Cases
+* Fachkonzept
+** Abteilungen (hier auch auf Interaktion mit anderen Spielern über Angebotspreise eingehen)
 * UI Mockup
 * statische dynamische modelle
 * Szenariotest (so viele wie notwendig, beweise das die BWL/VWL Erkenntnisse eigesetzt wurden)
@@ -11,7 +13,8 @@ Analysephase:
 		
 Entwurfsphase:
 * statische dynamische Modelle
-* Server/Client,UI Technik
+* Server/Client, UI Technik
+* UI Umsetzung, Abweichungen vom MockUp)
 * (Activity Diagramm)
 * Command Line Interface(Weg dazu, Nutzen, etc., später GUI)
 * JUnit Tests beschreiben

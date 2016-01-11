@@ -1,12 +1,13 @@
+* Einleitung - Fertighäuser
+
 ###Betriebswirtschaftliche Grundlagen
 *	Ablaufplan des Spiels
-  *Beschreibung Spielidee
+  * Beschreibung Spielidee
+  * Use Cases
 *	Ereignisse während einer Geschäftsperiode
   *	Strategische Aktionen
   *	Involvierte Fachbereiche / Entscheidungsbereich
-    * Rechnungswesen
-    * Marketing
-    * Finanzen
+    * Rechnungswesen & Finanzen
   * Erzielte Ergebnisse
 *	Wo entstehen wann im UN Kosten?
 *	Wer reagiert wie auf wen?
@@ -19,11 +20,16 @@
 * Personalbestand
  * Mitarbeitertypen 
  * Vorteile einer Weiterbildung gegenüber mehr Angestellten
+
  
 ###Technische Grundlagen
 *	Klassendiagramm
-*	Fachkonzeptebene
+* Sequenzdiagramm
+*	Fachkonzeptebene  #### Frage
   * Demo mit JUnittest
-*	Benutzeroberfläche
+  * Szenariotests (2,3 unters. Tests)
+*	Benutzeroberfläche  #### Frage
   * MockUp
   * UI mit JavaFX
+   * Entwicklung vom MockUp zum UI
+   * Abweichungen

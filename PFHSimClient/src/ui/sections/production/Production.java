@@ -80,10 +80,12 @@ public class Production extends Container<VBox> implements UISection{
 	@FXML
 	private void onBuy(ActionEvent evt){
 		BuyDialog dia = new BuyDialog(ent);
-		Optional<MachineType> res = dia.showAndWait();
+		Optional<Pair<MachineType, Integer>> res = dia.showAndWait();
 		if(res.isPresent()){
 			try {
-				ent.buyMachine(res.get());
+				Pair<MachineType, Integer> p = res.get();
+				for(int i = 0; i < p.getValue(); i++)
+					ent.buyMachine(p.getKey());
 			} catch (BankException e) {
 				Utils.showError(e.getMessage());
 				e.printStackTrace();

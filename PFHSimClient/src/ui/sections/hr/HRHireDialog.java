@@ -44,6 +44,7 @@ public class HRHireDialog extends Dialog<Pair<EmployeeType, Integer>> {
 		cbbTypes.getSelectionModel().select(type);
 
 		spinAmount = new Spinner<>(1, maxToHire, 1);
+		spinAmount.setEditable(true);
 
 		lblCosts = new Label("0");
 

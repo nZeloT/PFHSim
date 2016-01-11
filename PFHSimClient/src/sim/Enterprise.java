@@ -366,7 +366,7 @@ public class Enterprise {
 		// - 2. Calculation of a houses production-costs
 		int costs = 0;
 		Wall[] tmp_wall = null;
-		for (int i = 0; i < wt.length; i++) {
+		for (int i = 0; i < tupel.length; i++) {
 			tmp_wall = warehouse.removeWalls(tupel[i].type, tupel[i].count);
 			for (int j = 0; j < tmp_wall.length; j++) {
 				costs += tmp_wall[j].getCosts();

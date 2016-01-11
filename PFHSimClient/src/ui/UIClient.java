@@ -30,7 +30,7 @@ public class UIClient extends Application {
 
 	private static final int SERVER_PORT = 44444;   
 
-	private ServerConnection server;  
+	private ServerConnection server;   
 	private Enterprise ent;
 	private ResourceMarket market;
 	

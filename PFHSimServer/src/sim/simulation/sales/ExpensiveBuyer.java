@@ -82,7 +82,7 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 				} else {
 					undistributed = 0;
 				}
-				
+				tmp.get(j).offer.setNumberOfPurchases(num);
 				System.out.println("Enterprise: " + tmp.get(j).enterprise + ", Offer: " + tmp.get(j).offer.getWalltype() + ", no. of purchases: " + tmp.get(j).offer.getNumberOfPurchases());
 				
 				List<Offer> tmp2 = results.get(tmp.get(j).enterprise);

@@ -1,7 +1,6 @@
 ###Betriebswirtschaftliche Grundlagen
 *	Ablaufplan des Spiels
   * Beschreibung Spielidee
-  * Sequenzdiagramm
   * Use Cases
 *	Ereignisse während einer Geschäftsperiode
   *	Strategische Aktionen
@@ -19,12 +18,16 @@
 * Personalbestand
  * Mitarbeitertypen 
  * Vorteile einer Weiterbildung gegenüber mehr Angestellten
- * Szenariotests (2,3 unters. Tests)
+
  
 ###Technische Grundlagen
 *	Klassendiagramm
+* Sequenzdiagramm
 *	Fachkonzeptebene  #### Frage
   * Demo mit JUnittest
+  * Szenariotests (2,3 unters. Tests)
 *	Benutzeroberfläche  #### Frage
   * MockUp
   * UI mit JavaFX
+   * Entwicklung vom MockUp zum UI
+   * Abweichungen

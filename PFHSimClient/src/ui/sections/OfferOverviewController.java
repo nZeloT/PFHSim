@@ -248,7 +248,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				walltypes_count = selectedType.getWallCounts();
 				for (int i = 0; i < walltypes.length; i++) {
 					if (walltypes[i] == WallType.GENERAL) {
-						maxqualityval += WallType.PANORAMA_WALL.getQualityFactor() * walltypes_count[i];
+						maxqualityval += ent.getProductionHouse().getWallTypeWithMaxQuality().getQualityFactor() * walltypes_count[i];
 					} else {
 						maxqualityval += walltypes[i].getQualityFactor() * walltypes_count[i];
 					}
@@ -328,7 +328,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 					.setText("" + ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
 			available_massive.setText("" + ent.getWarehouse().getStoredAmount(WallType.MASSIVE_LIGHT_CONSTRUCTION));
 			available_massiveplus
-					.setText("" + ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
+					.setText("" + ent.getWarehouse().getStoredAmount(WallType.MASSIVE_PLUS_CONSTUCTION));
 			available_panorama.setText("" + ent.getWarehouse().getStoredAmount(WallType.PANORAMA_WALL));
 
 			selection_lightweight.setText("");
@@ -772,8 +772,6 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 	@FXML
 	private void productionLimitChanged(KeyEvent e) {
-		System.out.println("button eaaaanabled");
-		btn_save.setDisable(false);
 	}
 
 	@FXML

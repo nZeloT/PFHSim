@@ -4,11 +4,11 @@ import sim.abstraction.GeneralType;
 
 public enum MachineType implements GeneralType {
 	
-	WOODWALL_MACHINE     (25, 3, 1000, 10000, 5, 3, 3333, 1, 7, 1, 0, 0, WallType.LIGHT_WEIGHT_CONSTRUCTION, WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS),
-	BRICKWALL_MACHINE    (20, 3, 1500, 15000, 5, 3, 5000, 1, 7, 2, 0, 0, WallType.MASSIVE_LIGHT_CONSTRUCTION, WallType.MASSIVE_PLUS_CONSTUCTION),
-	PANORAMA_WALL_MACHINE(5,  3, 1000, 17500, 5, 3, 6000, 1, 7, 2, 0, 0, WallType.PANORAMA_WALL);
+	WOODWALL_MACHINE     (25, 3, 1000, 10000, 1, 3, 3333, 1, 7, 1, 0, 0, WallType.LIGHT_WEIGHT_CONSTRUCTION, WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS),
+	BRICKWALL_MACHINE    (20, 3, 1500, 15000, 1, 3, 5000, 1, 7, 2, 0, 0, WallType.MASSIVE_LIGHT_CONSTRUCTION, WallType.MASSIVE_PLUS_CONSTUCTION),
+	PANORAMA_WALL_MACHINE(5,  3, 1000, 17500, 1, 3, 6000, 1, 7, 2, 0, 0, WallType.PANORAMA_WALL);
 	
-
+ 
 	private int basePerformance;
 	private int baseRequiredEmps;
 	private int baseCosts;

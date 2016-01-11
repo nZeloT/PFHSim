@@ -5,7 +5,7 @@ BWL/VWL Teil (Fertighäuser, Preise, vllt. kurz: Angebot/Nachfrage)
 Analysephase:
 * Use Cases
 * Fachkonzept
-** Abteilungen (hier auch auf Interaktion mit anderen Spielern über Angebotspreise eingehen)
+* Abteilungen (hier auch auf Interaktion mit anderen Spielern über Angebotspreise eingehen)
 * UI Mockup
 * statische dynamische modelle
 * Szenariotest (so viele wie notwendig, beweise das die BWL/VWL Erkenntnisse eigesetzt wurden)

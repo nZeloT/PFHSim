@@ -11,12 +11,12 @@ import java.util.List;
 import net.ClientConnection;
 import net.shared.ClientMessage;
 import net.shared.ServerMessage;
-
+ 
 public class Server {
 
 	///////////////////////////////////////////////////////////////////////////
 	public static void main(String[] args) {
-		Server s = new Server(); 
+		Server s = new Server();   
 		s.gameLoop();
 	}
 	///////////////////////////////////////////////////////////////////////////

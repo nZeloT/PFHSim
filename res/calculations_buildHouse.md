@@ -6,6 +6,15 @@
 * concrete    = 6
 * roof tile   = 1
 
+---
+* Holz(Eiche): 160 € m³ Volumen 300
+* Beton: 100€ m³ Volumen 300
+* Dachziegel: 1 Volumen 1
+* Dämmwolle: 3,45€ Volumen 150
+* Fenster: 50-80€ Volumen 50
+* Ziegel: 1,04€ Stück Volumen 300
+
+
 ### wall types
 * light weight conctruction 
   * 5 wood, 1 insulation, 1 window

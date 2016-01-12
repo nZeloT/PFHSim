@@ -92,6 +92,8 @@ public class Enterprise {
 		} catch (WrongEmployeeTypeException e) {
 			e.printStackTrace();
 		}
+		
+		this.setWallQuality();
 	}
 
 	/**
@@ -103,10 +105,6 @@ public class Enterprise {
 		//reset the per round build amounts hashmap
 		perRoundBuildAmounts.clear();
 
-		// Set the new wall and offer qualities based on the average machine
-		// quality and walltype-qualities
-		this.setWallQuality();
-		sales.setOfferQuality();
 
 		// process results from buyer's market-simulation.
 		if (soldOffer.size() != sales.getOfferCount()) // this is for safety
@@ -205,6 +203,12 @@ public class Enterprise {
 		// Reset number of purchases for the next simulation step.
 		sales.resetOffers();
 
+
+		// Set the new wall and offer qualities based on the average machine
+		// quality and walltype-qualities
+		this.setWallQuality();
+		sales.setOfferQuality();
+		
 		return msgStore;
 	}
 
@@ -373,7 +377,7 @@ public class Enterprise {
 		// - 2. Calculation of a houses production-costs
 		int costs = 0;
 		Wall[] tmp_wall = null;
-		for (int i = 0; i < wt.length; i++) {
+		for (int i = 0; i < tupel.length; i++) {
 			tmp_wall = warehouse.removeWalls(tupel[i].type, tupel[i].count);
 			for (int j = 0; j < tmp_wall.length; j++) {
 				costs += tmp_wall[j].getCosts();
@@ -624,11 +628,12 @@ public class Enterprise {
 				int ctr = 0;
 				int qual = 0;
 				if(machines.get(i).getProductionType() == wallType) {
-					qual += machines.get(i).getQuality();
+					qual += machines.get(i).getQuality() * wallType.getInitialQualityFactor();
 					ctr++;
 				}
 				if (ctr>0) {
 					qual /= ctr;
+					System.out.println("" + wallType.toString() + qual);
 					wallType.setQualityFactor(qual);
 				}
 				

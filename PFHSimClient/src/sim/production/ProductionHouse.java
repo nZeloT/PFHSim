@@ -87,5 +87,16 @@ public class ProductionHouse implements CostFactor {
 	public boolean sellMachine(Machine m){
 		return !m.isInUpgrade() && m.unassignAllEmployees() && machines.remove(m);
 	}
-
+	public WallType getWallTypeWithMaxQuality() {
+		WallType[] t = WallType.values();
+		WallType max = WallType.LIGHT_WEIGHT_CONSTRUCTION;
+		for (WallType wallType : t) {
+			if (wallType != WallType.GENERAL) {
+				if (max.getQualityFactor()<wallType.getQualityFactor()) {
+					max = wallType;
+				}
+			}
+		}
+		return max;
+	}
 }

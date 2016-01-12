@@ -10,14 +10,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label prefHeight="18.0" prefWidth="235.0" text="Resource type">
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label prefHeight="18.0" prefWidth="238.0" text="Resource Type">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -28,12 +34,11 @@
                   <Insets left="15.0" />
                </HBox.margin>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" />
             <Pane prefHeight="200.0" prefWidth="50.0" />
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label fx:id="price_wood1" text="current price">
+                  <Label text="Current Price">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -45,7 +50,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label minWidth="100.0" text="wanted amount">
+                  <Label prefWidth="125.0" text="Wanted Amount">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -57,7 +62,18 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label text="sum to pay">
+                  <Label text="Warehouse Space">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label text="Sum to Pay">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -73,7 +89,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="235.0" text="actual amount">
+                  <Label prefHeight="18.0" prefWidth="235.0" text="Actual amount">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -107,7 +123,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label prefHeight="18.0" prefWidth="238.0" text="wood">
+                  <Label prefHeight="18.0" prefWidth="238.0" text="Wood">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -134,11 +150,22 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <TextField fx:id="input_wood" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" onInputMethodTextChanged="#handleInput" />
+                  <TextField fx:id="input_wood" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInput" onInputMethodTextChanged="#handleKeyInput" onKeyPressed="#handleKeyInput" onKeyReleased="#handleKeyInput" onKeyTyped="#handleKeyInput" />
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
             <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="war_wood" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -197,7 +224,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label prefHeight="18.0" prefWidth="235.0" text="insulation">
+                  <Label prefHeight="18.0" prefWidth="235.0" text="Insulation">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -224,7 +251,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <TextField fx:id="input_insulation" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <TextField fx:id="input_insulation" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInput" onInputMethodTextChanged="#handleKeyInput" onKeyPressed="#handleKeyInput" onKeyReleased="#handleKeyInput" onKeyTyped="#handleKeyInput" />
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
@@ -232,11 +259,22 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label fx:id="sum_insulation" text="0">
+                  <Label fx:id="war_insulation" text="0">
                      <font>
                         <Font size="12.0" />
                      </font>
                   </Label>	
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="sum_insulation" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
@@ -287,7 +325,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label prefHeight="18.0" prefWidth="235.0" text="concrete">
+                  <Label prefHeight="18.0" prefWidth="235.0" text="Concrete">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -314,11 +352,22 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <TextField fx:id="input_concrete" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <TextField fx:id="input_concrete" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInput" onInputMethodTextChanged="#handleKeyInput" onKeyPressed="#handleKeyInput" onKeyReleased="#handleKeyInput" onKeyTyped="#handleKeyInput" />
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
             <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="war_concrete" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -377,7 +426,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label prefHeight="18.0" prefWidth="235.0" text="brick">
+                  <Label prefHeight="18.0" prefWidth="235.0" text="Brick">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -404,11 +453,22 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <TextField fx:id="input_brick" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <TextField fx:id="input_brick" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInput" onInputMethodTextChanged="#handleKeyInput" onKeyPressed="#handleKeyInput" onKeyReleased="#handleKeyInput" onKeyTyped="#handleKeyInput" />
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
             <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="war_brick" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -467,7 +527,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label text="roof tile" VBox.vgrow="ALWAYS">
+                  <Label text="Roof Tile" VBox.vgrow="ALWAYS">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -494,11 +554,22 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <TextField fx:id="input_roof" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <TextField fx:id="input_roof" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInput" onInputMethodTextChanged="#handleKeyInput" onKeyPressed="#handleKeyInput" onKeyReleased="#handleKeyInput" onKeyTyped="#handleKeyInput" />
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
             <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="war_roof" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -557,7 +628,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Label prefHeight="18.0" prefWidth="235.0" text="window">
+                  <Label prefHeight="18.0" prefWidth="235.0" text="Window">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -584,11 +655,22 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <TextField fx:id="input_window" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInputField" />
+                  <TextField fx:id="input_window" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleInput" onInputMethodTextChanged="#handleKeyInput" onKeyPressed="#handleKeyInput" onKeyReleased="#handleKeyInput" onKeyTyped="#handleKeyInput" />
                   <Pane prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
             <Pane prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="war_window" text="0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
@@ -630,10 +712,10 @@
             </VBox>
          </children>
       </HBox>
-      <Pane minHeight="50.0" prefHeight="200.0" prefWidth="200.0" />
-      <HBox minHeight="20.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+      <Pane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+      <HBox spacing="5.0">
          <children>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Pane HBox.hgrow="ALWAYS" />
             <Label text="Warehose useage: " />
             <Label fx:id="lblWarehouseCurrent" text="CURRENT" />
             <Label text="/" />

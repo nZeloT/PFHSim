@@ -7,6 +7,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import sim.Enterprise;
 import sim.bank.BankException;
@@ -41,6 +42,13 @@ public class Procurement extends Container<VBox> implements UISection{
 	private @FXML Label sum_roof;
 	private @FXML Label sum_brick;
 	private @FXML Label sum_window;
+	
+	private @FXML Label war_wood;
+	private @FXML Label war_concrete;
+	private @FXML Label war_insulation;
+	private @FXML Label war_roof;
+	private @FXML Label war_brick;
+	private @FXML Label war_window;
 
 	private @FXML Label AM_wood;
 	private @FXML Label AM_concrete;
@@ -117,7 +125,7 @@ public class Procurement extends Container<VBox> implements UISection{
 
 	public boolean checkIfNumberInput(TextField input) {
 
-		if (input.getText().matches("[0-9]{1,}")) {  
+		if (input.getText().matches("[0-9]{1,}")) {
 			return true;  
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -160,13 +168,26 @@ public class Procurement extends Container<VBox> implements UISection{
 	}
 
 	@FXML
-	public void handleInputField(ActionEvent event) {
+	public void handleInput(ActionEvent event) {
 		TextField text = (TextField) event.getSource();
-
+		updateTextField(text);
+	}
+	
+	@FXML
+	public void handleKeyInput(KeyEvent event){
+		TextField text = (TextField) event.getSource();
+		updateTextField(text);
+	}
+	
+	private void updateTextField(TextField text){
+		if(text.getText().isEmpty())
+			return;
+		
 		if (text.getId().equals("input_wood")) {
 			if (checkIfNumberInput(text)) {
 				int_amount_wood = Integer.parseInt(text.getText());
-				sum_wood.setText(" " + market.getPrice(ResourceType.WOOD) * int_amount_wood);
+				sum_wood.setText(" " + market.getPrice(ResourceType.WOOD) * int_amount_wood + " €");
+				war_wood.setText(" " + ResourceType.WOOD.getVolume() * int_amount_wood);
 			} else {
 				text.setText("");
 			}
@@ -176,7 +197,8 @@ public class Procurement extends Container<VBox> implements UISection{
 		if (text.getId().equals("input_insulation")) {
 			if (checkIfNumberInput(text)) {
 				int_amount_insulation = Integer.parseInt(text.getText());
-				sum_insulation.setText(" " + market.getPrice(ResourceType.INSULATION) * int_amount_insulation);
+				sum_insulation.setText(" " + market.getPrice(ResourceType.INSULATION) * int_amount_insulation + " €");
+				war_insulation.setText(" " + ResourceType.INSULATION.getVolume() * int_amount_wood);
 			} else {
 				text.setText("");
 			}
@@ -186,7 +208,8 @@ public class Procurement extends Container<VBox> implements UISection{
 		if (text.getId().equals("input_concrete")) {
 			if (checkIfNumberInput(text)) {
 				int_amount_concrete = Integer.parseInt(text.getText());
-				sum_concrete.setText(" " + market.getPrice(ResourceType.CONCRETE) * int_amount_concrete);
+				sum_concrete.setText(" " + market.getPrice(ResourceType.CONCRETE) * int_amount_concrete + " €");
+				war_concrete.setText(" " + ResourceType.CONCRETE.getVolume() * int_amount_wood);
 			} else {
 				text.setText("");
 			}
@@ -194,7 +217,8 @@ public class Procurement extends Container<VBox> implements UISection{
 		if (text.getId().equals("input_roof")) {
 			if (checkIfNumberInput(text)) {
 				int_amount_roof = Integer.parseInt(text.getText());
-				sum_roof.setText(" " + market.getPrice(ResourceType.ROOF_TILE) * int_amount_roof);
+				sum_roof.setText(" " + market.getPrice(ResourceType.ROOF_TILE) * int_amount_roof + " €");
+				war_roof.setText(" " + ResourceType.ROOF_TILE.getVolume() * int_amount_wood);
 			} else {
 				text.setText("");
 			}
@@ -202,7 +226,8 @@ public class Procurement extends Container<VBox> implements UISection{
 		if (text.getId().equals("input_brick")) {
 			if (checkIfNumberInput(text)) {
 				int_amount_brick = Integer.parseInt(text.getText());
-				sum_brick.setText(" " + market.getPrice(ResourceType.BRICK) * int_amount_brick);
+				sum_brick.setText(" " + market.getPrice(ResourceType.BRICK) * int_amount_brick + " €");
+				war_brick.setText(" " + ResourceType.BRICK.getVolume() * int_amount_wood);
 			} else {
 				text.setText("");
 			}
@@ -210,7 +235,8 @@ public class Procurement extends Container<VBox> implements UISection{
 		if (text.getId().equals("input_window")) {
 			if (checkIfNumberInput(text)) {
 				int_amount_window = Integer.parseInt(text.getText());
-				sum_window.setText(" " + market.getPrice(ResourceType.WINDOW) * int_amount_window);
+				sum_window.setText(" " + market.getPrice(ResourceType.WINDOW) * int_amount_window + " €");
+				war_window.setText(" " + ResourceType.WINDOW.getVolume() * int_amount_wood);
 			} else {
 				text.setText("");
 			}
@@ -219,11 +245,6 @@ public class Procurement extends Container<VBox> implements UISection{
 
 	}
 	
-	@FXML
-	public void handleInput(ActionEvent e){
-		System.out.println("works");
-	}
-
 	public void buy(Label fullAmount, int amount, ResourceType type){
 
 		try {

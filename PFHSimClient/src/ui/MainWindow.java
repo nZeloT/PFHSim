@@ -191,6 +191,8 @@ public class MainWindow extends Container<SplitPane>{
 			root.getChildren().get(0).setVisible(false);
 			root.getChildren().get(1).setVisible(false);
 			root.getChildren().get(2).setVisible(true);
+			
+			//no timer for the end game screen :p
 		}
 
 		updateEndGameTopList(topList);

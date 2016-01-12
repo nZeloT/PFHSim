@@ -39,15 +39,15 @@ public class MainWindow extends Container<SplitPane>{
 
 	private @FXML LineChart<Integer, Integer> moneyChart;
 	private @FXML Label lblMoney;
-	
+
 	private @FXML Label lblProduction;
 	private @FXML Label lblHR;
 	private @FXML Label lblWarehouse;
 	private @FXML Label lblInterests;
-	
+
 	private @FXML Label lblRound;
 	private @FXML Label lblScore;
-	
+
 	private @FXML VBox boxTopList;
 
 	private @FXML Button btnGo;
@@ -60,14 +60,14 @@ public class MainWindow extends Container<SplitPane>{
 	private Enterprise ent;
 
 	private List<UISection> sections;
-	
+
 	private XYChart.Series<Integer, Integer> series;
 	private List<Integer> cashBuffer;
 
 	private Callback<Pair<List<EnterpriseException>, List<Pair<String, Integer>>>, 
-							Triple<Boolean, Integer, Integer>> roundTripProcessor;
+	Triple<Boolean, Integer, Integer>> roundTripProcessor;
 	private Welcome welcomePage;
-	
+
 	private Timer timer;
 
 	public MainWindow(Enterprise e, 
@@ -113,12 +113,12 @@ public class MainWindow extends Container<SplitPane>{
 		root.getChildren().get(1).setVisible(false);
 		root.getChildren().get(2).setVisible(false);
 		roundTripProgress.setProgress(-1);
-		
+
 		moneyChart.getData().add(series);
 
 		onMoneyChanged(0, ent.getBankAccount().getCash());
 		sheduleTimer(true);
-		
+
 		lblRound.setText("" + 0);
 		lblScore.setText("" + 0);
 	}
@@ -134,12 +134,12 @@ public class MainWindow extends Container<SplitPane>{
 		root.getChildren().get(1).setVisible(true);
 		timer.cancel();
 		timer = new Timer("Timer");
-		
+
 		//to prevent UI freezes utilise a new thread :D
 		new Thread(
 				() -> {
 					Platform.runLater(() -> btnGo.setText("Waiting"));
-					
+
 					Pair<List<EnterpriseException>, List<Pair<String, Integer>>> lists = new Pair<>();
 					lists.k = new ArrayList<>();
 					lists.v = new ArrayList<>();
@@ -148,17 +148,17 @@ public class MainWindow extends Container<SplitPane>{
 					//make sure all the UI stuff is then done on the javafx application thread
 					Platform.runLater(() -> prepareNextRound(new ArrayList<>(lists.k), new ArrayList<>(lists.v), res));
 				}
-		).start();
-		
+				).start();
+
 	}
 
 	private void onMoneyChanged(int oldValue, int newValue){
 		Platform.runLater(this::updateMoneyLabels);
 	}
-	
+
 	private void updateMoneyLabels(){
 		lblMoney.setText("" + ent.getBankAccount().getCash());
-		
+
 		lblHR.setText("-" + ent.getHR().getOverallEmployeeCosts() + " €");
 		lblProduction.setText("-" + (ent.getProductionHouse().getCosts() + ent.getProductionHouse().getMachineCosts()) + " €");
 		lblWarehouse.setText("-" + ent.getWarehouse().getCosts() + " €");
@@ -171,20 +171,20 @@ public class MainWindow extends Container<SplitPane>{
 			cashBuffer.add(ent.getBankAccount().getCash());
 			if(cashBuffer.size() == 11)
 				cashBuffer.remove(0);
-			
+
 			series.getData().clear();
 			for (int i = 0; i < cashBuffer.size(); i++) {
 				series.getData().add(new XYChart.Data<Integer, Integer>(i, cashBuffer.get(i)));
 			}
-			
+
 			welcomePage.setMessages(msg);
 			sections.forEach(s -> s.update());
 			stack.getSelectionModel().select(0);
 			root.getChildren().get(1).setVisible(false);
-			
-			lblRound.setText("" + stats.t);
+
+			lblRound.setText("" + (stats.t+1));
 			lblScore.setText("" + stats.u);
-			
+
 			//start a timer which forces a end of the round after 2 minutes
 			sheduleTimer(false);
 		}else{
@@ -192,17 +192,19 @@ public class MainWindow extends Container<SplitPane>{
 			root.getChildren().get(1).setVisible(false);
 			root.getChildren().get(2).setVisible(true);
 		}
-		
+
 		updateEndGameTopList(topList);
 	}
-	
+
 	private void updateEndGameTopList(List<Pair<String, Integer>> topList){
-		boxTopList.getChildren().clear();
-		for (int i = 0; i < topList.size(); i++) {
-			boxTopList.getChildren().add(new Label(topList.get(i).k + " - " + topList.get(i).k));
+		if(topList.size() > 0){
+			boxTopList.getChildren().clear();
+			for (int i = 0; i < topList.size(); i++) {
+				boxTopList.getChildren().add(new Label(topList.get(i).k + " - " + topList.get(i).v));
+			}
 		}
 	}
-	
+
 	private void sheduleTimer(boolean first){
 		timer.scheduleAtFixedRate(new TimerTask() {
 			private long time = TimeUnit.MINUTES.toMillis( first ? 4 : 2);
@@ -223,7 +225,7 @@ public class MainWindow extends Container<SplitPane>{
 			}
 		}, TimeUnit.MINUTES.toMillis(first ? 4 : 2));
 	}
-	
+
 	public void cancleTimer(){
 		timer.cancel();
 		timer = null;

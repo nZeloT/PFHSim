@@ -102,7 +102,7 @@ public class Employee implements CostFactor{
 	}
 	
 	public int getSkill() {
-		return 1 + upgradeCount * type.getUpgradeSkillInc();
+		return (type == EmployeeType.ARCHITECT ? 0 : 1) + upgradeCount * type.getUpgradeSkillInc();
 	}
 	
 	public Department getWork() {

@@ -157,7 +157,7 @@
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
             <Label text="The game has ended. See you later." />
-            <VBox fx:id="boxTopList" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox fx:id="boxTopList" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: EEE;">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>

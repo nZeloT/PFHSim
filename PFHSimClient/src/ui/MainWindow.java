@@ -118,6 +118,9 @@ public class MainWindow extends Container<SplitPane>{
 
 		onMoneyChanged(0, ent.getBankAccount().getCash());
 		sheduleTimer(true);
+		
+		lblRound.setText("" + 0);
+		lblScore.setText("" + 0);
 	}
 
 	private void switchStackPage(ObservableValue<? extends Number> obs, Number oldValue, Number newValue){
@@ -138,6 +141,8 @@ public class MainWindow extends Container<SplitPane>{
 					Platform.runLater(() -> btnGo.setText("Waiting"));
 					
 					Pair<List<EnterpriseException>, List<Pair<String, Integer>>> lists = new Pair<>();
+					lists.k = new ArrayList<>();
+					lists.v = new ArrayList<>();
 					Triple<Boolean, Integer, Integer> res = roundTripProcessor.call(lists);
 
 					//make sure all the UI stuff is then done on the javafx application thread

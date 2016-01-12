@@ -18,7 +18,7 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 
 		numberOfOffers = 0;
 		for (Map.Entry<String, List<Offer>> entry : in.entrySet()) {
-			
+
 			List<Offer> offer = entry.getValue();
 			for (int i = 0; i < offer.size(); i++) {
 				numberOfOffers++;
@@ -52,12 +52,11 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 
 	}
 
-
 	@Override
 	public HashMap<String, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, String[] e) {
-				
+
 		HashMap<String, List<Offer>> results = new HashMap<>();
-//		PFHouseType houseteypes[] = PFHouseType.values();
+		// PFHouseType houseteypes[] = PFHouseType.values();
 		for (int i = 0; i < e.length; i++) {
 			results.put(e[i], new ArrayList<Offer>());
 		}
@@ -65,34 +64,36 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 		for (int i = 0; i < sortedOffers.size(); i++) {
 			undistributed = 0;
 			List<EnterpriseOfferTupel> tmp = sortedOffers.get(PFHouseType.CITY_VILLA);
-			int demand = (int) (((maxAmount - minAmount) / (1.0*tmp.size()) + minAmount)*tmp.size()); 
+			int demand = (int) ((maxAmount + (maxAmount - minAmount) / 2) * tmp.size());
 
 			double cumulatedQualities = 0;
 			for (int j = 0; j < tmp.size(); j++) {
 				cumulatedQualities += tmp.get(j).expensiveBuyerInterest;
 			}
-			
-			for (int j = 0; j < tmp.size(); j++) {
-				double ratio = (1.0*tmp.get(j).expensiveBuyerInterest)/cumulatedQualities;
-				
-				int num = (int) (ratio * demand) + undistributed;
-				if ((tmp.get(j).offer.getProductionLimit()-tmp.get(j).offer.getNumberOfPurchases()) < num) {
-					undistributed += num - tmp.get(j).offer.getProductionLimit() - tmp.get(j).offer.getNumberOfPurchases();
-					num = tmp.get(j).offer.getProductionLimit() - tmp.get(j).offer.getNumberOfPurchases();
-				} else {
-					undistributed = 0;
-				}
-				
-				System.out.println("Enterprise: " + tmp.get(j).enterprise + ", Offer: " + tmp.get(j).offer.getWalltype() + ", no. of purchases: " + tmp.get(j).offer.getNumberOfPurchases());
-				
-				List<Offer> tmp2 = results.get(tmp.get(j).enterprise);
-				tmp2.add(tmp.get(j).offer);
-				results.put(tmp.get(j).enterprise, tmp2);
-			}
-			
 
-			
-			
+			for (int j = 0; j < tmp.size(); j++) {
+				if (tmp.get(j).offer.getPrice() < 2500000) {
+					double ratio = (1.0 * tmp.get(j).expensiveBuyerInterest) / cumulatedQualities;
+
+					int num = (int) (ratio * demand) + undistributed;
+					if ((tmp.get(j).offer.getProductionLimit() - tmp.get(j).offer.getNumberOfPurchases()) < num) {
+						undistributed += num - tmp.get(j).offer.getProductionLimit()
+								- tmp.get(j).offer.getNumberOfPurchases();
+						num = tmp.get(j).offer.getProductionLimit() - tmp.get(j).offer.getNumberOfPurchases();
+					} else {
+						undistributed = 0;
+					}
+					tmp.get(j).offer.setNumberOfPurchases(num);
+					System.out.println(
+							"Enterprise: " + tmp.get(j).enterprise + ", Offer: " + tmp.get(j).offer.getWalltype()
+									+ ", no. of purchases: " + tmp.get(j).offer.getNumberOfPurchases());
+
+					List<Offer> tmp2 = results.get(tmp.get(j).enterprise);
+					tmp2.add(tmp.get(j).offer);
+					results.put(tmp.get(j).enterprise, tmp2);
+				}
+			}
+
 		}
 		return results;
 	}

@@ -1,5 +1,7 @@
 package ui.sections.hr;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
@@ -71,8 +73,13 @@ public class HRDetails extends Container<VBox>{
 		int free = ent.getHR().getCountOfFreeOfType(type);
 
 		if(free > 0){
-
-			HRAssignDialog diag = new HRAssignDialog(free, ent.getProductionHouse().getMachines());
+			List<Machine> machines = new ArrayList<>();
+			machines.addAll(ent.getProductionHouse().getMachines());
+			for (int i = 0; i < machines.size(); i++) {
+				if(machines.get(i).isInUpgrade())
+					machines.remove(i--);
+			}
+			HRAssignDialog diag = new HRAssignDialog(free, machines);
 			Optional<Pair<Machine, Integer>> res = diag.showAndWait();
 			if(res.isPresent()){
 				Pair<Machine, Integer> p = res.get();

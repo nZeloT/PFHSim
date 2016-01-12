@@ -2,6 +2,7 @@ package sim;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import sim.abstraction.Tupel;
@@ -52,6 +53,8 @@ public class Enterprise {
 	private Department marketResearch;
 	private Warehouse warehouse;
 	private ProductionHouse production;
+	
+	private HashMap<PFHouseType, Integer> perRoundBuildAmounts;
 
 	public Enterprise(ResourceMarket market) {
 		bank = new BankAccount(START_CASH);
@@ -61,6 +64,7 @@ public class Enterprise {
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
 		researchedHouseTypes.add(PFHouseType.BUNGALOW);
+		perRoundBuildAmounts = new HashMap<>();
 
 		upgrades = new UpgradeProcessor();
 
@@ -88,6 +92,8 @@ public class Enterprise {
 		} catch (WrongEmployeeTypeException e) {
 			e.printStackTrace();
 		}
+		
+		this.setWallQuality();
 	}
 
 	/**
@@ -95,11 +101,10 @@ public class Enterprise {
 	 */
 	public List<EnterpriseException> doSimulationStep(List<Offer> soldOffer) {
 		List<EnterpriseException> msgStore = new ArrayList<>();
+		
+		//reset the per round build amounts hashmap
+		perRoundBuildAmounts.clear();
 
-		// Set the new wall and offer qualities based on the average machine
-		// quality and walltype-qualities
-		this.setWallQuality();
-		sales.setOfferQuality();
 
 		// process results from buyer's market-simulation.
 		if (soldOffer.size() != sales.getOfferCount()) // this is for safety
@@ -137,6 +142,10 @@ public class Enterprise {
 			if (h.isFinished()) {
 				finished ++;
 				housesInConstruction.remove(i--);
+				
+				int amount = perRoundBuildAmounts.get(h.getType());
+				amount ++;
+				perRoundBuildAmounts.put(h.getType(), amount);
 
 				try {
 					bank.deposit(h.getPrice());
@@ -194,6 +203,12 @@ public class Enterprise {
 		// Reset number of purchases for the next simulation step.
 		sales.resetOffers();
 
+
+		// Set the new wall and offer qualities based on the average machine
+		// quality and walltype-qualities
+		this.setWallQuality();
+		sales.setOfferQuality();
+		
 		return msgStore;
 	}
 
@@ -362,7 +377,7 @@ public class Enterprise {
 		// - 2. Calculation of a houses production-costs
 		int costs = 0;
 		Wall[] tmp_wall = null;
-		for (int i = 0; i < wt.length; i++) {
+		for (int i = 0; i < tupel.length; i++) {
 			tmp_wall = warehouse.removeWalls(tupel[i].type, tupel[i].count);
 			for (int j = 0; j < tmp_wall.length; j++) {
 				costs += tmp_wall[j].getCosts();
@@ -551,7 +566,7 @@ public class Enterprise {
 	}
 
 	public void sellMachine(Machine m) throws BankException, EnterpriseException{
-		int sell = m.getType().getBaseCosts() + m.getType().getUpgradeCosts() * m.getUpgradeCount();
+		int sell = m.getType().getPrice() + m.getUpgradeCount() * m.getType().getUpgradeCosts();
 		sell *= 0.66d;
 
 		if(production.sellMachine(m))
@@ -601,23 +616,29 @@ public class Enterprise {
 
 	public void setWallQuality() {
 
-		List<Tupel<MachineType>> avg = this.production.getAllAvgMachineQualities();
+		List<Machine> machines = this.production.getMachines();
 
 		WallType[] t = WallType.values();
+		
 		for (WallType wallType : t) {
-			Tupel<MachineType> cAvg = null;
-			boolean found = false;
-			for (int i = 0; i < avg.size() && found == false; i++) {
-				Tupel<MachineType> tmp = avg.get(i);
-				WallType[] wtth = tmp.type.getWalltypesToHandle();
-				for (WallType wallType2 : wtth) {
-					if (wallType2 == wallType) {
-						wallType.setQualityFactor(wallType.getQualityFactor() * tmp.count);
-						found = true;
-						break;
-					}
+			
+			wallType.setQualityFactor(wallType.getInitialQualityFactor());
+			
+			for (int i = 0; i < machines.size(); i++) {
+				int ctr = 0;
+				int qual = 0;
+				if(machines.get(i).getProductionType() == wallType) {
+					qual += machines.get(i).getQuality() * wallType.getInitialQualityFactor();
+					ctr++;
 				}
+				if (ctr>0) {
+					qual /= ctr;
+					System.out.println("" + wallType.toString() + qual);
+					wallType.setQualityFactor(qual);
+				}
+				
 			}
+			
 		}
 
 	}
@@ -696,5 +717,9 @@ public class Enterprise {
 
 	public BankAccount getBankAccount() {
 		return bank;
+	}
+	
+	public HashMap<PFHouseType, Integer> getPerRoundBuildAmounts() {
+		return perRoundBuildAmounts;
 	}
 }

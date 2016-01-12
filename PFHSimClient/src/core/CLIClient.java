@@ -97,8 +97,8 @@ public class CLIClient {
 
 				//4. collect info to send to server
 				System.out.println("Sending Client Info ...");
-				ClientMessage clnt = new ClientMessage(name, new HashMap<>(market.getSoldResources()), new ArrayList<>(e.getSales().getOffers()), e.getBankAccount().isOnLimit());
-				server.placeMessasge(clnt);
+//				ClientMessage clnt = new ClientMessage(name, new HashMap<>(market.getSoldResources()), new ArrayList<>(e.getSales().getOffers()), e.getBankAccount().isOnLimit());
+//				server.placeMessasge(clnt);
 			}
 		}while(!finish);
 

@@ -197,6 +197,27 @@ public class Warehouse extends Container<VBox> implements UISection{
 				ProgressBar_extendWarehouse.setProgress(0.0);
 			}
 		}
+		
+		AM_insulation.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.INSULATION));
+		AM_wood.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.WOOD));
+		AM_window.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.WINDOW));
+		AM_roof.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.ROOF_TILE));
+		AM_brick.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.BRICK));
+		AM_concrete.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.CONCRETE));
+
+		AM_panorama.setText(" " + ent.getWarehouse().getStoredAmount(WallType.PANORAMA_WALL));
+		AM_massPlus.setText(" " + ent.getWarehouse().getStoredAmount(WallType.MASSIVE_PLUS_CONSTUCTION));
+		AM_massLig.setText(" " + ent.getWarehouse().getStoredAmount(WallType.MASSIVE_LIGHT_CONSTRUCTION));
+		AM_lightWeight.setText(" " + ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION));
+		AM_lightPlus.setText(" " + ent.getWarehouse().getStoredAmount(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS));
+
+		calculateTotalSpace();
+
+		TS_panorama.setText("" + TS_panorama_int);
+		TS_massPlus.setText("" + TS_massPlus_int);
+		TS_massLig.setText("" + TS_massLig_int);
+		TS_lightWeight.setText("" + TS_lightWeight_int);
+		TS_lightPlus.setText("" + TS_lightPlus_int);
 	}
 	
 	

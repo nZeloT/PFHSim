@@ -50,26 +50,27 @@ public class HRAssignDialog extends Dialog<Pair<Machine, Integer>> {
 		cbbTypes.setCellFactory(factory);
 		cbbTypes.getSelectionModel().select(0);
 
-		Spinner<Integer> sliAmount = new Spinner<>(0, maxToAssign, 1);
+		Spinner<Integer> spinAmount = new Spinner<>(0, maxToAssign, 1);
+		spinAmount.setEditable(true);
 		
-		Label lblFree = new Label("" + (maxToAssign - sliAmount.getValue()));
+		Label lblFree = new Label("" + (maxToAssign - spinAmount.getValue()));
 
 		grid.add(new Label("Machine:"), 0, 0);
 		grid.add(cbbTypes, 1, 0);
 		grid.add(new Label("Amount:"), 0, 1);
-		grid.add(sliAmount, 1, 1);
+		grid.add(spinAmount, 1, 1);
 		grid.add(new Label("Remaining free:"), 0, 2);
 		grid.add(lblFree, 1, 2);
 		
-		sliAmount.valueProperty().addListener( (observable, oldValue, newValue) -> {
+		spinAmount.valueProperty().addListener( (observable, oldValue, newValue) -> {
 			lblFree.setText("" + (maxToAssign - newValue));
 		});
 
 		getDialogPane().setContent(grid);
 
 		setResultConverter(dialogButton -> {
-			if(dialogButton == assignButtonType && sliAmount.getValue() <= maxToAssign){
-				return new Pair<Machine, Integer>(cbbTypes.getValue(), sliAmount.getValue());
+			if(dialogButton == assignButtonType && spinAmount.getValue() <= maxToAssign){
+				return new Pair<Machine, Integer>(cbbTypes.getValue(), spinAmount.getValue());
 			}
 
 			return null;

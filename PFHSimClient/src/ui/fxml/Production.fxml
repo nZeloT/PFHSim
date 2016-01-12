@@ -19,12 +19,12 @@
       </HBox>
       <TableView fx:id="tableMachines" VBox.vgrow="ALWAYS">
         <columns>
-          <TableColumn fx:id="colName" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="colName" minWidth="-1.0" prefWidth="200.0" text="Name" />
           <TableColumn fx:id="colState" prefWidth="75.0" text="State" />
             <TableColumn fx:id="colCosts" prefWidth="75.0" text="Costs" />
             <TableColumn fx:id="colUseage" prefWidth="75.0" text="Useage" />
             <TableColumn fx:id="colMaxUseage" prefWidth="75.0" text="Max Useage" />
-            <TableColumn fx:id="colProduction" minWidth="150.0" prefWidth="150.0" text="Current Production" />
+            <TableColumn fx:id="colProduction" minWidth="-1.0" prefWidth="200.0" text="Current Production" />
             <TableColumn fx:id="colUpgrades" prefWidth="75.0" text="Installed Upgrades" />
         </columns>
       </TableView>

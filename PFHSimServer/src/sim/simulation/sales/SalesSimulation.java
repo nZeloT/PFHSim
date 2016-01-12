@@ -11,12 +11,14 @@ public class SalesSimulation {
 	private HashMap<String, List<Offer>> in = new HashMap<>();
 	
 	private List<GroupOfBuyers> buyerGroups;
+	private ExpensiveBuyer exp;
 	
 	public SalesSimulation() {
 		buyerGroups = new ArrayList<>();
 		buyerGroups.add(new CheapBuyer());
 		buyerGroups.add(new PricePerformanceBuyer());
-		buyerGroups.add(new ExpensiveBuyer());
+		exp = new ExpensiveBuyer();
+		buyerGroups.add(exp);
 	}
 	
 	public void simulateSalesMarket(HashMap<String, List<Offer>> enterpriseoffers) {
@@ -27,7 +29,10 @@ public class SalesSimulation {
 		 
 		for (GroupOfBuyers g : buyerGroups) {
 			g.sortOffers(enterpriseoffers);
-			in = g.registerPurchases(50, 10, 5, names);
+			if (g != exp)
+				in = g.registerPurchases(50, 10, 5, names);
+			else
+				in = g.registerPurchases(15, 1, 1, names);
 		}
 		
 	}

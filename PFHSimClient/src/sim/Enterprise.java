@@ -141,11 +141,11 @@ public class Enterprise {
 
 			if (h.isFinished()) {
 				finished ++;
-				PFHouse house = housesInConstruction.remove(i--);
+				housesInConstruction.remove(i--);
 				
-				int amount = perRoundBuildAmounts.get(house.getType());
+				int amount = perRoundBuildAmounts.get(h.getType());
 				amount ++;
-				perRoundBuildAmounts.put(house.getType(), amount);
+				perRoundBuildAmounts.put(h.getType(), amount);
 
 				try {
 					bank.deposit(h.getPrice());

@@ -77,8 +77,12 @@ public class ServerSimulation {
 		
 		//7. build the top ranks
 		for (ClientMessage client : clntMsgs) {
-			if(!sellings.containsKey(client.getName()))
+			if(!sellings.containsKey(client.getName())){
 				sellings.put(client.getName(), new HashMap<>());
+				for (PFHouseType pfHouse : PFHouseType.values()) {
+					sellings.get(client.getName()).put(pfHouse, 0);
+				}
+			}
 			
 			HashMap<PFHouseType, Integer> houseSellings = sellings.get(client.getName());
 			for (Entry<PFHouseType, Integer> e : client.getBuildAmounts().entrySet()) {

@@ -3,6 +3,7 @@ package net.shared;
 import java.util.HashMap;
 import java.util.List;
 
+import sim.abstraction.Pair;
 import sim.procurement.ResourceType;
 import sim.simulation.sales.Offer;
 

@@ -156,5 +156,35 @@ public enum PFHouseType implements GeneralType {
 	public double getScoreFactor() {
 		return scoreFactor;
 	}
+	
+	public static PFHouseType fromInt(int i){
+		switch (i) {
+		case 0: return BUNGALOW;
+		case 1: return BLOCK_HOUSE;
+		case 2: return EFFICIENCY_HOUSE;
+		case 3: return MULTI_FAMILY_HOUSE;
+		case 4: return COMFORT_HOUSE;
+		case 5: return CITY_VILLA;
+		case 6: return TRENDHOUSE;
+
+		default:
+			return null;
+		}
+	}
+	
+	public static int toInt(PFHouseType t){
+		switch (t) {
+		case BUNGALOW: 				return 0;
+		case BLOCK_HOUSE: 			return 1;
+		case EFFICIENCY_HOUSE: 		return 2;
+		case MULTI_FAMILY_HOUSE: 	return 3;
+		case COMFORT_HOUSE: 		return 4;
+		case CITY_VILLA: 			return 5;
+		case TRENDHOUSE: 			return 6;
+		
+		default:
+			return -1;
+		}
+	}
 
 }

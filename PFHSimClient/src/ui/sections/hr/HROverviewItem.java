@@ -54,7 +54,7 @@ public class HROverviewItem extends Container<HBox>{
 		textOnTraining.setText("" + training);
 		textFree.setText("" + free);
 		
-		lblCosts.setText("" + hr.getOverallEmployeeCosts(type));
+		lblCosts.setText("" + hr.getOverallEmployeeCosts(type) + " €");
 	}
 	
 	@FXML

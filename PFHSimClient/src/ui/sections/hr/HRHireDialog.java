@@ -52,7 +52,7 @@ public class HRHireDialog extends Dialog<Pair<EmployeeType, Integer>> {
 		grid.add(cbbTypes, 1, 0);
 		grid.add(new Label("Amount:"), 0, 1);
 		grid.add(spinAmount, 1, 1);
-		grid.add(new Label("Costs:"), 0, 2);
+		grid.add(new Label("Running Costs:"), 0, 2);
 		grid.add(lblCosts, 1, 2);
 
 		getDialogPane().setContent(grid);
@@ -84,7 +84,7 @@ public class HRHireDialog extends Dialog<Pair<EmployeeType, Integer>> {
 		i = spinAmount.getValue();
 		if(i >= 0){
 			int costs = cbbTypes.getValue().getBaseCost() * i;
-			lblCosts.setText("" + costs);
+			lblCosts.setText("" + costs + " €");
 		}
 	}
 	

@@ -2,7 +2,6 @@ package sim.hr;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import sim.research.dev.UpgradeFactors;
 
@@ -228,16 +227,6 @@ public class HR extends Department {
 	
 	public Employee[] getAllOfType(EmployeeType t){
 		return employeeList.get(t).toArray(new Employee[0]);
-	}
-	
-	public int getCountOfFreeOfType(EmployeeType type){
-		List<Employee> emps = employeeList.get(type);
-		int free = 0;
-		for (Employee em : emps) {
-			if(!em.isAssigned())
-				free++;
-		}
-		return free;
 	}
 	
 	public boolean canHireNewEmployees(int amount){

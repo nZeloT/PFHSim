@@ -15,7 +15,6 @@ import javafx.scene.layout.VBox;
 import sim.Enterprise;
 import sim.hr.EmployeeType;
 import sim.production.PFHouseType;
-import sim.simulation.sales.Offer;
 import ui.abstraction.Container;
 import ui.abstraction.UISection;
 
@@ -100,7 +99,7 @@ public class RnD extends Container<VBox> implements UISection {
 		PFHouseType[] types = PFHouseType.values();
 		for (int i = 0; i < types.length; i++) {
 			labels[i * 2].setText("" + types[i].getResearchDuration());
-			labels[i * 2 + 1].setText("" + types[i].getResearchCosts());
+			labels[i * 2 + 1].setText("" + types[i].getResearchCosts() + " €");
 		}
 	}
 
@@ -159,7 +158,7 @@ public class RnD extends Container<VBox> implements UISection {
 	}
 
 	private void adjustbuttons() {
-		if (typeInResearch != null || e.getHR().getCountOfFreeOfType(EmployeeType.ARCHITECT) == 0) {
+		if (typeInResearch != null || e.getHR().getNumberOfUnassignedEmployees(EmployeeType.ARCHITECT) == 0) {
 			// already research project going on or no Architect, disable all
 			// buttons
 			for (Map.Entry<PFHouseType, Button> entry : buttons.entrySet()) {

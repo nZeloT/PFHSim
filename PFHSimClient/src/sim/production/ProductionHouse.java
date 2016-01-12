@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sim.EnterpriseException;
+import sim.ExceptionCategorie;
 import sim.abstraction.CostFactor;
 import sim.abstraction.Tupel;
 import sim.warehouse.Warehouse;
@@ -72,6 +73,7 @@ public class ProductionHouse implements CostFactor {
 		for (Machine m : machines) {
 			try {
 				m.runProductionStep(w);
+				errors.add(new MachineException(m, "Produced " + m.getUtilization() + " " + m.getProductionType(), ExceptionCategorie.INFO));
 			} catch (EnterpriseException me) {
 				errors.add(me);
 			}

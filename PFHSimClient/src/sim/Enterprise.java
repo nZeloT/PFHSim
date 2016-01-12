@@ -249,12 +249,8 @@ public class Enterprise {
 			throw new WarehouseException(this, "Could not store the requested amount of resources in the Warehouse!",
 					ExceptionCategorie.ERROR);
 
-		if (!bank.canBeCharged(price))
-			throw new BankException(this, "Could not charge the bank for " + price, ExceptionCategorie.ERROR);
-
 		// the following should now work without exception
-		bank.charge(price); // we already checked whether we can charge the bank
-		// for it
+		bank.charge(price); //terminates with exception when we can not charge the bank
 		Resource[] resources = market.buyResources(type, amount);
 		warehouse.storeResource(resources); // we already checked that we can
 		// store the required amount

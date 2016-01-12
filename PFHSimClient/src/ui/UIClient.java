@@ -10,14 +10,15 @@ import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import net.ServerConnection;
 import net.shared.ClientMessage;
+import net.shared.Pair;
 import net.shared.ServerMessage;
 import sim.Enterprise;
 import sim.EnterpriseException;
 import sim.procurement.ResourceMarket;
 import ui.abstraction.ProgressDialog;
+import ui.abstraction.Triple;
 import ui.abstraction.Utils;
 
 public class UIClient extends Application { 
@@ -68,7 +69,7 @@ public class UIClient extends Application {
 	}
 
 	private boolean initialise(){
-		Pair<String, String> joinInfo = new JoinDialog().showAndWait();
+		javafx.util.Pair<String, String> joinInfo = new JoinDialog().showAndWait();
 		if(joinInfo != null){
 			
 			ProgressDialog prog = new ProgressDialog();
@@ -126,20 +127,21 @@ public class UIClient extends Application {
 		w.cancleTimer();
 	}
 	
-	public boolean doRoundTrip(List<EnterpriseException> msgStore){
+	public Triple<Boolean, Integer, Integer> doRoundTrip(Pair<List<EnterpriseException>, List<Pair<String, Integer>>> lists){
 		if(server.isClosed()){
 			//the server connection was closed already
 			try {server.join();	} catch (InterruptedException e) 
 			{e.printStackTrace(); /* do we care? */ }
 			server = null;
-			return true;
+			return new Triple<>(true, -1, -1);
 		}//otherwise we hope that it will life for the whole round trip
 		
 		//1. user input is finished; prepare the message
 		ClientMessage clnt = new ClientMessage(
-				name,    
+				name,
 				new HashMap<>(market.getSoldResources()), 
 				new ArrayList<>(ent.getSales().getOffers()),
+				new HashMap<>(ent.getPerRoundBuildAmounts()),
 				ent.getBankAccount().isOnLimit() 
 		);   
 		server.placeMessasge(clnt);  
@@ -154,11 +156,12 @@ public class UIClient extends Application {
 		
 		ServerMessage msg = server.retrieveAnswer();
 		if(msg == null)
-			return true;
+			return new Triple<>(true, -1, -1);
 		
 		//3. process the answer and do a simulation step on the enterprise
 		market.doSimStep(msg.getNewResourcePrices());
-		msgStore.addAll(ent.doSimulationStep(msg.getSoldOfferAmounts()));
+		lists.k.addAll(ent.doSimulationStep(msg.getSoldOfferAmounts()));
+		lists.v.addAll(msg.getTopList());
 		
 		//4. has the game ended?
 		//a few different things can happen which shall result in the end game screen being presented:
@@ -175,13 +178,13 @@ public class UIClient extends Application {
 				server = null;
 			}
 			
-			return true;
+			return new Triple<>(true, -1, -1);
 		}
 		
 		if(ent.getBankAccount().isOnLimit()){
 			//the user reached the bank limit
 			//send info to the server and terminate the connection
-			clnt = new ClientMessage(name, null, null, true);
+			clnt = new ClientMessage(name, null, null, null, true);
 			server.placeMessasge(clnt);
 			//give the network and the server some time to receive the message not really necessary though
 			try {TimeUnit.MILLISECONDS.sleep(750);
@@ -196,10 +199,10 @@ public class UIClient extends Application {
 			}
 			server = null;
 			
-			return true;
+			return new Triple<>(true, -1, -1);
 		}
-		
-		return false;
+
+		return new Triple<>(false, msg.getRound(), msg.getScore());
 	}
 
 }

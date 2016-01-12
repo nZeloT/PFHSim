@@ -2,6 +2,7 @@ package sim;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import sim.abstraction.Tupel;
@@ -52,6 +53,8 @@ public class Enterprise {
 	private Department marketResearch;
 	private Warehouse warehouse;
 	private ProductionHouse production;
+	
+	private HashMap<PFHouseType, Integer> perRoundBuildAmounts;
 
 	public Enterprise(ResourceMarket market) {
 		bank = new BankAccount(START_CASH);
@@ -61,6 +64,7 @@ public class Enterprise {
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
 		researchedHouseTypes.add(PFHouseType.BUNGALOW);
+		perRoundBuildAmounts = new HashMap<>();
 
 		upgrades = new UpgradeProcessor();
 
@@ -95,6 +99,9 @@ public class Enterprise {
 	 */
 	public List<EnterpriseException> doSimulationStep(List<Offer> soldOffer) {
 		List<EnterpriseException> msgStore = new ArrayList<>();
+		
+		//reset the per round build amounts hashmap
+		perRoundBuildAmounts.clear();
 
 		// Set the new wall and offer qualities based on the average machine
 		// quality and walltype-qualities
@@ -136,7 +143,11 @@ public class Enterprise {
 
 			if (h.isFinished()) {
 				finished ++;
-				housesInConstruction.remove(i--);
+				PFHouse house = housesInConstruction.remove(i--);
+				
+				int amount = perRoundBuildAmounts.get(house.getType());
+				amount ++;
+				perRoundBuildAmounts.put(house.getType(), amount);
 
 				try {
 					bank.deposit(h.getPrice());
@@ -701,5 +712,9 @@ public class Enterprise {
 
 	public BankAccount getBankAccount() {
 		return bank;
+	}
+	
+	public HashMap<PFHouseType, Integer> getPerRoundBuildAmounts() {
+		return perRoundBuildAmounts;
 	}
 }

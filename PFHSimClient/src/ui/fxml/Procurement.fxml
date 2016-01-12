@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="50.0" prefWidth="600.0">
          <children>
@@ -628,6 +628,16 @@
                   </Label>
                </children>
             </VBox>
+         </children>
+      </HBox>
+      <Pane minHeight="50.0" prefHeight="200.0" prefWidth="200.0" />
+      <HBox minHeight="20.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Label text="Warehose useage: " />
+            <Label fx:id="lblWarehouseCurrent" text="CURRENT" />
+            <Label text="/" />
+            <Label fx:id="lblWarehouseMax" text="MAX" />
          </children>
       </HBox>
    </children>

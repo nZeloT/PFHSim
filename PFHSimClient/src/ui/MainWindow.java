@@ -19,10 +19,13 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import net.shared.Pair;
 import sim.Enterprise;
 import sim.EnterpriseException;
 import ui.abstraction.Container;
+import ui.abstraction.Triple;
 import ui.abstraction.UISection;
 import ui.sections.OfferOverviewController;
 import ui.sections.Procurement;
@@ -41,6 +44,11 @@ public class MainWindow extends Container<SplitPane>{
 	private @FXML Label lblHR;
 	private @FXML Label lblWarehouse;
 	private @FXML Label lblInterests;
+	
+	private @FXML Label lblRound;
+	private @FXML Label lblScore;
+	
+	private @FXML VBox boxTopList;
 
 	private @FXML Button btnGo;
 
@@ -56,12 +64,14 @@ public class MainWindow extends Container<SplitPane>{
 	private XYChart.Series<Integer, Integer> series;
 	private List<Integer> cashBuffer;
 
-	private Callback<List<EnterpriseException>, Boolean> roundTripProcessor;
+	private Callback<Pair<List<EnterpriseException>, List<Pair<String, Integer>>>, 
+							Triple<Boolean, Integer, Integer>> roundTripProcessor;
 	private Welcome welcomePage;
 	
 	private Timer timer;
 
-	public MainWindow(Enterprise e, Callback<List<EnterpriseException>, Boolean> roundTripProcessor){
+	public MainWindow(Enterprise e, 
+			Callback<Pair<List<EnterpriseException>, List<Pair<String, Integer>>>, Triple<Boolean, Integer, Integer>> roundTripProcessor){
 		this.ent = e;
 		this.ent.getBankAccount().setCashChanged(this::onMoneyChanged);
 		this.roundTripProcessor = roundTripProcessor;
@@ -127,11 +137,11 @@ public class MainWindow extends Container<SplitPane>{
 				() -> {
 					Platform.runLater(() -> btnGo.setText("Waiting"));
 					
-					List<EnterpriseException> msgStore = new ArrayList<>();
-					boolean gameEnded = roundTripProcessor.call(msgStore);
+					Pair<List<EnterpriseException>, List<Pair<String, Integer>>> lists = new Pair<>();
+					Triple<Boolean, Integer, Integer> res = roundTripProcessor.call(lists);
 
 					//make sure all the UI stuff is then done on the javafx application thread
-					Platform.runLater(() -> prepareNextRound(new ArrayList<>(msgStore), gameEnded));
+					Platform.runLater(() -> prepareNextRound(new ArrayList<>(lists.k), new ArrayList<>(lists.v), res));
 				}
 		).start();
 		
@@ -150,8 +160,9 @@ public class MainWindow extends Container<SplitPane>{
 		lblInterests.setText("" + ent.getBankAccount().getExpectedInterests() + " €");
 	}
 
-	private void prepareNextRound(List<EnterpriseException> msg, boolean gameEnded){
-		if(!gameEnded){
+	private void prepareNextRound(List<EnterpriseException> msg, List<Pair<String, Integer>> topList, 
+			Triple<Boolean, Integer, Integer> stats){
+		if(!stats.s){
 			cashBuffer.add(ent.getBankAccount().getCash());
 			if(cashBuffer.size() == 11)
 				cashBuffer.remove(0);
@@ -166,12 +177,24 @@ public class MainWindow extends Container<SplitPane>{
 			stack.getSelectionModel().select(0);
 			root.getChildren().get(1).setVisible(false);
 			
+			lblRound.setText("" + stats.t);
+			lblScore.setText("" + stats.u);
+			
 			//start a timer which forces a end of the round after 2 minutes
 			sheduleTimer(false);
 		}else{
 			root.getChildren().get(0).setVisible(false);
 			root.getChildren().get(1).setVisible(false);
 			root.getChildren().get(2).setVisible(true);
+		}
+		
+		updateEndGameTopList(topList);
+	}
+	
+	private void updateEndGameTopList(List<Pair<String, Integer>> topList){
+		boxTopList.getChildren().clear();
+		for (int i = 0; i < topList.size(); i++) {
+			boxTopList.getChildren().add(new Label(topList.get(i).k + " - " + topList.get(i).k));
 		}
 	}
 	

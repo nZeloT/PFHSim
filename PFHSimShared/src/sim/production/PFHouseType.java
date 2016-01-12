@@ -15,7 +15,7 @@ public enum PFHouseType implements GeneralType {
 	/*
 	 * Need to create an array of objects because the 
 	 * JAVA-Compiler is not able to instantiate an array
-	 * of a generic class. -> Object-array is casted to
+	 * of a generic class. -> Raw-array is casted to
 	 * the respective type in the constructor below.
 	 */
 	BUNGALOW(new Tupel[]{
@@ -24,7 +24,7 @@ public enum PFHouseType implements GeneralType {
 			new Tupel[] {
 				new Tupel<ResourceType>(ResourceType.ROOF_TILE, 25),
 				new Tupel<ResourceType>(ResourceType.WOOD, 6)
-			}, 3, 1, 0, 0),
+			}, 3, 1, 0, 0, 10),
 	BLOCK_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 3), 
 			new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS, 3)
@@ -32,20 +32,20 @@ public enum PFHouseType implements GeneralType {
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 50),
 			new Tupel<ResourceType>(ResourceType.WOOD, 12)
-		}, 5, 1, 1, 10000),
+		}, 5, 1, 1, 10000, 20),
 	EFFICIENCY_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 6)
 		},
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.CONCRETE, 4),
-		}, 5, 1, 2, 20000),
+		}, 5, 1, 2, 20000, 30),
 	MULTI_FAMILY_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 12)
 		},
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 80),
 			new Tupel<ResourceType>(ResourceType.WOOD, 19)
-		}, 9, 2, 3, 30000),
+		}, 9, 2, 3, 30000, 50),
 	COMFORT_HOUSE(new Tupel[]{
 			new Tupel<WallType>(WallType.GENERAL, 6),
 			new Tupel<WallType>(WallType.PANORAMA_WALL, 1)
@@ -53,7 +53,7 @@ public enum PFHouseType implements GeneralType {
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 80),
 			new Tupel<ResourceType>(ResourceType.WOOD, 19)
-		}, 8, 2, 4, 40000),
+		}, 8, 2, 4, 40000, 60),
 	CITY_VILLA(new Tupel[]{
 			new Tupel<WallType>(WallType.PANORAMA_WALL, 2),
 			new Tupel<WallType>(WallType.GENERAL, 6)
@@ -61,14 +61,14 @@ public enum PFHouseType implements GeneralType {
 		new Tupel[] {
 			new Tupel<ResourceType>(ResourceType.ROOF_TILE, 100),
 			new Tupel<ResourceType>(ResourceType.WOOD, 21)
-		}, 10, 2, 5, 50000),
+		}, 10, 2, 5, 50000, 80),
 	TRENDHOUSE(new Tupel[]{
 				new Tupel<WallType>(WallType.PANORAMA_WALL, 3),
 				new Tupel<WallType>(WallType.GENERAL, 5)
 			},
 			new Tupel[] {
 				new Tupel<ResourceType>(ResourceType.CONCRETE, 10)
-			}, 9, 2, 6, 60000);
+			}, 9, 2, 6, 60000, 85);
 	
 		
 	private Tupel<WallType>[] walltupel;
@@ -79,10 +79,12 @@ public enum PFHouseType implements GeneralType {
 	
 	private int researchDuration;
 	private int researchCosts;
+	
+	private final double scoreFactor;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private PFHouseType(Tupel[] walltupel, Tupel[] resourcetupel, int employeecount, int constructionDuration,
-			int researchDuration, int researchCosts) {
+			int researchDuration, int researchCosts, double scoreFactor) {
 		
 		this.walltupel = walltupel;
 		this.resourcetupel= resourcetupel;
@@ -91,6 +93,8 @@ public enum PFHouseType implements GeneralType {
 		
 		this.researchCosts = researchCosts;
 		this.researchDuration = researchDuration;
+		
+		this.scoreFactor = scoreFactor;
 	}
 	
 	public int getNoOfWalls(WallType t) {
@@ -147,6 +151,10 @@ public enum PFHouseType implements GeneralType {
 	
 	public int getResearchDuration() {
 		return researchDuration;
+	}
+	
+	public double getScoreFactor() {
+		return scoreFactor;
 	}
 
 }

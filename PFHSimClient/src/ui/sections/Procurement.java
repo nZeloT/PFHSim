@@ -9,12 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import sim.Enterprise;
-import sim.EnterpriseException;
+import sim.bank.BankException;
+import sim.hr.HRException;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
+import sim.warehouse.WarehouseException;
 import ui.abstraction.Container;
 import ui.abstraction.UISection;
+import ui.abstraction.Utils;
 
 public class Procurement extends Container<VBox> implements UISection{
 
@@ -52,6 +55,9 @@ public class Procurement extends Container<VBox> implements UISection{
 	private @FXML TextField input_roof;
 	private @FXML TextField input_brick;
 	private @FXML TextField input_window;
+	
+	private @FXML Label lblWarehouseMax;
+	private @FXML Label lblWarehouseCurrent;
 
 	private Enterprise ent;
 	private ResourceMarket market;
@@ -84,6 +90,9 @@ public class Procurement extends Container<VBox> implements UISection{
 		AM_roof.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.ROOF_TILE));
 		AM_brick.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.BRICK));
 		AM_window.setText("" + ent.getWarehouse().getStoredAmount(ResourceType.WINDOW));
+		
+		lblWarehouseCurrent.setText("" + ent.getWarehouse().getUtilization());
+		lblWarehouseMax.setText("" + ent.getWarehouse().getCapacity());
 	}
 
 	public void update() {
@@ -101,6 +110,9 @@ public class Procurement extends Container<VBox> implements UISection{
 		AM_roof.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.ROOF_TILE));
 		AM_brick.setText(" " + ent.getWarehouse().getStoredAmount(ResourceType.BRICK));
 		AM_window.setText("" + ent.getWarehouse().getStoredAmount(ResourceType.WINDOW));
+		
+		lblWarehouseCurrent.setText("" + ent.getWarehouse().getUtilization());
+		lblWarehouseMax.setText("" + ent.getWarehouse().getCapacity());
 	}
 
 	public boolean checkIfNumberInput(TextField input) {
@@ -120,7 +132,7 @@ public class Procurement extends Container<VBox> implements UISection{
 	}
 
 	@FXML
-	private void handleBuyButton(ActionEvent event) throws EnterpriseException, ResourceMarketException {
+	private void handleBuyButton(ActionEvent event){
 		Button btn = (Button) event.getSource();
 
 		if (btn.getId().equals("btn_wood")) {
@@ -212,10 +224,17 @@ public class Procurement extends Container<VBox> implements UISection{
 		System.out.println("works");
 	}
 
-	public void buy(Label fullAmount, int amount, ResourceType type)
-			throws EnterpriseException, ResourceMarketException {
+	public void buy(Label fullAmount, int amount, ResourceType type){
 
-		ent.buyResources(type, amount);
+		try {
+			ent.buyResources(type, amount);
+		} catch (BankException | ResourceMarketException | HRException | WarehouseException e) {
+			Utils.showError(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		lblWarehouseCurrent.setText("" + ent.getWarehouse().getUtilization());
+		lblWarehouseMax.setText("" + ent.getWarehouse().getCapacity());
 
 		fullAmount.setText("" + ent.getWarehouse().getStoredAmount(type));
 	}

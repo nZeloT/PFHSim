@@ -9,6 +9,7 @@ import sim.hr.Department;
 import sim.hr.EmployeeType;
 import sim.procurement.Resource;
 import sim.procurement.ResourceType;
+import sim.warehouse.MissingResourceException;
 import sim.warehouse.Warehouse;
 import sim.warehouse.WarehouseException;
 
@@ -123,13 +124,13 @@ public class Machine extends Department implements CostFactor {
 	 * the end. The respective production-costs are calculated, too.
 	 * 
 	 */
-	public void produceWall(Warehouse warehouse) throws MachineException, WarehouseException  {
+	public void produceWall(Warehouse warehouse) throws MachineException, MissingResourceException, WarehouseException  {
 		
 		if(isInUpgrade())
-			throw new MachineException(this, "This machine is currently in Upgrade.", ExceptionCategorie.INFO);
+			throw new MachineException(this, "Machine " + getId() + " is currently in Upgrade.", ExceptionCategorie.INFO);
 
 		if ((getPerformance() - utilization) < 1 || !isInOperation() || utilization+1 > maxPerformanceOutput)
-			throw new MachineException(this, "This machine is currently too busy!", ExceptionCategorie.INFO);
+			throw new MachineException(this, "Machine " + getId() + " is currently too busy!", ExceptionCategorie.WARNING);
 
 		ResourceType[] rt = productionType.getRequiredResourceTypes();
 		int[] rc = productionType.getResourceCounts();
@@ -144,8 +145,7 @@ public class Machine extends Department implements CostFactor {
 			if (warehouse.isInStorage(rt[i], rc[i])) 
 				removed_resources.add(warehouse.removeResource(rt[i], rc[i]));
 			else
-				throw new WarehouseException(this, "Not enough resources available!", ExceptionCategorie.ERROR);
-			
+				throw new MissingResourceException(this, rt[i], rc[i], ExceptionCategorie.ERROR);
 		}
 
 		// Calculate production cost at highest utilization possible.
@@ -175,7 +175,7 @@ public class Machine extends Department implements CostFactor {
 					warehouse.storeResource(removed_resources.get(j)[k]);
 				}
 			}
-			throw new WarehouseException(this, "Can not store wall!", ExceptionCategorie.ERROR);
+			throw new WarehouseException(this, "Machine " + getId() + " can not store wall!", ExceptionCategorie.ERROR);
 		}
 
 	}

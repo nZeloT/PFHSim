@@ -20,6 +20,7 @@ import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import sim.production.Machine;
+import sim.production.MachineSuccessException;
 import sim.production.MachineType;
 import sim.production.PFHouse;
 import sim.production.PFHouseType;
@@ -95,7 +96,7 @@ public class Enterprise {
 			e.printStackTrace();
 		}
 		
-		this.setWallQuality();
+		production.setWallQuality();
 	}
 
 	/**
@@ -107,6 +108,8 @@ public class Enterprise {
 		//reset the per round build amounts hashmap
 		perRoundBuildAmounts.clear();
 
+		int[] missingRes = new int[ResourceType.values().length];
+		
 		// process results from buyer's market-simulation.
 		if (soldOffer.size() != sales.getOfferCount()) // this is for safety
 			// only
@@ -118,7 +121,6 @@ public class Enterprise {
 			
 			int missingEmps = 0;
 			int[] missingWalls = new int[WallType.values().length];
-			int[] missingRes = new int[ResourceType.values().length];
 			
 			for (Offer offer : soldOffer) {
 				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getProductionLimit(); i++) {
@@ -133,7 +135,7 @@ public class Enterprise {
 						missingWalls[WallType.toInt(e.getType())] += e.getAmount();
 					}catch(MissingResourceException e){
 						failedAmounts[PFHouseType.toInt(offer.getHousetype())]++;
-						missingWalls[ResourceType.toInt(e.getType())] += e.getAmount();
+						missingRes[ResourceType.toInt(e.getType())] += e.getAmount();
 					}catch(HRException e){
 						failedAmounts[PFHouseType.toInt(offer.getHousetype())]++;
 						missingEmps += offer.getHousetype().getEmployeeCount();
@@ -150,10 +152,6 @@ public class Enterprise {
 			for (int i = 0; i < missingWalls.length; i++)
 				if(missingWalls[i] > 0)
 					msgStore.add(new EnterpriseException(this, "Missing " + missingWalls[i] + " " + WallType.fromInt(i) + " to complete demand!", ExceptionCategorie.WARNING));
-			
-			for (int i = 0; i < missingRes.length; i++)
-				if(missingRes[i] > 0)
-					msgStore.add(new EnterpriseException(this, "Missing " + missingRes[i] + " " + ResourceType.fromInt(i) + " to complete demand!", ExceptionCategorie.WARNING));
 			
 			for (int i = 0; i < failedAmounts.length; i++)
 				if(failedAmounts[i] > 0)
@@ -192,7 +190,29 @@ public class Enterprise {
 		}
 		
 		// process machine production
-		msgStore.addAll(production.processProduction(warehouse));
+		List<EnterpriseException> machineMsg = production.processProduction(warehouse);
+		int[] producedWalls = new int[WallType.values().length];
+		for (EnterpriseException ex : machineMsg) {
+			if(ex instanceof MissingResourceException){
+				MissingResourceException miss = (MissingResourceException)ex;
+				missingRes[ResourceType.toInt(miss.getType())] += miss.getAmount();
+			}
+			else if(ex instanceof MachineSuccessException){
+				MachineSuccessException succ = (MachineSuccessException)ex;
+				producedWalls[WallType.toInt(succ.getType())] += succ.getProduction();
+			}
+			else
+				msgStore.add(ex);
+		}
+		
+		for (int i = 0; i < missingRes.length; i++)
+			if(missingRes[i] > 0)
+				msgStore.add(new EnterpriseException(this, "Missing " + missingRes[i] + " " + ResourceType.fromInt(i) + " to complete demand!", ExceptionCategorie.WARNING));
+		
+		for (int i = 0; i < producedWalls.length; i++)
+			if(producedWalls[i] > 0)
+				msgStore.add(new EnterpriseException(this, "Produced " + producedWalls[i] + " " + WallType.fromInt(i), ExceptionCategorie.INFO));
+		
 
 		// Handle the upgrade progress
 		upgrades.processUpgrades(this); // upgrades cost only once at the beginning
@@ -216,7 +236,7 @@ public class Enterprise {
 
 		// Set the new wall and offer qualities based on the average machine
 		// quality and walltype-qualities
-		this.setWallQuality();
+		production.setWallQuality();
 		sales.setOfferQuality();
 		
 		return msgStore;
@@ -618,35 +638,6 @@ public class Enterprise {
 			upgrades.startResearchProject(type, arch);
 			bank.charge(type.getResearchCosts());
 		}
-	}
-
-	public void setWallQuality() {
-
-		List<Machine> machines = this.production.getMachines();
-
-		WallType[] t = WallType.values();
-		
-		for (WallType wallType : t) {
-			
-			wallType.setQualityFactor(wallType.getInitialQualityFactor());
-			
-			for (int i = 0; i < machines.size(); i++) {
-				int ctr = 0;
-				int qual = 0;
-				if(machines.get(i).getProductionType() == wallType) {
-					qual += machines.get(i).getQuality() * wallType.getInitialQualityFactor();
-					ctr++;
-				}
-				if (ctr>0) {
-					qual /= ctr;
-					System.out.println("" + wallType.toString() + qual);
-					wallType.setQualityFactor(qual);
-				}
-				
-			}
-			
-		}
-
 	}
 
 	public List<Employee> autoAssignEmployees(Employee... emps) {

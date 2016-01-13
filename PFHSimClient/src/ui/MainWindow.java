@@ -1,6 +1,7 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,13 +21,15 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 import sim.Enterprise;
 import sim.EnterpriseException;
 import sim.abstraction.Pair;
+import sim.simulation.sales.Offer;
 import ui.abstraction.Container;
+import ui.abstraction.RoundTripProcessor;
 import ui.abstraction.Triple;
 import ui.abstraction.UISection;
+import ui.sections.MarketResearch;
 import ui.sections.OfferOverviewController;
 import ui.sections.Procurement;
 import ui.sections.RnD;
@@ -64,14 +67,14 @@ public class MainWindow extends Container<SplitPane>{
 	private XYChart.Series<Integer, Integer> series;
 	private List<Integer> cashBuffer;
 
-	private Callback<Pair<List<EnterpriseException>, List<Pair<String, Integer>>>, 
-	Triple<Boolean, Integer, Integer>> roundTripProcessor;
+	private RoundTripProcessor roundTripProcessor;
+	
 	private Welcome welcomePage;
+	private MarketResearch research;
 
 	private Timer timer;
 
-	public MainWindow(Enterprise e, 
-			Callback<Pair<List<EnterpriseException>, List<Pair<String, Integer>>>, Triple<Boolean, Integer, Integer>> roundTripProcessor){
+	public MainWindow(Enterprise e, RoundTripProcessor roundTripProcessor){
 		this.ent = e;
 		this.ent.getBankAccount().setCashChanged(this::onMoneyChanged);
 		this.roundTripProcessor = roundTripProcessor;
@@ -88,6 +91,7 @@ public class MainWindow extends Container<SplitPane>{
 		Warehouse w = new Warehouse(ent);
 		RnD r = new RnD(ent);
 		OfferOverviewController o = new OfferOverviewController(ent);
+		research = new MarketResearch();
 
 		welcomePage = new Welcome();
 
@@ -98,6 +102,7 @@ public class MainWindow extends Container<SplitPane>{
 		sections.add(w);
 		sections.add(r);
 		sections.add(o);
+		sections.add(research);
 
 		stack.getTabs().add(new Tab("Welcome", welcomePage.getContainer()));
 		stack.getTabs().add(new Tab("Procurement", p.getContainer()));
@@ -106,6 +111,7 @@ public class MainWindow extends Container<SplitPane>{
 		stack.getTabs().add(new Tab("Warehouse", w.getContainer()));
 		stack.getTabs().add(new Tab("Research", r.getContainer()));
 		stack.getTabs().add(new Tab("Offer Catalog", o.getContainer()));
+		stack.getTabs().add(new Tab("Market Research", research.getContainer()));
 
 		stack.getSelectionModel().select(0);
 		stack.getSelectionModel().selectedIndexProperty().addListener(this::switchStackPage);
@@ -140,13 +146,13 @@ public class MainWindow extends Container<SplitPane>{
 				() -> {
 					Platform.runLater(() -> btnGo.setText("Waiting"));
 
-					Pair<List<EnterpriseException>, List<Pair<String, Integer>>> lists = new Pair<>();
-					lists.k = new ArrayList<>();
-					lists.v = new ArrayList<>();
-					Triple<Boolean, Integer, Integer> res = roundTripProcessor.call(lists);
+					List<EnterpriseException> msgStore = new ArrayList<>();
+					List<Pair<String, Integer>> topList = new ArrayList<>();
+					HashMap<String, List<Offer>> marketResearch = new HashMap<>();
+					Triple<Boolean, Integer, Integer> res = roundTripProcessor.doRoundTrip(msgStore, topList, marketResearch);
 
 					//make sure all the UI stuff is then done on the javafx application thread
-					Platform.runLater(() -> prepareNextRound(new ArrayList<>(lists.k), new ArrayList<>(lists.v), res));
+					Platform.runLater(() -> prepareNextRound(new ArrayList<>(msgStore), new ArrayList<>(topList), res, new HashMap<>(marketResearch)));
 				}
 				).start();
 
@@ -166,7 +172,7 @@ public class MainWindow extends Container<SplitPane>{
 	}
 
 	private void prepareNextRound(List<EnterpriseException> msg, List<Pair<String, Integer>> topList, 
-			Triple<Boolean, Integer, Integer> stats){
+			Triple<Boolean, Integer, Integer> stats, HashMap<String, List<Offer>> marketResearch){
 		if(!stats.s){
 			cashBuffer.add(ent.getBankAccount().getCash());
 			if(cashBuffer.size() == 11)
@@ -178,6 +184,7 @@ public class MainWindow extends Container<SplitPane>{
 			}
 
 			welcomePage.setMessages(msg);
+			research.updateOfferMap(marketResearch);
 			sections.forEach(s -> s.update());
 			stack.getSelectionModel().select(0);
 			root.getChildren().get(1).setVisible(false);

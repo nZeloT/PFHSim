@@ -143,10 +143,10 @@ public class Warehouse extends Container<VBox> implements UISection{
 
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("Would you like to extend Warehouse?");
-		alert.setContentText(" Costs:      " + ExtendWarehouse.UPGRADE_COSTS 
+		alert.setHeaderText("Would you like to extend the Warehouse?");
+		alert.setContentText(" Costs:      " + ExtendWarehouse.UPGRADE_COSTS  + " €"
 				+ "\n Duration: " + ExtendWarehouse.UPGRADE_DURATION
-				+ "\n \n Are you ok with this?");
+				+ "\n \n Do you want to continue?");
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){

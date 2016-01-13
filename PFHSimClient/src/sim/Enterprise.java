@@ -290,7 +290,7 @@ public class Enterprise {
 
 		Tupel<WallType>[] tupel = offer.getWalltype();
 
-		int[] taken = new int[wt.length];
+		int[] taken = new int[tupel.length];
 
 		boolean generalWallRequired = false;
 		int generalWallIndex = 0;

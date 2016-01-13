@@ -20,6 +20,7 @@ public class ServerConnection extends Connection<ClientMessage, ServerMessage>{
 			while(!closed){
 				//wait for the server to send info
 				ServerMessage serv = (ServerMessage)in.readObject();
+				out.reset();
 
 				synchronized (ansLock) {
 					ans = serv;

@@ -36,6 +36,7 @@ public class ClientConnection extends Connection<ServerMessage, ClientMessage>{
 
 						//wait for the client to answer
 						clnt = (ClientMessage)in.readObject();
+						out.reset();
 						name = clnt.getName();
 					}catch (Exception e) {
 						System.err.println(name);

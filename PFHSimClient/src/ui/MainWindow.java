@@ -27,6 +27,7 @@ import sim.EnterpriseException;
 import ui.abstraction.Container;
 import ui.abstraction.Triple;
 import ui.abstraction.UISection;
+import ui.sections.MarketResearch;
 import ui.sections.OfferOverviewController;
 import ui.sections.Procurement;
 import ui.sections.RnD;
@@ -88,6 +89,7 @@ public class MainWindow extends Container<SplitPane>{
 		Warehouse w = new Warehouse(ent);
 		RnD r = new RnD(ent);
 		OfferOverviewController o = new OfferOverviewController(ent);
+		MarketResearch mr = new MarketResearch();
 
 		welcomePage = new Welcome();
 
@@ -98,6 +100,7 @@ public class MainWindow extends Container<SplitPane>{
 		sections.add(w);
 		sections.add(r);
 		sections.add(o);
+		sections.add(mr);
 
 		stack.getTabs().add(new Tab("Welcome", welcomePage.getContainer()));
 		stack.getTabs().add(new Tab("Procurement", p.getContainer()));
@@ -106,6 +109,7 @@ public class MainWindow extends Container<SplitPane>{
 		stack.getTabs().add(new Tab("Warehouse", w.getContainer()));
 		stack.getTabs().add(new Tab("Research", r.getContainer()));
 		stack.getTabs().add(new Tab("Offer Catalog", o.getContainer()));
+		stack.getTabs().add(new Tab("Market Research", mr.getContainer()));
 
 		stack.getSelectionModel().select(0);
 		stack.getSelectionModel().selectedIndexProperty().addListener(this::switchStackPage);

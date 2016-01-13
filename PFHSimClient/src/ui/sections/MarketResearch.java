@@ -10,16 +10,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
-import sim.abstraction.Tupel;
-import sim.production.PFHouseType;
-import sim.production.WallType;
 import sim.simulation.sales.Offer;
 import ui.abstraction.Container;
 import ui.abstraction.UISection;
@@ -37,23 +32,6 @@ public class MarketResearch extends Container<VBox> implements UISection {
 	public MarketResearch() {
 
 		offermap = new HashMap<>();
-		// temp
-		String[] names = { "Alex", "Leon", "Carmen", "Marcel" };
-		for (int i = 0; i < names.length; i++) {
-			List<Offer> tmp = new ArrayList<Offer>();
-			for (int j = 0; j < 4; j++) {
-				Offer temp = new Offer(10000 * j * i, 10, PFHouseType.values()[j], j + i,
-						new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS, 5));
-				temp.setNumberOfPurchases(i + j);
-				tmp.add(temp);
-			}
-			if (i == 2) {
-				offermap.put(names[i], null);
-			} else {
-				offermap.put(names[i], tmp);
-			}
-		}
-		// end temp
 		load("/ui/fxml/MarketResearch.fxml");
 	}
 
@@ -95,12 +73,12 @@ public class MarketResearch extends Container<VBox> implements UISection {
 
 	@Override
 	public void update() {
-
+		initialize();
 	}
 
 	@Override
 	public void changeTab() {
-
+		//nothing changed on tab switch
 	}
 
 	public void updateOfferMap(HashMap<String, List<Offer>> map) {

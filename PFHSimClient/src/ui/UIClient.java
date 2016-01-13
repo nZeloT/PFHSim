@@ -17,6 +17,7 @@ import sim.Enterprise;
 import sim.EnterpriseException;
 import sim.abstraction.Pair;
 import sim.procurement.ResourceMarket;
+import sim.simulation.sales.Offer;
 import ui.abstraction.ProgressDialog;
 import ui.abstraction.Triple;
 import ui.abstraction.Utils;
@@ -115,7 +116,8 @@ public class UIClient extends Application {
 		w.cancleTimer();
 	}
 	
-	public Triple<Boolean, Integer, Integer> doRoundTrip(Pair<List<EnterpriseException>, List<Pair<String, Integer>>> lists){
+	public Triple<Boolean, Integer, Integer> doRoundTrip(List<EnterpriseException> msgStore, 
+			List<Pair<String, Integer>> topList, HashMap<String, List<Offer>> marketResearch){
 		if(server.isClosed()){
 			//the server connection was closed already
 			try {server.join();	} catch (InterruptedException e) 
@@ -148,8 +150,9 @@ public class UIClient extends Application {
 		
 		//3. process the answer and do a simulation step on the enterprise
 		market.doSimStep(msg.getNewResourcePrices());
-		lists.k.addAll(ent.doSimulationStep(msg.getSoldOfferAmounts()));
-		lists.v.addAll(msg.getTopList());
+		msgStore.addAll(ent.doSimulationStep(msg.getSoldOfferAmounts()));
+		topList.addAll(msg.getTopList());
+		marketResearch.putAll(msg.getMarketResearch());
 		
 		//4. has the game ended?
 		//a few different things can happen which shall result in the end game screen being presented:

@@ -91,5 +91,31 @@ public enum WallType implements StoreableType {
 		return volume;
 	}
 	
+	public static WallType fromInt(int i){
+		switch (i) {
+		case 0: return GENERAL;
+		case 1: return LIGHT_WEIGHT_CONSTRUCTION;
+		case 2: return LIGHT_WEIGHT_CONSTRUCTION_PLUS;
+		case 3: return MASSIVE_LIGHT_CONSTRUCTION;
+		case 4: return MASSIVE_PLUS_CONSTUCTION;
+		case 5: return PANORAMA_WALL;
+
+		default:
+			return null;
+		}
+	}
 	
+	public static int toInt(WallType t){
+		switch (t) {
+		case GENERAL: 								return 0;
+		case LIGHT_WEIGHT_CONSTRUCTION: 			return 1;
+		case LIGHT_WEIGHT_CONSTRUCTION_PLUS: 		return 2;
+		case MASSIVE_LIGHT_CONSTRUCTION: 			return 3;
+		case MASSIVE_PLUS_CONSTUCTION: 				return 4;
+		case PANORAMA_WALL: 						return 5;
+		
+		default:
+			return -1;
+		}
+	}
 }

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import net.shared.ClientMessage;
-import net.shared.Pair;
 import net.shared.ServerMessage;
+import sim.abstraction.Pair;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceType;
 import sim.production.PFHouseType;

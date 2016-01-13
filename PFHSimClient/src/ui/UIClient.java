@@ -12,10 +12,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import net.ServerConnection;
 import net.shared.ClientMessage;
-import net.shared.Pair;
 import net.shared.ServerMessage;
 import sim.Enterprise;
 import sim.EnterpriseException;
+import sim.abstraction.Pair;
 import sim.procurement.ResourceMarket;
 import ui.abstraction.ProgressDialog;
 import ui.abstraction.Triple;
@@ -31,7 +31,8 @@ public class UIClient extends Application {
 
 	private static final int SERVER_PORT = 44444;   
 
-	private ServerConnection server;   
+	private ServerConnection server;
+	
 	private Enterprise ent;
 	private ResourceMarket market;
 	
@@ -42,19 +43,6 @@ public class UIClient extends Application {
 	public void start(Stage stg) throws Exception {
 		if(initialise()){
 
-			//TODO this is only for testing without server stuff :D
-//			ResourceType[] resources = ResourceType.values();
-//			HashMap<ResourceType, Integer> costs = new HashMap<>();
-//			for (int i = 0; i < resources.length; i++) {
-//				costs.put(resources[i], resources[i].getBasePrice());
-//			}
-//			ResourceMarket market = new ResourceMarket(costs);
-//			ent = new Enterprise(market);
-//			ent.buyMachine(MachineType.WOODWALL_MACHINE);
-//			ent.buyMachine(MachineType.BRICKWALL_MACHINE);
-//			ent.buyMachine(MachineType.BRICKWALL_MACHINE);
-//			ent.buyMachine(MachineType.WOODWALL_MACHINE);
-			
 			w = new MainWindow(ent, this::doRoundTrip);
 			stg.setScene(new Scene(w.getContainer()));
 			stg.setTitle("PFHSim Client - " + name);

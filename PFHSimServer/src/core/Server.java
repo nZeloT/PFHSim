@@ -47,14 +47,11 @@ public class Server {
 						//wouldn't be nice but ok
 						e.printStackTrace();
 					}
-					
-					System.out.println("Waiting for: " + clients.get(i).getNameUser() + " - " + clients.get(i).isClosed() + " - " + clients.get(i).hasAnswered());
-
 				}
 
 				//he has answered. save the answer and wait for the next one
 				clntMsg.add(clients.get(i).retrieveAnswer());
-				System.out.println("Message received");
+				System.out.println("Message received from " + clients.get(i).getName());
 			}
 
 			//2. check if still all clients are in game and no client has send the limit reached flag
@@ -63,10 +60,12 @@ public class Server {
 					clntMsg.remove(i);
 					System.out.println("Terminating: " + clients.get(i).getNameUser());
 					try{ clients.get(i).join(); }catch(Exception e){e.printStackTrace();}
+					
+					System.out.println("Client " + clients.get(i).getName() + " disconnected.");
+					
 					clients.remove(i--);
-					System.out.println("Client disconnected.");
 				}else
-					System.out.println("Client: " + clients.get(i).getNameUser() + " remained connected.");
+					System.out.println("Client " + clients.get(i).getNameUser() + " remained connected.");
 			}
 
 			if(clntMsg.size() > 0){

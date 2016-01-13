@@ -47,7 +47,7 @@ public class HRDetails extends Container<VBox>{
 		if(type == EmployeeType.PRODUCTION){
 			btnAssignFree.setVisible(true);
 			
-			btnAssignFree.setDisable(!(ent.getHR().getCountOfFreeOfType(type) > 0));
+			btnAssignFree.setDisable(!(ent.getHR().getNumberOfUnassignedEmployees(type) > 0));
 		}else
 			btnAssignFree.setVisible(false);
 		
@@ -70,7 +70,7 @@ public class HRDetails extends Container<VBox>{
 
 	@FXML
 	private void onAssignFreeEmployees(ActionEvent e){
-		int free = ent.getHR().getCountOfFreeOfType(type);
+		int free = ent.getHR().getNumberOfUnassignedEmployees(type);
 
 		if(free > 0){
 			List<Machine> machines = new ArrayList<>();

@@ -36,7 +36,7 @@ public class Production extends Container<VBox> implements UISection{
 
 	private @FXML TableColumn<Machine, String> colName;
 	private @FXML TableColumn<Machine, String> colState;
-	private @FXML TableColumn<Machine, Number> colCosts;
+	private @FXML TableColumn<Machine, String> colCosts;
 	private @FXML TableColumn<Machine, Number> colUseage;
 	private @FXML TableColumn<Machine, Number> colMaxUseage;
 	private @FXML TableColumn<Machine, String> colProduction;
@@ -193,7 +193,7 @@ public class Production extends Container<VBox> implements UISection{
 		});
 
 		colCosts.setCellValueFactory(df -> {
-			return new ReadOnlyIntegerWrapper(df.getValue().getCosts());
+			return new ReadOnlyStringWrapper(df.getValue().getCosts() + " €");
 		});
 
 		colUseage.setCellValueFactory(df -> {

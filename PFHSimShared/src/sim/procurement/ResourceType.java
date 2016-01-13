@@ -33,5 +33,33 @@ public enum ResourceType implements StoreableType {
 	public int getBasePrice() {
 		return basePrice;
 	}
+	
+	public static ResourceType fromInt(int i){
+		switch (i) {
+		case 0: return WOOD;
+		case 1: return INSULATION;
+		case 2: return CONCRETE;
+		case 3: return BRICK;
+		case 4: return WINDOW;
+		case 5: return ROOF_TILE;
+
+		default:
+			return null;
+		}
+	}
+	
+	public static int toInt(ResourceType t){
+		switch (t) {
+		case WOOD: 			return 0;
+		case INSULATION: 	return 1;
+		case CONCRETE: 		return 2;
+		case BRICK: 		return 3;
+		case WINDOW: 		return 4;
+		case ROOF_TILE: 	return 5;
+		
+		default:
+			return -1;
+		}
+	}
 
 }

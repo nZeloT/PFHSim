@@ -50,9 +50,9 @@ public class UpgradeDialog extends Dialog<Boolean> {
 		grid.setHgap(10);
 		grid.setVgap(10);
 		
-		grid.add(new Label("Costs"), 0, 0);
-		grid.add(new Label("" + costs), 1, 0);
-		grid.add(new Label("Duration"), 0, 1);
+		grid.add(new Label("Price:"), 0, 0);
+		grid.add(new Label("" + costs + " €"), 1, 0);
+		grid.add(new Label("Duration:"), 0, 1);
 		grid.add(new Label("" + duration), 1, 1);
 		
 		box.getChildren().add(grid);

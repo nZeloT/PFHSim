@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sim.EnterpriseException;
+import sim.ExceptionCategorie;
 import sim.abstraction.CostFactor;
-import sim.abstraction.Tupel;
 import sim.warehouse.Warehouse;
 
 public class ProductionHouse implements CostFactor {
@@ -35,32 +35,30 @@ public class ProductionHouse implements CostFactor {
 	public List<Machine> getMachines() {
 		return machines;
 	}
-
-	public int getAvgMachineQuality(MachineType t) {
-		int avg = 0;
-		int count = 0;
-		for (Machine machine : machines) {
-			if (machine.getType() == t && machine.isInOperation() == true) {
-				avg += machine.getQuality();
-				count++;
-			}
-		}
-		if (count!=0)
-			return (int) ((avg+0d)/count);
-		else
-			return 0;
-	}
-	public List<Tupel<MachineType>> getAllAvgMachineQualities() {
-		List<Tupel<MachineType>> avg = new ArrayList<>();
-		for (MachineType t : MachineType.values()) {
-			int cAvg = getAvgMachineQuality(t);
-			if (cAvg != 0) {
-				avg.add(new Tupel<MachineType>(t, cAvg));
-			}
-		}
-		return avg;
-	}
 	
+	public void setWallQuality() {
+		WallType[] t = WallType.values();
+		
+		for (WallType wallType : t) {
+			
+			wallType.setQualityFactor(wallType.getInitialQualityFactor());
+			
+			for (int i = 0; i < machines.size(); i++) {
+				int ctr = 0;
+				int qual = 0;
+				if(machines.get(i).getProductionType() == wallType) {
+					qual += machines.get(i).getQuality() * wallType.getInitialQualityFactor();
+					ctr++;
+				}
+				if (ctr>0) {
+					qual /= ctr;
+					System.out.println("" + wallType.toString() + qual);
+					wallType.setQualityFactor(qual);
+				}
+			}
+		}
+	}
+
 	/**
 	 * Simulate one step of production in the production house
 	 * @param w the warehouse for storing things
@@ -72,6 +70,7 @@ public class ProductionHouse implements CostFactor {
 		for (Machine m : machines) {
 			try {
 				m.runProductionStep(w);
+				errors.add(new MachineSuccessException(m, m.getProductionType(), m.getUtilization(), ExceptionCategorie.INFO));
 			} catch (EnterpriseException me) {
 				errors.add(me);
 			}

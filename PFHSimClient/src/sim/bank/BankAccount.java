@@ -44,6 +44,15 @@ public class BankAccount {
 			cashChanged.changed(old, cash);
 	}
 	
+	public void chargeCritical(int amount) throws BankException{
+		try{
+			charge(amount);
+		}catch(BankException e){
+			onLimit = true;
+			throw e;
+		}
+	}
+	
 	public void deposit(int amount) throws BankException{
 		if(amount <= 0)
 			throw new BankException(this, "Amount needs so be greater than 0!", ExceptionCategorie.PROGRAMMING_ERROR);

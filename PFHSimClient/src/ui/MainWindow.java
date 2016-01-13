@@ -21,9 +21,9 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import net.shared.Pair;
 import sim.Enterprise;
 import sim.EnterpriseException;
+import sim.abstraction.Pair;
 import ui.abstraction.Container;
 import ui.abstraction.Triple;
 import ui.abstraction.UISection;
@@ -195,6 +195,8 @@ public class MainWindow extends Container<SplitPane>{
 			root.getChildren().get(0).setVisible(false);
 			root.getChildren().get(1).setVisible(false);
 			root.getChildren().get(2).setVisible(true);
+			
+			//no timer for the end game screen :p
 		}
 
 		updateEndGameTopList(topList);

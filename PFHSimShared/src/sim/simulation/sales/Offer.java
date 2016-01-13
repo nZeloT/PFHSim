@@ -46,10 +46,6 @@ public class Offer implements Serializable {
 		return walltype;
 	}
 
-	public int getAmountofProducable() {
-		return productionLimit;
-	}
-
 	public int getQuality() {
 		return quality;
 	}

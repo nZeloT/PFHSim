@@ -53,7 +53,7 @@ public class HRDetailsViewItem extends Container<HBox> {
 	private void initialize(){
 		if(emp != null){
 			lblEmpName.setText(emp.getName());
-			lblEmpCosts.setText("" + emp.getCosts());
+			lblEmpCosts.setText("" + emp.getCosts() + " €");
 			lblUpgradeLevel.setText("" + emp.getVisitedTrainings());
 
 			String status = "";

@@ -336,7 +336,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			selection_massive.setText("");
 			selection_massiveplus.setText("");
 			selection_panorama.setText("");
-			Tupel<WallType>[] tmp = selectedOffer.getSpecifiedWalltypes();
+			Tupel<WallType>[] tmp = selectedOffer.getWalltype();
 			for (Tupel<WallType> tupel : tmp) {
 				if (tupel != null) {
 					if (tupel.type == WallType.LIGHT_WEIGHT_CONSTRUCTION) {
@@ -724,8 +724,9 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
 
 					selectedOffer.setPrice(Integer.parseInt(sum.getText()));
-					selectedOffer.setSpecifiedWalltypes(tupelarray);
+					selectedOffer.setWalltypes(tupelarray);
 					selectedOffer.setProductionLimit(Integer.parseInt(productionlimit.getText()));
+					refreshOfferList();
 					load();
 					System.out.println("great, offer saved.");
 
@@ -778,6 +779,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 	@FXML
 	private void productionLimitChanged(KeyEvent e) {
+		this.refreshSum();
 	}
 
 	@FXML

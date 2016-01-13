@@ -29,7 +29,7 @@ public class Offer implements Serializable {
 		}
 	}
 
-	public void setSpecifiedWalltypes(Tupel<WallType>[] walltype) {
+	public void setWalltypes(Tupel<WallType>[] walltype) {
 
 				this.walltype = walltype;
 	}
@@ -40,10 +40,6 @@ public class Offer implements Serializable {
 
 	public int getFixCost() {
 		return 0;
-	}
-
-	public Tupel<WallType>[] getSpecifiedWalltypes() {
-		return walltype;
 	}
 
 	public int getQuality() {

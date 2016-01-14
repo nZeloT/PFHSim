@@ -7,7 +7,7 @@ Analysephase:
 
 * Fachkonzept(Absatzmarkt, Einkaufsmarkt) (Alex,Flo)
 * Abteilungen (hier auch auf Interaktion mit anderen Spielern über Angebotspreise eingehen)
-(HR,Production Alex ( wie wäre es hier mit einer kleinen tabelle über die bestandteile der vers. wände?)||Warehouse,RnD Flo)
+(HR,Production Alex||Warehouse,RnD Flo)
 * UI Mockup (was haben wir uns dabei gedacht?)(Marcel)
 * Szenariotest (so viele wie notwendig, beweise das die BWL/VWL Erkenntnisse eigesetzt wurden)
 	* anhand dessen Spielstrategien (Alex,Flo)

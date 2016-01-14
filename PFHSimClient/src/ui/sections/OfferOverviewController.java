@@ -104,6 +104,9 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 	public void initialize() {
 
+		btn_deleteoffer.setDisable(true);
+		
+		
 		offerlist.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -150,6 +153,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				label_ncwall2.setVisible(false);
 				req_ncwall2.setVisible(false);
 				available_ncwall2.setVisible(false);
+				req_cwall.setText("0");
 
 				// set the required and available number of walls.
 				int non_customizable_position = 0;
@@ -261,22 +265,27 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				// End of Offer Detail Screen initialization.
 			}
 		});
+		btn_save.setDisable(true);
 	}
 
 	private void load() {
 
 		// Initialize Offer Detail Screen:
 		try {
-
+			
+			btn_deleteoffer.setDisable(offers.size()==0);
 			selectedOffer = offers.get(offerlist.getSelectionModel().getSelectedIndex());
-
+			
+			
+			
 			System.out.println("" + showingExistingOffer);
 			showingExistingOffer = true;
 
 			title.setText("Offer details");
 
 			btn_save.setDisable(true);
-
+			System.out.println("wtf");
+			
 			choosehousetype.setDisable(true);
 
 			ObservableList<String> housetypestring = FXCollections.observableArrayList();
@@ -294,7 +303,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			label_ncwall2.setVisible(false);
 			req_ncwall2.setVisible(false);
 			available_ncwall2.setVisible(false);
-
+			req_cwall.setText("0");
+			
 			// set the required and available number of walls.
 			int non_customizable_position = 0;
 			for (int i = 0; i < walltypes.length; i++) {
@@ -331,6 +341,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 					.setText("" + ent.getWarehouse().getStoredAmount(WallType.MASSIVE_PLUS_CONSTUCTION));
 			available_panorama.setText("" + ent.getWarehouse().getStoredAmount(WallType.PANORAMA_WALL));
 
+			
 			selection_lightweight.setText("");
 			selection_lightweightplus.setText("");
 			selection_massive.setText("");
@@ -562,6 +573,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				btn_save.setDisable(false);
 			} else {
 				btn_save.setDisable(true);
+				System.out.println("lalalulu");
 			}
 
 			contributionmargin
@@ -645,6 +657,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			return ent.calculateVariableCosts(pseudo_offer);
 		} catch (NumberFormatException e) {
 			this.btn_save.setDisable(true);
+			System.out.println("wtf");
 			return 0;
 		}
 	}
@@ -819,10 +832,15 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 	@FXML
 	private void deleteoffer(ActionEvent e) {
 		try {
-			ent.getSales().removeOffer(offerlist.getSelectionModel().getSelectedIndex());
-			refreshOfferList();
-			load();
-			System.out.println("Great, offer deleted.");
+			if (ent.getSales().removeOffer(offerlist.getSelectionModel().getSelectedIndex())!=null) {
+				refreshOfferList();
+				btn_save.setDisable(true);
+				load();
+				System.out.println("Great, offer deleted.");	
+			} else {
+				Utils.showError("Kein Angebot ausgewählt!");
+			}
+			
 		} catch (NullPointerException e2) {
 			System.out.println("no offer selected.");
 		}

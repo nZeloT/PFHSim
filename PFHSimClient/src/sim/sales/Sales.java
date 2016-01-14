@@ -31,7 +31,10 @@ public class Sales extends Department {
 	}
 	
 	public Offer removeOffer(int idx){
-		return offers.remove(idx);
+		if (idx>-1) {
+			return offers.remove(idx);
+		} 
+		return null;
 	}
 	
 	public void removeOffer(Offer o){

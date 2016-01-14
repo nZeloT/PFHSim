@@ -56,7 +56,7 @@ public class Enterprise {
 	private Department marketResearch;
 	private Warehouse warehouse;
 	private ProductionHouse production;
-	
+
 	private HashMap<PFHouseType, Integer> perRoundBuildAmounts;
 
 	public Enterprise(ResourceMarket market) {
@@ -95,7 +95,7 @@ public class Enterprise {
 		} catch (WrongEmployeeTypeException e) {
 			e.printStackTrace();
 		}
-		
+
 		production.setWallQuality();
 	}
 
@@ -104,12 +104,12 @@ public class Enterprise {
 	 */
 	public List<EnterpriseException> doSimulationStep(List<Offer> soldOffer) {
 		List<EnterpriseException> msgStore = new ArrayList<>();
-		
+
 		//reset the per round build amounts hashmap
 		perRoundBuildAmounts.clear();
 
 		int[] missingRes = new int[ResourceType.values().length];
-		
+
 		// process results from buyer's market-simulation.
 		if (soldOffer.size() != sales.getOfferCount()) // this is for safety
 			// only
@@ -118,10 +118,10 @@ public class Enterprise {
 		else {
 			int[] soldAmounts = new int[PFHouseType.values().length];
 			int[] failedAmounts = new int[PFHouseType.values().length];
-			
+
 			int missingEmps = 0;
 			int[] missingWalls = new int[WallType.values().length];
-			
+
 			for (Offer offer : soldOffer) {
 				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getProductionLimit(); i++) {
 					try {
@@ -145,22 +145,22 @@ public class Enterprise {
 					}
 				}
 			}
-			
+
 			if(missingEmps > 0)
 				msgStore.add(new EnterpriseException(this, "Missing " + missingEmps + " Assembler to complete demand!", ExceptionCategorie.WARNING));
-			
+
 			for (int i = 0; i < missingWalls.length; i++)
 				if(missingWalls[i] > 0)
 					msgStore.add(new EnterpriseException(this, "Missing " + missingWalls[i] + " " + WallType.fromInt(i) + " to complete demand!", ExceptionCategorie.WARNING));
-			
+
 			for (int i = 0; i < failedAmounts.length; i++)
 				if(failedAmounts[i] > 0)
 					msgStore.add(new EnterpriseException(this, "Couldn't start building " + failedAmounts[i] + " " + PFHouseType.fromInt(i) + "!", ExceptionCategorie.WARNING));
-			
+
 			for (int i = 0; i < soldAmounts.length; i++)
 				if(soldAmounts[i] > 0)
 					msgStore.add(new EnterpriseException(this, "Started building " + soldAmounts[i] + " " + PFHouseType.fromInt(i) + "!", ExceptionCategorie.INFO));
-			
+
 		}
 
 		int[] finished = new int[PFHouseType.values().length];
@@ -171,7 +171,7 @@ public class Enterprise {
 			if (h.isFinished()) {
 				finished[PFHouseType.toInt(h.getType())] ++;
 				housesInConstruction.remove(i--);
-				
+
 				try {
 					bank.deposit(h.getPrice());
 				} catch (BankException e) {
@@ -181,14 +181,14 @@ public class Enterprise {
 				// resources and walls did already cost
 			}
 		}
-		
+
 		for (int i = 0; i < finished.length; i++){
 			if(finished[i] > 0)
 				msgStore.add(new EnterpriseException(this, "Finished building " + finished[i] + " " + PFHouseType.fromInt(i) + "!", ExceptionCategorie.INFO));
-		
+
 			perRoundBuildAmounts.put(PFHouseType.fromInt(i), finished[i]);
 		}
-		
+
 		// process machine production
 		List<EnterpriseException> machineMsg = production.processProduction(warehouse);
 		int[] producedWalls = new int[WallType.values().length];
@@ -204,25 +204,28 @@ public class Enterprise {
 			else
 				msgStore.add(ex);
 		}
-		
+
 		for (int i = 0; i < missingRes.length; i++)
 			if(missingRes[i] > 0)
 				msgStore.add(new EnterpriseException(this, "Missing " + missingRes[i] + " " + ResourceType.fromInt(i) + " to complete demand!", ExceptionCategorie.WARNING));
-		
+
 		for (int i = 0; i < producedWalls.length; i++)
 			if(producedWalls[i] > 0)
 				msgStore.add(new EnterpriseException(this, "Produced " + producedWalls[i] + " " + WallType.fromInt(i), ExceptionCategorie.INFO));
-		
+
 
 		// Handle the upgrade progress
 		upgrades.processUpgrades(this); // upgrades cost only once at the beginning
 
 		// handle more cash flow things
 		try {
-			bank.chargeCritical(hr.getOverallEmployeeCosts()); // this makes sure we also pay for unassigned employees ;)
-			bank.chargeCritical(production.getCosts());
-			bank.chargeCritical(production.getMachineCosts());
-			bank.chargeCritical(warehouse.getCosts());
+			int payment = 0;
+			payment += hr.getOverallEmployeeCosts(); // this makes sure we also pay for unassigned employees ;)
+			payment += production.getCosts();
+			payment += production.getMachineCosts();
+			payment += warehouse.getCosts();
+			
+			bank.chargeCritical(payment);
 			bank.simStep();
 		} catch (BankException e) {
 			msgStore.add(e);
@@ -238,7 +241,7 @@ public class Enterprise {
 		// quality and walltype-qualities
 		production.setWallQuality();
 		sales.setOfferQuality();
-		
+
 		return msgStore;
 	}
 
@@ -715,7 +718,7 @@ public class Enterprise {
 	public BankAccount getBankAccount() {
 		return bank;
 	}
-	
+
 	public HashMap<PFHouseType, Integer> getPerRoundBuildAmounts() {
 		return perRoundBuildAmounts;
 	}

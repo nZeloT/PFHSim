@@ -33,7 +33,7 @@ import sim.research.dev.UpgradeFactors;
  */
 public class Warehouse extends Department implements CostFactor{
 	
-	private static final int BASE_CAPA = 999999;
+	private static final int BASE_CAPA = 1000000;
 	private static final int BASE_COSTS = 3000;
 	private static final int BASE_REQ_EMP = 3;
 

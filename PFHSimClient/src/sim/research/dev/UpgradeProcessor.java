@@ -24,9 +24,9 @@ public class UpgradeProcessor {
 	public void processUpgrades(Enterprise e){
 		for (int i = 0; i < upgradesInProg.size(); i++) {
 			Upgrade u = upgradesInProg.get(i);
-			if(!u.isFinished())
-				u.simRound();
-			else{
+			u.simRound();
+			
+			if(u.isFinished()){
 				upgradesInProg.remove(i--); //do not forget to reduce the index when removing an item ;)
 				
 				if(u instanceof ResearchProject){

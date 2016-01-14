@@ -62,8 +62,9 @@ public class Warehouse extends Container<VBox> implements UISection{
 	private int TS_lightWeight_int;
 	private int TS_lightPlus_int;
 
-	private int upgrade_duration = 2;
+	private int upgrade_duration = 3;
 	private boolean isUpgradeRunning = false;
+	
 	public Warehouse(Enterprise enterprise) {
 		this.ent = enterprise;
 		load("/ui/fxml/Warehouse.fxml");
@@ -125,8 +126,12 @@ public class Warehouse extends Container<VBox> implements UISection{
 
 		upgrade_duration--;
 
+		if(upgrade_duration == 2){
+			ProgressBar_extendWarehouse.setProgress(0.33);
+		}
+		
 		if(upgrade_duration == 1){
-			ProgressBar_extendWarehouse.setProgress(0.5);
+			ProgressBar_extendWarehouse.setProgress(0.7);
 		}
 
 		if (upgrade_duration == 0) {
@@ -134,6 +139,7 @@ public class Warehouse extends Container<VBox> implements UISection{
 			btn_extendWarehouse.setVisible(true);
 			ProgressBar_extendWarehouse.setVisible(false);
 			ProgressBar_extendWarehouse.setProgress(0.0);
+			isUpgradeRunning = false;
 		}
 
 	}
@@ -185,7 +191,7 @@ public class Warehouse extends Container<VBox> implements UISection{
 
 	@Override
 	public void changeTab() {
-		if(isUpgradeRunning=true){
+		if(isUpgradeRunning){
 			if(upgrade_duration == 1){
 				ProgressBar_extendWarehouse.setProgress(0.5);
 			}

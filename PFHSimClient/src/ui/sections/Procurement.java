@@ -1,5 +1,7 @@
 package ui.sections;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -101,6 +103,14 @@ public class Procurement extends Container<VBox> implements UISection{
 		
 		lblWarehouseCurrent.setText("" + ent.getWarehouse().getUtilization());
 		lblWarehouseMax.setText("" + ent.getWarehouse().getCapacity());
+		
+		addTextLimiter(input_wood);
+		addTextLimiter(input_concrete);
+		addTextLimiter(input_insulation);
+		addTextLimiter(input_insulation);
+		addTextLimiter(input_roof);
+		addTextLimiter(input_brick);
+		addTextLimiter(input_window);
 	}
 
 	public void update() {
@@ -123,11 +133,37 @@ public class Procurement extends Container<VBox> implements UISection{
 		lblWarehouseMax.setText("" + ent.getWarehouse().getCapacity());
 	}
 
+	public static void addTextLimiter(final TextField tf) {
+		int maxLength = 4;
+	    tf.textProperty().addListener(new ChangeListener<String>() {
+	        @Override
+	        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+	            if (tf.getText().length() > maxLength) {
+	                String s = tf.getText().substring(0, maxLength);
+	                tf.setText(s);
+	            }
+	        }
+	    });
+	}
+	
 	public boolean checkIfNumberInput(TextField input) {
 
-		if (input.getText().matches("[0-9]{1,}")) {
+		
+		if (input.getText().matches("[0-9]{1,}")) {  
+									
 			return true;  
 		} else {
+			
+			if(input.getText().contains("-") || input.getText().contains("+") ||  input.getText().contains(".") ||  input.getText().contains(",")){
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("PFH Warning");
+				alert.setHeaderText("This is a postive numeric input field");
+				alert.setContentText("Try again with positive numbers without \"+\",\".\", \",\" or \"-\"");
+
+				alert.showAndWait();
+				return false;
+			}
+			
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("PFH Warning");
 			alert.setHeaderText("This is a numeric input field");

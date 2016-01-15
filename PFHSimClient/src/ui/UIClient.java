@@ -173,7 +173,7 @@ public class UIClient extends Application {
 		}
 		
 		if(ent.getBankAccount().isOnLimit()){
-			//the user reached the bank limit
+			//the user reached the bank limit #
 			//send info to the server and terminate the connection
 			clnt = new ClientMessage(name, null, null, null, true);
 			server.placeMessasge(clnt);

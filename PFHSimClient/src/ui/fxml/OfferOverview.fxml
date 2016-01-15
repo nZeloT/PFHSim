@@ -242,7 +242,7 @@
                               </HBox>
                               <HBox AnchorPane.topAnchor="40.0">
                                  <children>
-                                    <Label text="Choose your housetype:" HBox.hgrow="ALWAYS">
+                                    <Label fx:id="choosehousetypetext" text="Choose your housetype:" HBox.hgrow="ALWAYS">
                                        <padding>
                                           <Insets right="30.0" />
                                        </padding>

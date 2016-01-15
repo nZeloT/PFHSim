@@ -10,9 +10,9 @@
 * Holz(Eiche): 160 € m³ Volumen 300
 * Beton: 100€ m³ Volumen 300
 * Dachziegel: 1 Volumen 1
-* Dämmwolle: 3,45€ Volumen 150
+* Dämmwolle: 3,45€ Volumen 100
 * Fenster: 50-80€ Volumen 50
-* Ziegel: 1,04€ Stück Volumen 300
+* Ziegel: 1,04€ Stück Volumen 1
 
 
 ### wall types

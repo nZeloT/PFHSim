@@ -7,7 +7,7 @@ public enum ResourceType implements StoreableType {
 	WOOD(300,160, "wood"),
 	INSULATION(150,5, "insulation"),
 	CONCRETE(300,100, "concrete"),
-	BRICK(300,90, "brick"),
+	BRICK(3,5, "brick"),
 	WINDOW(50,80, "window"),
 	ROOF_TILE(1,1, "roof tile");
 	

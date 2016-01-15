@@ -23,7 +23,7 @@ public class Offer implements Serializable {
 		this.walltype = walltype;
 		numberOfPurchases = 0;
 		productionLimit = max;
-		quality = 0;
+		quality = housetype.getBaseQuality();
 		for (int i = 0; i < walltype.length; i++) {
 			quality += walltype[i].type.getQualityFactor() * walltype[i].count;
 		}
@@ -47,7 +47,7 @@ public class Offer implements Serializable {
 	}
 
 	public void setQuality(int quality) {
-		this.quality = quality;
+		this.quality = quality + housetype.getBaseQuality();
 	}
 
 	public void setPrice(int price) {

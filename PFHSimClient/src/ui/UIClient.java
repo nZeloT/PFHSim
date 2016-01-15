@@ -49,13 +49,13 @@ public class UIClient extends Application {
 			stg.setTitle("PFHSim Client - " + name);
 
 			stg.setMinHeight(650);
-			stg.setMinWidth(900);
+			stg.setMinWidth(900); 
 
 			stg.show();
 			
-		}
+		} 
 
-	}
+	} 
 
 	private boolean initialise(){
 		javafx.util.Pair<String, String> joinInfo = new JoinDialog().showAndWait();

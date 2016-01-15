@@ -257,6 +257,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 						maxqualityval += walltypes[i].getQualityFactor() * walltypes_count[i];
 					}
 				}
+				maxqualityval += selectedType.getBaseQuality();
+						
 				maxquality.setText("(" + maxqualityval + ")");
 
 				productionlimit.setText("" + ent.getMaxProducibleHouses(selectedType));
@@ -484,6 +486,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 					maxqualityval += walltypes[i].getQualityFactor() * walltypes_count[i];
 				}
 			}
+			maxqualityval += selectedOffer.getHousetype().getBaseQuality();
 			maxquality.setText("(" + maxqualityval + ")");
 
 			productionlimit.setText("" + selectedOffer.getProductionLimit());
@@ -585,6 +588,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				if (wt[i]!=WallType.GENERAL)
 					tmp_quality += wt[i].getQualityFactor() * wc[i];
 			}
+			tmp_quality += selectedOffer.getHousetype().getBaseQuality();
 			quality.setText("" + tmp_quality);
 			
 			maxproducable.setText("(" +ent.getMaxProducibleHouses(selectedOffer) + ")");

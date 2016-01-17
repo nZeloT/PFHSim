@@ -16,8 +16,6 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedlightOffers = new HashMap<>();
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedmassiveOffers = new HashMap<>();
 	private final int numberofHTs = (int) (Math.random() * 2) + 3;
-//	private int quality = 0;
-//	private int offercount = 0;
 	private final List<PFHouseType> types = Arrays.asList(Arrays.copyOf(PFHouseType.values(), numberofHTs));
 	private int numberofOffers = 0;
 
@@ -25,7 +23,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	 * Map offers in a HashMap with the right Housetype category and ascending
 	 * by Price. Two separate lists to honor each the best wood/brick wall
 	 * constructions Ignore offers with bad isolation (--> high running costs,
-	 * nothing for PricePerformanceBuyers) Ignore offers with low quality
+	 * nothing for PricePerformanceBuyers)--> Ignore offers with low quality
 	 */
 	public void sortOffers(HashMap<String, List<Offer>> in) {
 		sortedlightOffers = new HashMap<>();
@@ -109,7 +107,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 	 *            enterprises to split
 	 */
 	@Override
-	public HashMap<String, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, String[] e) {
+	public HashMap<String, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, String[] e) {
 		numberofOffers = (int) (numberofOffers * (Math.random() * 0.2 + 0.7));
 		HashMap<String, List<Offer>> results = new HashMap<>();
 		HashMap<PFHouseType, List<EnterpriseOfferTupel>> placeholder = sortedlightOffers;
@@ -133,14 +131,12 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 									// offer.
 					}
 					if (max - amount >= current) { // the player is able to build all houses
-						actual.setNumberOfPurchases(current);
+						actual.setNumberOfPurchases(current+amount);
 					} else { //the player is able to build some of the houses
-						actual.setNumberOfPurchases(max - amount);
-						current += current - (max - amount); // add the open
+						actual.setNumberOfPurchases(max);
+						current += max - amount; // add the open
 															// interests for the
 															// next player,
-															// looks strange but
-															// works right ;)
 					}
 					List<Offer> tmp = results.get(succoff.get(i).enterprise);
 					tmp.add(actual);

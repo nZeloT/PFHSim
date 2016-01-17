@@ -7,6 +7,6 @@ public interface GroupOfBuyers {
 
 	public void sortOffers(HashMap<String, List<Offer>> in);
 	
-	public HashMap<String, List<Offer>> registerPurchases(int minAmount, int maxAmount, int step, String[] e);
+	public HashMap<String, List<Offer>> registerPurchases(int maxAmount, int minAmount, int step, String[] e);
 	
 }

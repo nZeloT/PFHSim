@@ -583,7 +583,25 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				noOfSpecifiedWalls += tmp;
 				tmp_quality += tmp * WallType.PANORAMA_WALL.getQualityFactor();
 			}
-
+			
+			@SuppressWarnings("unused")
+			PFHouseType tmp_type = null; 
+			if (!showingExistingOffer) {
+				tmp_type = selectedType;
+			} else {
+				tmp_type = selectedOffer.getHousetype();
+			}
+			
+			WallType[] wt = selectedType.getRequiredWallTypes();
+			int[] wc = selectedType.getWallCounts();
+			for (int i = 0; i < wt.length; i++) {
+				if (wt[i] != WallType.GENERAL) {
+					walltype.add(new Tupel<WallType>(wt[i], wc[i]));
+					tmp_quality += wt[i].getQualityFactor() * wc[i];
+				}
+			}
+			
+		
 			@SuppressWarnings("unchecked")
 			Tupel<WallType>[] tupelarray = new Tupel[walltype.size()];
 			for (int i = 0; i < walltype.size(); i++) {
@@ -593,7 +611,6 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			if (!showingExistingOffer) {
 				System.out.println("new offer selection" + "");
 				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, tupelarray);
-
 			}
 
 			if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
@@ -605,12 +622,6 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			contributionmargin
 					.setText("" + (Integer.parseInt(sum.getText()) - ent.calculateVariableCosts(selectedOffer)));
 
-			WallType[] wt = selectedOffer.getHousetype().getRequiredWallTypes();
-			int[] wc = selectedOffer.getHousetype().getWallCounts();
-			for (int i = 0; i < wt.length; i++) {
-				if (wt[i] != WallType.GENERAL)
-					tmp_quality += wt[i].getQualityFactor() * wc[i];
-			}
 			tmp_quality += selectedOffer.getHousetype().getBaseQuality();
 			quality.setText("" + tmp_quality);
 
@@ -671,6 +682,23 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				walltype.add(
 						new Tupel<WallType>(WallType.PANORAMA_WALL, Integer.parseInt(selection_panorama.getText())));
 			}
+			
+			@SuppressWarnings("unused")
+			PFHouseType tmp_type = null; 
+			if (!showingExistingOffer) {
+				tmp_type = selectedType;
+			} else {
+				tmp_type = selectedOffer.getHousetype();
+			}
+			
+			WallType[] wt = selectedType.getRequiredWallTypes();
+			int[] wc = selectedType.getWallCounts();
+			for (int i = 0; i < wt.length; i++) {
+				if (wt[i] != WallType.GENERAL) {
+					walltype.add(new Tupel<WallType>(wt[i], wc[i]));
+				}
+			}
+			
 			@SuppressWarnings("unchecked")
 			Tupel<WallType>[] walltypearray = new Tupel[walltype.size()];
 			for (int i = 0; i < walltype.size(); i++) {

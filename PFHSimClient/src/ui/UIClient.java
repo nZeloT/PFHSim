@@ -136,7 +136,7 @@ public class UIClient extends Application {
 		);   
 		server.placeMessasge(clnt);  
 		 
-		//2. wait for the server to answer
+		//2. wait for the server to answer  
 		while(!server.hasAnswered() && !server.isClosed()){
 			try {TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
@@ -151,7 +151,7 @@ public class UIClient extends Application {
 		//3. process the answer and do a simulation step on the enterprise
 		market.doSimStep(msg.getNewResourcePrices());
 		msgStore.addAll(ent.doSimulationStep(msg.getSoldOfferAmounts()));
-		topList.addAll(msg.getTopList());
+		topList.addAll(msg.getTopList()); 
 		marketResearch.putAll(msg.getMarketResearch());
 		
 		//4. has the game ended?
@@ -160,7 +160,7 @@ public class UIClient extends Application {
 		// -> the user reached the bank limit
 		// -> the server has send the end game flag
 		
-		if(msg.hasGameEnded()){
+		if(msg.hasGameEnded()){ 
 			//the server send the end game flag.
 			if(!server.isClosed()){
 				server.close();

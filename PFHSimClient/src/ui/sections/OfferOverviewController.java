@@ -249,11 +249,29 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				// set duration
 				duration.setText("" + selectedType.getConstructionDuration());
 
+				
+				WallType[] wt = selectedType.getRequiredWallTypes();
+				int[] wc = selectedType.getWallCounts();
+				ArrayList<Tupel<WallType>> tmp_a = new ArrayList<>();
+				for (int i = 0; i < wt.length; i++) {
+					if (wt[i] != WallType.GENERAL) {
+						tmp_a.add(new Tupel<WallType>(wt[i], wc[i]));
+					}
+				}
+				@SuppressWarnings("unchecked")
+				Tupel<WallType>[] tmp_wt = new Tupel[tmp_a.size()];
+				for (int i = 0; i < tmp_wt.length; i++) {
+					tmp_wt[i] = tmp_a.get(i);
+				}
+				Offer tmp_o = new Offer(0, 1, selectedType, 0, tmp_wt);
+				
 				// set cost calculation figures.
-				varcost.setText("0");
-				fixcost.setText("" + ent.calculateFixedCosts());
+				int var = ent.calculateVariableCosts(tmp_o);
+				int fix = ent.calculateFixedCosts();
+				varcost.setText("" + var);
+				fixcost.setText("" + fix);
 				sum.setText("0");
-				contributionmargin.setText("0");
+				contributionmargin.setText("" + (-var));
 
 				// set quality.
 				quality.setText("0");

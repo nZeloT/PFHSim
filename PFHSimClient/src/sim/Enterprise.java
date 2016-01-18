@@ -354,8 +354,10 @@ public class Enterprise {
 				}
 			}
 		}
+		if (generalWallRequired) {
 		if (remainingWallCounts < wc[generalWallIndex]) {
 			throw new EnterpriseException(this, "Not enough walls of type 'GENERAL'!", ExceptionCategorie.ERROR);
+		}
 		}
 
 		// needed walls are in the warehouse.

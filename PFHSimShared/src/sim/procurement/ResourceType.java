@@ -5,7 +5,7 @@ import sim.abstraction.StoreableType;
 public enum ResourceType implements StoreableType {
 	
 	WOOD(300,160, "wood"),
-	INSULATION(150,5, "insulation"),
+	INSULATION(100,5, "insulation"),
 	CONCRETE(300,100, "concrete"),
 	BRICK(3,5, "brick"),
 	WINDOW(50,80, "window"),

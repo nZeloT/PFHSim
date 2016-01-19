@@ -17,6 +17,10 @@ import sim.simulation.sales.SalesSimulation;
 public class ServerSimulation {
 	
 	private ResourceMarket market;
+	public ResourceMarket getMarket() {
+		return market;
+	}
+
 	private SalesSimulation sales;
 	
 	private HashMap<String, HashMap<PFHouseType, Integer>> sellings;

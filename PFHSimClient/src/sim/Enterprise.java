@@ -423,7 +423,7 @@ public class Enterprise {
 		Resource[] tmp_resource = null;
 		for (int i = 0; i < wt.length; i++) {
 			tmp_resource = warehouse.removeResource(rt[i], rc[i]);
-			for (int j = 0; j < tmp_wall.length; j++) {
+			for (int j = 0; j < tmp_resource.length; j++) {
 				costs += tmp_resource[j].getCosts();
 			}
 		}

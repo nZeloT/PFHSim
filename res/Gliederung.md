@@ -13,11 +13,11 @@ Analysephase:
 	* anhand dessen Spielstrategien (Alex,Flo)
 	* jeweils mit 2 Spielern
 	* 1 Test(Florian):
-		* Preis-Mengen-Strategie (Viele maschinen, Resourcen, bilige Häuser)
+		* Preis-Leistung-Strategie
 		* Diversifikation(Viele Häuser, anbieten)
 	* 2 Test(Alex):
 		* Hochwertigskäufer (schaltet teure Häuser frei, fokussiert seine Angebote)
-		* Billige Häuser(gute Qualität)
+		* Preis-Mengen-Strategie (Viele maschinen, Resourcen, bilige Häuser)
 Entwurfsphase:
 * Klassendiagramm/Sequenzdiagramm(e)(Methodisches Beschreiben der Produktionsabläufe)(Leon)
 * Server/Client, UI Technik (Leon)

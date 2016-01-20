@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import sim.production.PFHouseType;
 
 public class ExpensiveBuyer implements GroupOfBuyers {
@@ -22,7 +24,7 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 			List<Offer> offer = entry.getValue();
 			for (int i = 0; i < offer.size(); i++) {
 				numberOfOffers++;
-				if (offer.get(i).getHousetype() == PFHouseType.CITY_VILLA) {
+				if (offer.get(i).getHousetype() == PFHouseType.CITY_VILLA || offer.get(i).getHousetype() == PFHouseType.TRENDHOUSE) {
 					List<EnterpriseOfferTupel> tmp = sortedOffers.get(offer.get(i).getHousetype());
 					EnterpriseOfferTupel ot = new EnterpriseOfferTupel(entry.getKey(), offer.get(i));
 					ot.setExpensiveBuyerInterest(ot.offer.getQuality(), ot.offer.getPrice());
@@ -61,10 +63,17 @@ public class ExpensiveBuyer implements GroupOfBuyers {
 			results.put(e[i], new ArrayList<Offer>());
 		}
 
-		for (int i = 0; i < sortedOffers.size(); i++) {
+		
+
+		for (Entry<PFHouseType, List<EnterpriseOfferTupel>> entry : sortedOffers.entrySet()) {
 			undistributed = 0;
-			List<EnterpriseOfferTupel> tmp = sortedOffers.get(PFHouseType.CITY_VILLA);
-			int demand = (int) ((maxAmount + (maxAmount - minAmount) / 2) * tmp.size());
+			List<EnterpriseOfferTupel> tmp = null;
+			if (entry.getKey() == PFHouseType.CITY_VILLA || entry.getKey() == PFHouseType.TRENDHOUSE)
+				tmp = entry.getValue();
+			else 
+				break;
+			
+			int demand = (int) ((minAmount + (maxAmount - minAmount) / 2) * tmp.size());
 
 			double cumulatedQualities = 0;
 			for (int j = 0; j < tmp.size(); j++) {

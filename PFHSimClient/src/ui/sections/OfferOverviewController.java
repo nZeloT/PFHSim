@@ -277,7 +277,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				quality.setText("0");
 				int maxqualityval = 0;
 				walltypes = selectedType.getRequiredWallTypes();
-				walltypes_count = selectedType.getWallCounts();
+				walltypes_count = selectedType.getWallCounts(); 
 				for (int i = 0; i < walltypes.length; i++) {
 					if (walltypes[i] == WallType.GENERAL) {
 						maxqualityval += ent.getProductionHouse().getWallTypeWithMaxQuality().getQualityFactor()
@@ -304,6 +304,10 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 		// Initialize Offer Detail Screen:
 		try {
 
+			
+			if (offerlist.getSelectionModel().getSelectedIndex()<0)
+				return;
+			
 			btn_deleteoffer.setDisable(offers.size() == 0);
 			selectedOffer = offers.get(offerlist.getSelectionModel().getSelectedIndex());
 
@@ -505,7 +509,8 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			walltypes_count = selectedOffer.getHousetype().getWallCounts();
 			for (int i = 0; i < walltypes.length; i++) {
 				if (walltypes[i] == WallType.GENERAL) {
-					maxqualityval += WallType.PANORAMA_WALL.getQualityFactor() * walltypes_count[i];
+					maxqualityval += ent.getProductionHouse().getWallTypeWithMaxQuality().getQualityFactor()
+						* walltypes_count[i];
 				} else {
 					maxqualityval += walltypes[i].getQualityFactor() * walltypes_count[i];
 				}

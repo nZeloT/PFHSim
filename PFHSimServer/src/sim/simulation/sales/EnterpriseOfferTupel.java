@@ -12,7 +12,7 @@ class EnterpriseOfferTupel {
 	}
 	
 	public void setExpensiveBuyerInterest(int quality, int price) {
-		expensiveBuyerInterest = (quality-(1.0/40000)*price);
+		expensiveBuyerInterest = (quality-(1.0/15000)*price);
 		if (expensiveBuyerInterest < 0)
 			expensiveBuyerInterest = 1;
 	}

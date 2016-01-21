@@ -35,16 +35,17 @@ public class SzenarioTest1 {
 	 * setup up the game
 	 * @throws Exception
 	 */
-	ServerSimulation sim;
+	Helper sim;
 	Enterprise player1;
 	Enterprise player2;
 	ArrayList<Enterprise> players;
 	
 	@Before
 	public void setUp() throws Exception {
-		sim = new ServerSimulation();
-		player1 = new Enterprise(sim.getMarket());
-		player2 = new Enterprise(sim.getMarket());
+		sim = new Helper();
+		ResourceMarket[] markets = sim.initMarkets(2);
+		player1 = new Enterprise(markets[0]);
+		player2 = new Enterprise(markets[1]);
 		players = new ArrayList<>();
 		players.add(player1);
 		players.add(player2);
@@ -107,7 +108,7 @@ public class SzenarioTest1 {
 			player2.startResearchProject(PFHouseType.COMFORT_HOUSE);
 			
 			//no offers need to be created in the first round, as walls first need to be produced
-			
+//			sim.droRoundTrip(e)
 			
 		} catch (Exception e) {
 			e.printStackTrace();

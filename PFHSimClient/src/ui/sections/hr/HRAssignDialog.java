@@ -50,7 +50,7 @@ public class HRAssignDialog extends Dialog<Pair<Machine, Integer>> {
 		cbbTypes.setCellFactory(factory);
 		cbbTypes.getSelectionModel().select(0);
 
-		Spinner<Integer> spinAmount = new Spinner<>(0, maxToAssign, 1);
+		Spinner<Integer> spinAmount = new Spinner<>(0, maxToAssign, 3);
 		spinAmount.setEditable(true);
 		
 		Label lblFree = new Label("" + (maxToAssign - spinAmount.getValue()));

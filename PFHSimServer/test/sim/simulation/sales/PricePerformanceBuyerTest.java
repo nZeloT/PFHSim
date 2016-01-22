@@ -26,7 +26,7 @@ public class PricePerformanceBuyerTest {
 		for (int i = 0; i < 4; i++) {
 			List<Offer> tmp = new ArrayList<Offer>();
 			for (int j = 0; j >= 0; j--) {
-				tmp.add(new Offer(500 * (int) (Math.random() * 10), 25, types[j], 8,
+				tmp.add(new Offer(500 * (int) (Math.random() * 10), types[j], 8,
 						new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION_PLUS, 5)));
 			}
 			testOffers.put("" + i, tmp);

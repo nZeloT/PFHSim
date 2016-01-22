@@ -59,7 +59,7 @@ public class ClientConnection extends Connection<ServerMessage, ClientMessage>{
 			closed = true;
 		}
 		
-		System.err.println("Thread " + name + " ist Tod");
+		System.err.println("Thread " + name + " ist tot");
 	}
 	
 	public String getNameUser() {

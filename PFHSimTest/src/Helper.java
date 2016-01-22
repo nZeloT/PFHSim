@@ -26,7 +26,7 @@ public class Helper {
 		return markets;
 	}
 	
-	public List<Pair<String, Integer>> droRoundTrip(Enterprise[] e){
+	public List<Pair<String, Integer>> doRoundTrip(Enterprise... e){
 		ClientMessage[] clnt = new ClientMessage[e.length];
 		for (int i = 0; i < clnt.length; i++) {
 			clnt[i] = new ClientMessage("" + i, 

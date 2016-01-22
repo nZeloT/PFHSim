@@ -17,7 +17,7 @@ public class Offer implements Serializable {
 	private int productionLimit;
 
 	@SafeVarargs
-	public Offer(int price, int qualityCoefficient, PFHouseType housetype, int max, Tupel<WallType>... walltype) {
+	public Offer(int price, PFHouseType housetype, int max, Tupel<WallType>... walltype) {
 		this.price = price;
 		this.housetype = housetype;
 		this.walltype = walltype;

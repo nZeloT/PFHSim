@@ -77,7 +77,7 @@ public class EnterpriseTest {
 
 		try {
 			e.startPFHouseProduction(
-					new Offer(1, 5500, PFHouseType.BUNGALOW, 100, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)),
+					new Offer(1, PFHouseType.BUNGALOW, 100, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)),
 					a);
 		} catch (EnterpriseException e1) {
 			e1.printStackTrace();

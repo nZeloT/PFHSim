@@ -35,9 +35,9 @@ public class SimulationTest {
 		enterpriseoffer.put(1, tmp);*/
 		
 		//expensive buyer test 
-		List<Offer> tmp = Arrays.asList((new Offer(1500000, 1, PFHouseType.CITY_VILLA, 100, new Tupel<WallType>(WallType.PANORAMA_WALL, 8))));
+		List<Offer> tmp = Arrays.asList((new Offer(1500000, PFHouseType.CITY_VILLA, 100, new Tupel<WallType>(WallType.PANORAMA_WALL, 8))));
 		enterpriseoffer.put("A", tmp);
-		tmp = Arrays.asList((new Offer(500000, 1, PFHouseType.CITY_VILLA, 100, new Tupel<WallType>(WallType.PANORAMA_WALL, 3), new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))));
+		tmp = Arrays.asList((new Offer(500000, PFHouseType.CITY_VILLA, 100, new Tupel<WallType>(WallType.PANORAMA_WALL, 3), new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5))));
 		enterpriseoffer.put("B", tmp);
 	}
  

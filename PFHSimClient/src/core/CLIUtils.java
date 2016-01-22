@@ -49,7 +49,7 @@ public class CLIUtils {
 		}
 	}
 	
-	public static void createOffer(Enterprise ent, int price, int quality, int amount){
-		ent.getSales().addOffer(new Offer(price, quality, PFHouseType.BUNGALOW, amount, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
+	public static void createOffer(Enterprise ent, int price, int amount){
+		ent.getSales().addOffer(new Offer(price, PFHouseType.BUNGALOW, amount, new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
 	}
 }

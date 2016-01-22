@@ -263,7 +263,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				for (int i = 0; i < tmp_wt.length; i++) {
 					tmp_wt[i] = tmp_a.get(i);
 				}
-				Offer tmp_o = new Offer(0, 1, selectedType, 0, tmp_wt);
+				Offer tmp_o = new Offer(0, selectedType, 0, tmp_wt);
 				
 				// set cost calculation figures.
 				int var = ent.calculateVariableCosts(tmp_o);
@@ -615,7 +615,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 
 			if (!showingExistingOffer) {
 				System.out.println("new offer selection" + "");
-				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, tupelarray);
+				selectedOffer = new Offer(Integer.parseInt(sum.getText()), selectedType, 1, tupelarray);
 			}
 
 			if (noOfSpecifiedWalls == selectedOffer.getHousetype().getNoOfWalls(WallType.GENERAL)) {
@@ -710,10 +710,10 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				walltypearray[i] = walltype.get(i);
 			}
 			if (!showingExistingOffer) {
-				selectedOffer = new Offer(Integer.parseInt(sum.getText()), 1, selectedType, 1, walltypearray);
+				selectedOffer = new Offer(Integer.parseInt(sum.getText()), selectedType, 1, walltypearray);
 
 			}
-			Offer pseudo_offer = new Offer(0, 1, selectedOffer.getHousetype(), 0, walltypearray);
+			Offer pseudo_offer = new Offer(0, selectedOffer.getHousetype(), 0, walltypearray);
 			return ent.calculateVariableCosts(pseudo_offer);
 		} catch (NumberFormatException e) {
 			this.btn_save.setDisable(true);
@@ -817,7 +817,7 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 				}
 			} else {
 				if (noOfSpecifiedWalls == selectedType.getNoOfWalls(WallType.GENERAL)) {
-					Offer o = new Offer(Integer.parseInt(sum.getText()), 1, selectedType,
+					Offer o = new Offer(Integer.parseInt(sum.getText()), selectedType,
 							Integer.parseInt(productionlimit.getText()), tupelarray);
 					ent.getSales().addOffer(o);
 					refreshOfferList();

@@ -8,16 +8,16 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import sim.procurement.ResourceMarket;
+import sim.procurement.ServerResourceMarket;
 import sim.procurement.ResourceType;
 
 public class ResourceMarketTest {
 
-	private ResourceMarket market;
+	private ServerResourceMarket market;
 
 	@Before
 	public void setUp() throws Exception {
-		market = new ResourceMarket();
+		market = new ServerResourceMarket();
 	}
 
 	@Test

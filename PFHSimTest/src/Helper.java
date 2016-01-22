@@ -6,6 +6,7 @@ import core.ServerSimulation;
 import net.shared.ClientMessage;
 import net.shared.ServerMessage;
 import sim.Enterprise;
+import sim.EnterpriseException;
 import sim.abstraction.Pair;
 import sim.procurement.ResourceMarket;
 
@@ -40,7 +41,10 @@ public class Helper {
 		
 		for (int i = 0; i < serv.length; i++) {
 			e[i].getMarket().doSimStep(serv[i].getNewResourcePrices());
-			e[i].doSimulationStep(serv[i].getSoldOfferAmounts());
+			List<EnterpriseException> ex = e[i].doSimulationStep(serv[i].getSoldOfferAmounts());
+			for (EnterpriseException enterpriseException : ex) {
+				System.err.println(enterpriseException.getMessage());
+			}
 		}
 		
 		return serv[0].getTopList();

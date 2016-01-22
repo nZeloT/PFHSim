@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import net.shared.ClientMessage;
 import net.shared.ServerMessage;
 import sim.abstraction.Pair;
-import sim.procurement.ResourceMarket;
+import sim.procurement.ServerResourceMarket;
 import sim.procurement.ResourceType;
 import sim.production.PFHouseType;
 import sim.simulation.sales.Offer;
@@ -16,7 +16,7 @@ import sim.simulation.sales.SalesSimulation;
 
 public class ServerSimulation {
 	
-	private ResourceMarket market;
+	private ServerResourceMarket market;
 
 	private SalesSimulation sales;
 	
@@ -24,7 +24,7 @@ public class ServerSimulation {
 	private int round;
 	
 	public ServerSimulation() {
-		market = new ResourceMarket();
+		market = new ServerResourceMarket();
 		sales = new SalesSimulation();
 		sellings = new HashMap<>();
 		round = 0;

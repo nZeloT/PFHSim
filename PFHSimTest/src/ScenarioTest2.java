@@ -1,4 +1,4 @@
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import core.ServerSimulation;
 import sim.Enterprise;
+import sim.abstraction.Pair;
 import sim.abstraction.Tupel;
 import sim.bank.BankException;
 import sim.hr.Employee;
@@ -66,17 +67,18 @@ public class ScenarioTest2 {
 		// still, everyone is going to need to buy resources in the first round,
 		// we'll assume that they'll buy the same
 		try {
-			player1.buyResources(ResourceType.WOOD, 200);
-			player1.buyResources(ResourceType.CONCRETE, 200);
-			player1.buyResources(ResourceType.BRICK, 300);
-			player1.buyResources(ResourceType.ROOF_TILE, 500);
-			player1.buyResources(ResourceType.WOOD, 100);
-			player2.buyResources(ResourceType.WOOD, 200);
-			player2.buyResources(ResourceType.CONCRETE, 200);
-			player2.buyResources(ResourceType.BRICK, 300);
-			player2.buyResources(ResourceType.ROOF_TILE, 500);
-			player2.buyResources(ResourceType.WOOD, 100);
-			player2.buyResources(ResourceType.WINDOW, 100);
+			player1.buyResources(ResourceType.WOOD, 1000);
+			player1.buyResources(ResourceType.CONCRETE, 1000);
+			player1.buyResources(ResourceType.BRICK, 1000);
+			player1.buyResources(ResourceType.INSULATION, 1000);
+			player1.buyResources(ResourceType.ROOF_TILE, 1000);
+			player1.buyResources(ResourceType.WINDOW, 1000);
+			player2.buyResources(ResourceType.WOOD, 1000);
+			player2.buyResources(ResourceType.CONCRETE, 1000);
+			player2.buyResources(ResourceType.BRICK, 1000);
+			player2.buyResources(ResourceType.ROOF_TILE, 1000);
+			player2.buyResources(ResourceType.INSULATION, 1000);
+			player2.buyResources(ResourceType.WINDOW, 1000);
 
 			// now buy some machines.
 
@@ -85,7 +87,7 @@ public class ScenarioTest2 {
 			player1.buyMachine(MachineType.WOODWALL_MACHINE);
 			player1.buyMachine(MachineType.WOODWALL_MACHINE);
 			player2.buyMachine(MachineType.BRICKWALL_MACHINE);
-			player2.buyMachine(MachineType.PANORAMA_WALL_MACHINE);
+			player2.buyMachine(MachineType.PANORAMA_WALL_MACHINE); 
 			player2.buyMachine(MachineType.PANORAMA_WALL_MACHINE);
 			player2.buyMachine(MachineType.PANORAMA_WALL_MACHINE);
 
@@ -107,7 +109,7 @@ public class ScenarioTest2 {
 			// research a new Housetype the price performance strategie will
 			// research the lower housetypes,
 			// the diversification player will research different ones
-			player1.startResearchProject(PFHouseType.BLOCK_HOUSE);
+			//player1.startResearchProject(PFHouseType.BLOCK_HOUSE);
 			player2.startResearchProject(PFHouseType.CITY_VILLA);
 
 			player1.startWarehouseExtension();
@@ -120,49 +122,57 @@ public class ScenarioTest2 {
 
 			// -------------------------------------------
 			// ROUND 2
-			// -------------------------------------------
+			// ------------------------------------------- 
 
-			player1.buyResources(ResourceType.WOOD, 200);
+			System.out.println("ROUND 2------------------------------------------------------------");
+			
+			player1.buyResources(ResourceType.WOOD, 400);
 			player1.buyResources(ResourceType.CONCRETE, 200);
 			player1.buyResources(ResourceType.BRICK, 300);
-			player1.buyResources(ResourceType.ROOF_TILE, 500);
-			player1.buyResources(ResourceType.WOOD, 100);
-			player2.buyResources(ResourceType.WOOD, 200);
-			player2.buyResources(ResourceType.CONCRETE, 200);
-			player2.buyResources(ResourceType.BRICK, 300);
-			player2.buyResources(ResourceType.ROOF_TILE, 500);
-			player2.buyResources(ResourceType.WOOD, 100);
-			player2.buyResources(ResourceType.WINDOW, 100);
+			player1.buyResources(ResourceType.INSULATION, 100);
+			player1.buyResources(ResourceType.WINDOW, 100);
 
-			player1.getSales().addOffer(new Offer(14000, PFHouseType.BUNGALOW, 150,
+			player1.getSales().addOffer(new Offer(14000, PFHouseType.BUNGALOW, 10,
 					new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 5)));
-			player1.getSales().addOffer(new Offer(15000, PFHouseType.BUNGALOW, 150,
-					new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION, 5)));
+			player1.getSales().addOffer(new Offer(15000, PFHouseType.BUNGALOW, 5,
+					new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION, 5))); 
 
 			player2.getSales().addOffer(new Offer(15950, PFHouseType.BUNGALOW, 30,
 					new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION, 5)));
 
 			player1.getHR().hire(EmployeeType.HR);
+			player1.getHR().hire(EmployeeType.HR); 
 			player1.getHR().hire(EmployeeType.HR);
+			player1.getHR().hire(EmployeeType.HR); 
+			player1.getHR().hire(EmployeeType.HR);
+			player1.getHR().hire(EmployeeType.HR);
+			player1.getHR().hire(EmployeeType.HR); 
 			Employee[] hr1 = player1.getHR().getAllOfType(EmployeeType.HR);
-			player1.startEmployeeTraining(hr1[0]);
-			player1.getHR().hire(EmployeeType.ASSEMBLER, 75);
+			//player1.startEmployeeTraining(hr1[1]);
+			player1.getHR().hire(EmployeeType.ASSEMBLER, 200);
 
 			player2.getHR().hire(EmployeeType.HR);
 			player2.getHR().hire(EmployeeType.HR);
+			player2.getHR().hire(EmployeeType.HR);
+			player2.getHR().hire(EmployeeType.HR);
 			Employee[] hr2 = player2.getHR().getAllOfType(EmployeeType.HR);
-			player2.startEmployeeTraining(hr2[0]);
 			player2.startEmployeeTraining(hr2[1]);
+			player2.startEmployeeTraining(hr2[2]);
 			player2.getHR().hire(EmployeeType.ASSEMBLER, 30);
 
 			for (Machine machine : machines2) {
 				machine.upgrade();
 			}
+			
+			sim.doRoundTrip(player1, player2);
 
 			// -------------------------------------------
 			// ROUND 3
 			// -------------------------------------------
 
+			System.out.println("ROUND 3------------------------------------------------------------");
+			
+			
 			player1.buyResources(ResourceType.WOOD, 200);
 			player1.buyResources(ResourceType.CONCRETE, 200);
 			player1.buyResources(ResourceType.BRICK, 300);
@@ -180,6 +190,10 @@ public class ScenarioTest2 {
 				machine.upgrade();
 			}
 
+			player1.buyMachine(MachineType.WOODWALL_MACHINE);
+			player1.buyMachine(MachineType.WOODWALL_MACHINE);
+			player1.buyMachine(MachineType.WOODWALL_MACHINE);
+			player1.buyMachine(MachineType.WOODWALL_MACHINE);
 			player1.buyMachine(MachineType.WOODWALL_MACHINE);
 			player1.buyMachine(MachineType.WOODWALL_MACHINE);
 			player1.buyMachine(MachineType.WOODWALL_MACHINE);
@@ -187,7 +201,7 @@ public class ScenarioTest2 {
 
 			// hire Employees for the machines (3 for each machine) and assign
 			// the Employees to the machine
-			Employee[] workers = player1.getHR().hire(EmployeeType.PRODUCTION, 12);
+			Employee[] workers = player1.getHR().hire(EmployeeType.PRODUCTION, 24);
 			for (int i = 0; i < workers.length; i++) {
 				workers[i].assignWorkplace(player1.getProductionHouse().getMachines().get(i / 3 + 4));
 			}
@@ -200,15 +214,29 @@ public class ScenarioTest2 {
 
 			
 
-			player1.getSales().addOffer(new Offer(16000, PFHouseType.BLOCK_HOUSE, 150,
-					new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 6)));
-			player1.getSales().addOffer(new Offer(16500, PFHouseType.BLOCK_HOUSE, 150,
-					new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION, 6)));
+			//player1.getSales().addOffer(new Offer(16000, PFHouseType.BLOCK_HOUSE, 150,
+			//		new Tupel<WallType>(WallType.LIGHT_WEIGHT_CONSTRUCTION, 6)));
+			//player1.getSales().addOffer(new Offer(16500, PFHouseType.BLOCK_HOUSE, 150,
+			//		new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION, 6)));
 			
-			player1.startWarehouseExtension();
-			player2.startWarehouseExtension();
 
 			player1.getHR().hire(EmployeeType.ASSEMBLER, 50);
+
+			
+			List<Pair<String, Integer>> bestlist = sim.doRoundTrip(player1, player2);
+			
+
+			player1.getHR().hire(EmployeeType.ASSEMBLER, 1);
+			
+			
+			System.out.println("Player 1 (Price-Volume) cash: " + player1.getBankAccount().getCash());
+			System.out.println("Player 2 (mansion) cash: " + player2.getBankAccount().getCash());
+			
+			for (int i = 0; i < bestlist.size(); i++) {
+				System.out.println(bestlist.get(i).k + ": " + bestlist.get(i).v);
+			}
+			
+			assertEquals(0,0);
 			
 			
 		} catch (Exception e) {

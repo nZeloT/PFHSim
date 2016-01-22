@@ -5,14 +5,14 @@ import java.util.HashMap;
 /**
  * this is the SERVER only part of the ResourceMarket
  */
-public class ResourceMarket {
+public class ServerResourceMarket {
 	
 	private HashMap<ResourceType, Integer> costs;
 
 	/**
 	 * initialize with some default prices
 	 */
-	public ResourceMarket(){
+	public ServerResourceMarket(){
 		costs = new HashMap<ResourceType, Integer>();
 		
 		for (ResourceType t : ResourceType.values()) {

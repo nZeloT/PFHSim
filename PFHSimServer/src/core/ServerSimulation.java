@@ -52,7 +52,7 @@ public class ServerSimulation {
 		}
 		
 		//2. pass this values to the market
-		market.adjustPrices(soldResources);
+		market.adjustPrices(soldResources, clntMsgs.length);
 		
 		//3. aggregate all the received data for the sales simulation
 		HashMap<String, List<Offer>> offers = new HashMap<>();

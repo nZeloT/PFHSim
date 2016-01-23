@@ -30,7 +30,7 @@ public class ResourceMarketTest {
 			price.put(t, (int) (t.getBasePrice() * 0.85));
 		}
 
-		market.adjustPrices(amount);
+		market.adjustPrices(amount,2);
 
 		for (ResourceType t : ResourceType.values()) {
 			assertEquals(price.get(t), market.getCosts().get(t));
@@ -47,7 +47,7 @@ public class ResourceMarketTest {
 			price.put(t, (int) (t.getBasePrice() * 1.15));
 		}
 
-		market.adjustPrices(amount);
+		market.adjustPrices(amount,2);
 
 		for (ResourceType t : ResourceType.values()) {
 			assertEquals(price.get(t), market.getCosts().get(t));

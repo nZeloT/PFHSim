@@ -8,6 +8,9 @@ import java.util.HashMap;
 public class ServerResourceMarket {
 	
 	private HashMap<ResourceType, Integer> costs;
+	private final int baseAmount = 300;
+	private final int baseRange = 100; //notice: the ranges counts up AND down, a range 50 with a base= 100 means range 50-150
+	private final double coefficent = 0.15;
 
 	/**
 	 * initialize with some default prices
@@ -22,27 +25,39 @@ public class ServerResourceMarket {
 	
 	/**
 	 * Adjust the Prices at the end of a period based on the transactions;
-	 * 	Logik atm.: For each Player(not yet implemented!!!):
-	 *  More than 200 sold --> price +15%
-	 * 	150-200 sold 	   --> price stays
-	 * 	less than 150 sold --> price -15%
+	 * 	Logik atm.: For each Player:
+	 *  More than x+range sold --> price +15%
+	 * 	x +-range sold 	   --> price stays
+	 * 	less than x-range sold --> price -15%
 	 */
-	public void adjustPrices(HashMap<ResourceType, Integer> soldAmounts){
+	public void adjustPrices(HashMap<ResourceType, Integer> soldAmounts, int numOfEs){
+		int base = baseAmount * numOfEs; //each round as players might loose before the game is ending
+		int range = numOfEs * baseRange;
 		for (ResourceType t : ResourceType.values()) {
 			int amount = soldAmounts.get(t);
-			int costs = this.costs.get(t);
-			if (amount < 150) {
-				costs *= 0.85;
+			//remove old prices from the list
+			int costs = this.costs.remove(t);
+			double c = 1; //assume no changes
+			if (amount < (base-range)) {
+				c = c - coefficent*(amount/(base-range)); //correct for low prices
 			}
-			if (amount > 200) {
-				costs *= 1.15;
+			if (amount > (base+range)) {
+				c = c - coefficent*(amount/(base+range)); // same for high prices
 			}
+			//set some borders
+			if (c < 0.1) {
+				c = 0.1;
+			} else if (c > 0.2){
+				c = 0.2;
+			}
+			costs *= c;
 			
+			//some special cases
 			if(costs < 0.8 * t.getBasePrice())
 				costs = (int) (0.8 * t.getBasePrice());
 			if(costs < 1)
 				costs = 1;
-			
+			//put new prices in the List.
 			this.costs.put(t, costs);
 		}
 	}

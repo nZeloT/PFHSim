@@ -15,7 +15,8 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedlightOffers = new HashMap<>();
 	private HashMap<PFHouseType, List<EnterpriseOfferTupel>> sortedmassiveOffers = new HashMap<>();
-	private final int numberofHTs = (int) (Math.random() * 2) + 3;
+	private final int numberofHTs = 5;
+	private final int border = 2000000;
 	private final List<PFHouseType> types = Arrays.asList(Arrays.copyOf(PFHouseType.values(), numberofHTs));
 
 	/**
@@ -38,7 +39,7 @@ public class PricePerformanceBuyer implements GroupOfBuyers {
 				// PricePerformace Buyers, therefore check if the offers use
 				// Walls with bad isolation
 				PFHouseType type = offers.get(i).getHousetype();
-				if (!types.contains(type)) {
+				if (!types.contains(type)||offers.get(i).getPrice()>=border) {
 					continue; // type to expensive for this purchase category
 				}
 				Tupel<WallType>[] walltypes = offers.get(i).getWalltype();

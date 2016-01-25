@@ -64,6 +64,7 @@ public class ScenarioTest1 {
 		// still, everyone is going to need to buy resources in the first round,
 		// we'll assume that they'll buy the same
 		try {
+			System.out.println("---------------------------------ROUND 1 begins -------------------------------");
 			for (Enterprise player : players) {
 				player.buyResources(ResourceType.WOOD, 600);
 				player.buyResources(ResourceType.CONCRETE, 500);
@@ -123,7 +124,7 @@ public class ScenarioTest1 {
 			Helper.roundHelper(player2);
 			// as we have produced some walls now, we'll need to hire some
 			// assemblers to sell and build up our first houses.
-			// As we are going to need a lot of them, hire 2 more HR people for
+			// As we are going to need a lot of them, hire some more HR people for
 			// bigger
 			// Employee Capacity
 			for (Enterprise p : players) {
@@ -131,10 +132,6 @@ public class ScenarioTest1 {
 				for (int i = 0; i < es.length; i++) {
 					es[i].assignWorkplace(p.getHR());
 				}
-				assertNotNull(p.getHR().hire(EmployeeType.ASSEMBLER, 100));
-				// Employee[] es = p.getHR().getAllOfType(EmployeeType.HR);
-				// p.getHR().unassignEmployee(es[0]);
-				// p.startEmployeeTraining(es[0]);
 			}
 			// produce some more walls
 			// buy new machines to cover the demand which might be possible for
@@ -195,7 +192,7 @@ public class ScenarioTest1 {
 			Helper.roundHelper(player1);
 			Helper.roundHelper(player2);
 			for (Enterprise p : players) {
-				p.getHR().hire(EmployeeType.ASSEMBLER, 50);
+				p.getHR().hire(EmployeeType.ASSEMBLER, 100);
 			}
 			// a new houstype is available for the price performance player this
 			// round! set up an new offer.
@@ -220,7 +217,7 @@ public class ScenarioTest1 {
 			Helper.roundHelper(player1);
 			Helper.roundHelper(player2);
 
-			// new Houstype available for player 2!
+			// new Housetype available for player 2!
 			// first we need a new Salesman to set up more offers. Otherwise, we
 			// would to delete one of our running offers.
 			Employee sales = player2.getHR().hire(EmployeeType.SALES);
@@ -237,27 +234,30 @@ public class ScenarioTest1 {
 
 			// make no adjustments for player 1!
 
-			List<Pair<String, Integer>> bestlist = sim.doRoundTrip(player1, player2);
+			sim.doRoundTrip(player1, player2);
 			System.out.println("---------------------------------ROUND 5 begins -------------------------------");
 
 			// just run another round without changes to give the
-			// diversification startegic the chance to come back.
+			// diversification strategic the chance to come back.
 			Helper.roundHelper(player1);
 			Helper.roundHelper(player2);
 
-			sim.doRoundTrip(player1, player2);
-			System.out.println("---------------------------------ROUND 5 begins -------------------------------");
+			List<Pair<String, Integer>> bestlist =  sim.doRoundTrip(player1, player2);
+			System.out.println("---------------------------------ROUND 6 begins -------------------------------");
 			System.out.println(
 					"Let the game end here. Take a look at the current scoring points (Player 1=Enterprise 0. Player 2 = Enterprise 1");
-			System.out.println("Exp.: 1: 300 would mean player 2 has 300 scoring points");
+			System.out.println("Exp.: \"1: 300\" would mean player 2 has 300 scoring points");
 			for (int i = 0; i < bestlist.size(); i++) {
 				System.out.println(bestlist.get(i).k + ": " + bestlist.get(i).v);
 			}
-			System.out.println("Expected Result: Player 1 (enterprise 0 wins)");
+			System.out.println("Expected Result: Player 1 (Enterprise 0 wins)");
 			//the last player in the winners list has the most points
 			System.out.println("Actual Result: Player with Enterprise "+ bestlist.get(1).k+" wins.");
 			String e = bestlist.get(1).k;
+			
+			
 			assertEquals("0",e );
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -20,9 +20,10 @@ import sim.production.WallType;
 import sim.simulation.sales.Offer;
 import sim.warehouse.Warehouse;
 
-public class SzenarioTest1 {
+public class ScenarioTest1 {
 	/**
-	 * @author Florian This is the first Szenario Test for the PFHouseSim Game
+	 * @author Florian
+	 * 		   This is the first Scenario Test for the PFHouseSim Game
 	 *         This is described in the project Paper under Scenario Test 1.
 	 *         Briefly: we'll play a game and have a look at two strategies:
 	 *         -price-performance-strategic -diversification

@@ -594,7 +594,6 @@ System.out.println("ROUND 4-----------------------------------------------------
 			 * 
 			 * */
 			
-			System.out.println("Player 1 = 0 (price-volume) \nPlayer 2 = 1 (executive)");
 		
 			System.out.println("Expected Result: Player 1 (enterprise 0 wins)");
 			

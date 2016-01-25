@@ -158,7 +158,7 @@ public class ScenarioTest2 {
 			//intend to sell as many houses.
 			Employee e = player1.getHR().hire(EmployeeType.HR);
 			Employee e2 = player1.getHR().hire(EmployeeType.HR);
-			player1.autoAssignEmployees(e, e2, player1.getHR().hire(EmployeeType.HR), player1.getHR().hire(EmployeeType.HR), player1.getHR().hire(EmployeeType.HR), player1.getHR().hire(EmployeeType.HR)); 
+			player1.autoAssignEmployees(e, e2, player1.getHR().hire(EmployeeType.HR),player1.getHR().hire(EmployeeType.HR),player1.getHR().hire(EmployeeType.HR), player1.getHR().hire(EmployeeType.HR), player1.getHR().hire(EmployeeType.HR), player1.getHR().hire(EmployeeType.HR), player1.getHR().hire(EmployeeType.HR)); 
 			Employee[] hr1 = player1.getHR().getAllOfType(EmployeeType.HR);
 			player1.getHR().hire(EmployeeType.ASSEMBLER, 250);
 
@@ -210,10 +210,21 @@ public class ScenarioTest2 {
 			player1.buyMachine(MachineType.WOODWALL_MACHINE);
 			player1.buyMachine(MachineType.WOODWALL_MACHINE);
 			player1.buyMachine(MachineType.WOODWALL_MACHINE);
+			player1.buyMachine(MachineType.BRICKWALL_MACHINE);
+			player1.buyMachine(MachineType.BRICKWALL_MACHINE);
+			player1.buyMachine(MachineType.BRICKWALL_MACHINE);
+			player1.buyMachine(MachineType.BRICKWALL_MACHINE);
+			player1.buyMachine(MachineType.BRICKWALL_MACHINE);
+			player1.buyMachine(MachineType.BRICKWALL_MACHINE);
+			player1.buyMachine(MachineType.WOODWALL_MACHINE);
+			player1.buyMachine(MachineType.WOODWALL_MACHINE);
+			player1.buyMachine(MachineType.WOODWALL_MACHINE);
+			player1.buyMachine(MachineType.WOODWALL_MACHINE);
+			player1.buyMachine(MachineType.WOODWALL_MACHINE);
 
 			// hire Employees for the machines (3 for each machine) and assign
 			// the Employees to the machine
-			Employee[] workers = player1.getHR().hire(EmployeeType.PRODUCTION, 39);
+			Employee[] workers = player1.getHR().hire(EmployeeType.PRODUCTION, 72);
 			for (int i = 0; i < workers.length; i++) {
 				workers[i].assignWorkplace(player1.getProductionHouse().getMachines().get(i / 3 + 7));
 			}
@@ -237,7 +248,7 @@ public class ScenarioTest2 {
 			
 			
 			//as he will sell more houses with the new offer he needs more assemblers
-			player1.getHR().hire(EmployeeType.ASSEMBLER, 100);
+			player1.getHR().hire(EmployeeType.ASSEMBLER, 200);
 
 			//also, another warehouse-extension can be processed.
 			player1.startWarehouseExtension();
@@ -572,7 +583,7 @@ System.out.println("ROUND 4-----------------------------------------------------
 			 * the price-volume-player will win as he sells much more houses in contrast to 
 			 * the executive player. Although one sold luxury house generates a higher score 
 			 * than a bungalow or block house, the number of sold houses by the price-volume-player
-			 * generate a higher score. --> and as the command line says that >200 walls are missing
+			 * generate a higher score. --> and as the command line says that >200 assemblers are missing
 			 * for selling more bungalows/block houses, the price-volume-player has much more potential.
 			 * 
 			 * But best strategy will definitely be: 

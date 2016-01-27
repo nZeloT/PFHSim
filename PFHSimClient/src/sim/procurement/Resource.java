@@ -33,8 +33,8 @@ public class Resource implements StorageObject<ResourceType> {
 		return quality;
 	}
 
-	public void setQuality(double quality) {
-		this.quality = quality;
-	}
+//	public void setQuality(double quality) {
+//		this.quality = quality;
+//	}
 
 }

@@ -31,24 +31,24 @@ public class Wall implements CostFactor, StorageObject<WallType> {
 		return type;
 	}
 
-	public void setType(WallType type) {
-		this.type = type;
-	}
+//	public void setType(WallType type) {
+//		this.type = type;
+//	}
 
 	public double getQuality() {
 		return quality;
 	}
 
-	public void setQuality(double quality) {
-		this.quality = quality;
-	}
+//	public void setQuality(double quality) {
+//		this.quality = quality;
+//	}
 	
 	public int getVolume() {
 		return volume;
 	}
 	
-	public void setVolume(int volume) {
-		this.volume = volume;
-	}
+//	public void setVolume(int volume) {
+//		this.volume = volume;
+//	}
 
 }

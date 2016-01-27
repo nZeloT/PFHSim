@@ -144,8 +144,16 @@ public class Machine extends Department implements CostFactor {
 			// terminate the process of creation.
 			if (warehouse.isInStorage(rt[i], rc[i])) 
 				removed_resources.add(warehouse.removeResource(rt[i], rc[i]));
-			else
+			else{
+				//1. return all already removed resources to the storage
+				for (Resource[] resources : removed_resources) {
+					warehouse.storeResource(resources); 
+					// if this fails something went terribly wrong and we cannot do anything 
+				}
+				
+				//2. terminate the method
 				throw new MissingResourceException(this, rt[i], rc[i], ExceptionCategorie.ERROR);
+			}
 		}
 
 		// Calculate production cost at highest utilization possible.

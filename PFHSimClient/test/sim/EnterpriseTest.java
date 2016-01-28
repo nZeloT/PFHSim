@@ -97,7 +97,6 @@ public class EnterpriseTest {
 			assertEquals(5100, storage.getOverallCosts());
 			testfixcosts += storage.getOverallCosts();
 			testfixcosts += employmgr.getEmployeeCosts();
-			// testfixcosts += EmployeeType.ARCHITECT.getBaseCost();
 			testfixcosts += EmployeeType.SALES.getBaseCost();
 			testfixcosts += EmployeeType.PROCUREMENT.getBaseCost();
 			testfixcosts += EmployeeType.MARKET_RESEARCH.getBaseCost();
@@ -130,21 +129,9 @@ public class EnterpriseTest {
 			
 			machine.setProductionType(WallType.LIGHT_WEIGHT_CONSTRUCTION);
 			machine.produceWall(e.getWarehouse());
-			//easy part
-			assertEquals(e.getWarehouse().removeWall(WallType.LIGHT_WEIGHT_CONSTRUCTION).getCosts(), 236);
 			
-			//TODO: how to fix this
-//			m.adjustPrices();
-//
-//			e.buyResources(m, ResourceType.WOOD, 500);
-//			e.buyResources(m, ResourceType.BRICK, 500);
-//			e.buyResources(m, ResourceType.CONCRETE, 500);
-//			e.buyResources(m, ResourceType.ROOF_TILE, 500);
-//			e.buyResources(m, ResourceType.WINDOW, 500);
-//			e.buyResources(m, ResourceType.INSULATION, 500);
-//			
-//			machine.produceWall(e.getWarehouse());
-//			assertEquals(e.getWarehouse().removeWall(WallType.LIGHT_WEIGHT_CONSTRUCTION).getCosts(), 239);
+			//Assert value calculated by hand 
+			assertEquals(1021,e.getWarehouse().removeWall(WallType.LIGHT_WEIGHT_CONSTRUCTION).getCosts());
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -33,25 +33,25 @@ public class PricePerformanceBuyerTest {
 		}
 	}
 
+	/**
+	 * test if the Price Performance Buyer register purchases
+	 */
 	@Test
 	public void testPricePerformaceBuyer() {
 		PricePerformanceBuyer buyer = new PricePerformanceBuyer();
 		buyer.sortOffers(testOffers);
-		HashMap<String, List<Offer>> results = buyer.registerPurchases(0, 10, 2, new String []{"0","1","2","3"});
+		HashMap<String, List<Offer>> results = buyer.registerPurchases(10, 0, 2, new String []{"0","1","2","3"});
 		assertNotNull(results);
-		boolean noPurchases = true;
+		boolean purchases = false;
 		for (Entry<String, List<Offer>> entry : results.entrySet()) {
 			List<Offer> current = entry.getValue();
-			System.out.println("Enterprise "+ entry.getKey()+ " with the following Offers:");
-			
 			for (Offer offer : current) {
-				if (offer.getNumberOfPurchases() != 0) {
-					System.out.println("Offer for HT "+offer.getHousetype()+" , Purchasing Amount: "+offer.getNumberOfPurchases());
-					noPurchases = false;
+				if (offer.getNumberOfPurchases() >= 0) {
+					purchases = true;
 				}
 			}
 		}
-		assertEquals(false, noPurchases);
+		assertEquals(true, purchases);
 	}
 
 }

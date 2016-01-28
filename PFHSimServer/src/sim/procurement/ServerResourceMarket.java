@@ -42,13 +42,13 @@ public class ServerResourceMarket {
 				c = c - coefficent*(amount/(base-range)); //correct for low prices
 			}
 			if (amount > (base+range)) {
-				c = c - coefficent*(amount/(base+range)); // same for high prices
+				c = c + coefficent*(amount/(base+range)); // same for high prices
 			}
 			//set some borders
-			if (c < 0.1) {
-				c = 0.1;
-			} else if (c > 0.2){
-				c = 0.2;
+			if (c < 0.9) {
+				c = 0.9;
+			} else if (c > 1.2){
+				c = 1.2;
 			}
 			costs *= c;
 			

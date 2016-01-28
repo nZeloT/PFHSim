@@ -105,10 +105,10 @@ public class Enterprise {
 		perRoundBuildAmounts.clear();
 
 		//start the house production
-		startHouseProductions(soldOffer);
+		msgStore.addAll(startHouseProductions(soldOffer));
 
 		//process and finish house production
-		finishHouseProductions();
+		msgStore.addAll(finishHouseProductions());
 
 		int[] missingRes = new int[ResourceType.values().length];
 		// process machine production

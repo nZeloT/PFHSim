@@ -43,8 +43,6 @@ public class Enterprise {
 
 	private BankAccount bank;
 
-	private ResourceMarket market;
-
 	private List<PFHouse> housesInConstruction;
 	private List<PFHouseType> researchedHouseTypes;
 
@@ -62,8 +60,6 @@ public class Enterprise {
 	public Enterprise(ResourceMarket market) {
 		bank = new BankAccount(START_CASH);
 
-		this.market = market;
-
 		housesInConstruction = new ArrayList<>();
 		researchedHouseTypes = new ArrayList<>();
 		researchedHouseTypes.add(PFHouseType.BUNGALOW);
@@ -73,7 +69,7 @@ public class Enterprise {
 
 		production = new ProductionHouse();
 		sales = new Sales();
-		procurement = new Procurement();
+		procurement = new Procurement(market);
 		marketResearch = new Department(EmployeeType.MARKET_RESEARCH);
 		hr = new HR();
 
@@ -108,87 +104,13 @@ public class Enterprise {
 		//reset the per round build amounts hashmap
 		perRoundBuildAmounts.clear();
 
+		//start the house production
+		msgStore.addAll(startHouseProductions(soldOffer));
+
+		//process and finish house production
+		msgStore.addAll(finishHouseProductions());
+
 		int[] missingRes = new int[ResourceType.values().length];
-
-		// process results from buyer's market-simulation.
-		if (soldOffer.size() != sales.getOfferCount()) // this is for safety
-			// only
-			msgStore.add(new EnterpriseException(this, "Size of sold amount items and number of offers differs",
-					ExceptionCategorie.PROGRAMMING_ERROR));
-		else {
-			int[] soldAmounts = new int[PFHouseType.values().length];
-			int[] failedAmounts = new int[PFHouseType.values().length];
-
-			int missingEmps = 0;
-			int[] missingWalls = new int[WallType.values().length];
-
-			for (Offer offer : soldOffer) {
-				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getProductionLimit(); i++) {
-					try {
-						startPFHouseProduction(offer, 
-								hr.getUnassignedEmployees(EmployeeType.ASSEMBLER,
-										offer.getHousetype().getEmployeeCount())
-								);
-						soldAmounts[PFHouseType.toInt(offer.getHousetype())]++;
-					} catch (MissingWallsException e) {
-						failedAmounts[PFHouseType.toInt(offer.getHousetype())]++;
-						missingWalls[WallType.toInt(e.getType())] += e.getAmount();
-					}catch(MissingResourceException e){
-						failedAmounts[PFHouseType.toInt(offer.getHousetype())]++;
-						missingRes[ResourceType.toInt(e.getType())] += e.getAmount();
-					}catch(HRException e){
-						failedAmounts[PFHouseType.toInt(offer.getHousetype())]++;
-						missingEmps += offer.getHousetype().getEmployeeCount();
-					}catch(EnterpriseException e){
-						//every other exception directly goes into msg log
-						msgStore.add(e);
-					}
-				}
-			}
-
-			if(missingEmps > 0)
-				msgStore.add(new EnterpriseException(this, "Missing " + missingEmps + " Assembler to complete demand!", ExceptionCategorie.WARNING));
-
-			for (int i = 0; i < missingWalls.length; i++)
-				if(missingWalls[i] > 0)
-					msgStore.add(new EnterpriseException(this, "Missing " + missingWalls[i] + " " + WallType.fromInt(i) + " to complete demand!", ExceptionCategorie.WARNING));
-
-			for (int i = 0; i < failedAmounts.length; i++)
-				if(failedAmounts[i] > 0)
-					msgStore.add(new EnterpriseException(this, "Couldn't start building " + failedAmounts[i] + " " + PFHouseType.fromInt(i) + "!", ExceptionCategorie.WARNING));
-
-			for (int i = 0; i < soldAmounts.length; i++)
-				if(soldAmounts[i] > 0)
-					msgStore.add(new EnterpriseException(this, "Started building " + soldAmounts[i] + " " + PFHouseType.fromInt(i) + "!", ExceptionCategorie.INFO));
-
-		}
-
-		int[] finished = new int[PFHouseType.values().length];
-		for (int i = 0; i < housesInConstruction.size(); i++) {
-			PFHouse h = housesInConstruction.get(i);
-			h.processConstruction();
-
-			if (h.isFinished()) {
-				finished[PFHouseType.toInt(h.getType())] ++;
-				housesInConstruction.remove(i--);
-
-				try {
-					bank.deposit(h.getPrice());
-				} catch (BankException e) {
-					msgStore.add(e);
-				}
-				// employee costs are handled through hr;
-				// resources and walls did already cost
-			}
-		}
-
-		for (int i = 0; i < finished.length; i++){
-			if(finished[i] > 0)
-				msgStore.add(new EnterpriseException(this, "Finished building " + finished[i] + " " + PFHouseType.fromInt(i) + "!", ExceptionCategorie.INFO));
-
-			perRoundBuildAmounts.put(PFHouseType.fromInt(i), finished[i]);
-		}
-
 		// process machine production
 		List<EnterpriseException> machineMsg = production.processProduction(warehouse);
 		int[] producedWalls = new int[WallType.values().length];
@@ -204,6 +126,7 @@ public class Enterprise {
 			else
 				msgStore.add(ex);
 		}
+
 
 		for (int i = 0; i < missingRes.length; i++)
 			if(missingRes[i] > 0)
@@ -261,22 +184,103 @@ public class Enterprise {
 	 */
 	public void buyResources(ResourceType type, int amount)
 			throws BankException, ResourceMarketException, HRException, WarehouseException {
-		if (procurement.getEmployeeCount() == 0) // this should never happen;
-			// just for safety
-			throw new HRException(this, "Procurement has no employees assigned; cannot buy on market.",
-					ExceptionCategorie.PROGRAMMING_ERROR);
+		procurement.buyResources(type, amount, warehouse, bank);
+	}
+	
+	private List<EnterpriseException> startHouseProductions(List<Offer> sellings){
+		List<EnterpriseException> msgStore = new ArrayList<>();
+		int[] missingRes = new int[ResourceType.values().length];
 
-		int price = amount * market.getPrice(type);
+		// process results from buyer's market-simulation.
+		if (sellings.size() != sales.getOfferCount()) // this is for safety
+			// only
+			msgStore.add(new EnterpriseException(this, "Size of sold amount items and number of offers differs",
+					ExceptionCategorie.PROGRAMMING_ERROR));
+		else {
+			int[] soldAmounts = new int[PFHouseType.values().length];
+			int[] failedAmounts = new int[PFHouseType.values().length];
 
-		if (!warehouse.isStoreable(type, amount))
-			throw new WarehouseException(this, "Could not store the requested amount of resources in the Warehouse!",
-					ExceptionCategorie.ERROR);
+			int missingEmps = 0;
+			int[] missingWalls = new int[WallType.values().length];
 
-		// the following should now work without exception
-		bank.charge(price); //terminates with exception when we can not charge the bank
-		Resource[] resources = market.buyResources(type, amount);
-		warehouse.storeResource(resources); // we already checked that we can
-		// store the required amount
+			for (Offer offer : sellings) {
+				for (int i = 0; i < offer.getNumberOfPurchases() && i < offer.getProductionLimit(); i++) {
+					try {
+						startPFHouseProduction(offer, 
+								hr.getUnassignedEmployees(EmployeeType.ASSEMBLER,
+										offer.getHousetype().getEmployeeCount())
+								);
+						soldAmounts[PFHouseType.toInt(offer.getHousetype())]++;
+					} catch (MissingWallsException e) {
+						failedAmounts[PFHouseType.toInt(offer.getHousetype())]++;
+						missingWalls[WallType.toInt(e.getType())] += e.getAmount();
+					}catch(MissingResourceException e){
+						failedAmounts[PFHouseType.toInt(offer.getHousetype())]++;
+						missingRes[ResourceType.toInt(e.getType())] += e.getAmount();
+					}catch(HRException e){
+						failedAmounts[PFHouseType.toInt(offer.getHousetype())]++;
+						missingEmps += offer.getHousetype().getEmployeeCount();
+					}catch(EnterpriseException e){
+						//every other exception directly goes into msg log
+						msgStore.add(e);
+					}
+				}
+			}
+
+			if(missingEmps > 0)
+				msgStore.add(new EnterpriseException(this, "Missing " + missingEmps + " Assembler to complete demand!", ExceptionCategorie.WARNING));
+
+			for (int i = 0; i < missingWalls.length; i++)
+				if(missingWalls[i] > 0)
+					msgStore.add(new EnterpriseException(this, "Missing " + missingWalls[i] + " " + WallType.fromInt(i) + " to complete demand!", ExceptionCategorie.WARNING));
+
+			for (int i = 0; i < missingRes.length; i++)
+				if(missingRes[i] > 0)
+					msgStore.add(new EnterpriseException(this, "Missing " + missingRes[i] + " " + ResourceType.fromInt(i) + " to complete demand!", ExceptionCategorie.WARNING));
+			
+			for (int i = 0; i < failedAmounts.length; i++)
+				if(failedAmounts[i] > 0)
+					msgStore.add(new EnterpriseException(this, "Couldn't start building " + failedAmounts[i] + " " + PFHouseType.fromInt(i) + "!", ExceptionCategorie.WARNING));
+
+			for (int i = 0; i < soldAmounts.length; i++)
+				if(soldAmounts[i] > 0)
+					msgStore.add(new EnterpriseException(this, "Started building " + soldAmounts[i] + " " + PFHouseType.fromInt(i) + "!", ExceptionCategorie.INFO));
+			
+		}
+		
+		return msgStore;
+	}
+	
+	private List<EnterpriseException> finishHouseProductions(){
+		List<EnterpriseException> msgStore = new ArrayList<>();
+		
+		int[] finished = new int[PFHouseType.values().length];
+		for (int i = 0; i < housesInConstruction.size(); i++) {
+			PFHouse h = housesInConstruction.get(i);
+			h.processConstruction();
+
+			if (h.isFinished()) {
+				finished[PFHouseType.toInt(h.getType())] ++;
+				housesInConstruction.remove(i--);
+
+				try {
+					bank.deposit(h.getPrice());
+				} catch (BankException e) {
+					msgStore.add(e);
+				}
+				// employee costs are handled through hr;
+				// resources and walls did already cost
+			}
+		}
+
+		for (int i = 0; i < finished.length; i++){
+			if(finished[i] > 0)
+				msgStore.add(new EnterpriseException(this, "Finished building " + finished[i] + " " + PFHouseType.fromInt(i) + "!", ExceptionCategorie.INFO));
+
+			perRoundBuildAmounts.put(PFHouseType.fromInt(i), finished[i]);
+		}
+		
+		return msgStore;
 	}
 
 	/**
@@ -710,7 +714,7 @@ public class Enterprise {
 	}
 
 	public ResourceMarket getMarket() {
-		return market;
+		return procurement.getMarket();
 	}
 
 	public Sales getSales() {

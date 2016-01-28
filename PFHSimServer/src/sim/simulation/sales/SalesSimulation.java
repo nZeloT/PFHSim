@@ -3,26 +3,24 @@ package sim.simulation.sales;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 
 public class SalesSimulation {
 
 
-	private HashMap<String, List<Offer>> in = new HashMap<>();
 	private int roundsctr = 0;
 	private List<GroupOfBuyers> buyerGroups;
-	private ExpensiveBuyer exp;
+	private HashMap<String, List<Offer>> enterpriseoffers = null;
 	
 	public SalesSimulation() {
 		buyerGroups = new ArrayList<>();
 		buyerGroups.add(new CheapBuyer());
 		buyerGroups.add(new PricePerformanceBuyer());
-		exp = new ExpensiveBuyer();
-		buyerGroups.add(exp);
+		buyerGroups.add(new ExpensiveBuyer());
 	}
 	
 	public void simulateSalesMarket(HashMap<String, List<Offer>> enterpriseoffers) {
+		this.enterpriseoffers = enterpriseoffers;
 
 		//Get LATEST data from enterprises.
 		roundsctr++;
@@ -35,16 +33,16 @@ public class SalesSimulation {
 		 
 		for (GroupOfBuyers g : buyerGroups) {
 			g.sortOffers(enterpriseoffers);
-			if (g != exp)
-				in = g.registerPurchases(numoffOffers, 20, 15, names);
+			if (!(g instanceof ExpensiveBuyer))
+				g.registerPurchases(numoffOffers, 20, 15, names);
 			else //expensive buyer has its own logic
-				in = g.registerPurchases(15, 1, 4, names);
+				g.registerPurchases(15, 1, 4, names);
 		}
 		
 	}
 	
 	public HashMap<String, List<Offer>> getSalesData() {
-		return in;
+		return enterpriseoffers;
 	}
 
 }

@@ -17,8 +17,8 @@ public abstract class Connection<M extends Message, A extends Message> extends T
 	protected M msg;
 	protected A ans;
 	
-	protected Object msgLock = new Object();
-	protected Object ansLock = new Object();
+	protected final Object msgLock = new Object();
+	protected final Object ansLock = new Object();
 	
 	public Connection(Socket s) {
 		try {

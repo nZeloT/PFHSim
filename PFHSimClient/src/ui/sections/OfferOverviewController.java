@@ -920,9 +920,11 @@ public class OfferOverviewController extends Container<VBox> implements UISectio
 			title.setVisible(false);
 			choosehousetype.setVisible(false);
 			choosehousetypetext.setVisible(false);
+			offerdetails1.setVisible(false);
+			offerdetails2.setVisible(false);
+		} else {
+			load();
 		}
-
-		load();
 	}
 
 	public void updateX() {

@@ -149,7 +149,7 @@ public class ScenarioTest2 {
 					new Tupel<WallType>(WallType.MASSIVE_LIGHT_CONSTRUCTION, 5))); 
 			//until the executive-player's houses are researched, he will run out of money
 			//if he does not sell houses. So also create a bungalow offer, but with high-quality-walls.
-			player2.getSales().addOffer(new Offer(35950, PFHouseType.BUNGALOW, 30,
+			player2.getSales().addOffer(new Offer(49950, PFHouseType.BUNGALOW, 30,
 					new Tupel<WallType>(WallType.MASSIVE_PLUS_CONSTUCTION, 5)));
 
 			//so now it is time to hire assembler, which are needed for assembling a house.
@@ -309,7 +309,6 @@ System.out.println("ROUND 4-----------------------------------------------------
 				System.out.println(bestlist.get(i).k + ": " + bestlist.get(i).v);
 			}
 
-			System.out.println("ROUND 3------------------------------------------------------------");
 
 			
 			
@@ -319,13 +318,12 @@ System.out.println("ROUND 4-----------------------------------------------------
 			player1.buyResources(ResourceType.BRICK, 300);
 			player1.buyResources(ResourceType.INSULATION, 100);
 			player1.buyResources(ResourceType.ROOF_TILE, 1000);
-			player2.buyResources(ResourceType.WOOD, 200);
 			player2.buyResources(ResourceType.CONCRETE, 200);
-			player2.buyResources(ResourceType.BRICK, 300);
+			player2.buyResources(ResourceType.BRICK, 100);
 			player1.buyResources(ResourceType.INSULATION, 1000);
 			player2.buyResources(ResourceType.ROOF_TILE, 1000);
-			player2.buyResources(ResourceType.WOOD, 500);
-			player2.buyResources(ResourceType.WINDOW, 2000);
+			player2.buyResources(ResourceType.WOOD, 100);
+			player2.buyResources(ResourceType.WINDOW, 1000);
 			
 
 			//now the city villa is researched. Create respective offers.
@@ -369,7 +367,7 @@ System.out.println("ROUND 4-----------------------------------------------------
 			
 			
 			
-			player1.buyResources(ResourceType.WOOD, 4000);
+			player1.buyResources(ResourceType.WOOD, 3000);
 			player1.buyResources(ResourceType.WINDOW, 2000);
 			player1.buyResources(ResourceType.ROOF_TILE, 3000);
 			player1.buyResources(ResourceType.BRICK, 2000);

@@ -53,7 +53,7 @@ public class UpgradeTest {
 		try{ e.startWarehouseExtension(); }catch(EnterpriseException e){ fail(); }
 
 		//4. try to start a research project
-		Employee arch = e.getHR().hire(EmployeeType.ARCHITECT);
+		Employee arch = e.getHR().getUnassignedEmployee(EmployeeType.ARCHITECT);
 		Department d2 = new Department(EmployeeType.ARCHITECT);
 
 		try{ e.startResearchProject(PFHouseType.BLOCK_HOUSE); }catch(EnterpriseException e){ fail(); }
@@ -98,7 +98,7 @@ public class UpgradeTest {
 		assertEquals(25+7, m.getPerformance());
 		assertEquals(3, m.getEmployeeCount());
 		assertEquals(1, e.getWarehouse().getUpgrades());
-		assertEquals(1, e.getResearchedHouseTypes().size());
+		assertEquals(2, e.getResearchedHouseTypes().size());
 		assertNull(arch.getWork());
 	}
 

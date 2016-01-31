@@ -53,13 +53,6 @@ public class TestMachine {
 	}
 
 	@Test
-	public void testSuccessfulProduction() {
-		//Test becomes irrelevant as EnterpriseTest implements this test within its test "testEasyProductionCycle()"
-	}
-
-
-
-	@Test
 	public void testWrongTypesOfResourcesInWarehouse() {
 		Resource[] r = {
 				new Resource(100, ResourceType.INSULATION),

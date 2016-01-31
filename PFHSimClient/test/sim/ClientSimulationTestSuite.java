@@ -20,7 +20,6 @@ import sim.warehouse.TestWarehouse;
 	ResourceMarketTest.class,
 	EnterpriseTest.class,
 	UpgradeTest.class,
-	IntegrationTest.class
 })
 public class ClientSimulationTestSuite {
 

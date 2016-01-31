@@ -11,7 +11,6 @@ import sim.abstraction.Tupel;
 import sim.hr.Employee;
 import sim.hr.EmployeeType;
 import sim.hr.HR;
-import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceMarketException;
 import sim.procurement.ResourceType;
 import sim.production.Machine;
@@ -24,12 +23,12 @@ import sim.warehouse.Warehouse;
 
 public class EnterpriseTest {
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testIfAmountOfHousesIsProducible() throws EnterpriseException, ResourceMarketException{
 
 		Enterprise e = TestUtils.initializeEnterprise();
-		ResourceMarket mar = TestUtils.getMarket();
-		Employee[] assembler = e.getHR().hire(EmployeeType.ASSEMBLER, 20);
+		e.getHR().hire(EmployeeType.ASSEMBLER, 20);
 		
 		e.buyResources(ResourceType.WOOD, 28);
 		e.buyResources(ResourceType.ROOF_TILE, 50);

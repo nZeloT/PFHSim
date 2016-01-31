@@ -16,17 +16,6 @@ public class ResourceMarketTest {
 	public void setUp() throws Exception {
 		market = TestUtils.getMarket();
 	}
-	
-	//TODO: what was this test for? didn't got it ...
-//	@Test
-//	public void testInstance() {
-//	
-//		HashMap<ResourceType,ResourceListItem>  inventory = new HashMap<ResourceType,ResourceListItem>();
-//		inventory.put(ResourceType.WOOD, new ResourceListItem(ResourceType.WOOD));
-//		inventory.put(ResourceType.INSULATION, new ResourceListItem(ResourceType.INSULATION));
-//		assertEquals(marketinventory.get(ResourceType.INSULATION).getCosts(), inventory.get(ResourceType.INSULATION).getCosts());
-//		assertEquals(marketinventory.get(ResourceType.WOOD).get(50)[0].getType(), ResourceType.WOOD);
-//	}
 
 	@Test
 	public void testSellResources() {

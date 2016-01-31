@@ -450,7 +450,6 @@ public class Enterprise {
 	 * @returns the actual FixedCosts
 	 * 
 	 */
-	// TODO: this is only used in one test case? can be removed?
 	public int calculateFixedCosts() {
 		int sum = 0;
 		sum += warehouse.getOverallCosts();
@@ -458,11 +457,9 @@ public class Enterprise {
 		sum += procurement.getEmployeeCosts();
 		sum += marketResearch.getEmployeeCosts();
 		sum += hr.getEmployeeCosts();
-		// TODO add Project Costs..
 		return sum;
 	}
 
-	// TODO: this method is only used in one test case. should be removed?
 	public void checkRequirementsforOffer(PFHouseType housetype, int amount,
 			@SuppressWarnings("unchecked") Tupel<WallType>... selectedWalltype) throws EnterpriseException {
 

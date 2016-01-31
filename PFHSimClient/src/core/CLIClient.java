@@ -17,6 +17,18 @@ import sim.Enterprise;
 import sim.procurement.ResourceMarket;
 import sim.procurement.ResourceType;
 
+/**
+ * 
+ *
+ *
+ *
+ * IMPORTANT: THIS CLIENT IS NOT WORKING ANY LONGER!
+ *
+ *
+ *
+ *
+ *
+ */
 public class CLIClient {
 	private static final int SERVER_PORT = 44444;
 
